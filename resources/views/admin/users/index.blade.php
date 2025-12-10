@@ -78,14 +78,13 @@
                     <x-ui.link href="{{ route('admin.users.edit', $user) }}" variant="outline" size="sm">
                       Edit
                     </x-ui.link>
-                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline"
-                          onsubmit="return confirm('Are you sure you want to delete this user?');">
+                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="delete-form inline">
                       @csrf
                       @method('DELETE')
-                      <x-ui.link href="#" variant="danger" size="sm"
-                                 onclick="this.closest('form').submit(); return false;">
+                      <button type="button"
+                              class="delete-confirm inline-flex items-center justify-center rounded-xl border border-red-200 bg-red-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 ease-in-out hover:bg-red-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                         Delete
-                      </x-ui.link>
+                      </button>
                     </form>
                   </div>
                 </x-ui.table-cell>

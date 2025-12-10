@@ -1,11 +1,11 @@
 @props(['name', 'label', 'value' => '', 'required' => false, 'error' => null, 'help' => null, 'height' => '300px'])
 
 @push('styles')
-  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link href="{{ asset('css/quill/quill.snow.css') }}" rel="stylesheet">
 @endpush
 
 @push('scripts')
-  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <script src="{{ asset('js/quill/quill.js') }}"></script>
 @endpush
 
 <div class="space-y-1">

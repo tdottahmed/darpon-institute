@@ -14,9 +14,9 @@
       ],
       [
           'name' => 'Courses',
-          'href' => '#',
+          'href' => route('admin.courses.index'),
           'icon' => 'courses',
-          'active' => false,
+          'active' => request()->routeIs('admin.courses.*'),
       ],
       [
           'name' => 'Analytics',

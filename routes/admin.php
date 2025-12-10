@@ -10,4 +10,7 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
 
     // User Management
     Route::resource('users', UserController::class);
+
+    // Course Management
+    Route::resource('courses', \App\Http\Controllers\Admin\CourseController::class);
 });

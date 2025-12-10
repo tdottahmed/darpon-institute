@@ -15,11 +15,7 @@
   <!-- Scripts -->
   @vite(['resources/css/app.css'])
 
-  <!-- Alpine.js -->
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
   @stack('styles')
-  @stack('scripts')
 </head>
 
 <body class="bg-gray-50 font-sans antialiased" x-data="{ sidebarOpen: false }">
@@ -37,17 +33,21 @@
         <div class="max-w-8xl mx-auto px-2 py-6 sm:px-6 lg:px-6">
           <!-- Flash Messages -->
           <x-flash-message />
-
           @yield('content')
         </div>
       </main>
-
       <!-- Footer -->
       <footer class="border-t border-gray-200 bg-white p-4 text-center text-sm text-gray-500">
         &copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. All rights reserved.
       </footer>
     </div>
   </div>
+
+  <script src="{{ asset('js/jquery.min.js') }}"></script>
+  <script src="{{ asset('js/alpine.min.js') }}"></script>
+  <!-- SweetAlert2 -->
+  <x-sweet-alert />
+  @stack('scripts')
 </body>
 
 </html>
