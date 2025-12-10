@@ -17,6 +17,9 @@
 
   <!-- Alpine.js -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  @stack('styles')
+  @stack('scripts')
 </head>
 
 <body class="bg-gray-50 font-sans antialiased" x-data="{ sidebarOpen: false }">

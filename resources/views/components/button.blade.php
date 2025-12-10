@@ -17,7 +17,18 @@
   ];
 @endphp
 
-<button type="{{ $type }}"
-        {{ $attributes->merge(['class' => 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-sm hover:shadow-md ' . $variants[$variant] . ' ' . $sizes[$size]]) }}>
-  {{ $slot }}
-</button>
+@php
+  $isLink = isset($href);
+@endphp
+
+@if ($isLink)
+  <a href="{{ $href }}"
+     {{ $attributes->except('href')->merge(['class' => 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-sm hover:shadow-md ' . $variants[$variant] . ' ' . $sizes[$size]]) }}>
+    {{ $slot }}
+  </a>
+@else
+  <button type="{{ $type }}"
+          {{ $attributes->merge(['class' => 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-sm hover:shadow-md ' . $variants[$variant] . ' ' . $sizes[$size]]) }}>
+    {{ $slot }}
+  </button>
+@endif

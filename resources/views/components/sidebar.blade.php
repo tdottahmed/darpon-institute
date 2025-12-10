@@ -8,9 +8,9 @@
       ],
       [
           'name' => 'Users',
-          'href' => '#',
+          'href' => route('admin.users.index'),
           'icon' => 'users',
-          'active' => false,
+          'active' => request()->routeIs('admin.users.*'),
       ],
       [
           'name' => 'Courses',
