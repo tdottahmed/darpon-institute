@@ -1,4 +1,5 @@
 import Container from "../ui/Container";
+import ApplicationLogo from "../ApplicationLogo";
 import { Link } from "@inertiajs/react";
 
 export default function Footer() {
@@ -28,10 +29,13 @@ export default function Footer() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
                     {/* Logo and Description */}
                     <div className="col-span-2 md:col-span-1">
-                        <h3 className="text-2xl font-bold text-white mb-4">
-                            {import.meta.env.VITE_APP_NAME || "Darpon"}
-                        </h3>
-                        <p className="text-sm text-gray-400">
+                        <div className="mb-4">
+                            <ApplicationLogo
+                                variant="default"
+                                textColor="white"
+                            />
+                        </div>
+                        <p className="text-sm text-gray-400 mt-2">
                             Master English from anywhere with our interactive
                             learning platform.
                         </p>

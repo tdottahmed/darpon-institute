@@ -12,14 +12,7 @@ export default function GuestLayout({ children }) {
             </div>
             <div className="mb-6">
                 <Link href="/">
-                    <div className="flex items-center space-x-2">
-                        <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-primary-600 to-secondary-600 p-2 dark:from-primary-500 dark:to-secondary-500">
-                            <ApplicationLogo className="h-full w-full fill-current text-white" />
-                        </div>
-                        <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                            {import.meta.env.VITE_APP_NAME || "Darpon"}
-                        </span>
-                    </div>
+                    <ApplicationLogo variant="default" />
                 </Link>
             </div>
 
