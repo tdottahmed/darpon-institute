@@ -21,29 +21,32 @@ export default function Header() {
                         <ApplicationLogo variant="default" />
                     </Link>
 
-                    {/* Desktop Navigation - Only show for non-authenticated users */}
-                    {!auth?.user && (
-                        <nav className="hidden md:flex items-center space-x-6">
-                            <Link
-                                href="#features"
-                                className="text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
-                            >
-                                Features
-                            </Link>
-                            <Link
-                                href="#testimonials"
-                                className="text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
-                            >
-                                Testimonials
-                            </Link>
-                            <Link
-                                href="#blog"
-                                className="text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
-                            >
-                                Blog
-                            </Link>
-                        </nav>
-                    )}
+                    <nav className="hidden md:flex items-center space-x-6">
+                        <Link
+                            href="#courses"
+                            className="text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
+                        >
+                            Courses
+                        </Link>
+                        <Link
+                            href="#features"
+                            className="text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
+                        >
+                            Features
+                        </Link>
+                        <Link
+                            href="#testimonials"
+                            className="text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
+                        >
+                            Testimonials
+                        </Link>
+                        <Link
+                            href="#blog"
+                            className="text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
+                        >
+                            Blog
+                        </Link>
+                    </nav>
 
                     {/* Right Side Actions */}
                     <div className="hidden md:flex items-center space-x-4">
@@ -234,6 +237,13 @@ export default function Header() {
                     <div className="md:hidden py-4 space-y-4 border-t border-gray-200 dark:border-gray-800">
                         {!auth?.user && (
                             <nav className="flex flex-col space-y-3">
+                                <Link
+                                    href="#courses"
+                                    className="text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Courses
+                                </Link>
                                 <Link
                                     href="#features"
                                     className="text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400"

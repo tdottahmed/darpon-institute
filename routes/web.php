@@ -1,14 +1,14 @@
 <?php
 
+use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-});
-
+Route::get('/', [FrontendController::class, 'index'])->name('home');
+Route::get('/courses', [FrontendController::class, 'courses'])->name('courses.index');
+Route::get('/courses/{course:slug}', [FrontendController::class, 'showCourse'])->name('courses.show');
 Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

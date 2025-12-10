@@ -3,13 +3,13 @@ import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import HeroSection from "@/Components/sections/HeroSection";
 import FeaturesSection from "@/Components/sections/FeaturesSection";
-import ExperienceSection from "@/Components/sections/ExperienceSection";
+import CoursesSection from "@/Components/sections/CoursesSection";
 import DataSection from "@/Components/sections/DataSection";
 import TestimonialsSection from "@/Components/sections/TestimonialsSection";
 import BlogSection from "@/Components/sections/BlogSection";
 import CTASection from "@/Components/sections/CTASection";
 
-export default function Welcome() {
+export default function Welcome({ courses }) {
     const { translations } = usePage().props;
 
     return (
@@ -22,7 +22,7 @@ export default function Welcome() {
                     <div id="features">
                         <FeaturesSection />
                     </div>
-                    <ExperienceSection />
+                    <CoursesSection courses={courses || []} />
                     <DataSection />
                     <div id="testimonials">
                         <TestimonialsSection />
