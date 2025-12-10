@@ -17,9 +17,9 @@ class FrontendController extends Controller
     public function dashboard(): Response|RedirectResponse
     {
         // Redirect admin users to admin dashboard
-        if (Auth::user()->user_type === 'admin') {
-            return redirect()->route('admin.dashboard');
-        }
+        // if (Auth::user()->user_type === 'admin') {
+        //     return redirect()->route('admin.dashboard');
+        // }
 
         return Inertia::render('Dashboard');
     }
