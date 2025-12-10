@@ -18,11 +18,11 @@ export default function ApplicationLogo({
     return (
         <div className={`flex items-center gap-3 ${className}`}>
             {showIcon && (
-                <div className="relative">
+                <div className="relative flex-shrink-0">
                     {/* Circular background with gradient */}
                     <svg
-                        width="60"
-                        height="60"
+                        width={variant === "icon" ? "40" : "60"}
+                        height={variant === "icon" ? "40" : "60"}
                         viewBox="0 0 60 60"
                         className="drop-shadow-lg"
                     >

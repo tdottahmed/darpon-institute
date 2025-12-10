@@ -44,7 +44,9 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </svg>
                             </button>
                             <Link href="/" className="flex items-center">
-                                <ApplicationLogo variant="icon" />
+                                <div className="h-10 w-10 flex items-center justify-center">
+                                    <ApplicationLogo variant="icon" />
+                                </div>
                             </Link>
                         </div>
 
@@ -130,6 +132,31 @@ export default function AuthenticatedLayout({ header, children }) {
                                             </svg>
                                             {t.profile || "Profile"}
                                         </Dropdown.Link>
+                                        {user.user_type === "admin" && (
+                                            <>
+                                                <div className="border-t border-gray-200 dark:border-gray-700"></div>
+                                                <Dropdown.ExternalLink
+                                                    href={route(
+                                                        "admin.dashboard"
+                                                    )}
+                                                >
+                                                    <svg
+                                                        className="mr-3 h-5 w-5 text-gray-400"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                                        />
+                                                    </svg>
+                                                    Admin Dashboard
+                                                </Dropdown.ExternalLink>
+                                            </>
+                                        )}
                                         <div className="border-t border-gray-200 dark:border-gray-700"></div>
                                         <Dropdown.Link
                                             href={route("logout")}
@@ -363,7 +390,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
                 {/* Main Content */}
                 <main className="flex-1">
-                    <div className="px-4 py-6 sm:px-6 lg:px-8">{children}</div>
+                    <div className="px-4 py-8 sm:px-6 lg:px-8">{children}</div>
                 </main>
 
                 {/* Footer */}

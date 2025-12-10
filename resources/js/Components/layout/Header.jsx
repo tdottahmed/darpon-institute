@@ -92,6 +92,32 @@ export default function Header() {
                                                 {auth.user.email}
                                             </p>
                                         </div>
+                                        {auth?.user &&
+                                            auth.user.user_type === "admin" && (
+                                                <>
+                                                    <div className="border-t border-gray-200 dark:border-gray-700"></div>
+                                                    <Dropdown.ExternalLink
+                                                        href={route(
+                                                            "admin.dashboard"
+                                                        )}
+                                                    >
+                                                        <svg
+                                                            className="mr-3 h-5 w-5 text-gray-400"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth={2}
+                                                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                                            />
+                                                        </svg>
+                                                        Admin Dashboard
+                                                    </Dropdown.ExternalLink>
+                                                </>
+                                            )}
                                         <Dropdown.Link
                                             href={route("dashboard")}
                                         >
