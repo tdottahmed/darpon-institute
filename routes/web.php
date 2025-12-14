@@ -11,6 +11,8 @@ Route::get('/courses', [FrontendController::class, 'courses'])->name('courses.in
 Route::get('/courses/{course:slug}', [FrontendController::class, 'showCourse'])->name('courses.show');
 Route::get('/books', [FrontendController::class, 'books'])->name('books.index');
 Route::get('/books/{book:slug}', [FrontendController::class, 'showBook'])->name('books.show');
+Route::get('/video-blogs', [FrontendController::class, 'videoBlogs'])->name('video_blogs.index');
+Route::get('/video-blogs/{videoBlog:slug}', [FrontendController::class, 'showVideoBlog'])->name('video_blogs.show');
 Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

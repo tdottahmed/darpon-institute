@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             BookSeeder::class,
             VideoBlogSeeder::class,
             ShippingMethodSeeder::class,
+            TestimonialSeeder::class,
         ]);
     }
 }

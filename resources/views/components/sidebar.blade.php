@@ -37,6 +37,12 @@
           'active' => request()->routeIs('admin.shipping-methods.*'),
       ],
       [
+          'name' => 'Testimonials',
+          'href' => route('admin.testimonials.index'),
+          'icon' => 'user-group',
+          'active' => request()->routeIs('admin.testimonials.*'),
+      ],
+      [
           'name' => 'Analytics',
           'href' => '#',
           'icon' => 'analytics',

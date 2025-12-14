@@ -23,6 +23,9 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
     // Shipping Methods
     Route::resource('shipping-methods', \App\Http\Controllers\Admin\ShippingController::class);
 
+    // Testimonials
+    Route::resource('testimonials', \App\Http\Controllers\Admin\TestimonialController::class);
+
     // Settings
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');

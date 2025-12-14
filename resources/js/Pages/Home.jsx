@@ -4,12 +4,16 @@ import Footer from "@/Components/layout/Footer";
 import HeroSection from "@/Components/sections/HeroSection";
 import FeaturesSection from "@/Components/sections/FeaturesSection";
 import CoursesSection from "@/Components/sections/CoursesSection";
-import DataSection from "@/Components/sections/DataSection";
+import BookSection from "@/Components/sections/BookSection";
 import TestimonialsSection from "@/Components/sections/TestimonialsSection";
 import BlogSection from "@/Components/sections/BlogSection";
 import CTASection from "@/Components/sections/CTASection";
 
-export default function Welcome({ courses }) {
+// Imports removed
+
+// Imports removed
+
+export default function Welcome({ courses, books, videoBlogs, testimonials }) {
     const { translations } = usePage().props;
 
     return (
@@ -19,17 +23,11 @@ export default function Welcome({ courses }) {
                 <Header />
                 <main>
                     <HeroSection translations={translations} />
-                    <div id="features">
-                        <FeaturesSection />
-                    </div>
+                    <FeaturesSection />
                     <CoursesSection courses={courses || []} />
-                    <DataSection />
-                    <div id="testimonials">
-                        <TestimonialsSection />
-                    </div>
-                    <div id="blog">
-                        <BlogSection />
-                    </div>
+                    <BookSection books={books || []} />
+                    <TestimonialsSection testimonials={testimonials || []} />
+                    <BlogSection videoBlogs={videoBlogs || []} />
                     <CTASection translations={translations} />
                 </main>
                 <Footer />

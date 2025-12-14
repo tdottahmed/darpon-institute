@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Book;
+use App\Models\VideoBlog;
+use App\Models\Testimonial;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,8 +22,23 @@ class FrontendController extends Controller
             ->latest()
             ->take(6)->get();
 
+        $books = Book::where('status', true)
+            ->latest()
+            ->take(6)->get();
+
+        $videoBlogs = VideoBlog::where('status', true)
+            ->latest()
+            ->take(3)->get();
+
+        $testimonials = Testimonial::where('status', true)
+            ->latest()
+            ->take(6)->get();
+
         return Inertia::render('Home', [
             'courses' => $courses,
+            'books' => $books,
+            'videoBlogs' => $videoBlogs,
+            'testimonials' => $testimonials,
         ]);
     }
 
@@ -160,6 +177,75 @@ class FrontendController extends Controller
         return Inertia::render('Books/Show', [
             'book' => $book,
             'relatedBooks' => $relatedBooks,
+        ]);
+    }
+
+    /**
+     * Show all video blogs.
+     */
+    public function videoBlogs(Request $request): Response
+    {
+        $query = VideoBlog::where('status', true);
+
+        // Search functionality
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('short_description', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter by tags
+        if ($request->has('tag') && $request->tag) {
+            $query->whereJsonContains('tags', $request->tag);
+        }
+
+        $videoBlogs = $query->latest()->paginate(9)->withQueryString();
+
+        return Inertia::render('VideoBlogs/Index', [
+            'videoBlogs' => $videoBlogs,
+            'filters' => [
+                'search' => $request->search,
+                'tag' => $request->tag,
+            ],
+        ]);
+    }
+
+    /**
+     * Show a single video blog.
+     */
+    public function showVideoBlog(VideoBlog $videoBlog): Response|RedirectResponse
+    {
+        // Only show active video blogs
+        if (!$videoBlog->status) {
+            abort(404);
+        }
+
+        // Get related video blogs (same tags or random)
+        $relatedVideoBlogs = VideoBlog::where('status', true)
+            ->where('id', '!=', $videoBlog->id)
+            ->when($videoBlog->tags, function ($query) use ($videoBlog) {
+                foreach ($videoBlog->tags as $tag) {
+                    $query->orWhereJsonContains('tags', $tag);
+                }
+            })
+            ->limit(3)
+            ->get();
+
+        // If not enough related, fill with random
+        if ($relatedVideoBlogs->count() < 3) {
+            $randomVideoBlogs = VideoBlog::where('status', true)
+                ->where('id', '!=', $videoBlog->id)
+                ->whereNotIn('id', $relatedVideoBlogs->pluck('id'))
+                ->limit(3 - $relatedVideoBlogs->count())
+                ->get();
+            $relatedVideoBlogs = $relatedVideoBlogs->merge($randomVideoBlogs);
+        }
+
+        return Inertia::render('VideoBlogs/Show', [
+            'videoBlog' => $videoBlog,
+            'relatedVideoBlogs' => $relatedVideoBlogs,
         ]);
     }
 
