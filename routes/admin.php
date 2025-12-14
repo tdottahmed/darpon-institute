@@ -25,6 +25,8 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
 
     // Testimonials
     Route::resource('testimonials', \App\Http\Controllers\Admin\TestimonialController::class);
+    Route::resource('book-orders', \App\Http\Controllers\Admin\BookOrderController::class)->only(['index', 'show', 'update', 'destroy']);
+    Route::resource('course-registrations', \App\Http\Controllers\Admin\CourseRegistrationController::class)->only(['index', 'show', 'update', 'destroy']);
 
     // Settings
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');

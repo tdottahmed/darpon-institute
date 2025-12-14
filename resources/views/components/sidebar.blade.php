@@ -43,6 +43,18 @@
           'active' => request()->routeIs('admin.testimonials.*'),
       ],
       [
+          'name' => 'Book Orders',
+          'href' => route('admin.book-orders.index'),
+          'icon' => 'orders',
+          'active' => request()->routeIs('admin.book-orders.*'),
+      ],
+      [
+          'name' => 'Enrollments',
+          'href' => route('admin.course-registrations.index'),
+          'icon' => 'enrollments',
+          'active' => request()->routeIs('admin.course-registrations.*'),
+      ],
+      [
           'name' => 'Analytics',
           'href' => '#',
           'icon' => 'analytics',

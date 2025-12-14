@@ -2,6 +2,7 @@ import { Head, Link, usePage } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import BookSection from "@/Components/sections/BookSection";
+import Button from "@/Components/ui/Button";
 import parse from "html-react-parser";
 
 export default function Show({ book, relatedBooks }) {
@@ -111,9 +112,14 @@ export default function Show({ book, relatedBooks }) {
                                 <div className="mt-10 flex gap-4">
                                      {/* Add to Cart or Enroll logic would go here. For now, a placeholder button */}
                                      {book.stock_quantity > 0 ? (
-                                        <button className="flex w-full items-center justify-center rounded-xl bg-primary-600 px-8 py-4 text-base font-bold text-white shadow-lg transition-all hover:bg-primary-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+                                        <Button 
+                                            variant="primary" 
+                                            size="lg" 
+                                            href={route('books.checkout', book.slug)}
+                                            className="flex-1 justify-center shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 hover:-translate-y-0.5 transition-all"
+                                        >
                                             Buy Now
-                                        </button>
+                                        </Button>
                                      ) : (
                                          <button disabled className="flex w-full items-center justify-center rounded-xl bg-gray-300 px-8 py-4 text-base font-bold text-gray-500 cursor-not-allowed dark:bg-gray-800 dark:text-gray-600">
                                             Out of Stock

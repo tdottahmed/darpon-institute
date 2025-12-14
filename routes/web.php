@@ -29,4 +29,7 @@ Route::get('/language/{locale}', [App\Http\Controllers\LanguageController::class
 Route::get('/courses/{course:slug}/enroll', [\App\Http\Controllers\Frontend\CourseRegistrationController::class, 'create'])->name('courses.enroll');
 Route::post('/courses/{course:slug}/enroll', [\App\Http\Controllers\Frontend\CourseRegistrationController::class, 'store'])->name('courses.enroll.store');
 
+Route::get('/books/{book:slug}/checkout', [\App\Http\Controllers\Frontend\BookOrderController::class, 'create'])->name('books.checkout');
+Route::post('/books/{book:slug}/checkout', [\App\Http\Controllers\Frontend\BookOrderController::class, 'store'])->name('books.checkout.store');
+
 require __DIR__ . '/auth.php';
