@@ -9,6 +9,8 @@ use Inertia\Inertia;
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/courses', [FrontendController::class, 'courses'])->name('courses.index');
 Route::get('/courses/{course:slug}', [FrontendController::class, 'showCourse'])->name('courses.show');
+Route::get('/books', [FrontendController::class, 'books'])->name('books.index');
+Route::get('/books/{book:slug}', [FrontendController::class, 'showBook'])->name('books.show');
 Route::get('/dashboard', [App\Http\Controllers\Frontend\FrontendController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

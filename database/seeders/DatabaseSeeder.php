@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CourseSeeder::class,
             BookSeeder::class,
+            VideoBlogSeeder::class,
+            ShippingMethodSeeder::class,
         ]);
     }
 }

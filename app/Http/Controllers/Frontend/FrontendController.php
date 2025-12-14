@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Book;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -90,6 +91,75 @@ class FrontendController extends Controller
         return Inertia::render('Courses/Show', [
             'course' => $course,
             'relatedCourses' => $relatedCourses,
+        ]);
+    }
+
+    /**
+     * Show all books.
+     */
+    public function books(Request $request): Response
+    {
+        $query = Book::where('status', true);
+
+        // Search functionality
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('author', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter by tags
+        if ($request->has('tag') && $request->tag) {
+            $query->whereJsonContains('tags', $request->tag);
+        }
+
+        $books = $query->latest()->paginate(12)->withQueryString();
+
+        return Inertia::render('Books/Index', [
+            'books' => $books,
+            'filters' => [
+                'search' => $request->search,
+                'tag' => $request->tag,
+            ],
+        ]);
+    }
+
+    /**
+     * Show a single book.
+     */
+    public function showBook(Book $book): Response|RedirectResponse
+    {
+        // Only show active books
+        if (!$book->status) {
+            abort(404);
+        }
+
+        // Get related books (same tags or random)
+        $relatedBooks = Book::where('status', true)
+            ->where('id', '!=', $book->id)
+            ->when($book->tags, function ($query) use ($book) {
+                foreach ($book->tags as $tag) {
+                    $query->orWhereJsonContains('tags', $tag);
+                }
+            })
+            ->limit(3)
+            ->get();
+
+        // If not enough related books, fill with random
+        if ($relatedBooks->count() < 3) {
+            $randomBooks = Book::where('status', true)
+                ->where('id', '!=', $book->id)
+                ->whereNotIn('id', $relatedBooks->pluck('id'))
+                ->limit(3 - $relatedBooks->count())
+                ->get();
+            $relatedBooks = $relatedBooks->merge($randomBooks);
+        }
+
+        return Inertia::render('Books/Show', [
+            'book' => $book,
+            'relatedBooks' => $relatedBooks,
         ]);
     }
 

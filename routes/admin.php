@@ -16,4 +16,14 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
 
     // Book Management
     Route::resource('books', \App\Http\Controllers\Admin\BookController::class);
+
+    // Video Blog Management
+    Route::resource('video-blogs', \App\Http\Controllers\Admin\VideoBlogController::class);
+
+    // Shipping Methods
+    Route::resource('shipping-methods', \App\Http\Controllers\Admin\ShippingController::class);
+
+    // Settings
+    Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
 });

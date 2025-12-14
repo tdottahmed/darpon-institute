@@ -25,6 +25,18 @@
           'active' => request()->routeIs('admin.books.*'),
       ],
       [
+          'name' => 'Video Blogs',
+          'href' => route('admin.video-blogs.index'),
+          'icon' => 'video',
+          'active' => request()->routeIs('admin.video-blogs.*'),
+      ],
+      [
+          'name' => 'Shipping Methods',
+          'href' => route('admin.shipping-methods.index'),
+          'icon' => 'truck',
+          'active' => request()->routeIs('admin.shipping-methods.*'),
+      ],
+      [
           'name' => 'Analytics',
           'href' => '#',
           'icon' => 'analytics',
@@ -32,9 +44,9 @@
       ],
       [
           'name' => 'Settings',
-          'href' => '#',
+          'href' => route('admin.settings.index'),
           'icon' => 'settings',
-          'active' => false,
+          'active' => request()->routeIs('admin.settings.*'),
       ],
   ];
 @endphp
