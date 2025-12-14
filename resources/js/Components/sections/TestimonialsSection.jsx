@@ -11,7 +11,7 @@ export default function TestimonialsSection({ testimonials }) {
     if (!testimonials || testimonials.length === 0) return null;
 
     return (
-        <section className="py-16 sm:py-24 bg-gray-50 dark:bg-gray-800">
+        <section id="testimonials" className="py-16 sm:py-24 bg-gray-50 dark:bg-gray-800">
             <Container>
                 <SectionHeader
                     badge="Testimonials"
