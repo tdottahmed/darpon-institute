@@ -19,6 +19,12 @@
           'active' => request()->routeIs('admin.courses.*'),
       ],
       [
+          'name' => 'Books',
+          'href' => route('admin.books.index'),
+          'icon' => 'books',
+          'active' => request()->routeIs('admin.books.*'),
+      ],
+      [
           'name' => 'Analytics',
           'href' => '#',
           'icon' => 'analytics',
