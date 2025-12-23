@@ -39,7 +39,7 @@
         <div class="rounded-lg border-2 border-primary-200 bg-primary-50 p-6">
           <h3 class="mb-4 text-lg font-semibold text-gray-900">Pricing & Stock</h3>
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <x-forms.input name="price" label="Price ($)" type="number" step="0.01" min="0"
+            <x-forms.input name="price" label="Price (৳)" type="number" step="0.01" min="0"
                            :value="old('price', $book->price)" required :error="$errors->first('price')" placeholder="0.00" />
             <x-forms.input name="discount" label="Discount (%)" type="number" step="0.01" min="0"
                            max="100" :value="old('discount', $book->discount ?? 0)" :error="$errors->first('discount')" placeholder="0" />
@@ -49,9 +49,9 @@
           @if ($book->discount > 0 && $book->price)
             <div class="mt-4 rounded-lg bg-white p-3">
               <p class="text-sm text-gray-600">Original Price: <span
-                      class="font-medium line-through">${{ number_format($book->price, 2) }}</span></p>
+                      class="font-medium line-through">{{ format_price($book->price) }}</span></p>
               <p class="text-lg font-bold text-primary-600">Discounted Price:
-                ${{ number_format($book->discounted_price, 2) }}</p>
+                {{ format_price($book->discounted_price) }}</p>
             </div>
           @endif
         </div>

@@ -101,12 +101,12 @@
                   <div class="text-sm text-gray-900">
                     @if ($book->discount > 0 && $book->price)
                       <div>
-                        <span class="text-gray-400 line-through">${{ number_format($book->price, 2) }}</span>
+                        <span class="text-gray-400 line-through">{{ format_price($book->price) }}</span>
                         <span
-                              class="ml-2 font-semibold text-primary-600">${{ number_format($book->discounted_price, 2) }}</span>
+                              class="ml-2 font-semibold text-primary-600">{{ format_price($book->discounted_price) }}</span>
                       </div>
                     @elseif ($book->price)
-                      <span class="font-medium">${{ number_format($book->price, 2) }}</span>
+                      <span class="font-medium">{{ format_price($book->price) }}</span>
                     @else
                       <span class="text-gray-400">Not set</span>
                     @endif

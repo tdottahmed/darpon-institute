@@ -7,13 +7,20 @@ import CoursesSection from "@/Components/sections/CoursesSection";
 import BookSection from "@/Components/sections/BookSection";
 import TestimonialsSection from "@/Components/sections/TestimonialsSection";
 import BlogSection from "@/Components/sections/BlogSection";
+import GallerySection from "@/Components/sections/GallerySection";
 import CTASection from "@/Components/sections/CTASection";
 
 // Imports removed
 
 // Imports removed
 
-export default function Welcome({ courses, books, videoBlogs, testimonials }) {
+export default function Welcome({
+    courses,
+    books,
+    videoBlogs,
+    testimonials,
+    galleries,
+}) {
     const { translations } = usePage().props;
 
     return (
@@ -26,6 +33,7 @@ export default function Welcome({ courses, books, videoBlogs, testimonials }) {
                     <FeaturesSection />
                     <CoursesSection courses={courses || []} />
                     <BookSection books={books || []} />
+                    <GallerySection galleries={galleries || []} />
                     <TestimonialsSection testimonials={testimonials || []} />
                     <BlogSection videoBlogs={videoBlogs || []} />
                     <CTASection translations={translations} />

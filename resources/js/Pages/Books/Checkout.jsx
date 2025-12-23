@@ -8,6 +8,7 @@ import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 import { useState, useEffect } from "react";
+import { formatPrice } from "@/Utils/currency";
 
 export default function Checkout({ book }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -134,7 +135,7 @@ export default function Checkout({ book }) {
                                                         </span>
                                                     </span>
                                                     <span className="mt-0.5 ml-4 flex cursor-pointer flex-col">
-                                                        <span className="text-sm font-medium text-primary-600 dark:text-primary-400">৳60</span>
+                                                        <span className="text-sm font-medium text-primary-600 dark:text-primary-400">{formatPrice(60)}</span>
                                                     </span>
                                                 </label>
 
@@ -154,7 +155,7 @@ export default function Checkout({ book }) {
                                                         </span>
                                                     </span>
                                                     <span className="mt-0.5 ml-4 flex cursor-pointer flex-col">
-                                                        <span className="text-sm font-medium text-primary-600 dark:text-primary-400">৳120</span>
+                                                        <span className="text-sm font-medium text-primary-600 dark:text-primary-400">{formatPrice(120)}</span>
                                                     </span>
                                                 </label>
                                             </div>
@@ -200,7 +201,7 @@ export default function Checkout({ book }) {
                                                  <div>
                                                     <div className="flex justify-between text-base font-medium text-gray-900 dark:text-white">
                                                         <h3 className="line-clamp-1">{book.title}</h3>
-                                                        <p className="ml-4">৳{price}</p>
+                                                        <p className="ml-4">{formatPrice(price)}</p>
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-1 items-end justify-between text-sm">
@@ -213,15 +214,15 @@ export default function Checkout({ book }) {
                                         <div className="space-y-2">
                                             <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                                                 <p>Subtotal</p>
-                                                <p>৳{price * data.quantity}</p>
+                                                <p>{formatPrice(price * data.quantity)}</p>
                                             </div>
                                             <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                                                 <p>Shipping</p>
-                                                <p>৳{shippingCost}</p>
+                                                <p>{formatPrice(shippingCost)}</p>
                                             </div>
                                             <div className="border-t border-gray-100 dark:border-gray-700 pt-2 flex justify-between text-base font-bold text-gray-900 dark:text-white">
                                                 <p>Total</p>
-                                                <p>৳{total}</p>
+                                                <p>{formatPrice(total)}</p>
                                             </div>
                                         </div>
 

@@ -38,7 +38,7 @@
         <div class="rounded-lg border-2 border-primary-200 bg-primary-50 p-6">
           <h3 class="mb-4 text-lg font-semibold text-gray-900">Pricing & Stock</h3>
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <x-forms.input name="price" label="Price ($)" type="number" step="0.01" min="0"
+            <x-forms.input name="price" label="Price (৳)" type="number" step="0.01" min="0"
                            :value="old('price')" required :error="$errors->first('price')" placeholder="0.00" />
             <x-forms.input name="discount" label="Discount (%)" type="number" step="0.01" min="0"
                            max="100" :value="old('discount', 0)" :error="$errors->first('discount')" placeholder="0" />

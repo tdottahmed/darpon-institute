@@ -19,12 +19,15 @@
         @csrf
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <x-forms.input name="name" label="Method Name" :value="old('name')" required :error="$errors->first('name')" placeholder="Standard Shipping" />
-          <x-forms.input name="price" label="Price ($)" type="number" step="0.01" min="0" :value="old('price')" required :error="$errors->first('price')" />
+          <x-forms.input name="name" label="Method Name" :value="old('name')" required :error="$errors->first('name')"
+                         placeholder="Standard Shipping" />
+          <x-forms.input name="price" label="Price (৳)" type="number" step="0.01" min="0" :value="old('price')"
+                         required :error="$errors->first('price')" />
         </div>
 
         <div>
-             <x-forms.input name="duration" label="Estimated Duration" :value="old('duration')" :error="$errors->first('duration')" placeholder="e.g. 2-3 Business Days" />
+          <x-forms.input name="duration" label="Estimated Duration" :value="old('duration')" :error="$errors->first('duration')"
+                         placeholder="e.g. 2-3 Business Days" />
         </div>
 
         <!-- Status -->

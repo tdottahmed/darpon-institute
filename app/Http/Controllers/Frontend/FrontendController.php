@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Book;
 use App\Models\VideoBlog;
 use App\Models\Testimonial;
+use App\Models\Gallery;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,11 +35,16 @@ class FrontendController extends Controller
             ->latest()
             ->take(6)->get();
 
+        $galleries = Gallery::where('status', true)
+            ->ordered()
+            ->take(8)->get();
+
         return Inertia::render('Home', [
             'courses' => $courses,
             'books' => $books,
             'videoBlogs' => $videoBlogs,
             'testimonials' => $testimonials,
+            'galleries' => $galleries,
         ]);
     }
 
@@ -280,5 +286,35 @@ class FrontendController extends Controller
         return Inertia::render('Dashboard', [
             'enrolledCourses' => $enrolledCourses
         ]);
+    }
+
+    /**
+     * Show all galleries.
+     */
+    public function galleries(Request $request): Response
+    {
+        $galleries = Gallery::where('status', true)
+            ->ordered()
+            ->paginate(20)->withQueryString();
+
+        return Inertia::render('Galleries/Index', [
+            'galleries' => $galleries,
+        ]);
+    }
+
+    /**
+     * Show About page.
+     */
+    public function about(): Response
+    {
+        return Inertia::render('About/Index');
+    }
+
+    /**
+     * Show Contact page.
+     */
+    public function contact(): Response
+    {
+        return Inertia::render('Contact/Index');
     }
 }

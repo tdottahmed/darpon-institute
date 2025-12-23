@@ -198,8 +198,8 @@ class FrontendContentSeeder extends Seeder
                 'value' => ['en' => 'Earn a recognized certificate upon completion', 'bn' => 'শেষ করার পর স্বীকৃত সার্টিফিকেট অর্জন করুন'],
                 'type' => 'textarea',
             ],
-             // Feature 3
-             [
+            // Feature 3
+            [
                 'section' => 'features',
                 'key' => 'feature_3_title',
                 'value' => ['en' => 'Private Target', 'bn' => 'ব্যক্তিগত লক্ষ্য'],
@@ -402,6 +402,56 @@ class FrontendContentSeeder extends Seeder
                 'section' => 'footer',
                 'key' => 'link_contact',
                 'value' => ['en' => 'Contact', 'bn' => 'যোগাযোগ'],
+                'type' => 'text',
+            ],
+            // Gallery Section
+            [
+                'section' => 'gallery',
+                'key' => 'header_badge',
+                'value' => ['en' => 'Gallery', 'bn' => 'গ্যালারি'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'gallery',
+                'key' => 'header_title',
+                'value' => ['en' => 'Our Gallery', 'bn' => 'আমাদের গ্যালারি'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'gallery',
+                'key' => 'header_subtitle',
+                'value' => ['en' => 'Explore moments from our classes, events, and student achievements', 'bn' => 'আমাদের ক্লাস, ইভেন্ট এবং শিক্ষার্থীদের অর্জনের মুহূর্তগুলো দেখুন'],
+                'type' => 'textarea',
+            ],
+            [
+                'section' => 'gallery',
+                'key' => 'view_all_link',
+                'value' => ['en' => 'View All Images', 'bn' => 'সব ছবি দেখুন'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'gallery',
+                'key' => 'page_title',
+                'value' => ['en' => 'Image Gallery', 'bn' => 'ছবির গ্যালারি'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'gallery',
+                'key' => 'page_subtitle',
+                'value' => ['en' => 'Explore our collection of images from classes, events, and memorable moments', 'bn' => 'ক্লাস, ইভেন্ট এবং স্মরণীয় মুহূর্তের ছবিগুলো দেখুন'],
+                'type' => 'textarea',
+            ],
+            [
+                'section' => 'gallery',
+                'key' => 'show_on_landing',
+                'value' => ['en' => '1', 'bn' => '1'],
+                'type' => 'text',
+            ],
+            // Header Menu
+            [
+                'section' => 'header',
+                'key' => 'menu_gallery',
+                'value' => ['en' => 'Gallery', 'bn' => 'গ্যালারি'],
                 'type' => 'text',
             ],
         ];

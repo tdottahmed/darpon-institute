@@ -21,17 +21,19 @@
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <x-forms.input name="name" label="Method Name" :value="old('name', $shippingMethod->name)" required :error="$errors->first('name')" />
-          <x-forms.input name="price" label="Price ($)" type="number" step="0.01" min="0" :value="old('price', $shippingMethod->price)" required :error="$errors->first('price')" />
+          <x-forms.input name="price" label="Price (৳)" type="number" step="0.01" min="0" :value="old('price', $shippingMethod->price)"
+                         required :error="$errors->first('price')" />
         </div>
 
         <div>
-             <x-forms.input name="duration" label="Estimated Duration" :value="old('duration', $shippingMethod->duration)" :error="$errors->first('duration')" />
+          <x-forms.input name="duration" label="Estimated Duration" :value="old('duration', $shippingMethod->duration)" :error="$errors->first('duration')" />
         </div>
 
         <!-- Status -->
         <div class="flex items-center space-x-3">
           <input type="hidden" name="status" value="0">
-          <input type="checkbox" name="status" id="status" value="1" {{ old('status', $shippingMethod->status) ? 'checked' : '' }}
+          <input type="checkbox" name="status" id="status" value="1"
+                 {{ old('status', $shippingMethod->status) ? 'checked' : '' }}
                  class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
           <label for="status" class="text-sm font-medium text-gray-700">Active Status</label>
         </div>

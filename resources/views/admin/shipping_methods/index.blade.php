@@ -33,13 +33,13 @@
             @foreach ($shippingMethods as $method)
               <x-ui.table-row>
                 <x-ui.table-cell>
-                    <div class="text-sm font-medium text-gray-900">{{ $method->name }}</div>
+                  <div class="text-sm font-medium text-gray-900">{{ $method->name }}</div>
                 </x-ui.table-cell>
                 <x-ui.table-cell>
-                    <div class="text-sm font-medium text-gray-900">${{ number_format($method->price, 2) }}</div>
+                  <div class="text-sm font-medium text-gray-900">{{ format_price($method->price) }}</div>
                 </x-ui.table-cell>
                 <x-ui.table-cell>
-                    <div class="text-sm text-gray-500">{{ $method->duration ?? 'N/A' }}</div>
+                  <div class="text-sm text-gray-500">{{ $method->duration ?? 'N/A' }}</div>
                 </x-ui.table-cell>
                 <x-ui.table-cell>
                   <x-ui.badge :variant="$method->status ? 'success' : 'secondary'" size="sm">
@@ -48,7 +48,8 @@
                 </x-ui.table-cell>
                 <x-ui.table-cell class="text-right">
                   <div class="flex items-center justify-end gap-2">
-                    <x-ui.link href="{{ route('admin.shipping-methods.edit', $method) }}" variant="outline" size="sm">
+                    <x-ui.link href="{{ route('admin.shipping-methods.edit', $method) }}" variant="outline"
+                               size="sm">
                       Edit
                     </x-ui.link>
                     <form action="{{ route('admin.shipping-methods.destroy', $method) }}" method="POST"

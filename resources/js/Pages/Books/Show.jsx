@@ -1,9 +1,10 @@
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import BookSection from "@/Components/sections/BookSection";
 import Button from "@/Components/ui/Button";
 import parse from "html-react-parser";
+import { formatPrice } from "@/Utils/currency";
 
 export default function Show({ book, relatedBooks }) {
     // Discount Calculation
@@ -68,11 +69,11 @@ export default function Show({ book, relatedBooks }) {
                                     <div className="flex items-baseline gap-4">
                                          {hasDiscount && (
                                             <p className="text-xl text-gray-500 line-through dark:text-gray-400">
-                                                ${Number(book.price).toFixed(2)}
+                                                {formatPrice(book.price)}
                                             </p>
                                         )}
                                         <p className="text-3xl font-bold tracking-tight text-primary-600 dark:text-primary-400">
-                                            ${discountedPrice.toFixed(2)}
+                                            {formatPrice(discountedPrice)}
                                         </p>
                                         {hasDiscount && (
                                             <span className="inline-flex items-center rounded-md bg-red-100 px-2.5 py-0.5 text-sm font-medium text-red-800 dark:bg-red-900/30 dark:text-red-300">

@@ -20,10 +20,10 @@ export default function Footer() {
             },
         ],
         company: [
-            { name: content.link_about || "About Us", href: "#about" },
+            { name: content.link_about || "About Us", href: route("about") },
             { name: "Success Stories", href: route("home") + "#testimonials" }, // Anchor to home section
             { name: "Become an Instructor", href: "#" },
-            { name: content.link_contact || "Contact", href: "#contact" },
+            { name: content.link_contact || "Contact", href: route("contact") },
         ],
         legal: [
             { name: "Privacy Policy", href: "#privacypolicy" },
