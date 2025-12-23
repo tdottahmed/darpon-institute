@@ -1,4 +1,5 @@
 import Button from "@/Components/ui/Button";
+import { formatPrice } from "@/Utils/currency";
 
 export default function CourseSidebar({
     course,
@@ -6,6 +7,28 @@ export default function CourseSidebar({
     videoUrl,
     isEnrolled,
 }) {
+    // Calculate discount based on type
+    const hasDiscount = course.discount > 0;
+    const discountType = course.discount_type || "percentage";
+
+    let discountedPrice = Number(course.price) || 0;
+    let discountDisplay = "";
+
+    if (hasDiscount && course.price) {
+        if (discountType === "flat") {
+            discountedPrice = Math.max(
+                0,
+                Number(course.price) - Number(course.discount)
+            );
+            discountDisplay = formatPrice(course.discount);
+        } else {
+            discountedPrice =
+                Number(course.price) -
+                (Number(course.price) * Number(course.discount)) / 100;
+            discountDisplay = `${Math.round(course.discount)}%`;
+        }
+    }
+
     return (
         <div className="sticky top-24 space-y-8">
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
@@ -44,6 +67,27 @@ export default function CourseSidebar({
                         </div>
                     )}
                 </div>
+
+                {/* Price Section */}
+                {course.price && (
+                    <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+                        <div className="flex items-baseline gap-3">
+                            <span className="text-3xl font-bold text-primary-600 dark:text-primary-400">
+                                {formatPrice(discountedPrice)}
+                            </span>
+                            {hasDiscount && (
+                                <span className="text-xl font-medium text-gray-400 line-through dark:text-gray-500">
+                                    {formatPrice(course.price)}
+                                </span>
+                            )}
+                        </div>
+                        {!course.price && (
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                Free Course
+                            </p>
+                        )}
+                    </div>
+                )}
 
                 {/* Enrollment Status */}
                 {isEnrolled ? (

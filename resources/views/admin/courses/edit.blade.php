@@ -46,6 +46,44 @@
                              help="Press Enter to add tags" />
         </div>
 
+        <div class="space-y-6">
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <x-forms.input name="price" label="Price (BDT)" type="number" step="0.01" min="0"
+                           :value="old('price', $course->price)" placeholder="0.00" :error="$errors->first('price')" />
+          </div>
+
+          <!-- Discount Section -->
+          <div
+               class="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
+            <div class="flex items-center justify-between">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Discount</label>
+              <div class="flex items-center gap-4">
+                <label class="flex cursor-pointer items-center gap-2">
+                  <input type="radio" name="discount_type" value="percentage"
+                         {{ old('discount_type', $course->discount_type ?? 'percentage') === 'percentage' ? 'checked' : '' }}
+                         class="h-4 w-4 border-gray-300 text-primary-600 focus:ring-primary-500"
+                         onchange="updateDiscountLabel()" />
+                  <span class="text-sm text-gray-700 dark:text-gray-300">Percentage (%)</span>
+                </label>
+                <label class="flex cursor-pointer items-center gap-2">
+                  <input type="radio" name="discount_type" value="flat"
+                         {{ old('discount_type', $course->discount_type ?? 'percentage') === 'flat' ? 'checked' : '' }}
+                         class="h-4 w-4 border-gray-300 text-primary-600 focus:ring-primary-500"
+                         onchange="updateDiscountLabel()" />
+                  <span class="text-sm text-gray-700 dark:text-gray-300">Flat Amount (BDT)</span>
+                </label>
+              </div>
+            </div>
+            <div>
+              <x-forms.input name="discount" label="Discount Value" type="number" step="0.01" min="0"
+                             :value="old('discount', $course->discount ?? 0)" placeholder="0" :error="$errors->first('discount')" id="discount-input" />
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400" id="discount-help">
+                Enter discount percentage (0-100)
+              </p>
+            </div>
+          </div>
+        </div>
+
         <!-- Status -->
         <div class="flex items-center space-x-3">
           <input type="hidden" name="status" value="0">
@@ -83,11 +121,31 @@
 
   @push('scripts')
     <script>
+      function updateDiscountLabel() {
+        const discountType = document.querySelector('input[name="discount_type"]:checked').value;
+        const discountInput = document.getElementById('discount-input');
+        const discountHelp = document.getElementById('discount-help');
+        const discountLabel = discountInput.closest('div').querySelector('label');
+
+        if (discountType === 'percentage') {
+          discountLabel.textContent = 'Discount (%)';
+          discountInput.setAttribute('max', '100');
+          discountHelp.textContent = 'Enter discount percentage (0-100)';
+        } else {
+          discountLabel.textContent = 'Discount Amount (BDT)';
+          discountInput.removeAttribute('max');
+          discountHelp.textContent = 'Enter flat discount amount in BDT';
+        }
+      }
+
       $(document).ready(function() {
         const $titleInput = $('#course-title');
         const $slugInput = $('#course-slug');
         let isManualSlugEdit = false;
         const originalSlug = $slugInput.val();
+
+        // Initialize discount label
+        updateDiscountLabel();
 
         // Generate slug from title
         function generateSlug(text) {

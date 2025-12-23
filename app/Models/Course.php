@@ -13,6 +13,9 @@ class Course extends Model
         'tags',
         'long_description',
         'duration',
+        'price',
+        'discount',
+        'discount_type',
         'thumbnail',
         'preview_video',
         'status',
@@ -21,7 +24,26 @@ class Course extends Model
     protected $casts = [
         'tags' => 'array',
         'status' => 'boolean',
+        'price' => 'decimal:2',
+        'discount' => 'decimal:2',
     ];
+
+    /**
+     * Calculate the discounted price
+     */
+    public function getDiscountedPriceAttribute()
+    {
+        if (!$this->price || $this->discount <= 0) {
+            return $this->price;
+        }
+
+        if ($this->discount_type === 'flat') {
+            return max(0, $this->price - $this->discount);
+        }
+
+        // Percentage discount
+        return $this->price - ($this->price * $this->discount / 100);
+    }
 
     public function reviews()
     {

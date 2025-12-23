@@ -47,10 +47,22 @@ class CourseController extends Controller
             'tags' => 'nullable|string', // Comma separated
             'long_description' => 'nullable|string',
             'duration' => 'nullable|string',
+            'price' => 'nullable|numeric|min:0',
+            'discount' => 'nullable|numeric|min:0',
+            'discount_type' => 'nullable|in:percentage,flat',
             'thumbnail' => 'nullable|image|max:2048', // 2MB
             'preview_video' => 'nullable|file|mimetypes:video/mp4,video/quicktime|max:51200', // 50MB
             'status' => 'boolean',
         ]);
+
+        // Additional validation: if discount_type is percentage, discount should be max 100
+        if (isset($validated['discount_type']) && $validated['discount_type'] === 'percentage' && isset($validated['discount'])) {
+            if ($validated['discount'] > 100) {
+                return redirect()->back()
+                    ->withErrors(['discount' => 'Discount percentage cannot exceed 100%.'])
+                    ->withInput();
+            }
+        }
 
         // Handle file uploads
         if ($request->hasFile('thumbnail')) {
@@ -66,6 +78,11 @@ class CourseController extends Controller
             $validated['tags'] = array_filter(array_map('trim', explode(',', $validated['tags'])));
         } else {
             $validated['tags'] = [];
+        }
+
+        // Set default discount_type if not provided
+        if (!isset($validated['discount_type']) || empty($validated['discount_type'])) {
+            $validated['discount_type'] = 'percentage';
         }
 
         Course::create($validated);
@@ -102,10 +119,22 @@ class CourseController extends Controller
             'tags' => 'nullable|string',
             'long_description' => 'nullable|string',
             'duration' => 'nullable|string',
+            'price' => 'nullable|numeric|min:0',
+            'discount' => 'nullable|numeric|min:0',
+            'discount_type' => 'nullable|in:percentage,flat',
             'thumbnail' => 'nullable|image|max:2048',
             'preview_video' => 'nullable|file|mimetypes:video/mp4,video/quicktime|max:51200',
             'status' => 'boolean',
         ]);
+
+        // Additional validation: if discount_type is percentage, discount should be max 100
+        if (isset($validated['discount_type']) && $validated['discount_type'] === 'percentage' && isset($validated['discount'])) {
+            if ($validated['discount'] > 100) {
+                return redirect()->back()
+                    ->withErrors(['discount' => 'Discount percentage cannot exceed 100%.'])
+                    ->withInput();
+            }
+        }
 
         if ($request->hasFile('thumbnail')) {
             // Delete old
@@ -128,6 +157,11 @@ class CourseController extends Controller
             $validated['tags'] = array_filter(array_map('trim', explode(',', $validated['tags'])));
         } else {
             $validated['tags'] = [];
+        }
+
+        // Set default discount_type if not provided
+        if (!isset($validated['discount_type']) || empty($validated['discount_type'])) {
+            $validated['discount_type'] = $course->discount_type ?? 'percentage';
         }
 
         $course->update($validated);
