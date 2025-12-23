@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             VideoBlogSeeder::class,
             ShippingMethodSeeder::class,
             TestimonialSeeder::class,
+            FrontendContentSeeder::class,
         ]);
     }
 }
