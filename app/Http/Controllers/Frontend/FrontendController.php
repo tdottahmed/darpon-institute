@@ -263,14 +263,13 @@ class FrontendController extends Controller
             return redirect()->route('login');
         }
 
-        $enrolledCourses = $user->registrations
-            ->with(['course' => function ($query) {
-                $query->select('id', 'title', 'slug', 'thumbnail', 'status');
-            }])
+        $enrolledCourses = $user->registrations()
+            ->with('course:id,title,slug,thumbnail,status')
             ->latest()
             ->take(5)
             ->get()
-            ->pluck('course');
+            ->pluck('course')
+            ->filter(); // Remove any null values
 
         return Inertia::render('Dashboard', [
             'enrolledCourses' => $enrolledCourses

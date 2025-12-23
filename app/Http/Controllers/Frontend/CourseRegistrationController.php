@@ -65,7 +65,7 @@ class CourseRegistrationController extends Controller
                         try {
                             Mail::to($user->email)->send(new NewUserPasswordMail($user, $password));
                         } catch (\Exception $mailException) {
-                            // Rollback transaction if email fails
+                            logger()->error($mailException->getMessage());
                             throw new \Exception('Failed to send email. Please check your email address and try again.');
                         }
 
