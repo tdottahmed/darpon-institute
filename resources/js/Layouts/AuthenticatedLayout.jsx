@@ -7,6 +7,7 @@ import LanguageSwitcher from "@/Components/LanguageSwitcher";
 import Sidebar from "@/Components/layout/Sidebar";
 import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
+import ToastListener from "@/Components/ToastListener";
 
 export default function AuthenticatedLayout({ header, children }) {
     const { auth, translations } = usePage().props;
@@ -19,6 +20,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+            <ToastListener />
             {/* Top Navigation Bar */}
             <nav className="fixed top-0 left-0 right-0 z-30 border-b border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
                 <div className="px-4 sm:px-6 lg:px-8">

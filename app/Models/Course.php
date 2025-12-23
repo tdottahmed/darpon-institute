@@ -22,4 +22,22 @@ class Course extends Model
         'tags' => 'array',
         'status' => 'boolean',
     ];
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class)->where('status', 'approved');
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(CourseRegistration::class);
+    }
+
+    public function isEnrolled($user)
+    {
+        if (!$user) {
+            return false;
+        }
+        return $this->registrations()->where('user_id', $user->id)->exists();
+    }
 }

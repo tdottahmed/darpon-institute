@@ -2,7 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Card from "@/Components/ui/Card";
 import { Head, usePage } from "@inertiajs/react";
 
-export default function Dashboard() {
+export default function Dashboard({ enrolledCourses }) {
     const { translations, auth } = usePage().props;
     const t = translations?.common || {};
 
@@ -229,40 +229,34 @@ export default function Dashboard() {
                         Continue Learning
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="rounded-lg border border-gray-200 bg-gradient-to-br from-primary-50 to-secondary-50 p-4 dark:border-gray-700 dark:from-primary-900/20 dark:to-secondary-900/20">
-                            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                                English Grammar Basics
-                            </h4>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                                Lesson 5 of 12
-                            </p>
-                            <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
-                                <div
-                                    className="bg-primary-600 h-2 rounded-full dark:bg-primary-500"
-                                    style={{ width: "42%" }}
-                                ></div>
-                            </div>
-                            <button className="mt-3 w-full rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600">
-                                Continue
-                            </button>
-                        </div>
-                        <div className="rounded-lg border border-gray-200 bg-gradient-to-br from-secondary-50 to-accent-50 p-4 dark:border-gray-700 dark:from-secondary-900/20 dark:to-accent-900/20">
-                            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                                Speaking Practice
-                            </h4>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                                Lesson 3 of 10
-                            </p>
-                            <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
-                                <div
-                                    className="bg-secondary-600 h-2 rounded-full dark:bg-secondary-500"
-                                    style={{ width: "30%" }}
-                                ></div>
-                            </div>
-                            <button className="mt-3 w-full rounded-md bg-secondary-600 px-4 py-2 text-sm font-medium text-white hover:bg-secondary-700 dark:bg-secondary-500 dark:hover:bg-secondary-600">
-                                Continue
-                            </button>
-                        </div>
+                        {enrolledCourses && enrolledCourses.length > 0 ? (
+                            enrolledCourses.map((course) => (
+                                <div key={course.id} className="rounded-lg border border-gray-200 bg-gradient-to-br from-primary-50 to-secondary-50 p-4 dark:border-gray-700 dark:from-primary-900/20 dark:to-secondary-900/20">
+                                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+                                        {course.title}
+                                    </h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                                        Active Course
+                                    </p>
+                                    <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                                        {/* Progress bar placeholder - can be dynamic if we track progress */}
+                                        <div
+                                            className="bg-primary-600 h-2 rounded-full dark:bg-primary-500"
+                                            style={{ width: "10%" }}
+                                        ></div>
+                                    </div>
+                                    <a href={route('courses.show', course.slug)} className="mt-3 block w-full text-center rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600">
+                                        Continue
+                                    </a>
+                                </div>
+                            ))
+                        ) : (
+                             <div className="col-span-full p-6 text-center text-gray-500 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                You haven't enrolled in any courses yet.
+                                <br />
+                                <a href={route('courses.index')} className="text-primary-600 hover:underline mt-2 inline-block">Browse Courses</a>
+                             </div>
+                        )}
                     </div>
                 </Card>
             </div>

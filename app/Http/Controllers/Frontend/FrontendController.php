@@ -106,10 +106,14 @@ class FrontendController extends Controller
         }
 
         return Inertia::render('Courses/Show', [
-            'course' => $course,
+            'course' => $course->load(['reviews.user']), // Load reviews with user
             'relatedCourses' => $relatedCourses,
+            'isEnrolled' => $course->isEnrolled(Auth::user()),
         ]);
     }
+
+    /**
+     * Show all books.
 
     /**
      * Show all books.
@@ -254,6 +258,22 @@ class FrontendController extends Controller
      */
     public function dashboard(): Response|RedirectResponse
     {
-        return Inertia::render('Dashboard');
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $enrolledCourses = $user->registrations
+            ->with(['course' => function ($query) {
+                $query->select('id', 'title', 'slug', 'thumbnail', 'status');
+            }])
+            ->latest()
+            ->take(5)
+            ->get()
+            ->pluck('course');
+
+        return Inertia::render('Dashboard', [
+            'enrolledCourses' => $enrolledCourses
+        ]);
     }
 }
