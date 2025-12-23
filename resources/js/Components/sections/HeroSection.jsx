@@ -49,19 +49,6 @@ export default function HeroSection({ translations }) {
                             className="bg-gradient-to-r from-primary-500/30 via-primary-400/30 to-secondary-500/30 text-primary-100 border-primary-300/40 backdrop-blur-lg px-4 py-1.5 text-xs sm:text-sm font-semibold shadow-lg shadow-primary-500/20 hover:scale-105 transition-transform duration-300"
                         >
                             <span className="flex items-center gap-1.5">
-                                <svg
-                                    className="h-3.5 w-3.5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13 10V3L4 14h7v7l9-11h-7z"
-                                    />
-                                </svg>
                                 {content.welcome_badge ||
                                     t.welcome ||
                                     "Start Learning Today"}

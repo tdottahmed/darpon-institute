@@ -196,6 +196,21 @@ export default function Footer() {
                         </span>
                     </div>
                 </div>
+
+                {/* Developer Credit */}
+                <div className="border-t border-gray-100 dark:border-gray-800 py-4 text-center">
+                    <p className="text-gray-500 text-sm">
+                        Developed by{" "}
+                        <a
+                            href="https://nixsoftware.net/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium transition-colors"
+                        >
+                            nix software
+                        </a>
+                    </p>
+                </div>
             </Container>
         </footer>
     );

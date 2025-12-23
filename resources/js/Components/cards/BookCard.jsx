@@ -15,7 +15,7 @@ export default function BookCard({ book }) {
             : { text: "Out of Stock", color: "text-red-600 dark:text-red-400" };
 
     return (
-        <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+        <div className="group relative flex h-full flex-col min-h-[520px] overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
             {/* Image / Cover */}
             <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
                 <img
@@ -81,7 +81,7 @@ export default function BookCard({ book }) {
 
                 {/* Short Description */}
                 {book.short_description && (
-                    <p className="mb-4 line-clamp-2 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    <p className="mb-4 line-clamp-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                         {book.short_description.replace(/<[^>]*>/g, "")}
                     </p>
                 )}
