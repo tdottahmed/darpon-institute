@@ -61,10 +61,10 @@
           'active' => false,
       ],
       [
-          'name' => 'Settings',
-          'href' => route('admin.settings.index'),
-          'icon' => 'settings',
-          'active' => request()->routeIs('admin.settings.*'),
+          'name' => 'Frontend CMS',
+          'href' => route('admin.frontend-content.index'),
+          'icon' => 'template', // Assuming this icon might exist or use 'desktop-computer' if available
+          'active' => request()->routeIs('admin.frontend-content.*'),
       ],
   ];
 @endphp

@@ -21,6 +21,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Frontend CMS
+    Route::get('/admin/frontend-content', [\App\Http\Controllers\Admin\FrontendContentController::class, 'index'])->name('admin.frontend-content.index');
+    Route::post('/admin/frontend-content', [\App\Http\Controllers\Admin\FrontendContentController::class, 'update'])->name('admin.frontend-content.update');
 });
 
 Route::get('/language/{locale}', [App\Http\Controllers\LanguageController::class, 'switch'])

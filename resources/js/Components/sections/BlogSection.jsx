@@ -1,7 +1,10 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import VideoBlogCard from "@/Components/cards/VideoBlogCard";
 
 export default function BlogSection({ videoBlogs }) {
+    const { frontend_content } = usePage().props;
+    const content = frontend_content?.blog || {};
+
     // If no video blogs passed, fallback to empty or return null
     if (!videoBlogs || videoBlogs.length === 0) return null;
 
@@ -12,13 +15,17 @@ export default function BlogSection({ videoBlogs }) {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
                      <div className="max-w-2xl">
                         <span className="inline-block py-1 px-3 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-xs font-semibold tracking-wide uppercase mb-3">
-                            Latest Updates
+                            {content.header_badge || "Latest Updates"}
                         </span>
                         <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-                            Video <span className="text-primary-600">Blogs</span>
+                            {content.header_title_prefix || "Video"}{" "}
+                            <span className="text-primary-600">
+                                {content.header_title_highlight || "Blogs"}
+                            </span>
                         </h2>
                         <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-                            Watch our latest tutorials, insights, and updates directly from our team.
+                            {content.header_subtitle ||
+                                "Watch our latest tutorials, insights, and updates directly from our team."}
                         </p>
                     </div>
 
@@ -26,7 +33,7 @@ export default function BlogSection({ videoBlogs }) {
                         href={route("video_blogs.index")}
                         className="group inline-flex items-center gap-2 text-sm font-semibold text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
                     >
-                        View all videos
+                        {content.view_all_link || "View all videos"}
                         <svg
                             className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
                             fill="none"

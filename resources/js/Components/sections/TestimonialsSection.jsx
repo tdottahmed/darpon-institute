@@ -6,17 +6,24 @@ import { Navigation, Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { usePage } from "@inertiajs/react";
 
 export default function TestimonialsSection({ testimonials }) {
+    const { frontend_content } = usePage().props;
+    const content = frontend_content?.testimonials || {};
+
     if (!testimonials || testimonials.length === 0) return null;
 
     return (
         <section id="testimonials" className="py-16 sm:py-24 bg-gray-50 dark:bg-gray-800">
             <Container>
                 <SectionHeader
-                    badge="Testimonials"
-                    title="What Our Students Say"
-                    subtitle="Real feedback from real learners"
+                    badge={content.header_badge || "Testimonials"}
+                    title={content.header_title || "What Our Students Say"}
+                    subtitle={
+                        content.header_subtitle ||
+                        "Real feedback from real learners"
+                    }
                     alignment="center"
                     className="mb-12"
                 />

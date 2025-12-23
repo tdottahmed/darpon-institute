@@ -2,8 +2,11 @@ import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
 import CourseCard from "../courses/CourseCard";
 import Button from "../ui/Button";
+import { usePage } from "@inertiajs/react";
 
 export default function CoursesSection({ courses = [] }) {
+    const { frontend_content } = usePage().props;
+    const content = frontend_content?.courses || {};
     const displayedCourses = courses.slice(0, 6);
 
     return (
@@ -11,8 +14,11 @@ export default function CoursesSection({ courses = [] }) {
             <Container>
                 {/* Section Header */}
                 <SectionHeader
-                    title="Featured Courses"
-                    subtitle="Discover our most popular English learning courses designed to help you achieve fluency"
+                    title={content.header_title || "Featured Courses"}
+                    subtitle={
+                        content.header_subtitle ||
+                        "Discover our most popular English learning courses designed to help you achieve fluency"
+                    }
                     className="mb-12"
                 />
 
@@ -28,7 +34,7 @@ export default function CoursesSection({ courses = [] }) {
                         {/* View More Button */}
                         <div className="text-center">
                             <Button href="/courses" variant="outline" size="lg">
-                                View All Courses
+                                {content.view_all_btn || "View All Courses"}
                             </Button>
                         </div>
                     </>

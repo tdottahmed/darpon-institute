@@ -34,10 +34,24 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'locale' => app()->getLocale(),
-            'translations' => [
-                'common' => trans('common'),
-            ],
+            'translations' => function () {
+                return file_exists(lang_path('en/common.php'))
+                    ? ['common' => require lang_path('en/common.php')]
+                    : ['common' => []];
+            },
+            'frontend_content' => function () {
+                $locale = app()->getLocale();
+                return \Illuminate\Support\Facades\Cache::remember("frontend_content_{$locale}", 60 * 24 * 30, function () use ($locale) {
+                    return \App\Models\FrontendContent::all()
+                        ->groupBy('section')
+                        ->map(fn ($items) => $items->pluck('value', 'key')->map(function ($value) use ($locale) {
+                            if (is_array($value)) {
+                                return $value[$locale] ?? $value['en'] ?? $value;
+                            }
+                            return $value;
+                        }));
+                });
+            },
         ];
     }
 }

@@ -126,6 +126,15 @@ export default function Sidebar() {
                 </svg>
             ),
         },
+        {
+            name: "Frontend CMS",
+            href: route("admin.frontend-content.index"),
+            icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+            ),
+        },
     ];
 
     return (
@@ -140,6 +149,8 @@ export default function Sidebar() {
                             isActive = route().current("dashboard");
                         } else if (item.href === route("profile.edit")) {
                             isActive = route().current("profile.edit");
+                        } else if (item.href === route("admin.frontend-content.index")) {
+                            isActive = route().current("admin.frontend-content.*");
                         } else if (item.href === "#") {
                             isActive = false;
                         }

@@ -1,7 +1,10 @@
 import Container from "../ui/Container";
 import Button from "../ui/Button";
+import { usePage } from "@inertiajs/react";
 
 export default function CTASection({ translations }) {
+    const { frontend_content } = usePage().props;
+    const content = frontend_content?.cta || {};
     const t = translations?.common || {};
 
     return (
@@ -19,11 +22,11 @@ export default function CTASection({ translations }) {
             <Container className="relative z-10">
                 <div className="text-center space-y-6 max-w-3xl mx-auto">
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
-                        Ready to Start Your English Journey?
+                        {content.title || "Ready to Start Your English Journey?"}
                     </h2>
                     <p className="text-lg sm:text-xl text-white/90">
-                        Join thousands of students already learning with us. Get
-                        started today and transform your English skills!
+                        {content.subtitle ||
+                            "Join thousands of students already learning with us. Get started today and transform your English skills!"}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                         <Button
@@ -32,7 +35,9 @@ export default function CTASection({ translations }) {
                             size="lg"
                             className="bg-white text-primary-600 hover:bg-gray-100 border-white dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                         >
-                            {t.register || "Get Started Free"}
+                            {content.btn_primary ||
+                                t.register ||
+                                "Get Started Free"}
                         </Button>
                         <Button
                             href={route("login")}
@@ -40,7 +45,7 @@ export default function CTASection({ translations }) {
                             size="lg"
                             className="border-2 border-white text-white hover:bg-white/10 dark:border-gray-300 dark:text-gray-300"
                         >
-                            {t.login || "Log In"}
+                            {content.btn_outline || t.login || "Log In"}
                         </Button>
                     </div>
                 </div>

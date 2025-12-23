@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import BookCard from "@/Components/cards/BookCard";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
@@ -6,6 +6,9 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 export default function BookSection({ books }) {
+    const { frontend_content } = usePage().props;
+    const content = frontend_content?.books || {};
+
     if (!books || books.length === 0) return null;
 
     return (
@@ -15,13 +18,17 @@ export default function BookSection({ books }) {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
                     <div className="max-w-2xl">
                         <span className="inline-block py-1 px-3 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-xs font-semibold tracking-wide uppercase mb-3">
-                            Our Library
+                            {content.header_badge || "Our Library"}
                         </span>
                         <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-                            Latest <span className="text-primary-600">Books</span>
+                            {content.header_title_prefix || "Latest"}{" "}
+                            <span className="text-primary-600">
+                                {content.header_title_highlight || "Books"}
+                            </span>
                         </h2>
                         <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-                            Explore our comprehensive collection of English learning resources designed to help you master the language.
+                            {content.header_subtitle ||
+                                "Explore our comprehensive collection of English learning resources designed to help you master the language."}
                         </p>
                     </div>
 
@@ -29,7 +36,7 @@ export default function BookSection({ books }) {
                         href={route("books.index")}
                         className="group inline-flex items-center gap-2 text-sm font-semibold text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
                     >
-                        View all books
+                        {content.view_all_link || "View all books"}
                         <svg
                             className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
                             fill="none"
