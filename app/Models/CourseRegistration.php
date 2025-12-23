@@ -14,10 +14,19 @@ class CourseRegistration extends Model
         'phone',
         'address',
         'status',
+        'payment_gateway_id',
+        'transaction_id',
+        'payment_screenshot',
+        'payment_status',
     ];
 
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function paymentGateway()
+    {
+        return $this->belongsTo(PaymentGateway::class);
     }
 }

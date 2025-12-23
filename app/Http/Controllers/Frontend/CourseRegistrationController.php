@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Mail\NewUserPasswordMail;
 use App\Models\Course;
 use App\Models\CourseRegistration;
+use App\Models\PaymentGateway;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class CourseRegistrationController extends Controller
@@ -21,8 +23,11 @@ class CourseRegistrationController extends Controller
      */
     public function create(Course $course)
     {
+        $paymentGateways = PaymentGateway::active()->get();
+
         return Inertia::render('Courses/Enroll', [
-            'course' => $course
+            'course' => $course,
+            'paymentGateways' => $paymentGateways,
         ]);
     }
 
@@ -36,9 +41,14 @@ class CourseRegistrationController extends Controller
             'email' => 'required|email:rfc,dns|max:255',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:500',
+            'payment_gateway_id' => 'required|exists:payment_gateways,id',
+            'transaction_id' => 'required|string|max:255',
+            'payment_screenshot' => 'nullable|image|max:5120', // 5MB
         ], [
             'email.required' => 'Email address is required. We need this to send your login credentials.',
             'email.email' => 'Please provide a valid email address.',
+            'payment_gateway_id.required' => 'Please select a payment method.',
+            'transaction_id.required' => 'Please enter your transaction ID.',
         ]);
 
         try {
@@ -73,6 +83,12 @@ class CourseRegistrationController extends Controller
                     }
                 }
 
+                // Handle payment screenshot upload
+                $paymentScreenshot = null;
+                if ($request->hasFile('payment_screenshot')) {
+                    $paymentScreenshot = $request->file('payment_screenshot')->store('course-registrations/payments', 'public');
+                }
+
                 CourseRegistration::create([
                     'course_id' => $course->id,
                     'user_id' => $user ? $user->id : null,
@@ -81,6 +97,10 @@ class CourseRegistrationController extends Controller
                     'phone' => $request->phone,
                     'address' => $request->address,
                     'status' => 'pending',
+                    'payment_gateway_id' => $request->payment_gateway_id,
+                    'transaction_id' => $request->transaction_id,
+                    'payment_screenshot' => $paymentScreenshot,
+                    'payment_status' => 'pending',
                 ]);
 
                 $message = 'Registration submitted successfully! We will contact you soon.';

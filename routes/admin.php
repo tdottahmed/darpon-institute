@@ -32,6 +32,9 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
     Route::resource('book-orders', \App\Http\Controllers\Admin\BookOrderController::class)->only(['index', 'show', 'update', 'destroy']);
     Route::resource('course-registrations', \App\Http\Controllers\Admin\CourseRegistrationController::class)->only(['index', 'show', 'update', 'destroy']);
 
+    // Payment Gateways
+    Route::resource('payment-gateways', \App\Http\Controllers\Admin\PaymentGatewayController::class);
+
     // Settings
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');

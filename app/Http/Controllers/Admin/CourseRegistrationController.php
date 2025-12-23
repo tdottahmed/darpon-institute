@@ -22,7 +22,7 @@ class CourseRegistrationController extends Controller
      */
     public function show(CourseRegistration $courseRegistration)
     {
-        $courseRegistration->load('course');
+        $courseRegistration->load('course', 'paymentGateway');
         return view('admin.course_registrations.show', compact('courseRegistration'));
     }
 
@@ -33,9 +33,15 @@ class CourseRegistrationController extends Controller
     {
         $request->validate([
             'status' => 'required|string|in:pending,confirmed,completed,cancelled',
+            'payment_status' => 'nullable|string|in:pending,verified,rejected',
         ]);
 
-        $courseRegistration->update(['status' => $request->status]);
+        $updateData = ['status' => $request->status];
+        if ($request->has('payment_status')) {
+            $updateData['payment_status'] = $request->payment_status;
+        }
+
+        $courseRegistration->update($updateData);
 
         return redirect()->back()->with('success', 'Registration status updated successfully.');
     }

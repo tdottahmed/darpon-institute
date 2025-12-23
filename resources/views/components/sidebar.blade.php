@@ -63,6 +63,12 @@
       ],
       'Settings' => [
           [
+              'name' => 'Payment Gateways',
+              'href' => route('admin.payment-gateways.index'),
+              'icon' => 'credit-card',
+              'active' => request()->routeIs('admin.payment-gateways.*'),
+          ],
+          [
               'name' => 'Shipping Methods',
               'href' => route('admin.shipping-methods.index'),
               'icon' => 'truck',
