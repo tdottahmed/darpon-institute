@@ -56,20 +56,7 @@ export default function Dashboard({ enrolledCourses }) {
     ];
 
     return (
-        <AuthenticatedLayout
-            header={
-                <div className="flex items-center justify-between">
-                    <div>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                            {t.welcome || "Welcome"}, {auth.user.name}!
-                        </h2>
-                        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                            Here's your learning overview
-                        </p>
-                    </div>
-                </div>
-            }
-        >
+        <AuthenticatedLayout>
             <Head title={t.dashboard || "Dashboard"} />
 
             <div className="space-y-6">
@@ -231,7 +218,10 @@ export default function Dashboard({ enrolledCourses }) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {enrolledCourses && enrolledCourses.length > 0 ? (
                             enrolledCourses.map((course) => (
-                                <div key={course.id} className="rounded-lg border border-gray-200 bg-gradient-to-br from-primary-50 to-secondary-50 p-4 dark:border-gray-700 dark:from-primary-900/20 dark:to-secondary-900/20">
+                                <div
+                                    key={course.id}
+                                    className="rounded-lg border border-gray-200 bg-gradient-to-br from-primary-50 to-secondary-50 p-4 dark:border-gray-700 dark:from-primary-900/20 dark:to-secondary-900/20"
+                                >
                                     <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
                                         {course.title}
                                     </h4>
@@ -245,17 +235,28 @@ export default function Dashboard({ enrolledCourses }) {
                                             style={{ width: "10%" }}
                                         ></div>
                                     </div>
-                                    <a href={route('courses.show', course.slug)} className="mt-3 block w-full text-center rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600">
+                                    <a
+                                        href={route(
+                                            "courses.show",
+                                            course.slug
+                                        )}
+                                        className="mt-3 block w-full text-center rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600"
+                                    >
                                         Continue
                                     </a>
                                 </div>
                             ))
                         ) : (
-                             <div className="col-span-full p-6 text-center text-gray-500 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <div className="col-span-full p-6 text-center text-gray-500 bg-gray-50 dark:bg-gray-800 rounded-lg">
                                 You haven't enrolled in any courses yet.
                                 <br />
-                                <a href={route('courses.index')} className="text-primary-600 hover:underline mt-2 inline-block">Browse Courses</a>
-                             </div>
+                                <a
+                                    href={route("courses.index")}
+                                    className="text-primary-600 hover:underline mt-2 inline-block"
+                                >
+                                    Browse Courses
+                                </a>
+                            </div>
                         )}
                     </div>
                 </Card>

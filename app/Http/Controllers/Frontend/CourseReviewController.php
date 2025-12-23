@@ -17,18 +17,26 @@ class CourseReviewController extends Controller
             'comment' => 'required|string|max:1000',
         ]);
 
+        $user = Auth::user();
+
         // Ensure user is enrolled
-        if (!$course->isEnrolled(Auth::user())) {
+        if (!$course->isEnrolled($user)) {
              return back()->with('error', 'You must be enrolled in this course to leave a review.');
         }
 
-        Review::create([
-            'user_id' => Auth::id(),
-            'course_id' => $course->id,
-            'rating' => $request->rating,
-            'comment' => $request->comment,
-            'status' => 'approved', // Auto-approve for now
-        ]);
+        \App\Models\Testimonial::updateOrCreate(
+            [
+                'user_id' => $user->id,
+                'course_id' => $course->id,
+            ],
+            [
+                'name' => $user->name,
+                'role' => 'Student',
+                'review' => $request->comment,
+                'rating' => $request->rating,
+                'status' => true,
+            ]
+        );
 
         return back()->with('success', 'Review submitted successfully!');
     }

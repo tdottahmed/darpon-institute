@@ -8,6 +8,7 @@ class CourseRegistration extends Model
 {
     protected $fillable = [
         'course_id',
+        'user_id',
         'name',
         'email',
         'phone',

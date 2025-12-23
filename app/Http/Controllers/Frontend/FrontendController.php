@@ -105,10 +105,16 @@ class FrontendController extends Controller
             $relatedCourses = $relatedCourses->merge($randomCourses);
         }
 
+        $user = Auth::user();
+        $userReview = $user ? \App\Models\Testimonial::where('user_id', $user->id)
+            ->where('course_id', $course->id)
+            ->first() : null;
+
         return Inertia::render('Courses/Show', [
             'course' => $course->load(['reviews.user']), // Load reviews with user
             'relatedCourses' => $relatedCourses,
-            'isEnrolled' => $course->isEnrolled(Auth::user()),
+            'isEnrolled' => $course->isEnrolled($user),
+            'userReview' => $userReview,
         ]);
     }
 

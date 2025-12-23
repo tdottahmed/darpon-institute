@@ -25,7 +25,7 @@ class Course extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Review::class)->where('status', 'approved');
+        return $this->hasMany(Testimonial::class, 'course_id')->where('status', true);
     }
 
     public function registrations()
