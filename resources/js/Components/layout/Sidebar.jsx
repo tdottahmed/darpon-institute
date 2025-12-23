@@ -27,7 +27,7 @@ export default function Sidebar() {
         },
         {
             name: "Courses",
-            href: "#",
+            href: route("courses.index"),
             icon: (
                 <svg
                     className="h-5 w-5"
@@ -46,7 +46,7 @@ export default function Sidebar() {
         },
         {
             name: "My Learning",
-            href: "#",
+            href: route("dashboard"),
             icon: (
                 <svg
                     className="h-5 w-5"
@@ -65,7 +65,7 @@ export default function Sidebar() {
         },
         {
             name: "Progress",
-            href: "#",
+            href: route("dashboard"),
             icon: (
                 <svg
                     className="h-5 w-5"
@@ -84,7 +84,7 @@ export default function Sidebar() {
         },
         {
             name: "Certificates",
-            href: "#",
+            href: route("dashboard"),
             icon: (
                 <svg
                     className="h-5 w-5"
@@ -129,44 +129,87 @@ export default function Sidebar() {
     ];
 
     return (
-        <aside className="fixed left-0 top-0 z-40 hidden h-screen w-64 border-r border-gray-200 bg-white pt-16 transition-transform dark:border-gray-700 dark:bg-gray-800 lg:block">
-            <div className="h-full overflow-y-auto px-3 py-4">
+        <aside className="fixed left-0 top-16 z-40 hidden h-[calc(100vh-4rem)] w-64 border-r border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800 lg:block">
+            <div className="flex h-full flex-col">
                 {/* Navigation Menu */}
-                <ul className="space-y-2">
-                    {menuItems.map((item) => {
-                        let isActive = false;
+                <div className="flex-1 overflow-y-auto px-3 py-4 pt-4 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
+                    <ul className="space-y-1">
+                        {menuItems.map((item) => {
+                            let isActive = false;
 
-                        if (item.href === route("dashboard")) {
-                            isActive = route().current("dashboard");
-                        } else if (item.href === route("profile.edit")) {
-                            isActive = route().current("profile.edit");
-                        } else if (
-                            item.href === route("admin.frontend-content.index")
-                        ) {
-                            isActive = route().current(
-                                "admin.frontend-content.*"
+                            if (item.href === route("dashboard")) {
+                                isActive = route().current("dashboard");
+                            } else if (item.href === route("profile.edit")) {
+                                isActive = route().current("profile.edit");
+                            } else if (item.href === route("courses.index")) {
+                                isActive = route().current("courses.*");
+                            }
+
+                            return (
+                                <li key={item.name}>
+                                    <Link
+                                        href={item.href}
+                                        className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+                                            isActive
+                                                ? "bg-primary-600 text-white shadow-md shadow-primary-500/20"
+                                                : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                                        }`}
+                                    >
+                                        {isActive && (
+                                            <span className="absolute left-0 top-1/2 h-8 w-1 -translate-y-1/2 rounded-r-full bg-white"></span>
+                                        )}
+                                        <span
+                                            className={`${
+                                                isActive
+                                                    ? "text-white"
+                                                    : "text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400"
+                                            } transition-colors`}
+                                        >
+                                            {item.icon}
+                                        </span>
+                                        <span className="flex-1">
+                                            {item.name}
+                                        </span>
+                                        {isActive && (
+                                            <svg
+                                                className="h-4 w-4 text-white opacity-50"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M9 5l7 7-7 7"
+                                                />
+                                            </svg>
+                                        )}
+                                    </Link>
+                                </li>
                             );
-                        } else if (item.href === "#") {
-                            isActive = false;
-                        }
+                        })}
+                    </ul>
+                </div>
 
-                        return (
-                            <li key={item.name}>
-                                <Link
-                                    href={item.href}
-                                    className={`flex items-center rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                                        isActive
-                                            ? "bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400"
-                                            : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                                    }`}
-                                >
-                                    <span className="mr-3">{item.icon}</span>
-                                    {item.name}
-                                </Link>
-                            </li>
-                        );
-                    })}
-                </ul>
+                {/* User Info Footer */}
+                <div className="border-t border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-800/50">
+                    <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 via-secondary-500 to-accent-500 text-sm font-bold text-white shadow-lg ring-2 ring-white dark:ring-gray-900">
+                            {usePage()
+                                .props.auth?.user?.name?.charAt(0)
+                                .toUpperCase() || "U"}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+                                {usePage().props.auth?.user?.name || "User"}
+                            </p>
+                            <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                                {usePage().props.auth?.user?.email || ""}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </aside>
     );

@@ -3,7 +3,7 @@ import { usePage } from "@inertiajs/react";
 import Dropdown from "./Dropdown";
 
 export default function LanguageSwitcher() {
-    const { locale } = usePage().props;
+    const { locale = "en" } = usePage().props;
     const languages = [
         { code: "en", name: "English", flag: "🇬🇧" },
         { code: "bn", name: "বাংলা", flag: "🇧🇩" },
@@ -22,15 +22,46 @@ export default function LanguageSwitcher() {
 
             <Dropdown.Content align="right" width="40">
                 <div className="py-1 bg-white dark:bg-gray-800">
-                    {languages.map((lang) => (
-                        <Dropdown.Link
-                            key={lang.code}
-                            href={route("language.switch", lang.code)}
-                        >
-                            <span className="mr-3">{lang.flag}</span>
-                            <span>{lang.name}</span>
-                        </Dropdown.Link>
-                    ))}
+                    {languages.map((lang) => {
+                        const isActive = lang.code === locale;
+                        return (
+                            <Dropdown.Link
+                                key={lang.code}
+                                href={route("language.switch", lang.code)}
+                                className={
+                                    isActive
+                                        ? "bg-primary-50 dark:bg-primary-900/20"
+                                        : ""
+                                }
+                            >
+                                <span className="mr-3">{lang.flag}</span>
+                                <span
+                                    className={
+                                        isActive
+                                            ? "font-semibold text-primary-600 dark:text-primary-400"
+                                            : ""
+                                    }
+                                >
+                                    {lang.name}
+                                </span>
+                                {isActive && (
+                                    <svg
+                                        className="ml-auto h-4 w-4 text-primary-600 dark:text-primary-400"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M5 13l4 4L19 7"
+                                        />
+                                    </svg>
+                                )}
+                            </Dropdown.Link>
+                        );
+                    })}
                 </div>
             </Dropdown.Content>
         </Dropdown>

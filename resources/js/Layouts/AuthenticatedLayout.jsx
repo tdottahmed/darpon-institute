@@ -21,10 +21,11 @@ export default function AuthenticatedLayout({ header, children }) {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <ToastListener />
-            {/* Top Navigation Bar */}
-            <nav className="fixed top-0 left-0 right-0 z-30 border-b border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
+
+            {/* Top Navigation Bar - Fixed at top */}
+            <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
                 <div className="px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 justify-between">
+                    <div className="flex h-16 items-center justify-between">
                         {/* Left: Logo and Sidebar Toggle */}
                         <div className="flex items-center">
                             <button
@@ -45,8 +46,23 @@ export default function AuthenticatedLayout({ header, children }) {
                                     />
                                 </svg>
                             </button>
-                            <Link href="/" className="flex items-center">
-                                <div className="h-10 w-10 flex items-center justify-center">
+                            <Link
+                                href={route("home")}
+                                className="flex items-center gap-2 group"
+                            >
+                                <img
+                                    src="/darponbdv.png"
+                                    alt="Darpon Logo"
+                                    className="h-10 w-auto transition-transform duration-200 group-hover:scale-105"
+                                    onError={(e) => {
+                                        e.target.style.display = "none";
+                                        if (e.target.nextElementSibling) {
+                                            e.target.nextElementSibling.style.display =
+                                                "flex";
+                                        }
+                                    }}
+                                />
+                                <div className="h-10 w-10 hidden items-center justify-center">
                                     <ApplicationLogo variant="icon" />
                                 </div>
                             </Link>
@@ -189,7 +205,7 @@ export default function AuthenticatedLayout({ header, children }) {
                 </div>
             </nav>
 
-            {/* Sidebar */}
+            {/* Sidebar - Fixed below header */}
             <Sidebar />
 
             {/* Mobile Sidebar Overlay */}
@@ -199,10 +215,9 @@ export default function AuthenticatedLayout({ header, children }) {
                         className="fixed inset-0 z-40 bg-gray-600 bg-opacity-75 lg:hidden"
                         onClick={() => setSidebarOpen(false)}
                     ></div>
-                    <aside className="fixed left-0 top-0 z-50 h-screen w-64 border-r border-gray-200 bg-white pt-16 transition-transform dark:border-gray-700 dark:bg-gray-800 lg:hidden">
+                    <aside className="fixed left-0 top-16 z-50 h-[calc(100vh-4rem)] w-64 border-r border-gray-200 bg-white transition-transform dark:border-gray-700 dark:bg-gray-800 lg:hidden">
                         <div className="h-full overflow-y-auto px-3 py-4">
-                            <div className="mb-6 flex items-center justify-between px-3">
-                                <ApplicationLogo variant="icon" />
+                            <div className="mb-4 flex items-center justify-end">
                                 <button
                                     onClick={() => setSidebarOpen(false)}
                                     className="rounded-md p-2 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -245,7 +260,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     },
                                     {
                                         name: "Courses",
-                                        href: "#",
+                                        href: route("courses.index"),
                                         icon: (
                                             <svg
                                                 className="h-5 w-5"
@@ -264,7 +279,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     },
                                     {
                                         name: "My Learning",
-                                        href: "#",
+                                        href: route("dashboard"),
                                         icon: (
                                             <svg
                                                 className="h-5 w-5"
@@ -283,7 +298,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     },
                                     {
                                         name: "Progress",
-                                        href: "#",
+                                        href: route("dashboard"),
                                         icon: (
                                             <svg
                                                 className="h-5 w-5"
@@ -302,7 +317,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     },
                                     {
                                         name: "Certificates",
-                                        href: "#",
+                                        href: route("dashboard"),
                                         icon: (
                                             <svg
                                                 className="h-5 w-5"
@@ -379,9 +394,9 @@ export default function AuthenticatedLayout({ header, children }) {
                 </>
             )}
 
-            {/* Main Content Area */}
-            <div className="lg:pl-64 flex flex-col min-h-screen">
-                {/* Header */}
+            {/* Main Content Area - Starts below header, next to sidebar */}
+            <div className="pt-16 lg:pl-64 flex flex-col min-h-screen">
+                {/* Optional Page Header */}
                 {header && (
                     <header className="sticky top-16 z-20 border-b border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
                         <div className="px-4 py-4 sm:px-6 lg:px-8">
@@ -391,8 +406,8 @@ export default function AuthenticatedLayout({ header, children }) {
                 )}
 
                 {/* Main Content */}
-                <main className="flex-1">
-                    <div className="px-4 py-8 sm:px-6 lg:px-8">{children}</div>
+                <main className="flex-1 bg-gray-50 dark:bg-gray-900">
+                    <div className="px-4 py-6 sm:px-6 lg:px-8">{children}</div>
                 </main>
 
                 {/* Footer */}

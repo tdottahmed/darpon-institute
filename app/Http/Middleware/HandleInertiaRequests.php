@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
                 return \Illuminate\Support\Facades\Cache::remember("frontend_content_{$locale}", 60 * 24 * 30, function () use ($locale) {
                     return \App\Models\FrontendContent::all()
                         ->groupBy('section')
-                        ->map(fn ($items) => $items->pluck('value', 'key')->map(function ($value) use ($locale) {
+                        ->map(fn($items) => $items->pluck('value', 'key')->map(function ($value) use ($locale) {
                             if (is_array($value)) {
                                 return $value[$locale] ?? $value['en'] ?? $value;
                             }
@@ -58,6 +58,7 @@ class HandleInertiaRequests extends Middleware
                 'warning' => $request->session()->get('warning'),
                 'info' => $request->session()->get('info'),
             ],
+            'locale' => app()->getLocale(),
         ];
     }
 }

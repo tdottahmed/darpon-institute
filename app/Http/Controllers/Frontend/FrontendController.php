@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\VideoBlog;
 use App\Models\Testimonial;
 use App\Models\Gallery;
+use App\Models\BookOrder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -275,16 +276,14 @@ class FrontendController extends Controller
             return redirect()->route('login');
         }
 
-        $enrolledCourses = $user->registrations()
-            ->with('course:id,title,slug,thumbnail,status')
+        // Get book orders by matching user email
+        $bookOrders = BookOrder::where('email', $user->email)
+            ->with('book:id,title,slug,cover_image,price')
             ->latest()
-            ->take(5)
-            ->get()
-            ->pluck('course')
-            ->filter(); // Remove any null values
+            ->get();
 
         return Inertia::render('Dashboard', [
-            'enrolledCourses' => $enrolledCourses
+            'bookOrders' => $bookOrders,
         ]);
     }
 
