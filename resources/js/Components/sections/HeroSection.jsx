@@ -33,11 +33,11 @@ export default function HeroSection({ translations }) {
                     className="w-full h-full object-cover scale-105 transition-transform duration-700 ease-out"
                     loading="eager"
                 />
-                {/* Enhanced Overlay with Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-b from-gray-900/85 via-gray-900/80 to-gray-900/90"></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent"></div>
+                {/* Enhanced Overlay with Gradient - Lighter */}
+                <div className="absolute inset-0 bg-gradient-to-b from-gray-900/40 via-gray-900/35 to-gray-900/45"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 via-gray-900/30 to-transparent"></div>
                 {/* Accent Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-transparent to-secondary-600/20"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-600/15 via-transparent to-secondary-600/15"></div>
             </div>
 
             <Container className="relative z-10">
