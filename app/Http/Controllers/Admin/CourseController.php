@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\CourseVariation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -53,6 +55,16 @@ class CourseController extends Controller
             'thumbnail' => 'nullable|image|max:2048', // 2MB
             'preview_video' => 'nullable|file|mimetypes:video/mp4,video/quicktime|max:51200', // 50MB
             'status' => 'boolean',
+            'online_enrollment_enabled' => 'boolean',
+            'offline_enrollment_enabled' => 'boolean',
+            'variations' => 'nullable|array',
+            'variations.*.name' => 'required_with:variations|string|max:255',
+            'variations.*.duration' => 'nullable|string|max:255',
+            'variations.*.price' => 'required_with:variations|numeric|min:0',
+            'variations.*.discount' => 'nullable|numeric|min:0',
+            'variations.*.discount_type' => 'nullable|in:percentage,flat',
+            'variations.*.sort_order' => 'nullable|integer|min:0',
+            'variations.*.status' => 'boolean',
         ]);
 
         // Additional validation: if discount_type is percentage, discount should be max 100
@@ -85,7 +97,27 @@ class CourseController extends Controller
             $validated['discount_type'] = 'percentage';
         }
 
-        Course::create($validated);
+        // Set default enrollment settings
+        $validated['online_enrollment_enabled'] = $request->has('online_enrollment_enabled') ? 1 : 0;
+        $validated['offline_enrollment_enabled'] = $request->has('offline_enrollment_enabled') ? 1 : 0;
+
+        // Extract variations
+        $variations = $request->input('variations', []);
+
+        DB::transaction(function () use ($validated, $variations) {
+            $course = Course::create($validated);
+
+            // Create variations if provided
+            if (!empty($variations)) {
+                foreach ($variations as $variationData) {
+                    $variationData['course_id'] = $course->id;
+                    $variationData['status'] = isset($variationData['status']) ? 1 : 0;
+                    $variationData['discount_type'] = $variationData['discount_type'] ?? 'percentage';
+                    $variationData['sort_order'] = $variationData['sort_order'] ?? 0;
+                    CourseVariation::create($variationData);
+                }
+            }
+        });
 
         return redirect()->route('admin.courses.index')
             ->with('status', 'Course created successfully.');
@@ -104,6 +136,7 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
+        $course->load('variations');
         return view('admin.courses.edit', compact('course'));
     }
 
@@ -125,6 +158,16 @@ class CourseController extends Controller
             'thumbnail' => 'nullable|image|max:2048',
             'preview_video' => 'nullable|file|mimetypes:video/mp4,video/quicktime|max:51200',
             'status' => 'boolean',
+            'online_enrollment_enabled' => 'boolean',
+            'offline_enrollment_enabled' => 'boolean',
+            'variations' => 'nullable|array',
+            'variations.*.name' => 'required_with:variations|string|max:255',
+            'variations.*.duration' => 'nullable|string|max:255',
+            'variations.*.price' => 'required_with:variations|numeric|min:0',
+            'variations.*.discount' => 'nullable|numeric|min:0',
+            'variations.*.discount_type' => 'nullable|in:percentage,flat',
+            'variations.*.sort_order' => 'nullable|integer|min:0',
+            'variations.*.status' => 'boolean',
         ]);
 
         // Additional validation: if discount_type is percentage, discount should be max 100
@@ -164,7 +207,30 @@ class CourseController extends Controller
             $validated['discount_type'] = $course->discount_type ?? 'percentage';
         }
 
-        $course->update($validated);
+        // Set default enrollment settings
+        // $validated['online_enrollment_enabled'] = $request->has('online_enrollment_enabled') ? 1 : 0;
+        // $validated['offline_enrollment_enabled'] = $request->has('offline_enrollment_enabled') ? 1 : 0;
+
+        // Extract variations
+        $variations = $request->input('variations', []);
+
+        DB::transaction(function () use ($course, $validated, $variations) {
+            $course->update($validated);
+
+            // Handle variations - delete existing and create new ones
+            // Note: In a production app, you might want to update existing variations instead
+            $course->variations()->delete();
+
+            if (!empty($variations)) {
+                foreach ($variations as $variationData) {
+                    $variationData['course_id'] = $course->id;
+                    $variationData['status'] = isset($variationData['status']) ? 1 : 0;
+                    $variationData['discount_type'] = $variationData['discount_type'] ?? 'percentage';
+                    $variationData['sort_order'] = $variationData['sort_order'] ?? 0;
+                    CourseVariation::create($variationData);
+                }
+            }
+        });
 
         return redirect()->route('admin.courses.index')
             ->with('status', 'Course updated successfully.');

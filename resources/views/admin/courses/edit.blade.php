@@ -84,6 +84,115 @@
           </div>
         </div>
 
+        <!-- Enrollment Type Controls -->
+        <div class="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
+          <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Enrollment Options</label>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="flex items-center space-x-3">
+              <input type="hidden" name="online_enrollment_enabled" value="0">
+              <input type="checkbox" name="online_enrollment_enabled" id="online_enrollment_enabled" value="1"
+                     {{ old('online_enrollment_enabled', $course->online_enrollment_enabled ?? 1) ? 'checked' : '' }}
+                     class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+              <label for="online_enrollment_enabled" class="text-sm font-medium text-gray-700">Enable Online
+                Enrollment</label>
+            </div>
+            <div class="flex items-center space-x-3">
+              <input type="hidden" name="offline_enrollment_enabled" value="0">
+              <input type="checkbox" name="offline_enrollment_enabled" id="offline_enrollment_enabled" value="1"
+                     {{ old('offline_enrollment_enabled', $course->offline_enrollment_enabled ?? 0) ? 'checked' : '' }}
+                     class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+              <label for="offline_enrollment_enabled" class="text-sm font-medium text-gray-700">Enable Offline
+                Enrollment</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course Variations -->
+        <div class="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
+          <div class="flex items-center justify-between">
+            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Course Variations</label>
+            <button type="button" onclick="addVariation()"
+                    class="text-sm font-medium text-primary-600 hover:text-primary-700">
+              + Add Variation
+            </button>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Create different duration/price options for this course
+            (e.g., 3 months, 6 months)</p>
+          <div id="variations-container" class="space-y-4">
+            @if ($course->variations && $course->variations->count() > 0)
+              @foreach ($course->variations as $index => $variation)
+                <div class="rounded-lg border border-gray-300 bg-white p-4 dark:border-gray-600 dark:bg-gray-800">
+                  <div class="mb-4 flex items-center justify-between">
+                    <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Variation {{ $index + 1 }}</h4>
+                    <button type="button" onclick="removeVariation(this)"
+                            class="text-sm font-medium text-red-600 hover:text-red-700">
+                      Remove
+                    </button>
+                  </div>
+                  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label class="mb-1 block text-xs font-medium text-gray-700">Variation Name *</label>
+                      <input type="text" name="variations[{{ $index }}][name]" value="{{ $variation->name }}"
+                             required placeholder="e.g., 3 Months"
+                             class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                    </div>
+                    <div>
+                      <label class="mb-1 block text-xs font-medium text-gray-700">Duration</label>
+                      <input type="text" name="variations[{{ $index }}][duration]"
+                             value="{{ $variation->duration }}" placeholder="e.g., 3 months"
+                             class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                    </div>
+                    <div>
+                      <label class="mb-1 block text-xs font-medium text-gray-700">Price (BDT) *</label>
+                      <input type="number" name="variations[{{ $index }}][price]"
+                             value="{{ $variation->price }}" step="0.01" min="0" required
+                             placeholder="0.00"
+                             class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                    </div>
+                    <div>
+                      <label class="mb-1 block text-xs font-medium text-gray-700">Discount Type</label>
+                      <select name="variations[{{ $index }}][discount_type]"
+                              onchange="updateVariationDiscountLabel({{ $index }})"
+                              class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                        <option value="percentage" {{ $variation->discount_type === 'percentage' ? 'selected' : '' }}>
+                          Percentage (%)</option>
+                        <option value="flat" {{ $variation->discount_type === 'flat' ? 'selected' : '' }}>Flat Amount
+                          (BDT)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="mb-1 block text-xs font-medium text-gray-700"
+                             id="variation-discount-label-{{ $index }}">Discount (%)</label>
+                      <input type="number" name="variations[{{ $index }}][discount]"
+                             value="{{ $variation->discount }}" step="0.01" min="0"
+                             id="variation-discount-input-{{ $index }}" max="100" placeholder="0"
+                             class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                    </div>
+                    <div>
+                      <label class="mb-1 block text-xs font-medium text-gray-700">Sort Order</label>
+                      <input type="number" name="variations[{{ $index }}][sort_order]"
+                             value="{{ $variation->sort_order }}" min="0"
+                             class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                    </div>
+                    <div class="flex items-center space-x-3">
+                      <input type="hidden" name="variations[{{ $index }}][status]" value="0">
+                      <input type="checkbox" name="variations[{{ $index }}][status]" value="1"
+                             {{ $variation->status ? 'checked' : '' }}
+                             class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                      <label class="text-xs font-medium text-gray-700">Active</label>
+                    </div>
+                  </div>
+                </div>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function() {
+                    updateVariationDiscountLabel({{ $index }});
+                  });
+                </script>
+              @endforeach
+            @endif
+          </div>
+        </div>
+
         <!-- Status -->
         <div class="flex items-center space-x-3">
           <input type="hidden" name="status" value="0">
@@ -95,8 +204,8 @@
 
         <!-- Files - Full Width -->
         <div class="space-y-6">
-          <x-forms.image-uploader name="thumbnail" label="Thumbnail" :value="old('thumbnail', $course->thumbnail ? asset('storage/' . $course->thumbnail) : '')" accept="image/*" maxSize="2MB"
-                                  :error="$errors->first('thumbnail')" />
+          <x-forms.image-uploader name="thumbnail" label="Thumbnail" :value="old('thumbnail', $course->thumbnail ? asset('storage/' . $course->thumbnail) : '')" accept="image/*"
+                                  maxSize="2MB" :error="$errors->first('thumbnail')" />
           <x-forms.video-uploader name="preview_video" label="Preview Video" :value="old('preview_video', $course->preview_video ? asset('storage/' . $course->preview_video) : '')"
                                   accept="video/mp4,video/quicktime" maxSize="50MB" :error="$errors->first('preview_video')" />
         </div>
@@ -135,6 +244,101 @@
           discountLabel.textContent = 'Discount Amount (BDT)';
           discountInput.removeAttribute('max');
           discountHelp.textContent = 'Enter flat discount amount in BDT';
+        }
+      }
+
+      let variationCounter =
+        {{ $course->variations && $course->variations->count() > 0 ? $course->variations->count() : 0 }};
+
+      function addVariation(variationData = null) {
+        const index = variationCounter++;
+        const container = document.getElementById('variations-container');
+        const variation = variationData || {
+          name: '',
+          duration: '',
+          price: '',
+          discount: 0,
+          discount_type: 'percentage',
+          status: true
+        };
+
+        const variationDiv = document.createElement('div');
+        variationDiv.className = 'rounded-lg border border-gray-300 bg-white p-4 dark:border-gray-600 dark:bg-gray-800';
+        variationDiv.innerHTML = `
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Variation ${index + 1}</h4>
+            <button type="button" onclick="removeVariation(this)" class="text-red-600 hover:text-red-700 text-sm font-medium">
+              Remove
+            </button>
+          </div>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">Variation Name *</label>
+              <input type="text" name="variations[${index}][name]" value="${variation.name}" required
+                     placeholder="e.g., 3 Months" 
+                     class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">Duration</label>
+              <input type="text" name="variations[${index}][duration]" value="${variation.duration}"
+                     placeholder="e.g., 3 months" 
+                     class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">Price (BDT) *</label>
+              <input type="number" name="variations[${index}][price]" value="${variation.price}" step="0.01" min="0" required
+                     placeholder="0.00" 
+                     class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">Discount Type</label>
+              <select name="variations[${index}][discount_type]" onchange="updateVariationDiscountLabel(${index})"
+                      class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+                <option value="percentage" ${variation.discount_type === 'percentage' ? 'selected' : ''}>Percentage (%)</option>
+                <option value="flat" ${variation.discount_type === 'flat' ? 'selected' : ''}>Flat Amount (BDT)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1" id="variation-discount-label-${index}">Discount (%)</label>
+              <input type="number" name="variations[${index}][discount]" value="${variation.discount}" step="0.01" min="0"
+                     id="variation-discount-input-${index}" max="100"
+                     placeholder="0" 
+                     class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">Sort Order</label>
+              <input type="number" name="variations[${index}][sort_order]" value="${variation.sort_order || index}" min="0"
+                     class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
+            </div>
+            <div class="flex items-center space-x-3">
+              <input type="hidden" name="variations[${index}][status]" value="0">
+              <input type="checkbox" name="variations[${index}][status]" value="1" ${variation.status ? 'checked' : ''}
+                     class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+              <label class="text-xs font-medium text-gray-700">Active</label>
+            </div>
+          </div>
+        `;
+        container.appendChild(variationDiv);
+        updateVariationDiscountLabel(index);
+      }
+
+      function removeVariation(button) {
+        button.closest('.rounded-lg').remove();
+      }
+
+      function updateVariationDiscountLabel(index) {
+        const select = document.querySelector(`select[name="variations[${index}][discount_type]"]`);
+        const input = document.getElementById(`variation-discount-input-${index}`);
+        const label = document.getElementById(`variation-discount-label-${index}`);
+
+        if (select && input && label) {
+          if (select.value === 'percentage') {
+            label.textContent = 'Discount (%)';
+            input.setAttribute('max', '100');
+          } else {
+            label.textContent = 'Discount Amount (BDT)';
+            input.removeAttribute('max');
+          }
         }
       }
 

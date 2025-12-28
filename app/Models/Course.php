@@ -19,6 +19,8 @@ class Course extends Model
         'thumbnail',
         'preview_video',
         'status',
+        'offline_enrollment_enabled',
+        'online_enrollment_enabled',
     ];
 
     protected $casts = [
@@ -26,6 +28,8 @@ class Course extends Model
         'status' => 'boolean',
         'price' => 'decimal:2',
         'discount' => 'decimal:2',
+        'offline_enrollment_enabled' => 'boolean',
+        'online_enrollment_enabled' => 'boolean',
     ];
 
     /**
@@ -61,5 +65,15 @@ class Course extends Model
             return false;
         }
         return $this->registrations()->where('user_id', $user->id)->exists();
+    }
+
+    public function variations()
+    {
+        return $this->hasMany(CourseVariation::class)->orderBy('sort_order');
+    }
+
+    public function activeVariations()
+    {
+        return $this->variations()->where('status', true);
     }
 }

@@ -21,6 +21,8 @@ class FrontendController extends Controller
     public function index(): Response|RedirectResponse
     {
         $courses = Course::where('status', true)
+            ->where('online_enrollment_enabled', true)
+            ->with('activeVariations')
             ->latest()
             ->take(6)->get();
 

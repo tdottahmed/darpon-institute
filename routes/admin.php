@@ -30,7 +30,9 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
     Route::resource('galleries', \App\Http\Controllers\Admin\GalleryController::class)->except(['show', 'edit']);
 
     Route::resource('book-orders', \App\Http\Controllers\Admin\BookOrderController::class)->only(['index', 'show', 'update', 'destroy']);
-    Route::resource('course-registrations', \App\Http\Controllers\Admin\CourseRegistrationController::class)->only(['index', 'show', 'update', 'destroy']);
+    Route::resource('course-registrations', \App\Http\Controllers\Admin\CourseRegistrationController::class)->only(['index', 'create', 'store', 'show', 'update', 'destroy']);
+    Route::get('course-registrations/{courseRegistration}/invoice', [\App\Http\Controllers\Admin\CourseRegistrationController::class, 'invoice'])->name('course-registrations.invoice');
+    Route::post('course-registrations/{courseRegistration}/installments/{installment}', [\App\Http\Controllers\Admin\CourseRegistrationController::class, 'updateInstallment'])->name('course-registrations.installments.update')->scopeBindings();
 
     // Payment Gateways
     Route::resource('payment-gateways', \App\Http\Controllers\Admin\PaymentGatewayController::class);
