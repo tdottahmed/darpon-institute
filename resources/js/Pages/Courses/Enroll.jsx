@@ -8,10 +8,21 @@ import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 import ApplicationLogo from "@/Components/ApplicationLogo";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { formatPrice } from "@/Utils/currency";
 
 export default function Enroll({ course, paymentGateways = [] }) {
     const { auth } = usePage().props;
+    const variations = course.variations || [];
+    const hasVariations = variations.length > 0;
+    
+    // Get variation from URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const variationFromUrl = urlParams.get("variation");
+    const initialVariationId = variationFromUrl && hasVariations 
+        ? variations.find(v => String(v.id) === String(variationFromUrl))?.id || null
+        : null;
+
     const { data, setData, post, processing, errors } = useForm({
         name: auth?.user?.name || "",
         email: auth?.user?.email || "",
@@ -20,9 +31,37 @@ export default function Enroll({ course, paymentGateways = [] }) {
         payment_gateway_id: "",
         transaction_id: "",
         payment_screenshot: null,
+        course_variation_id: initialVariationId || "",
     });
 
     const [emailError, setEmailError] = useState("");
+    const [selectedVariationId, setSelectedVariationId] = useState(initialVariationId);
+
+    // Update form data when variation changes
+    useEffect(() => {
+        setData("course_variation_id", selectedVariationId || "");
+    }, [selectedVariationId]);
+
+    // Calculate price based on selected variation or course
+    const selectedVariation = selectedVariationId
+        ? variations.find((v) => v.id === selectedVariationId)
+        : null;
+
+    const priceSource = selectedVariation || course;
+    const hasDiscount = priceSource.discount > 0;
+    const discountType = priceSource.discount_type || "percentage";
+
+    let totalPrice = Number(priceSource.price) || 0;
+    let originalPrice = Number(priceSource.price) || 0;
+
+    if (hasDiscount && priceSource.price) {
+        originalPrice = Number(priceSource.price);
+        if (discountType === "flat") {
+            totalPrice = Math.max(0, Number(priceSource.price) - Number(priceSource.discount));
+        } else {
+            totalPrice = Number(priceSource.price) - (Number(priceSource.price) * Number(priceSource.discount)) / 100;
+        }
+    }
 
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -312,8 +351,124 @@ export default function Enroll({ course, paymentGateways = [] }) {
                                             </div>
                                         </div>
 
+                                        {/* Course Variation Selection */}
+                                        {hasVariations && (
+                                            <div className="space-y-4 border-t border-gray-200 dark:border-gray-700 pt-6">
+                                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                                    Select Course Duration
+                                                </h3>
+                                                <div className="grid gap-3">
+                                                    {variations.map((variation) => {
+                                                        const varHasDiscount = variation.discount > 0;
+                                                        const varDiscountType = variation.discount_type || "percentage";
+                                                        let varDiscountedPrice = Number(variation.price) || 0;
+                                                        let varOriginalPrice = Number(variation.price) || 0;
+
+                                                        if (varHasDiscount && variation.price) {
+                                                            varOriginalPrice = Number(variation.price);
+                                                            if (varDiscountType === "flat") {
+                                                                varDiscountedPrice = Math.max(
+                                                                    0,
+                                                                    Number(variation.price) - Number(variation.discount)
+                                                                );
+                                                            } else {
+                                                                varDiscountedPrice =
+                                                                    Number(variation.price) -
+                                                                    (Number(variation.price) * Number(variation.discount)) / 100;
+                                                            }
+                                                        }
+
+                                                        const isSelected = selectedVariationId === variation.id;
+
+                                                        return (
+                                                            <label
+                                                                key={variation.id}
+                                                                className={`relative flex cursor-pointer rounded-lg border-2 p-4 transition-all ${
+                                                                    isSelected
+                                                                        ? "border-primary-500 bg-primary-50 dark:bg-primary-900/20"
+                                                                        : "border-gray-200 bg-white hover:border-gray-300 dark:border-gray-700 dark:bg-gray-800"
+                                                                }`}
+                                                            >
+                                                                <input
+                                                                    type="radio"
+                                                                    name="course_variation_id"
+                                                                    value={variation.id}
+                                                                    checked={isSelected}
+                                                                    onChange={(e) => {
+                                                                        setSelectedVariationId(variation.id);
+                                                                    }}
+                                                                    className="sr-only"
+                                                                />
+                                                                <div className="flex-1">
+                                                                    <div className="flex items-center justify-between">
+                                                                        <div>
+                                                                            <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                                                                {variation.name}
+                                                                            </span>
+                                                                            {variation.duration && (
+                                                                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                                                                    {variation.duration}
+                                                                                </p>
+                                                                            )}
+                                                                        </div>
+                                                                        <div className="text-right">
+                                                                            <span className="text-lg font-bold text-primary-600 dark:text-primary-400">
+                                                                                {formatPrice(varDiscountedPrice)}
+                                                                            </span>
+                                                                            {varHasDiscount && (
+                                                                                <p className="text-xs text-gray-400 line-through">
+                                                                                    {formatPrice(varOriginalPrice)}
+                                                                                </p>
+                                                                            )}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {isSelected && (
+                                                                    <svg
+                                                                        className="h-5 w-5 text-primary-600 dark:text-primary-400 ml-2"
+                                                                        fill="currentColor"
+                                                                        viewBox="0 0 20 20"
+                                                                    >
+                                                                        <path
+                                                                            fillRule="evenodd"
+                                                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                                            clipRule="evenodd"
+                                                                        />
+                                                                    </svg>
+                                                                )}
+                                                            </label>
+                                                        );
+                                                    })}
+                                                </div>
+                                                <InputError
+                                                    message={errors.course_variation_id}
+                                                    className="mt-2"
+                                                />
+                                            </div>
+                                        )}
+
+                                        {/* Price Summary */}
+                                        {(totalPrice > 0 || selectedVariation) && (
+                                            <div className="bg-primary-50 dark:bg-primary-900/10 rounded-lg p-4 border border-primary-200 dark:border-primary-800">
+                                                <div className="flex items-center justify-between">
+                                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                                        Total Amount:
+                                                    </span>
+                                                    <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
+                                                        {formatPrice(totalPrice)}
+                                                    </span>
+                                                </div>
+                                                {selectedVariation && (
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                                        {selectedVariation.name}
+                                                        {selectedVariation.duration && ` • ${selectedVariation.duration}`}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        )}
+
                                         {/* Payment Gateway Selection */}
-                                        {course.price > 0 &&
+                                        {totalPrice > 0 &&
                                             paymentGateways.length > 0 && (
                                                 <div className="space-y-4 border-t border-gray-200 dark:border-gray-700 pt-6">
                                                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">

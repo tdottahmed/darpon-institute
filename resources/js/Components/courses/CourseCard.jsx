@@ -10,27 +10,71 @@ export default function CourseCard({ course }) {
         : null;
 
     const tags = Array.isArray(course.tags) ? course.tags : [];
+    const variations = course.variations || course.active_variations || [];
+    const hasVariations = variations.length > 0;
 
-    // Calculate discount based on type
-    const hasDiscount = course.discount > 0;
-    const discountType = course.discount_type || "percentage";
-
-    let discountedPrice = Number(course.price) || 0;
+    // Calculate price range from variations if they exist
+    let minPrice = null;
+    let maxPrice = null;
+    let priceRange = null;
+    let hasDiscount = false;
     let discountDisplay = "";
 
-    if (hasDiscount && course.price) {
-        if (discountType === "flat") {
-            discountedPrice = Math.max(
-                0,
-                Number(course.price) - Number(course.discount)
-            );
-            discountDisplay = formatPrice(course.discount);
+    if (hasVariations) {
+        // Calculate discounted prices for all variations
+        const variationPrices = variations.map((variation) => {
+            const varPrice = Number(variation.price) || 0;
+            const varDiscount = Number(variation.discount) || 0;
+            const varDiscountType = variation.discount_type || "percentage";
+
+            if (varDiscount > 0 && varPrice > 0) {
+                if (varDiscountType === "flat") {
+                    return Math.max(0, varPrice - varDiscount);
+                } else {
+                    return varPrice - (varPrice * varDiscount) / 100;
+                }
+            }
+            return varPrice;
+        });
+
+        minPrice = Math.min(...variationPrices);
+        maxPrice = Math.max(...variationPrices);
+
+        if (minPrice === maxPrice) {
+            priceRange = formatPrice(minPrice);
         } else {
-            discountedPrice =
-                Number(course.price) -
-                (Number(course.price) * Number(course.discount)) / 100;
-            discountDisplay = `${Math.round(course.discount)}%`;
+            priceRange = `${formatPrice(minPrice)} - ${formatPrice(maxPrice)}`;
         }
+
+        // Check if any variation has discount
+        hasDiscount = variations.some(
+            (v) => Number(v.discount) > 0 && Number(v.price) > 0
+        );
+    } else {
+        // Calculate discount based on course type
+        hasDiscount = course.discount > 0;
+        const discountType = course.discount_type || "percentage";
+
+        let discountedPrice = Number(course.price) || 0;
+
+        if (hasDiscount && course.price) {
+            if (discountType === "flat") {
+                discountedPrice = Math.max(
+                    0,
+                    Number(course.price) - Number(course.discount)
+                );
+                discountDisplay = formatPrice(course.discount);
+            } else {
+                discountedPrice =
+                    Number(course.price) -
+                    (Number(course.price) * Number(course.discount)) / 100;
+                discountDisplay = `${Math.round(course.discount)}%`;
+            }
+        }
+
+        minPrice = discountedPrice;
+        maxPrice = discountedPrice;
+        priceRange = formatPrice(discountedPrice);
     }
 
     return (
@@ -145,17 +189,35 @@ export default function CourseCard({ course }) {
                 {/* Footer */}
                 <div className="mt-auto space-y-3 pt-4 border-t border-gray-100 dark:border-gray-700">
                     {/* Price Section */}
-                    {course.price ? (
+                    {minPrice !== null && minPrice > 0 ? (
                         <div className="flex items-baseline justify-between">
                             <div className="flex flex-col">
-                                {hasDiscount && (
-                                    <span className="text-xs text-gray-500 line-through dark:text-gray-400">
-                                        {formatPrice(course.price)}
-                                    </span>
+                                {hasVariations ? (
+                                    <>
+                                        <span className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                                            Starting from
+                                        </span>
+                                        <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
+                                            {priceRange}
+                                        </span>
+                                        {hasVariations && (
+                                            <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                                {variations.length} duration{variations.length > 1 ? "s" : ""} available
+                                            </span>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        {hasDiscount && (
+                                            <span className="text-xs text-gray-500 line-through dark:text-gray-400">
+                                                {formatPrice(course.price)}
+                                            </span>
+                                        )}
+                                        <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
+                                            {priceRange}
+                                        </span>
+                                    </>
                                 )}
-                                <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                                    {formatPrice(discountedPrice)}
-                                </span>
                             </div>
                         </div>
                     ) : (

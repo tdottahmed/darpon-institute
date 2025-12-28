@@ -8,6 +8,7 @@ use App\Jobs\SendCourseEnrollmentInvoiceJob;
 use App\Mail\NewUserPasswordMail;
 use App\Models\Course;
 use App\Models\CourseRegistration;
+use App\Models\CourseVariation;
 use App\Models\PaymentGateway;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,7 +29,9 @@ class CourseRegistrationController extends Controller
         $paymentGateways = PaymentGateway::active()->get();
 
         return Inertia::render('Courses/Enroll', [
-            'course' => $course,
+            'course' => $course->load(['variations' => function ($query) {
+                $query->where('status', true)->orderBy('sort_order');
+            }]),
             'paymentGateways' => $paymentGateways,
         ]);
     }
@@ -45,6 +48,7 @@ class CourseRegistrationController extends Controller
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:500',
             'payment_screenshot' => 'nullable|image|max:5120', // 5MB
+            'course_variation_id' => 'nullable|exists:course_variations,id',
         ];
 
         $messages = [
@@ -52,10 +56,31 @@ class CourseRegistrationController extends Controller
             'email.email' => 'Please provide a valid email address.',
             'payment_gateway_id.required' => 'Please select a payment method.',
             'transaction_id.required' => 'Please enter your transaction ID.',
+            'course_variation_id.exists' => 'Selected variation is invalid.',
         ];
 
+        // Validate variation belongs to course if provided
+        $selectedVariation = null;
+        if ($request->course_variation_id) {
+            $selectedVariation = CourseVariation::where('id', $request->course_variation_id)
+                ->where('course_id', $course->id)
+                ->where('status', true)
+                ->first();
+            
+            if (!$selectedVariation) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Selected variation is not available for this course.');
+            }
+        }
+
+        // Determine price from variation or course for validation
+        $totalPrice = $selectedVariation 
+            ? ($selectedVariation->discounted_price ?? $selectedVariation->price ?? 0)
+            : ($course->discounted_price ?? $course->price ?? 0);
+
         // Use discounted price so free courses (after discount) are treated as free
-        if ($course->discounted_price > 0) {
+        if ($totalPrice > 0) {
             $rules['payment_gateway_id'] = 'required|exists:payment_gateways,id';
             $rules['transaction_id'] = 'required|string|max:255';
         }
@@ -63,7 +88,7 @@ class CourseRegistrationController extends Controller
         $request->validate($rules, $messages);
 
         try {
-            return DB::transaction(function () use ($request, $course) {
+            return DB::transaction(function () use ($request, $course, $selectedVariation, $totalPrice) {
                 $user = Auth::user();
                 $isNewUser = false;
                 $password = null;
@@ -96,7 +121,7 @@ class CourseRegistrationController extends Controller
 
                 // Determine if course requires payment and handle screenshot upload only for paid courses
                 $paymentScreenshot = null;
-                $isPaidCourse = $course->discounted_price > 0;
+                $isPaidCourse = $totalPrice > 0;
 
                 if ($isPaidCourse && $request->hasFile('payment_screenshot')) {
                     $paymentScreenshot = $request->file('payment_screenshot')->store('course-registrations/payments', 'public');
@@ -104,6 +129,7 @@ class CourseRegistrationController extends Controller
 
                 $courseRegistration = CourseRegistration::create([
                     'course_id' => $course->id,
+                    'course_variation_id' => $selectedVariation ? $selectedVariation->id : null,
                     'user_id' => $user ? $user->id : null,
                     'name' => $request->name,
                     'email' => $request->email,
@@ -116,9 +142,6 @@ class CourseRegistrationController extends Controller
                     'payment_status' => $isPaidCourse ? 'pending' : 'verified',
                     'enrollment_type' => 'online',
                 ]);
-
-                // Calculate total price for invoice
-                $totalPrice = $course->discounted_price ?? $course->price ?? 0;
 
                 // Chain jobs: Generate PDF first, then send email
                 GenerateCourseEnrollmentInvoicePdfJob::withChain([

@@ -22,7 +22,9 @@ class FrontendController extends Controller
     {
         $courses = Course::where('status', true)
             ->where('online_enrollment_enabled', true)
-            ->with('activeVariations')
+            ->with(['variations' => function ($query) {
+                $query->where('status', true)->orderBy('sort_order');
+            }])
             ->latest()
             ->take(6)->get();
 
@@ -72,7 +74,7 @@ class FrontendController extends Controller
             $query->whereJsonContains('tags', $request->tag);
         }
 
-        $courses = $query->latest()->paginate(12)->withQueryString();
+        $courses = $query->with('activeVariations')->latest()->paginate(12)->withQueryString();
 
         return Inertia::render('Courses/Index', [
             'courses' => $courses,
@@ -120,7 +122,9 @@ class FrontendController extends Controller
             ->first() : null;
 
         return Inertia::render('Courses/Show', [
-            'course' => $course->load(['reviews.user']), // Load reviews with user
+            'course' => $course->load(['reviews.user', 'variations' => function ($query) {
+                $query->where('status', true)->orderBy('sort_order');
+            }]), // Load reviews with user and active variations
             'relatedCourses' => $relatedCourses,
             'isEnrolled' => $course->isEnrolled($user),
             'userReview' => $userReview,

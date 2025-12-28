@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "@/Components/ui/Button";
 import { formatPrice } from "@/Utils/currency";
 
@@ -7,25 +8,36 @@ export default function CourseSidebar({
     videoUrl,
     isEnrolled,
 }) {
-    // Calculate discount based on type
-    const hasDiscount = course.discount > 0;
-    const discountType = course.discount_type || "percentage";
+    const variations = course.variations || [];
+    const hasVariations = variations.length > 0;
+    const [selectedVariationId, setSelectedVariationId] = useState(null);
 
-    let discountedPrice = Number(course.price) || 0;
+    // Get selected variation or use course pricing
+    const selectedVariation = selectedVariationId
+        ? variations.find((v) => v.id === selectedVariationId)
+        : null;
+
+    const priceSource = selectedVariation || course;
+    const hasDiscount = priceSource.discount > 0;
+    const discountType = priceSource.discount_type || "percentage";
+
+    let discountedPrice = Number(priceSource.price) || 0;
     let discountDisplay = "";
+    let originalPrice = Number(priceSource.price) || 0;
 
-    if (hasDiscount && course.price) {
+    if (hasDiscount && priceSource.price) {
+        originalPrice = Number(priceSource.price);
         if (discountType === "flat") {
             discountedPrice = Math.max(
                 0,
-                Number(course.price) - Number(course.discount)
+                Number(priceSource.price) - Number(priceSource.discount)
             );
-            discountDisplay = formatPrice(course.discount);
+            discountDisplay = formatPrice(priceSource.discount);
         } else {
             discountedPrice =
-                Number(course.price) -
-                (Number(course.price) * Number(course.discount)) / 100;
-            discountDisplay = `${Math.round(course.discount)}%`;
+                Number(priceSource.price) -
+                (Number(priceSource.price) * Number(priceSource.discount)) / 100;
+            discountDisplay = `${Math.round(priceSource.discount)}%`;
         }
     }
 
@@ -68,8 +80,77 @@ export default function CourseSidebar({
                     )}
                 </div>
 
+                {/* Variations Selection */}
+                {hasVariations && !isEnrolled && (
+                    <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+                        <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-3">
+                            Select Duration:
+                        </label>
+                        <div className="space-y-2">
+                            {variations.map((variation) => {
+                                const varHasDiscount = variation.discount > 0;
+                                const varDiscountType = variation.discount_type || "percentage";
+                                let varDiscountedPrice = Number(variation.price) || 0;
+                                let varOriginalPrice = Number(variation.price) || 0;
+
+                                if (varHasDiscount && variation.price) {
+                                    varOriginalPrice = Number(variation.price);
+                                    if (varDiscountType === "flat") {
+                                        varDiscountedPrice = Math.max(
+                                            0,
+                                            Number(variation.price) - Number(variation.discount)
+                                        );
+                                    } else {
+                                        varDiscountedPrice =
+                                            Number(variation.price) -
+                                            (Number(variation.price) * Number(variation.discount)) / 100;
+                                    }
+                                }
+
+                                const isSelected = selectedVariationId === variation.id;
+
+                                return (
+                                    <button
+                                        key={variation.id}
+                                        type="button"
+                                        onClick={() => setSelectedVariationId(variation.id)}
+                                        className={`w-full text-left p-3 rounded-lg border-2 transition-all ${
+                                            isSelected
+                                                ? "border-primary-500 bg-primary-50 dark:bg-primary-900/20"
+                                                : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+                                        }`}
+                                    >
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <div className="font-semibold text-gray-900 dark:text-white">
+                                                    {variation.name}
+                                                </div>
+                                                {variation.duration && (
+                                                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                                        {variation.duration}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="font-bold text-primary-600 dark:text-primary-400">
+                                                    {formatPrice(varDiscountedPrice)}
+                                                </div>
+                                                {varHasDiscount && (
+                                                    <div className="text-xs text-gray-400 line-through">
+                                                        {formatPrice(varOriginalPrice)}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+
                 {/* Price Section */}
-                {course.price && (
+                {(course.price || selectedVariation) && (
                     <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
                         <div className="flex items-baseline gap-3">
                             <span className="text-3xl font-bold text-primary-600 dark:text-primary-400">
@@ -77,11 +158,17 @@ export default function CourseSidebar({
                             </span>
                             {hasDiscount && (
                                 <span className="text-xl font-medium text-gray-400 line-through dark:text-gray-500">
-                                    {formatPrice(course.price)}
+                                    {formatPrice(originalPrice)}
                                 </span>
                             )}
                         </div>
-                        {!course.price && (
+                        {selectedVariation && (
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                {selectedVariation.name}
+                                {selectedVariation.duration && ` • ${selectedVariation.duration}`}
+                            </p>
+                        )}
+                        {!course.price && !selectedVariation && (
                             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                 Free Course
                             </p>
@@ -129,7 +216,11 @@ export default function CourseSidebar({
                             <Button
                                 variant="primary"
                                 size="lg"
-                                href={route("courses.enroll", course.slug)}
+                                href={
+                                    selectedVariationId
+                                        ? `${route("courses.enroll", course.slug)}?variation=${selectedVariationId}`
+                                        : route("courses.enroll", course.slug)
+                                }
                                 className="w-full justify-center text-lg font-bold shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 hover:-translate-y-0.5 transition-all"
                             >
                                 <svg
@@ -147,6 +238,11 @@ export default function CourseSidebar({
                                 </svg>
                                 Enroll Now
                             </Button>
+                            {hasVariations && !selectedVariationId && (
+                                <p className="text-xs text-center text-gray-500 dark:text-gray-400">
+                                    Please select a duration above
+                                </p>
+                            )}
                         </div>
 
                         {/* Features List */}
