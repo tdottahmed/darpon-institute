@@ -11,11 +11,14 @@ use Illuminate\Support\Facades\Storage;
 
 class FrontendContentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $contents = FrontendContent::all()->groupBy('section');
+        $activeSection = $request->get('section', 'hero'); // Get active section from query param
+
         return view('admin.frontend_content.index', [
-            'contents' => $contents
+            'contents' => $contents,
+            'activeSection' => $activeSection
         ]);
     }
 
@@ -23,50 +26,60 @@ class FrontendContentController extends Controller
     {
         $request->validate([
             'section' => 'required|string',
-            'key' => 'required|string',
-            // value can be array or null, strict validation depends on requirements
+            'fields' => 'required|array',
         ]);
 
-        $content = FrontendContent::firstOrNew([
-            'section' => $request->input('section'),
-            'key' => $request->input('key')
-        ]);
+        $section = $request->input('section');
+        $fields = $request->input('fields', []);
 
-        $currentValue = $content->value;
-        if (!is_array($currentValue)) {
-            $currentValue = ['en' => (string)$currentValue, 'bn' => ''];
-        }
-        $newValue = $request->input('value', []);
-        
-        // Handle Files
-        // Use separate input names for files if arrays are tricky, or handle value.en as file
-        foreach (['en', 'bn'] as $lang) {
-             if ($request->hasFile("value.{$lang}")) {
-                $path = $request->file("value.{$lang}")->store('frontend_content', 'public');
-                $currentValue[$lang] = Storage::url($path);
-                $content->type = 'image';
-            } elseif (isset($newValue[$lang])) {
-                // Only update text if provided (and not a file upload)
-                if (!is_file($newValue[$lang])) { 
-                     // Check if it's text. If previous type was image, and we are sending string, it might be the old URL or new text.
-                     // But here we rely on type.
-                     $currentValue[$lang] = $newValue[$lang];
+        foreach ($fields as $key => $fieldData) {
+            $content = FrontendContent::firstOrNew([
+                'section' => $section,
+                'key' => $key
+            ]);
+
+            $currentValue = $content->value;
+            if (!is_array($currentValue)) {
+                $currentValue = ['en' => (string)$currentValue, 'bn' => ''];
+            }
+
+            // Handle file uploads and text values
+            foreach (['en', 'bn'] as $lang) {
+                // Check if file is uploaded for this language
+                $fileInputName = "fields.{$key}.{$lang}";
+                if ($request->hasFile($fileInputName)) {
+                    $path = $request->file($fileInputName)->store('frontend_content', 'public');
+                    $currentValue[$lang] = Storage::url($path);
+                    $content->type = 'image';
+                } elseif (isset($fieldData["{$lang}_existing"])) {
+                    // Preserve existing image if no new file uploaded
+                    $currentValue[$lang] = $fieldData["{$lang}_existing"];
+                    // Ensure type is set to image if we have an existing image
+                    if (!$content->type && !empty($fieldData["{$lang}_existing"])) {
+                        $content->type = 'image';
+                    }
+                } elseif (isset($fieldData[$lang])) {
+                    // Handle text/textarea values
+                    $currentValue[$lang] = $fieldData[$lang];
                 }
             }
-        }
-        
-        // If first time and undetermined type (shouldn't happen with seed, but safety)
-        if (!$content->exists && !$content->type) {
-             $content->type = 'text';
-        }
 
-        $content->value = $currentValue;
-        $content->save();
+            // Preserve type if it exists, otherwise determine from field data
+            if (!$content->exists && !$content->type) {
+                // Try to get type from existing content or default to text
+                $existing = FrontendContent::where('section', $section)->where('key', $key)->first();
+                $content->type = $existing ? $existing->type : 'text';
+            }
+
+            $content->value = $currentValue;
+            $content->save();
+        }
 
         // Clear cache for all supported locales
         \Illuminate\Support\Facades\Cache::forget('frontend_content_en');
         \Illuminate\Support\Facades\Cache::forget('frontend_content_bn');
 
-        return back()->with('success', 'Content updated successfully.');
+        return redirect()->route('admin.frontend-content.index', ['section' => $section])
+            ->with('success', 'Content updated successfully.');
     }
 }

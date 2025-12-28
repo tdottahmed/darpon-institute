@@ -71,7 +71,7 @@
                     @endif
                     <div>
                       <div class="text-sm font-medium text-gray-900">{{ $book->title }}</div>
-                      <div class="text-xs text-gray-500">{{ Str::limit($book->short_description, 50) }}</div>
+                      <div class="text-xs text-gray-500">{!! Str::limit($book->short_description, 50) !!}</div>
                     </div>
                   </div>
                 </x-ui.table-cell>
