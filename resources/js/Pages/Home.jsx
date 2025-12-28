@@ -5,6 +5,7 @@ import HeroSection from "@/Components/sections/HeroSection";
 import FeaturesSection from "@/Components/sections/FeaturesSection";
 import CoursesSection from "@/Components/sections/CoursesSection";
 import BookSection from "@/Components/sections/BookSection";
+import InstructorSection from "@/Components/sections/InstructorSection";
 import TestimonialsSection from "@/Components/sections/TestimonialsSection";
 import BlogSection from "@/Components/sections/BlogSection";
 import GallerySection from "@/Components/sections/GallerySection";
@@ -30,6 +31,7 @@ export default function Welcome({
                 <Header />
                 <main>
                     <HeroSection translations={translations} />
+                    <InstructorSection />
                     <FeaturesSection />
                     <CoursesSection courses={courses || []} />
                     <BookSection books={books || []} />

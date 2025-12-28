@@ -56,7 +56,7 @@ class FrontendController extends Controller
      */
     public function courses(Request $request): Response
     {
-        $query = Course::where('status', true);
+        $query = Course::where('status', true)->where('online_enrollment_enabled', true);
 
         // Search functionality
         if ($request->has('search') && $request->search) {
@@ -94,7 +94,7 @@ class FrontendController extends Controller
         }
 
         // Get related courses (same tags or random)
-        $relatedCourses = Course::where('status', true)
+        $relatedCourses = Course::where('status', true)->where('online_enrollment_enabled', true)
             ->where('id', '!=', $course->id)
             ->when($course->tags, function ($query) use ($course) {
                 foreach ($course->tags as $tag) {

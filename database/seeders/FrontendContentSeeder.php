@@ -454,6 +454,91 @@ class FrontendContentSeeder extends Seeder
                 'value' => ['en' => 'Gallery', 'bn' => 'গ্যালারি'],
                 'type' => 'text',
             ],
+            // Instructor Section
+            [
+                'section' => 'instructor',
+                'key' => 'header_badge',
+                'value' => ['en' => 'Meet Your Instructor', 'bn' => 'আপনার প্রশিক্ষকের সাথে পরিচিত হন'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'header_title',
+                'value' => ['en' => 'About the Instructor', 'bn' => 'প্রশিক্ষক সম্পর্কে'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'header_subtitle',
+                'value' => ['en' => 'Learn from an experienced and passionate English language expert', 'bn' => 'একজন অভিজ্ঞ এবং উৎসাহী ইংরেজি ভাষা বিশেষজ্ঞের কাছ থেকে শিখুন'],
+                'type' => 'textarea',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'name',
+                'value' => ['en' => 'Instructor Name', 'bn' => 'প্রশিক্ষকের নাম'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'title',
+                'value' => ['en' => 'Lead English Instructor', 'bn' => 'প্রধান ইংরেজি প্রশিক্ষক'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'description',
+                'value' => ['en' => 'With years of dedicated experience in English language education, I\'m passionate about helping students achieve fluency and confidence in their English communication skills.', 'bn' => 'ইংরেজি ভাষা শিক্ষায় কয়েক বছর ধরে নিবেদিত অভিজ্ঞতার সাথে, আমি শিক্ষার্থীদের তাদের ইংরেজি যোগাযোগ দক্ষতায় সাবলীলতা এবং আত্মবিশ্বাস অর্জনে সাহায্য করতে উৎসাহী।'],
+                'type' => 'textarea',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'experience',
+                'value' => ['en' => '10+ Years', 'bn' => '১০+ বছর'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'skills',
+                'value' => ['en' => 'English Teaching, Language Instruction, Curriculum Development, Student Mentoring', 'bn' => 'ইংরেজি শিক্ষা, ভাষা নির্দেশনা, পাঠ্যক্রম উন্নয়ন, শিক্ষার্থী পরামর্শ'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'skills_label',
+                'value' => ['en' => 'Areas of Expertise', 'bn' => 'দক্ষতার ক্ষেত্র'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'image',
+                'value' => ['en' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop', 'bn' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop'],
+                'type' => 'image',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'students_count',
+                'value' => ['en' => '5K+', 'bn' => '৫হাজার+'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'students_label',
+                'value' => ['en' => 'Students Taught', 'bn' => 'শিক্ষার্থী শিক্ষিত'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'achievement',
+                'value' => ['en' => 'Award-winning educator with proven track record of helping thousands of students achieve their English learning goals', 'bn' => 'পুরস্কার বিজয়ী শিক্ষক যিনি হাজার হাজার শিক্ষার্থীকে তাদের ইংরেজি শেখার লক্ষ্য অর্জনে সাহায্য করেছেন'],
+                'type' => 'textarea',
+            ],
+            [
+                'section' => 'instructor',
+                'key' => 'achievement_label',
+                'value' => ['en' => 'Notable Achievement:', 'bn' => 'উল্লেখযোগ্য অর্জন:'],
+                'type' => 'text',
+            ],
         ];
 
         foreach ($contents as $content) {
