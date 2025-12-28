@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\GenerateCourseEnrollmentInvoicePdfJob;
+use App\Jobs\SendCourseEnrollmentInvoiceJob;
 use App\Mail\NewUserPasswordMail;
 use App\Models\Course;
 use App\Models\CourseRegistration;
@@ -100,7 +102,7 @@ class CourseRegistrationController extends Controller
                     $paymentScreenshot = $request->file('payment_screenshot')->store('course-registrations/payments', 'public');
                 }
 
-                CourseRegistration::create([
+                $courseRegistration = CourseRegistration::create([
                     'course_id' => $course->id,
                     'user_id' => $user ? $user->id : null,
                     'name' => $request->name,
@@ -112,13 +114,24 @@ class CourseRegistrationController extends Controller
                     'transaction_id' => $isPaidCourse ? $request->transaction_id : null,
                     'payment_screenshot' => $paymentScreenshot,
                     'payment_status' => $isPaidCourse ? 'pending' : 'verified',
+                    'enrollment_type' => 'online',
                 ]);
+
+                // Calculate total price for invoice
+                $totalPrice = $course->discounted_price ?? $course->price ?? 0;
+
+                // Chain jobs: Generate PDF first, then send email
+                GenerateCourseEnrollmentInvoicePdfJob::withChain([
+                    new SendCourseEnrollmentInvoiceJob($courseRegistration, $totalPrice)
+                ])->dispatch($courseRegistration, $totalPrice);
 
                 if (isset($isPaidCourse) && !$isPaidCourse) {
                     $message = 'Enrollment completed successfully! No payment required.';
                 } else {
                     $message = 'Registration submitted successfully! We will contact you soon.';
                 }
+
+                $message .= ' An invoice has been sent to your email address.';
 
                 if ($isNewUser) {
                     $message .= ' An account has been created for you. Check your email for login credentials.';

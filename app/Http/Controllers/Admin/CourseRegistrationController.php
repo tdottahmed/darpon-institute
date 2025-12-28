@@ -270,6 +270,29 @@ class CourseRegistrationController extends Controller
     }
 
     /**
+     * Send invoice email to the student.
+     */
+    public function sendInvoice(CourseRegistration $courseRegistration)
+    {
+        $courseRegistration->load('course', 'courseVariation', 'paymentGateway', 'installments');
+
+        // Calculate total price
+        $totalPrice = 0;
+        if ($courseRegistration->courseVariation) {
+            $totalPrice = $courseRegistration->courseVariation->discounted_price;
+        } elseif ($courseRegistration->course) {
+            $totalPrice = $courseRegistration->course->discounted_price ?? $courseRegistration->course->price ?? 0;
+        }
+
+        // Chain jobs: Generate PDF first, then send email
+        \App\Jobs\GenerateCourseEnrollmentInvoicePdfJob::withChain([
+            new \App\Jobs\SendCourseEnrollmentInvoiceJob($courseRegistration, $totalPrice)
+        ])->dispatch($courseRegistration, $totalPrice);
+
+        return redirect()->back()->with('success', 'Invoice PDF generation and email sending have been queued. The email will be sent to ' . $courseRegistration->email . ' shortly.');
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(CourseRegistration $courseRegistration)
