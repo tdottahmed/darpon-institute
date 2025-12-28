@@ -19,41 +19,46 @@ class CourseRegistrationController extends Controller
         $query = CourseRegistration::with('course', 'courseVariation');
 
         // Search filter
-        if ($request->has('search') && $request->search) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%")
-                    ->orWhere('phone', 'like', "%{$search}%")
-                    ->orWhereHas('course', function ($courseQuery) use ($search) {
-                        $courseQuery->where('title', 'like', "%{$search}%");
-                    });
-            });
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%")
+                        ->orWhereHas('course', function ($courseQuery) use ($search) {
+                            $courseQuery->where('title', 'like', "%{$search}%");
+                        });
+                });
+            }
         }
 
         // Status filter
-        if ($request->has('status') && $request->status) {
+        if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
         // Enrollment type filter
-        if ($request->has('enrollment_type') && $request->enrollment_type) {
+        if ($request->filled('enrollment_type')) {
             $query->where('enrollment_type', $request->enrollment_type);
         }
 
         // Course filter
-        if ($request->has('course_id') && $request->course_id) {
+        if ($request->filled('course_id')) {
             $query->where('course_id', $request->course_id);
         }
 
         // Payment status filter
-        if ($request->has('payment_status') && $request->payment_status) {
+        if ($request->filled('payment_status')) {
             $query->where('payment_status', $request->payment_status);
         }
 
         // Installment payment filter
-        if ($request->has('is_installment') && $request->is_installment !== '') {
-            $query->where('is_installment_payment', $request->is_installment);
+        if ($request->filled('is_installment')) {
+            $isInstallment = $request->is_installment;
+            if ($isInstallment === '1' || $isInstallment === '0') {
+                $query->where('is_installment_payment', (bool)$isInstallment);
+            }
         }
 
         $registrations = $query->latest()->paginate(10)->withQueryString();

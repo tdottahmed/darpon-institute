@@ -61,7 +61,8 @@
            x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150"
            x-transition:leave-start="opacity-100 transform scale-100"
            x-transition:leave-end="opacity-0 transform scale-95">
-        <form method="GET" action="{{ route('admin.course-registrations.index') }}" class="space-y-6 pt-6">
+        <form method="GET" action="{{ route('admin.course-registrations.index') }}" id="filter-form"
+              class="space-y-6 pt-6">
           <!-- Search Bar - Full Width -->
           <div>
             <x-ui.search name="search" placeholder="Search by name, email, phone, course name..."
@@ -72,41 +73,43 @@
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <!-- Status Filter -->
             <div>
-              <x-forms.select name="status" label="Status" :options="[
+              <x-forms.select name="status" label="Status" id="filter-status" :options="[
                   '' => 'All Statuses',
                   'pending' => 'Pending',
                   'confirmed' => 'Confirmed',
                   'completed' => 'Completed',
                   'cancelled' => 'Cancelled',
-              ]" :value="request('status')" placeholder="" />
+              ]" :value="request('status')"
+                              placeholder="" />
             </div>
 
             <!-- Enrollment Type Filter -->
             <div>
-              <x-forms.select name="enrollment_type" label="Enrollment Type" :options="['' => 'All Types', 'online' => 'Online', 'offline' => 'Offline']" :value="request('enrollment_type')"
-                              placeholder="" />
+              <x-forms.select name="enrollment_type" label="Enrollment Type" id="filter-enrollment-type" :options="['' => 'All Types', 'online' => 'Online', 'offline' => 'Offline']"
+                              :value="request('enrollment_type')" placeholder="" />
             </div>
 
             <!-- Course Filter -->
             <div>
-              <x-forms.select name="course_id" label="Course" :options="['' => 'All Courses'] + $courses->toArray()" :value="request('course_id')" placeholder="" />
+              <x-forms.select name="course_id" label="Course" id="filter-course-id" :options="['' => 'All Courses'] + $courses->toArray()" :value="request('course_id')"
+                              placeholder="" />
             </div>
 
             <!-- Payment Status Filter -->
             <div>
-              <x-forms.select name="payment_status" label="Payment Status" :options="[
+              <x-forms.select name="payment_status" label="Payment Status" id="filter-payment-status" :options="[
                   '' => 'All Payment Statuses',
                   'pending' => 'Pending',
                   'verified' => 'Verified',
                   'rejected' => 'Rejected',
-              ]" :value="request('payment_status')"
-                              placeholder="" />
+              ]"
+                              :value="request('payment_status')" placeholder="" />
             </div>
 
             <!-- Installment Filter -->
             <div>
-              <x-forms.select name="is_installment" label="Payment Type" :options="['' => 'All Payment Types', '1' => 'Installment', '0' => 'One-time']" :value="request('is_installment')"
-                              placeholder="" />
+              <x-forms.select name="is_installment" label="Payment Type" id="filter-is-installment" :options="['' => 'All Payment Types', '1' => 'Installment', '0' => 'One-time']"
+                              :value="request('is_installment')" placeholder="" />
             </div>
           </div>
 
@@ -123,6 +126,30 @@
         </form>
       </div>
     </x-card>
+
+    @push('scripts')
+      <script>
+        $(document).ready(function() {
+          // Ensure form values are properly submitted
+          $('#filter-form').on('submit', function(e) {
+            // Disable empty select values to clean up URL
+            $(this).find('select').each(function() {
+              const val = $(this).val();
+              if (val === '' || val === null || val === undefined) {
+                $(this).prop('disabled', true);
+              }
+            });
+
+            // Disable empty search input if it's empty
+            const $searchInput = $('#search');
+            const searchValue = $searchInput.val();
+            if (!searchValue || searchValue.trim() === '') {
+              $searchInput.prop('disabled', true);
+            }
+          });
+        });
+      </script>
+    @endpush
 
     <!-- Enrollments Table -->
     @if ($registrations->count() > 0)

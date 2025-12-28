@@ -36,20 +36,29 @@ class CourseRegistrationController extends Controller
      */
     public function store(Request $request, Course $course)
     {
-        $request->validate([
+        // Conditional validation: payment fields required only for paid courses
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email:rfc,dns|max:255',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:500',
-            'payment_gateway_id' => 'required|exists:payment_gateways,id',
-            'transaction_id' => 'required|string|max:255',
             'payment_screenshot' => 'nullable|image|max:5120', // 5MB
-        ], [
+        ];
+
+        $messages = [
             'email.required' => 'Email address is required. We need this to send your login credentials.',
             'email.email' => 'Please provide a valid email address.',
             'payment_gateway_id.required' => 'Please select a payment method.',
             'transaction_id.required' => 'Please enter your transaction ID.',
-        ]);
+        ];
+
+        // Use discounted price so free courses (after discount) are treated as free
+        if ($course->discounted_price > 0) {
+            $rules['payment_gateway_id'] = 'required|exists:payment_gateways,id';
+            $rules['transaction_id'] = 'required|string|max:255';
+        }
+
+        $request->validate($rules, $messages);
 
         try {
             return DB::transaction(function () use ($request, $course) {
@@ -83,9 +92,11 @@ class CourseRegistrationController extends Controller
                     }
                 }
 
-                // Handle payment screenshot upload
+                // Determine if course requires payment and handle screenshot upload only for paid courses
                 $paymentScreenshot = null;
-                if ($request->hasFile('payment_screenshot')) {
+                $isPaidCourse = $course->discounted_price > 0;
+
+                if ($isPaidCourse && $request->hasFile('payment_screenshot')) {
                     $paymentScreenshot = $request->file('payment_screenshot')->store('course-registrations/payments', 'public');
                 }
 
@@ -96,14 +107,19 @@ class CourseRegistrationController extends Controller
                     'email' => $request->email,
                     'phone' => $request->phone,
                     'address' => $request->address,
-                    'status' => 'pending',
-                    'payment_gateway_id' => $request->payment_gateway_id,
-                    'transaction_id' => $request->transaction_id,
+                    'status' => $isPaidCourse ? 'pending' : 'confirmed',
+                    'payment_gateway_id' => $isPaidCourse ? $request->payment_gateway_id : null,
+                    'transaction_id' => $isPaidCourse ? $request->transaction_id : null,
                     'payment_screenshot' => $paymentScreenshot,
-                    'payment_status' => 'pending',
+                    'payment_status' => $isPaidCourse ? 'pending' : 'verified',
                 ]);
 
-                $message = 'Registration submitted successfully! We will contact you soon.';
+                if (isset($isPaidCourse) && !$isPaidCourse) {
+                    $message = 'Enrollment completed successfully! No payment required.';
+                } else {
+                    $message = 'Registration submitted successfully! We will contact you soon.';
+                }
+
                 if ($isNewUser) {
                     $message .= ' An account has been created for you. Check your email for login credentials.';
                 }

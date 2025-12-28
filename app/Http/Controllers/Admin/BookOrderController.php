@@ -11,10 +11,39 @@ class BookOrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = BookOrder::with('book')->latest()->paginate(10);
-        return view('admin.book_orders.index', compact('orders'));
+        $query = BookOrder::with('book');
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%")
+                        ->orWhereHas('book', function ($bookQuery) use ($search) {
+                            $bookQuery->where('title', 'like', "%{$search}%");
+                        });
+                });
+            }
+        }
+
+        // Status filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Book filter
+        if ($request->filled('book_id')) {
+            $query->where('book_id', $request->book_id);
+        }
+
+        $orders = $query->latest()->paginate(10)->withQueryString();
+        $books = \App\Models\Book::orderBy('title')->pluck('title', 'id');
+
+        return view('admin.book_orders.index', compact('orders', 'books'));
     }
 
     /**

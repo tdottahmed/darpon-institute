@@ -6,10 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Invoice - Enrollment #{{ $courseRegistration->id }}</title>
   <style>
+    /* Page sizing and print behavior */
+    @page {
+      size: A4;
+      margin: 10mm;
+    }
+
     @media print {
+
+      html,
+      body {
+        width: 100%;
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
       body {
         margin: 0;
-        padding: 0;
+        padding: 10mm;
       }
 
       .no-print {
@@ -19,26 +34,66 @@
       .print-break {
         page-break-after: always;
       }
+
+      /* Tighter spacing for print */
+      .invoice-header {
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+      }
+
+      .invoice-title {
+        font-size: 18px;
+      }
+
+      .section-title {
+        font-size: 13px;
+        padding-bottom: 6px;
+        margin-bottom: 10px;
+      }
+
+      .info-grid {
+        gap: 6px 12px;
+        grid-template-columns: 120px 1fr;
+      }
+
+      .table th,
+      .table td {
+        padding: 6px;
+        font-size: 11px;
+      }
+
+      .footer {
+        font-size: 11px;
+        margin-top: 20px;
+        padding-top: 12px;
+      }
+
+      .status-badge {
+        padding: 3px 8px;
+        font-size: 11px;
+      }
     }
 
+    /* Screen layout: compact and readable */
     body {
       font-family: 'Arial', sans-serif;
-      line-height: 1.6;
-      color: #333;
+      font-size: 13px;
+      line-height: 1.35;
+      color: #222;
       max-width: 800px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 12px;
       background: white;
     }
 
     .invoice-header {
-      border-bottom: 3px solid #4f46e5;
-      padding-bottom: 20px;
-      margin-bottom: 30px;
+      border-bottom: 2px solid #4f46e5;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .invoice-title {
-      font-size: 32px;
+      font-size: 20px;
       font-weight: bold;
       color: #4f46e5;
       margin: 0;
@@ -47,58 +102,63 @@
     .invoice-meta {
       display: flex;
       justify-content: space-between;
-      margin-top: 20px;
+      margin-top: 8px;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 8px;
+      align-items: start;
     }
 
     .invoice-section {
-      margin-bottom: 30px;
+      margin-bottom: 18px;
     }
 
     .section-title {
-      font-size: 18px;
-      font-weight: bold;
+      font-size: 14px;
+      font-weight: 700;
       color: #1f2937;
-      border-bottom: 2px solid #e5e7eb;
-      padding-bottom: 8px;
-      margin-bottom: 15px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
     }
 
     .info-grid {
       display: grid;
-      grid-template-columns: 150px 1fr;
-      gap: 10px 20px;
-      margin-bottom: 10px;
+      grid-template-columns: 130px 1fr;
+      gap: 8px 14px;
+      margin-bottom: 6px;
     }
 
     .info-label {
       font-weight: 600;
       color: #6b7280;
+      font-size: 13px;
     }
 
     .info-value {
       color: #1f2937;
+      font-size: 13px;
     }
 
     .table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 15px;
+      margin-top: 10px;
     }
 
     .table th {
       background-color: #f3f4f6;
-      padding: 12px;
+      padding: 8px;
       text-align: left;
       font-weight: 600;
       color: #374151;
-      border-bottom: 2px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 13px;
     }
 
     .table td {
-      padding: 12px;
+      padding: 8px;
       border-bottom: 1px solid #e5e7eb;
+      font-size: 13px;
     }
 
     .table tr:last-child td {
@@ -114,17 +174,17 @@
     }
 
     .total-row {
-      font-weight: bold;
-      font-size: 16px;
+      font-weight: 700;
+      font-size: 14px;
       background-color: #f9fafb;
     }
 
     .status-badge {
       display: inline-block;
-      padding: 4px 12px;
-      border-radius: 12px;
+      padding: 3px 10px;
+      border-radius: 10px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .status-pending {
@@ -137,11 +197,7 @@
       color: #1e40af;
     }
 
-    .status-completed {
-      background-color: #d1fae5;
-      color: #065f46;
-    }
-
+    .status-completed,
     .status-paid {
       background-color: #d1fae5;
       color: #065f46;
@@ -152,13 +208,40 @@
       color: #991b1b;
     }
 
+    /* Compact action buttons */
+    .no-print button {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .no-print a {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
     .footer {
-      margin-top: 50px;
-      padding-top: 20px;
-      border-top: 2px solid #e5e7eb;
+      margin-top: 30px;
+      padding-top: 12px;
+      border-top: 1px solid #e5e7eb;
       text-align: center;
       color: #6b7280;
-      font-size: 14px;
+      font-size: 12px;
+    }
+
+    /* Small screens - ensure readability */
+    @media (max-width: 480px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .invoice-meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .invoice-title {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
@@ -274,13 +357,15 @@
           </tr>
           <tr>
             <td colspan="2">Total Paid</td>
-            <td class="text-right">BDT {{ number_format($courseRegistration->installments->where('status', 'paid')->sum('amount'), 2) }}</td>
+            <td class="text-right">BDT
+              {{ number_format($courseRegistration->installments->where('status', 'paid')->sum('amount'), 2) }}</td>
             <td colspan="2"></td>
           </tr>
           <tr class="total-row">
             <td colspan="2"><strong>Remaining Balance</strong></td>
             <td class="text-right">
-              <strong>BDT {{ number_format($totalPrice - $courseRegistration->installments->where('status', 'paid')->sum('amount'), 2) }}</strong>
+              <strong>BDT
+                {{ number_format($totalPrice - $courseRegistration->installments->where('status', 'paid')->sum('amount'), 2) }}</strong>
             </td>
             <td colspan="2"></td>
           </tr>
@@ -300,7 +385,8 @@
             <td>
               <strong>{{ $courseRegistration->course->title }}</strong>
               @if ($courseRegistration->courseVariation)
-                <br><span style="color: #6b7280; font-size: 14px;">{{ $courseRegistration->courseVariation->name }}</span>
+                <br><span
+                      style="color: #6b7280; font-size: 14px;">{{ $courseRegistration->courseVariation->name }}</span>
               @endif
             </td>
             <td class="text-right"><strong>BDT {{ number_format($totalPrice, 2) }}</strong></td>
@@ -341,4 +427,3 @@
 </body>
 
 </html>
-
