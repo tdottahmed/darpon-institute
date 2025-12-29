@@ -9,6 +9,7 @@ use App\Models\VideoBlog;
 use App\Models\Testimonial;
 use App\Models\Gallery;
 use App\Models\BookOrder;
+use App\Models\CourseRegistration;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -288,8 +289,22 @@ class FrontendController extends Controller
             ->latest()
             ->get();
 
+        // Get course registrations by matching user email or user_id
+        $courseRegistrations = CourseRegistration::where(function ($query) use ($user) {
+            $query->where('email', $user->email)
+                ->orWhere('user_id', $user->id);
+        })
+            ->with([
+                'course:id,title,slug,thumbnail',
+                'courseVariation:id,name,price',
+                'paymentGateway:id,name'
+            ])
+            ->latest()
+            ->get();
+
         return Inertia::render('Dashboard', [
             'bookOrders' => $bookOrders,
+            'courseRegistrations' => $courseRegistrations,
         ]);
     }
 
