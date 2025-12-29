@@ -55,10 +55,16 @@
               'active' => request()->routeIs('admin.book-orders.*'),
           ],
           [
-              'name' => 'Enrollments',
-              'href' => route('admin.course-registrations.index'),
-              'icon' => 'enrollments',
-              'active' => request()->routeIs('admin.course-registrations.*'),
+            'name' => 'Enrollments',
+            'href' => route('admin.course-registrations.index'),
+            'icon' => 'enrollments',
+            'active' => request()->routeIs('admin.course-registrations.index') || request()->routeIs('admin.course-registrations.create') || request()->routeIs('admin.course-registrations.show'),
+          ],
+          [
+            'name' => 'Installments',
+            'href' => route('admin.course-registrations.installments'),
+            'icon' => 'calendar',
+            'active' => request()->routeIs('admin.course-registrations.installments'),
           ],
       ],
       'Settings' => [

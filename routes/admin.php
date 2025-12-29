@@ -39,6 +39,10 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
     Route::resource('galleries', GalleryController::class)->except(['show', 'edit']);
 
     Route::resource('book-orders', BookOrderController::class)->only(['index', 'show', 'update', 'destroy']);
+
+    // Course Registrations - Installments route must come BEFORE resource route
+    Route::get('course-registrations/installments', [CourseRegistrationController::class, 'installments'])->name('course-registrations.installments');
+
     Route::resource('course-registrations', CourseRegistrationController::class)->only(['index', 'create', 'store', 'show', 'update', 'destroy']);
     Route::get('course-registrations/{courseRegistration}/invoice', [CourseRegistrationController::class, 'invoice'])->name('course-registrations.invoice');
     Route::post('course-registrations/{courseRegistration}/send-invoice', [CourseRegistrationController::class, 'sendInvoice'])->name('course-registrations.send-invoice');

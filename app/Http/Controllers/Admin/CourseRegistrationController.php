@@ -300,4 +300,128 @@ class CourseRegistrationController extends Controller
         $courseRegistration->delete();
         return redirect()->route('admin.course-registrations.index')->with('success', 'Registration deleted successfully.');
     }
+
+    /**
+     * Display a listing of installments with analytics.
+     */
+    public function installments(Request $request)
+    {
+        $query = CourseRegistrationInstallment::with([
+            'courseRegistration.course',
+            'courseRegistration.courseVariation'
+        ]);
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            if (!empty($search)) {
+                $query->whereHas('courseRegistration', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%")
+                        ->orWhereHas('course', function ($courseQuery) use ($search) {
+                            $courseQuery->where('title', 'like', "%{$search}%");
+                        });
+                });
+            }
+        }
+
+        // Status filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Course filter
+        if ($request->filled('course_id')) {
+            $query->whereHas('courseRegistration', function ($q) use ($request) {
+                $q->where('course_id', $request->course_id);
+            });
+        }
+
+        // Due date filter
+        if ($request->filled('due_date_filter')) {
+            $today = now()->startOfDay();
+            switch ($request->due_date_filter) {
+                case 'overdue':
+                    $query->where('status', 'pending')
+                        ->where('due_date', '<', $today);
+                    break;
+                case 'today':
+                    $query->where('status', 'pending')
+                        ->whereDate('due_date', $today);
+                    break;
+                case 'next_7_days':
+                    $query->where('status', 'pending')
+                        ->whereBetween('due_date', [$today, now()->addDays(7)->endOfDay()]);
+                    break;
+                case 'next_30_days':
+                    $query->where('status', 'pending')
+                        ->whereBetween('due_date', [$today, now()->addDays(30)->endOfDay()]);
+                    break;
+            }
+        }
+
+        // Date range filter
+        if ($request->filled('due_date_from')) {
+            $query->where('due_date', '>=', $request->due_date_from);
+        }
+        if ($request->filled('due_date_to')) {
+            $query->where('due_date', '<=', $request->due_date_to);
+        }
+
+        // Get all installments for analytics (before pagination)
+        $allInstallments = CourseRegistrationInstallment::with('courseRegistration.course')
+            ->get();
+
+        // Calculate analytics
+        $analytics = [
+            'total_installments' => $allInstallments->count(),
+            'total_amount' => $allInstallments->sum('amount'),
+            'pending_count' => $allInstallments->where('status', 'pending')->count(),
+            'pending_amount' => $allInstallments->where('status', 'pending')->sum('amount'),
+            'paid_count' => $allInstallments->where('status', 'paid')->count(),
+            'paid_amount' => $allInstallments->where('status', 'paid')->sum('amount'),
+            'overdue_count' => $allInstallments->filter(function ($installment) {
+                return $installment->status === 'pending' && $installment->due_date < now()->startOfDay();
+            })->count(),
+            'overdue_amount' => $allInstallments->filter(function ($installment) {
+                return $installment->status === 'pending' && $installment->due_date < now()->startOfDay();
+            })->sum('amount'),
+            'due_today_count' => $allInstallments->filter(function ($installment) {
+                return $installment->status === 'pending' && $installment->due_date->isToday();
+            })->count(),
+            'due_today_amount' => $allInstallments->filter(function ($installment) {
+                return $installment->status === 'pending' && $installment->due_date->isToday();
+            })->sum('amount'),
+            'due_next_7_days_count' => $allInstallments->filter(function ($installment) {
+                return $installment->status === 'pending'
+                    && $installment->due_date >= now()->startOfDay()
+                    && $installment->due_date <= now()->addDays(7)->endOfDay();
+            })->count(),
+            'due_next_7_days_amount' => $allInstallments->filter(function ($installment) {
+                return $installment->status === 'pending'
+                    && $installment->due_date >= now()->startOfDay()
+                    && $installment->due_date <= now()->addDays(7)->endOfDay();
+            })->sum('amount'),
+        ];
+
+        // Order by due date (overdue first, then upcoming)
+        $query->orderByRaw("CASE 
+            WHEN status = 'pending' AND due_date < CURDATE() THEN 1
+            WHEN status = 'pending' AND due_date = CURDATE() THEN 2
+            WHEN status = 'pending' THEN 3
+            ELSE 4
+        END")
+            ->orderBy('due_date', 'asc')
+            ->orderBy('installment_number', 'asc');
+
+        $installments = $query->paginate(25)->withQueryString();
+
+        // Get courses for filter
+        $courses = Course::whereHas('registrations.installments')
+            ->orderBy('title')
+            ->pluck('title', 'id');
+
+        return view('admin.course_registrations.installments', compact('installments', 'analytics', 'courses'));
+    }
 }
