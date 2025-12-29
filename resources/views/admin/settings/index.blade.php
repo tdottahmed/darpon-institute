@@ -15,24 +15,22 @@
 
       <!-- Steadfast Courier API Settings -->
       <x-card variant="elevated">
-        <div class="px-4 py-3 border-b border-gray-200 mb-6 -mx-6 -mt-6 rounded-t-lg bg-gray-50">
+        <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
           <h2 class="text-lg font-medium text-gray-900">Steadfast Courier API</h2>
           <p class="text-sm text-gray-500">Configure API credentials for shipping integration</p>
         </div>
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <x-forms.input name="steadfast_api_key" label="API Key" type="text" 
-                         :value="old('steadfast_api_key', $settings['steadfast_api_key'])" 
-                         :error="$errors->first('steadfast_api_key')" 
+          <x-forms.input name="steadfast_api_key" label="API Key" type="text" :value="old('steadfast_api_key', $settings['steadfast_api_key'])" :error="$errors->first('steadfast_api_key')"
                          placeholder="Enter API Key from Steadfast Dashboard" />
-          
+
           <div class="space-y-1">
             <label for="steadfast_secret_key" class="block text-sm font-medium text-gray-700">Secret Key</label>
-            <input type="password" name="steadfast_secret_key" id="steadfast_secret_key" 
+            <input type="password" name="steadfast_secret_key" id="steadfast_secret_key"
                    value="{{ old('steadfast_secret_key', $settings['steadfast_secret_key']) }}"
                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                    placeholder="Enter Secret Key">
-            @if($errors->has('steadfast_secret_key'))
+            @if ($errors->has('steadfast_secret_key'))
               <p class="mt-1 text-sm text-red-600">{{ $errors->first('steadfast_secret_key') }}</p>
             @endif
           </div>
@@ -41,7 +39,7 @@
 
       <!-- Fraud Check Credentials -->
       <x-card variant="elevated">
-        <div class="px-4 py-3 border-b border-gray-200 mb-6 -mx-6 -mt-6 rounded-t-lg bg-gray-50">
+        <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
           <h2 class="text-lg font-medium text-gray-900">Fraud Check Credentials</h2>
           <p class="text-sm text-gray-500">Configure credentials for courier fraud checking service</p>
           <p class="mt-1 text-xs text-gray-400">These settings will override values in your .env file</p>
@@ -50,25 +48,24 @@
         <div class="space-y-8">
           <!-- Pathao Credentials -->
           <div class="border-b border-gray-200 pb-6 last:border-b-0 last:pb-0">
-            <h3 class="mb-4 text-base font-semibold text-gray-900 flex items-center gap-2">
+            <h3 class="mb-4 flex items-center gap-2 text-base font-semibold text-gray-900">
               <svg class="h-5 w-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
               Pathao Credentials
             </h3>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <x-forms.input name="pathao_user" label="Email/Username" type="email" 
-                             :value="old('pathao_user', $settings['pathao_user'])" 
-                             :error="$errors->first('pathao_user')" 
+              <x-forms.input name="pathao_user" label="Email/Username" type="email" :value="old('pathao_user', $settings['pathao_user'])" :error="$errors->first('pathao_user')"
                              placeholder="developertanbir1@gmail.com" />
-              
+
               <div class="space-y-1">
                 <label for="pathao_password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" name="pathao_password" id="pathao_password" 
+                <input type="password" name="pathao_password" id="pathao_password"
                        value="{{ old('pathao_password', $settings['pathao_password']) }}"
                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                        placeholder="Enter Pathao password">
-                @if($errors->has('pathao_password'))
+                @if ($errors->has('pathao_password'))
                   <p class="mt-1 text-sm text-red-600">{{ $errors->first('pathao_password') }}</p>
                 @endif
               </div>
@@ -77,25 +74,24 @@
 
           <!-- Steadfast Credentials -->
           <div class="border-b border-gray-200 pb-6 last:border-b-0 last:pb-0">
-            <h3 class="mb-4 text-base font-semibold text-gray-900 flex items-center gap-2">
+            <h3 class="mb-4 flex items-center gap-2 text-base font-semibold text-gray-900">
               <svg class="h-5 w-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
               Steadfast Credentials (Fraud Check)
             </h3>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <x-forms.input name="steadfast_user" label="Email/Username" type="email" 
-                             :value="old('steadfast_user', $settings['steadfast_user'])" 
-                             :error="$errors->first('steadfast_user')" 
-                             placeholder="developertanbir1@gmail.com" />
-              
+              <x-forms.input name="steadfast_user" label="Email/Username" type="email" :value="old('steadfast_user', $settings['steadfast_user'])"
+                             :error="$errors->first('steadfast_user')" placeholder="developertanbir1@gmail.com" />
+
               <div class="space-y-1">
                 <label for="steadfast_password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" name="steadfast_password" id="steadfast_password" 
+                <input type="password" name="steadfast_password" id="steadfast_password"
                        value="{{ old('steadfast_password', $settings['steadfast_password']) }}"
                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                        placeholder="Enter Steadfast password">
-                @if($errors->has('steadfast_password'))
+                @if ($errors->has('steadfast_password'))
                   <p class="mt-1 text-sm text-red-600">{{ $errors->first('steadfast_password') }}</p>
                 @endif
               </div>
@@ -104,30 +100,84 @@
 
           <!-- Redex Credentials -->
           <div>
-            <h3 class="mb-4 text-base font-semibold text-gray-900 flex items-center gap-2">
+            <h3 class="mb-4 flex items-center gap-2 text-base font-semibold text-gray-900">
               <svg class="h-5 w-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
               Redex Credentials
             </h3>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <x-forms.input name="redx_phone" label="Phone Number" type="text" 
-                             :value="old('redx_phone', $settings['redx_phone'])" 
-                             :error="$errors->first('redx_phone')" 
+              <x-forms.input name="redx_phone" label="Phone Number" type="text" :value="old('redx_phone', $settings['redx_phone'])" :error="$errors->first('redx_phone')"
                              placeholder="01345274871" />
-              
+
               <div class="space-y-1">
                 <label for="redx_password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" name="redx_password" id="redx_password" 
+                <input type="password" name="redx_password" id="redx_password"
                        value="{{ old('redx_password', $settings['redx_password']) }}"
                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                        placeholder="Enter Redex password">
-                @if($errors->has('redx_password'))
+                @if ($errors->has('redx_password'))
                   <p class="mt-1 text-sm text-red-600">{{ $errors->first('redx_password') }}</p>
                 @endif
               </div>
             </div>
           </div>
+        </div>
+      </x-card>
+
+      <!-- Meta Pixel Settings -->
+      <x-card variant="elevated">
+        <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+          <h2 class="text-lg font-medium text-gray-900">Meta Pixel (Facebook Pixel)</h2>
+          <p class="text-sm text-gray-500">Configure Meta Pixel for tracking and analytics</p>
+        </div>
+
+        <div class="space-y-6">
+          <div class="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <div class="flex-1">
+              <label for="meta_pixel_enabled" class="block text-sm font-medium text-gray-900">
+                Enable Meta Pixel
+              </label>
+              <p class="mt-1 text-xs text-gray-500">Enable or disable Meta Pixel tracking on your website</p>
+            </div>
+            <div class="ml-4">
+              <input type="hidden" name="meta_pixel_enabled" value="0">
+              <input type="checkbox" name="meta_pixel_enabled" id="meta_pixel_enabled" value="1"
+                     {{ old('meta_pixel_enabled', $settings['meta_pixel_enabled']) == '1' || old('meta_pixel_enabled', $settings['meta_pixel_enabled']) == 1 ? 'checked' : '' }}
+                     class="h-5 w-5 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+            </div>
+          </div>
+
+          <div>
+            <x-forms.input name="meta_pixel_id" label="Pixel ID" type="text" :value="old('meta_pixel_id', $settings['meta_pixel_id'])" :error="$errors->first('meta_pixel_id')"
+                           placeholder="Enter your Meta Pixel ID (e.g., 123456789012345)" />
+            <p class="mt-1 text-xs text-gray-500">
+              You can find your Pixel ID in your Meta Events Manager. The Pixel ID is a 15-16 digit number.
+            </p>
+          </div>
+
+          @if ($settings['meta_pixel_id'])
+            <div class="rounded-lg border border-blue-200 bg-blue-50 p-4">
+              <div class="flex items-start gap-3">
+                <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-600" fill="none" stroke="currentColor"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                  <p class="text-sm font-medium text-blue-900">Pixel Status</p>
+                  <p class="mt-1 text-xs text-blue-700">
+                    @if ($settings['meta_pixel_enabled'] == '1' || $settings['meta_pixel_enabled'] == 1)
+                      Meta Pixel is <strong>enabled</strong> and will track events on your website.
+                    @else
+                      Meta Pixel is <strong>disabled</strong>. Enable it to start tracking.
+                    @endif
+                  </p>
+                </div>
+              </div>
+            </div>
+          @endif
         </div>
       </x-card>
 

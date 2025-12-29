@@ -17,18 +17,22 @@ class SettingController extends Controller
             // Steadfast API
             'steadfast_api_key' => Setting::get('steadfast_api_key'),
             'steadfast_secret_key' => Setting::get('steadfast_secret_key'),
-            
+
             // Fraud Check Credentials - Pathao
             'pathao_user' => Setting::get('pathao_user'),
             'pathao_password' => Setting::get('pathao_password'),
-            
+
             // Fraud Check Credentials - Steadfast
             'steadfast_user' => Setting::get('steadfast_user'),
             'steadfast_password' => Setting::get('steadfast_password'),
-            
+
             // Fraud Check Credentials - Redex
             'redx_phone' => Setting::get('redx_phone'),
             'redx_password' => Setting::get('redx_password'),
+
+            // Meta Pixel
+            'meta_pixel_id' => Setting::get('meta_pixel_id'),
+            'meta_pixel_enabled' => Setting::get('meta_pixel_enabled', false),
         ];
 
         return view('admin.settings.index', compact('settings'));
@@ -43,22 +47,31 @@ class SettingController extends Controller
             // Steadfast API
             'steadfast_api_key' => 'nullable|string',
             'steadfast_secret_key' => 'nullable|string',
-            
+
             // Fraud Check Credentials - Pathao
             'pathao_user' => 'nullable|string|email',
             'pathao_password' => 'nullable|string',
-            
+
             // Fraud Check Credentials - Steadfast
             'steadfast_user' => 'nullable|string|email',
             'steadfast_password' => 'nullable|string',
-            
+
             // Fraud Check Credentials - Redex
             'redx_phone' => 'nullable|string',
             'redx_password' => 'nullable|string',
+
+            // Meta Pixel
+            'meta_pixel_id' => 'nullable|string|max:255',
+            'meta_pixel_enabled' => 'nullable|boolean',
         ]);
 
         foreach ($validated as $key => $value) {
-            Setting::set($key, $value);
+            // Handle boolean values
+            if ($key === 'meta_pixel_enabled') {
+                Setting::set($key, $request->has('meta_pixel_enabled') ? 1 : 0);
+            } else {
+                Setting::set($key, $value);
+            }
         }
 
         return redirect()->route('admin.settings.index')

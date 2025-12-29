@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\CourseRegistrationController;
 use App\Http\Controllers\Frontend\CourseReviewController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\LandingPageController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -53,6 +54,12 @@ Route::get('/books/{book:slug}/checkout', [BookOrderController::class, 'create']
     ->name('books.checkout');
 Route::post('/books/{book:slug}/checkout', [BookOrderController::class, 'store'])
     ->name('books.checkout.store');
+
+// ============================================
+// LANDING PAGE ROUTES
+// ============================================
+Route::get('/lp/{slug}', [LandingPageController::class, 'show'])
+    ->name('landing-page.show');
 
 // ============================================
 // AUTHENTICATED ROUTES

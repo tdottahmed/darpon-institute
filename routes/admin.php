@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BookOrderController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\CourseRegistrationController;
 use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Admin\LandingPageController;
 use App\Http\Controllers\Admin\PaymentGatewayController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShippingController;
@@ -56,4 +57,7 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
     // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
+
+    // Landing Pages
+    Route::resource('landing-pages', LandingPageController::class);
 });
