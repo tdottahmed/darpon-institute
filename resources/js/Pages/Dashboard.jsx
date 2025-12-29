@@ -1,5 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage } from "@inertiajs/react";
+import { Head, usePage, router } from "@inertiajs/react";
+import { useEffect } from "react";
 import WelcomeSection from "@/Components/dashboard/WelcomeSection";
 import PurchaseHistory from "@/Components/dashboard/PurchaseHistory";
 import CourseEnrollments from "@/Components/dashboard/CourseEnrollments";

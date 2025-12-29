@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasMany(CourseRegistration::class);
     }
 
+    public function bookOrders()
+    {
+        return $this->hasMany(BookOrder::class);
+    }
+
     public function reviews()
     {
         return $this->hasMany(Testimonial::class);

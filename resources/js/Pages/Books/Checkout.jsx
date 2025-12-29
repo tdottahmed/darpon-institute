@@ -1,4 +1,4 @@
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, useForm, usePage, Link } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
@@ -7,11 +7,12 @@ import Card from "@/Components/ui/Card";
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
-import InvoiceDialog from "@/Components/InvoiceDialog";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { formatPrice } from "@/Utils/currency";
+import { Download, CheckCircle2, ArrowRight, Home, CreditCard } from "lucide-react";
+import { generatePDF } from "@/Utils/pdfGenerator";
 
-export default function Checkout({ book, order = null, showInvoice = false }) {
+export default function Checkout({ book, order = null, isNewUser = false }) {
     const { data, setData, post, processing, errors } = useForm({
         name: "",
         email: "",
@@ -23,7 +24,8 @@ export default function Checkout({ book, order = null, showInvoice = false }) {
     });
 
     const [shippingCost, setShippingCost] = useState(60);
-    const [invoiceOpen, setInvoiceOpen] = useState(showInvoice);
+    const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+    const invoiceContentRef = useRef(null);
     
     // Calculate price (handling discount if exists)
     const price = book.discount > 0 
@@ -38,12 +40,12 @@ export default function Checkout({ book, order = null, showInvoice = false }) {
         setTotal((price * data.quantity) + cost);
     }, [data.shipping_method, data.quantity, price]);
 
-    // Show invoice dialog if order was just created
+    // Scroll to top when order is received
     useEffect(() => {
-        if (showInvoice && order) {
-            setInvoiceOpen(true);
+        if (order) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-    }, [showInvoice, order]);
+    }, [order]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -52,12 +54,258 @@ export default function Checkout({ book, order = null, showInvoice = false }) {
         });
     };
 
-    const handleCloseInvoice = () => {
-        setInvoiceOpen(false);
-        // Optionally redirect to book page or home
-        window.location.href = route("books.show", book.slug);
+    const handleDownloadPDF = async () => {
+        if (!invoiceContentRef.current || !order) return;
+
+        const invoiceNumber = `ORD-${String(order.id).padStart(6, "0")}`;
+        const filename = `Invoice-${invoiceNumber}.pdf`;
+
+        await generatePDF(invoiceContentRef.current, filename, {
+            onStart: () => setIsGeneratingPDF(true),
+            onSuccess: () => setIsGeneratingPDF(false),
+            onError: () => setIsGeneratingPDF(false),
+        });
     };
 
+    // If order exists, show invoice instead of form
+    if (order) {
+        const unitPrice = (order.total_amount - order.shipping_cost) / order.quantity;
+        
+        return (
+            <>
+                <Head title={`Order Confirmation - ${book.title}`} />
+                <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100">
+                    <Header />
+
+                    <main className="pt-24 pb-16">
+                        <Container>
+                            <div className="max-w-4xl mx-auto">
+                                {/* Success Header */}
+                                <div className="mb-6 text-center">
+                                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 mb-4">
+                                        <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
+                                    </div>
+                                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                                        Order Confirmed!
+                                    </h1>
+                                    <p className="text-gray-600 dark:text-gray-400">
+                                        Your order has been successfully placed
+                                    </p>
+                                </div>
+
+                                {/* Invoice Card */}
+                                <Card variant="elevated" className="p-6 sm:p-8 md:p-12">
+                                    <div ref={invoiceContentRef} className="invoice-content">
+                                        {/* Action Buttons */}
+                                        <div className="mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 pdf-exclude">
+                                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                                                Order Invoice
+                                            </h2>
+                                            <button
+                                                onClick={handleDownloadPDF}
+                                                disabled={isGeneratingPDF}
+                                                className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-lg transition-all hover:bg-primary-700 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                                            >
+                                                {isGeneratingPDF ? (
+                                                    <>
+                                                        <span className="animate-spin">⏳</span>
+                                                        Generating...
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Download className="h-4 w-4" />
+                                                        Download PDF
+                                                    </>
+                                                )}
+                                            </button>
+                                        </div>
+
+                                        {/* Invoice Header */}
+                                        <div className="mb-8 rounded-xl bg-gradient-to-r from-primary-600 via-primary-700 to-secondary-600 p-6 text-white">
+                                            <div className="flex flex-col justify-between sm:flex-row">
+                                                <div>
+                                                    <h1 className="mb-4 text-3xl font-bold">INVOICE</h1>
+                                                    <div className="space-y-2 text-sm">
+                                                        <div className="flex gap-4">
+                                                            <span className="font-medium opacity-90">Invoice #:</span>
+                                                            <span className="font-mono font-semibold">
+                                                                ORD-{String(order.id).padStart(6, "0")}
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex gap-4">
+                                                            <span className="font-medium opacity-90">Date:</span>
+                                                            <span>
+                                                                {new Date(order.created_at).toLocaleDateString("en-US", {
+                                                                    year: "numeric",
+                                                                    month: "long",
+                                                                    day: "numeric",
+                                                                })}
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex gap-4">
+                                                            <span className="font-medium opacity-90">Status:</span>
+                                                            <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase">
+                                                                {order.status}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="mt-4 text-right sm:mt-0">
+                                                    <div className="text-2xl font-bold">
+                                                        {import.meta.env.VITE_APP_NAME || "Darpon"}
+                                                    </div>
+                                                    <div className="mt-1 text-sm opacity-90">Book Order Invoice</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Customer Information */}
+                                        <div className="mb-8">
+                                            <h2 className="mb-4 border-b-2 border-gray-200 dark:border-gray-700 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+                                                Customer Information
+                                            </h2>
+                                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                                <div>
+                                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Name:</span>
+                                                    <p className="text-gray-900 dark:text-white">{order.name}</p>
+                                                </div>
+                                                <div>
+                                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Email:</span>
+                                                    <p className="text-gray-900 dark:text-white">{order.email}</p>
+                                                </div>
+                                                <div>
+                                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone:</span>
+                                                    <p className="text-gray-900 dark:text-white">{order.phone}</p>
+                                                </div>
+                                                <div>
+                                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Shipping Method:</span>
+                                                    <p className="text-gray-900 dark:text-white capitalize">
+                                                        {order.shipping_method === "inside_dhaka" ? "Inside Dhaka" : "Outside Dhaka"}
+                                                    </p>
+                                                </div>
+                                                <div className="sm:col-span-2">
+                                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Address:</span>
+                                                    <p className="whitespace-pre-wrap text-gray-900 dark:text-white">{order.address}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Order Details */}
+                                        <div className="mb-8">
+                                            <h2 className="mb-4 border-b-2 border-gray-200 dark:border-gray-700 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+                                                Order Details
+                                            </h2>
+                                            <div className="overflow-x-auto">
+                                                <table className="w-full">
+                                                    <thead>
+                                                        <tr className="border-b-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                                                            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">Item</th>
+                                                            <th className="px-4 py-3 text-center text-sm font-semibold text-gray-900 dark:text-white">Quantity</th>
+                                                            <th className="px-4 py-3 text-right text-sm font-semibold text-gray-900 dark:text-white">Unit Price</th>
+                                                            <th className="px-4 py-3 text-right text-sm font-semibold text-gray-900 dark:text-white">Subtotal</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr className="border-b border-gray-100 dark:border-gray-700">
+                                                            <td className="px-4 py-4">
+                                                                <div className="font-semibold text-gray-900 dark:text-white">{book?.title || "Unknown Book"}</div>
+                                                                {book?.author && (
+                                                                    <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">by {book.author}</div>
+                                                                )}
+                                                            </td>
+                                                            <td className="px-4 py-4 text-center text-gray-700 dark:text-gray-300">{order.quantity}</td>
+                                                            <td className="px-4 py-4 text-right text-gray-700 dark:text-gray-300">
+                                                                {formatPrice(unitPrice)}
+                                                            </td>
+                                                            <td className="px-4 py-4 text-right font-semibold text-gray-900 dark:text-white">
+                                                                {formatPrice(order.total_amount - order.shipping_cost)}
+                                                            </td>
+                                                        </tr>
+                                                        <tr className="border-b border-gray-100 dark:border-gray-700">
+                                                            <td colSpan={3} className="px-4 py-4 text-right text-gray-700 dark:text-gray-300">
+                                                                Shipping Cost:
+                                                            </td>
+                                                            <td className="px-4 py-4 text-right text-gray-700 dark:text-gray-300">
+                                                                {formatPrice(order.shipping_cost)}
+                                                            </td>
+                                                        </tr>
+                                                        <tr className="bg-primary-50 dark:bg-primary-900/20">
+                                                            <td colSpan={3} className="px-4 py-4 text-lg font-bold text-gray-900 dark:text-white">
+                                                                Total Amount
+                                                            </td>
+                                                            <td className="px-4 py-4 text-right text-lg font-bold text-primary-600 dark:text-primary-400">
+                                                                {formatPrice(order.total_amount)}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        {/* Payment Information */}
+                                        <div className="mb-8 rounded-lg border-l-4 border-primary-500 bg-primary-50 dark:bg-primary-900/20 p-4">
+                                            <h3 className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">Payment Information</h3>
+                                            <div className="flex items-center gap-2">
+                                                <CreditCard className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+                                                <span className="font-semibold text-gray-900 dark:text-white">Cash on Delivery (COD)</span>
+                                            </div>
+                                            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                                You will pay {formatPrice(order.total_amount)} when you receive your order.
+                                            </p>
+                                        </div>
+
+                                        {/* Success Message */}
+                                        <div className="mb-6 rounded-lg border-l-4 border-green-500 bg-green-50 dark:bg-green-900/20 p-4">
+                                            <div className="flex items-start gap-3">
+                                                <CheckCircle2 className="h-6 w-6 flex-shrink-0 text-green-600 dark:text-green-400" />
+                                                <div>
+                                                    <h3 className="font-semibold text-green-900 dark:text-green-100">Order Placed Successfully!</h3>
+                                                    <p className="mt-1 text-sm text-green-700 dark:text-green-300">
+                                                        Your order has been confirmed. We will contact you soon to arrange delivery.
+                                                    </p>
+                                                    {isNewUser && (
+                                                        <p className="mt-2 text-sm font-medium text-green-800 dark:text-green-200">
+                                                            ✓ An account has been created for you. Check your email for login credentials.
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Footer */}
+                                        <div className="border-t border-gray-200 dark:border-gray-700 pt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                                            <p>This is a computer-generated invoice. No signature required.</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Action Buttons */}
+                                    <div className="mt-8 flex flex-col sm:flex-row gap-4 pdf-exclude">
+                                        <Link
+                                            href={route("dashboard", { section: "books" })}
+                                            className="flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:bg-primary-700 hover:shadow-xl"
+                                        >
+                                            <Home className="h-4 w-4" />
+                                            Go to Dashboard
+                                        </Link>
+                                        <Link
+                                            href={route("books.show", book.slug)}
+                                            className="flex items-center justify-center gap-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 px-6 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 transition-all hover:bg-gray-50 dark:hover:bg-gray-800"
+                                        >
+                                            View Book
+                                            <ArrowRight className="h-4 w-4" />
+                                        </Link>
+                                    </div>
+                                </Card>
+                            </div>
+                        </Container>
+                    </main>
+                    <Footer />
+                </div>
+            </>
+        );
+    }
+
+    // Show checkout form
     return (
         <>
             <Head title={`Checkout - ${book.title}`} />
@@ -272,16 +520,6 @@ export default function Checkout({ book, order = null, showInvoice = false }) {
                 </main>
                 <Footer />
             </div>
-
-            {/* Invoice Dialog */}
-            {order && (
-                <InvoiceDialog
-                    isOpen={invoiceOpen}
-                    onClose={handleCloseInvoice}
-                    order={order}
-                    book={book}
-                />
-            )}
         </>
     );
 }

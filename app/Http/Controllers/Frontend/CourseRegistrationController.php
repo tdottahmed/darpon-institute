@@ -151,7 +151,7 @@ class CourseRegistrationController extends Controller
                     new SendCourseEnrollmentInvoiceJob($courseRegistration, $totalPrice)
                 ])->dispatch($courseRegistration, $totalPrice);
 
-                // Return the registration data for the invoice dialog
+                // Return to enrollment page with registration data to show invoice
                 return Inertia::render('Courses/Enroll', [
                     'course' => $course->load(['variations' => function ($query) {
                         $query->where('status', true)->orderBy('sort_order');
@@ -159,7 +159,6 @@ class CourseRegistrationController extends Controller
                     'paymentGateways' => PaymentGateway::active()->get(),
                     'registration' => $courseRegistration,
                     'totalPrice' => $totalPrice,
-                    'showInvoice' => true,
                     'isNewUser' => $isNewUser,
                 ]);
             });

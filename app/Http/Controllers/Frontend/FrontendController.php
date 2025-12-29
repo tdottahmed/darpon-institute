@@ -283,8 +283,11 @@ class FrontendController extends Controller
             return redirect()->route('login');
         }
 
-        // Get book orders by matching user email
-        $bookOrders = BookOrder::where('email', $user->email)
+        // Get book orders by user_id or email (for backward compatibility)
+        $bookOrders = BookOrder::where(function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+                ->orWhere('email', $user->email);
+        })
             ->with('book:id,title,slug,cover_image,price')
             ->latest()
             ->get();
