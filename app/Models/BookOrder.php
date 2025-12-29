@@ -19,6 +19,13 @@ class BookOrder extends Model
         'payment_method',
         'status',
         'note',
+        'consignment_id',
+        'tracking_code',
+        'consignment_created_at',
+    ];
+
+    protected $casts = [
+        'consignment_created_at' => 'datetime',
     ];
 
     public function book()

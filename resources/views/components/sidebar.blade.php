@@ -69,6 +69,12 @@
       ],
       'Settings' => [
           [
+              'name' => 'General Settings',
+              'href' => route('admin.settings.index'),
+              'icon' => 'cog',
+              'active' => request()->routeIs('admin.settings.*'),
+          ],
+          [
               'name' => 'Payment Gateways',
               'href' => route('admin.payment-gateways.index'),
               'icon' => 'credit-card',
