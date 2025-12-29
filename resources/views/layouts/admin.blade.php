@@ -28,7 +28,7 @@
     <x-sidebar />
 
     <!-- Main Content Wrapper -->
-    <div class="flex min-w-0 flex-1 flex-col">
+    <div class="flex min-w-0 flex-1 flex-col lg:ml-72">
       <!-- Header -->
       <x-header :header="$header ?? 'Dashboard'" />
 
