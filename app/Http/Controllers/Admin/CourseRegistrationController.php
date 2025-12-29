@@ -266,7 +266,7 @@ class CourseRegistrationController extends Controller
 
         $installment->update($updateData);
 
-        return redirect()->back()->with('success', 'Installment status updated successfully.');
+        return back()->with('success', 'Installment status updated successfully.');
     }
 
     /**

@@ -349,7 +349,7 @@
              class="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
           <form id="markPaidForm" method="POST">
             @csrf
-            @method('PUT')
+            <input type="hidden" name="status" value="paid">
             <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
               <div class="sm:flex sm:items-start">
                 <div
@@ -375,15 +375,12 @@
                              class="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm sm:text-sm">
                     </div>
                     <div>
-                      <label for="payment_method" class="block text-sm font-medium text-gray-700">Payment Method</label>
-                      <input type="text" name="payment_method" id="payment_method"
+                      <label for="payment_method" class="block text-sm font-medium text-gray-700">Payment
+                        Method(Optional)</label>
+                      <input type="text" name="payment_method" id="payment_method" placeholder="Cash"
                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
                     </div>
-                    <div>
-                      <label for="transaction_id" class="block text-sm font-medium text-gray-700">Transaction ID</label>
-                      <input type="text" name="transaction_id" id="transaction_id"
-                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-                    </div>
+
                     <div>
                       <label for="notes" class="block text-sm font-medium text-gray-700">Notes (Optional)</label>
                       <textarea name="notes" id="notes" rows="3"

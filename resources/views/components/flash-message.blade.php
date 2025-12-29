@@ -3,6 +3,9 @@
   if (session('status')) {
       $toasts[] = ['id' => uniqid(), 'type' => 'success', 'message' => session('status')];
   }
+  if (session('success')) {
+      $toasts[] = ['id' => uniqid(), 'type' => 'success', 'message' => session('success')];
+  }
   if (session('error')) {
       $toasts[] = ['id' => uniqid(), 'type' => 'error', 'message' => session('error')];
   }
