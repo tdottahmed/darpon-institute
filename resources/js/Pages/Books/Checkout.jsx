@@ -7,10 +7,11 @@ import Card from "@/Components/ui/Card";
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
+import InvoiceDialog from "@/Components/InvoiceDialog";
 import { useState, useEffect } from "react";
 import { formatPrice } from "@/Utils/currency";
 
-export default function Checkout({ book }) {
+export default function Checkout({ book, order = null, showInvoice = false }) {
     const { data, setData, post, processing, errors } = useForm({
         name: "",
         email: "",
@@ -22,6 +23,7 @@ export default function Checkout({ book }) {
     });
 
     const [shippingCost, setShippingCost] = useState(60);
+    const [invoiceOpen, setInvoiceOpen] = useState(showInvoice);
     
     // Calculate price (handling discount if exists)
     const price = book.discount > 0 
@@ -36,9 +38,24 @@ export default function Checkout({ book }) {
         setTotal((price * data.quantity) + cost);
     }, [data.shipping_method, data.quantity, price]);
 
+    // Show invoice dialog if order was just created
+    useEffect(() => {
+        if (showInvoice && order) {
+            setInvoiceOpen(true);
+        }
+    }, [showInvoice, order]);
+
     const submit = (e) => {
         e.preventDefault();
-        post(route("books.checkout.store", book.slug));
+        post(route("books.checkout.store", book.slug), {
+            preserveScroll: true,
+        });
+    };
+
+    const handleCloseInvoice = () => {
+        setInvoiceOpen(false);
+        // Optionally redirect to book page or home
+        window.location.href = route("books.show", book.slug);
     };
 
     return (
@@ -255,6 +272,16 @@ export default function Checkout({ book }) {
                 </main>
                 <Footer />
             </div>
+
+            {/* Invoice Dialog */}
+            {order && (
+                <InvoiceDialog
+                    isOpen={invoiceOpen}
+                    onClose={handleCloseInvoice}
+                    order={order}
+                    book={book}
+                />
+            )}
         </>
     );
 }

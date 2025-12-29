@@ -143,25 +143,25 @@ class CourseRegistrationController extends Controller
                     'enrollment_type' => 'online',
                 ]);
 
+                // Load relationships for the invoice dialog
+                $courseRegistration->load('course', 'courseVariation', 'paymentGateway');
+
                 // Chain jobs: Generate PDF first, then send email
                 GenerateCourseEnrollmentInvoicePdfJob::withChain([
                     new SendCourseEnrollmentInvoiceJob($courseRegistration, $totalPrice)
                 ])->dispatch($courseRegistration, $totalPrice);
 
-                if (isset($isPaidCourse) && !$isPaidCourse) {
-                    $message = 'Enrollment completed successfully! No payment required.';
-                } else {
-                    $message = 'Registration submitted successfully! We will contact you soon.';
-                }
-
-                $message .= ' An invoice has been sent to your email address.';
-
-                if ($isNewUser) {
-                    $message .= ' An account has been created for you. Check your email for login credentials.';
-                }
-
-                return redirect()->route('courses.show', $course->slug)
-                    ->with('success', $message);
+                // Return the registration data for the invoice dialog
+                return Inertia::render('Courses/Enroll', [
+                    'course' => $course->load(['variations' => function ($query) {
+                        $query->where('status', true)->orderBy('sort_order');
+                    }]),
+                    'paymentGateways' => PaymentGateway::active()->get(),
+                    'registration' => $courseRegistration,
+                    'totalPrice' => $totalPrice,
+                    'showInvoice' => true,
+                    'isNewUser' => $isNewUser,
+                ]);
             });
         } catch (\Exception $e) {
             return redirect()->back()

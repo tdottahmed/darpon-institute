@@ -45,7 +45,7 @@ class BookOrderController extends Controller
             
         $totalAmount = ($price * $request->quantity) + $shippingCost;
 
-        BookOrder::create([
+        $bookOrder = BookOrder::create([
             'book_id' => $book->id,
             'name' => $request->name,
             'email' => $request->email,
@@ -60,7 +60,11 @@ class BookOrderController extends Controller
             'note' => $request->note,
         ]);
 
-        return redirect()->route('books.show', $book->slug)
-            ->with('success', 'Order placed successfully! We will contact you soon.');
+        // Return the order data for the invoice dialog
+        return Inertia::render('Books/Checkout', [
+            'book' => $book,
+            'order' => $bookOrder->load('book'),
+            'showInvoice' => true,
+        ]);
     }
 }
