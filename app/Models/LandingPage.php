@@ -25,12 +25,67 @@ class LandingPage extends Model
         'meta_title',
         'meta_description',
         'meta_image',
+        // Hero Section
+        'hero_main_image',
+        'hero_english_title',
+        'hero_bengali_title',
+        'hero_preview_images',
+        // PDF Preview Section
+        'pdf_previews',
+        // Book Details Section
+        'book_details_title',
+        'book_details_description',
+        'book_details_specialties',
+        'book_details_extraordinary',
+        'book_details_students_love',
+        // Features Section
+        'features_list',
+        'target_audience_list',
+        'game_changer_title',
+        'game_changer_points',
+        'game_changer_conclusion',
+        // Pricing Section
+        'pricing_original_price',
+        'pricing_offer_price',
+        'pricing_description',
+        'pricing_note',
+        // Order Section
+        'order_section_title',
+        'order_form_fields',
+        'order_shipping_charge',
+        'order_shipping_note',
+        'order_payment_note',
+        // Section visibility
+        'show_hero',
+        'show_pdf_preview',
+        'show_book_details',
+        'show_features',
+        'show_pricing',
+        'show_order',
     ];
 
     protected $casts = [
         'custom_images' => 'array',
         'custom_videos' => 'array',
+        'hero_preview_images' => 'array',
+        'pdf_previews' => 'array',
+        'book_details_specialties' => 'array',
+        'book_details_extraordinary' => 'array',
+        'book_details_students_love' => 'array',
+        'features_list' => 'array',
+        'target_audience_list' => 'array',
+        'game_changer_points' => 'array',
+        'order_form_fields' => 'array',
         'status' => 'boolean',
+        'show_hero' => 'boolean',
+        'show_pdf_preview' => 'boolean',
+        'show_book_details' => 'boolean',
+        'show_features' => 'boolean',
+        'show_pricing' => 'boolean',
+        'show_order' => 'boolean',
+        'pricing_original_price' => 'decimal:2',
+        'pricing_offer_price' => 'decimal:2',
+        'order_shipping_charge' => 'decimal:2',
     ];
 
     /**
@@ -59,5 +114,77 @@ class LandingPage extends Model
     public function book()
     {
         return $this->belongsTo(Book::class, 'product_id');
+    }
+
+    /**
+     * Get default content for a new landing page
+     */
+    public static function getDefaultContent($book = null)
+    {
+        $defaults = [
+            'hero_english_title' => $book ? strtoupper($book->title) : 'BOOK TITLE',
+            'hero_bengali_title' => $book ? 'বইটির বর্ণনা এখানে লিখুন' : 'বইটির বর্ণনা এখানে লিখুন',
+            'hero_preview_images' => [],
+            'pdf_previews' => [],
+            'book_details_title' => 'বইটি সম্পর্কে যা না জানলেই নয়',
+            'book_details_description' => 'বইটির বিস্তারিত বর্ণনা এখানে লিখুন।',
+            'book_details_specialties' => [
+                ['title' => 'বিশেষত্ব ১', 'description' => 'বর্ণনা'],
+                ['title' => 'বিশেষত্ব ২', 'description' => 'বর্ণনা'],
+            ],
+            'book_details_extraordinary' => [],
+            'book_details_students_love' => [],
+            'features_list' => [
+                [
+                    'title' => 'বইটির অসাধারণ কিছু বৈশিষ্ট্য',
+                    'items' => [
+                        ['text' => 'বৈশিষ্ট্য ১', 'icon_color' => '#1a237e'],
+                        ['text' => 'বৈশিষ্ট্য ২', 'icon_color' => '#1a237e'],
+                    ]
+                ]
+            ],
+            'target_audience_list' => [
+                [
+                    'title' => 'বইটি মূলত কাদের জন্য?',
+                    'items' => [
+                        ['text' => 'দর্শক ১', 'icon_color' => '#1565c0'],
+                        ['text' => 'দর্শক ২', 'icon_color' => '#1565c0'],
+                    ]
+                ]
+            ],
+            'game_changer_title' => 'কেন এই বই একটি গেম চেঞ্জার',
+            'game_changer_points' => [
+                'বাস্তব কথোপকথন',
+                'ব্যবহারিক অভিব্যক্তি',
+                'স্পষ্ট উদাহরণ',
+            ],
+            'game_changer_conclusion' => 'ধাপে ধাপে এটি আপনাকে বেসিক থেকে অ্যাডভান্স-এ নিয়ে যায়।',
+            'pricing_original_price' => $book ? $book->price : 0,
+            'pricing_offer_price' => $book ? ($book->discounted_price ?? $book->price) : 0,
+            'pricing_description' => 'বিশেষ অফারের বর্ণনা',
+            'pricing_note' => 'অর্ডার করতে ১ টাকা অগ্রীম পেমেন্ট করতে হবে না',
+            'order_section_title' => 'Order Now',
+            'order_form_fields' => ['Name', 'Phone', 'Address', 'Country/Region'],
+            'order_shipping_charge' => 90,
+            'order_shipping_note' => 'সারা বাংলাদেশে হোম ডেলিভারি চার্জ',
+            'order_payment_note' => 'Pay with cash upon delivery.',
+        ];
+
+        return $defaults;
+    }
+
+    /**
+     * Initialize default content when creating a new landing page
+     */
+    public function initializeDefaults()
+    {
+        $book = $this->book;
+        $defaults = self::getDefaultContent($book);
+
+        foreach ($defaults as $key => $value) {
+            if (is_null($this->$key)) {
+                $this->$key = $value;
+            }
+        }
     }
 }

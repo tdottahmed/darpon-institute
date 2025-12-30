@@ -22,28 +22,40 @@
   @include('frontend.partials.landing.header')
 
   <!-- Main Banner Section -->
-  @include('frontend.partials.landing.hero')
+  @if ($landingPage->show_hero ?? true)
+    @include('frontend.partials.landing.hero', ['landingPage' => $landingPage])
+  @endif
 
   <!-- PDF Preview Section -->
-  @include('frontend.partials.landing.pdf_preview')
+  @if ($landingPage->show_pdf_preview ?? true)
+    @include('frontend.partials.landing.pdf_preview', ['landingPage' => $landingPage])
+  @endif
 
   <!-- Author Section -->
   @include('frontend.partials.landing.author')
 
   <!-- Book Details Section -->
-  @include('frontend.partials.landing.book_details')
+  @if ($landingPage->show_book_details ?? true)
+    @include('frontend.partials.landing.book_details', ['landingPage' => $landingPage])
+  @endif
 
   <!-- Features Section -->
-  @include('frontend.partials.landing.features')
+  @if ($landingPage->show_features ?? true)
+    @include('frontend.partials.landing.features', ['landingPage' => $landingPage])
+  @endif
 
   <!-- FAQ Section -->
   @include('frontend.partials.landing.faq')
 
   <!-- Pricing Section -->
-  @include('frontend.partials.landing.pricing')
+  @if ($landingPage->show_pricing ?? true)
+    @include('frontend.partials.landing.pricing', ['landingPage' => $landingPage])
+  @endif
 
   <!-- Order Section -->
-  @include('frontend.partials.landing.order')
+  @if ($landingPage->show_order ?? true)
+    @include('frontend.partials.landing.order', ['landingPage' => $landingPage])
+  @endif
 
   <!-- Footer -->
   @include('frontend.partials.landing.footer')

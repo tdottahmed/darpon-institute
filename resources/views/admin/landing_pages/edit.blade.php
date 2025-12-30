@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-  <div class="space-y-6">
+  <div class="space-y-6" x-data="{ activeTab: 'basic' }">
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
@@ -18,206 +18,342 @@
       @csrf
       @method('PUT')
 
-      <!-- Basic Information -->
-      <x-card variant="elevated">
-        <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
-          <h2 class="text-lg font-medium text-gray-900">Basic Information</h2>
-          <p class="text-sm text-gray-500">Essential details for the landing page</p>
-        </div>
+      <!-- Tabs Navigation -->
+      <div class="border-b border-gray-200">
+        <nav class="-mb-px flex space-x-8 overflow-x-auto" aria-label="Tabs">
+          <button type="button" @click="activeTab = 'basic'" 
+                  :class="activeTab === 'basic' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                  class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+            Basic Info
+          </button>
+          <button type="button" @click="activeTab = 'hero'" 
+                  :class="activeTab === 'hero' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                  class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+            Hero Section
+          </button>
+          <button type="button" @click="activeTab = 'pdf'" 
+                  :class="activeTab === 'pdf' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                  class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+            PDF Preview
+          </button>
+          <button type="button" @click="activeTab = 'book-details'" 
+                  :class="activeTab === 'book-details' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                  class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+            Book Details
+          </button>
+          <button type="button" @click="activeTab = 'features'" 
+                  :class="activeTab === 'features' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                  class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+            Features
+          </button>
+          <button type="button" @click="activeTab = 'pricing'" 
+                  :class="activeTab === 'pricing' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                  class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+            Pricing
+          </button>
+          <button type="button" @click="activeTab = 'order'" 
+                  :class="activeTab === 'order' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                  class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+            Order Form
+          </button>
+          <button type="button" @click="activeTab = 'seo'" 
+                  :class="activeTab === 'seo' ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                  class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+            SEO & Settings
+          </button>
+        </nav>
+      </div>
 
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <x-forms.input name="title" label="Title" :value="old('title', $landingPage->title)" required :error="$errors->first('title')" id="landing-title"
-                         placeholder="Enter landing page title" />
-          <x-forms.input name="slug" label="Slug" :value="old('slug', $landingPage->slug)" required :error="$errors->first('slug')"
-                         help="URL-friendly version (e.g., special-course-offer)" id="landing-slug" />
-        </div>
-
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <div>
-            <x-forms.select name="product_type" label="Product Type" :options="[
-                '' => 'Select Product Type',
-                'course' => 'Course',
-                'book' => 'Book',
-            ]" :value="old('product_type', $landingPage->product_type)" required :error="$errors->first('product_type')" id="product-type" />
-          </div>
-          <div>
-            <x-forms.select name="product_id" label="Select Product" :options="[]" :value="old('product_id', $landingPage->product_id)" required
-                            :error="$errors->first('product_id')" id="product-id"
-                            help="Select a product after choosing product type" />
-          </div>
-        </div>
-
-        <!-- Status -->
-        <div class="flex items-center space-x-3">
-          <input type="hidden" name="status" value="0">
-          <input type="checkbox" name="status" id="status" value="1" {{ old('status', $landingPage->status) ? 'checked' : '' }}
-                 class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
-          <label for="status" class="text-sm font-medium text-gray-700">Active Status</label>
-        </div>
-      </x-card>
-
-      <!-- Hero Section -->
-      <x-card variant="elevated">
-        <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
-          <h2 class="text-lg font-medium text-gray-900">Hero Section</h2>
-          <p class="text-sm text-gray-500">Main banner area at the top of the landing page</p>
-        </div>
-
-        <div class="space-y-6">
-          <x-forms.input name="hero_title" label="Hero Title" :value="old('hero_title', $landingPage->hero_title)" :error="$errors->first('hero_title')"
-                         placeholder="Main headline for the hero section" />
-          <x-forms.textarea name="hero_subtitle" label="Hero Subtitle" :value="old('hero_subtitle', $landingPage->hero_subtitle)" rows="3"
-                            :error="$errors->first('hero_subtitle')" placeholder="Supporting text below the title" />
-          <x-forms.image-uploader name="hero_image" label="Hero Image" :value="old('hero_image', $landingPage->hero_image ? Storage::url($landingPage->hero_image) : '')" accept="image/*"
-                                  maxSize="2MB" :error="$errors->first('hero_image')" />
-          @if($landingPage->hero_image)
-            <div class="flex items-center gap-2">
-              <input type="checkbox" name="hero_image_remove" id="hero_image_remove" value="1" class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
-              <label for="hero_image_remove" class="text-sm text-gray-700">Remove current image</label>
-            </div>
-          @endif
-
-          <div x-data="{ videoType: '{{ old('hero_video_type', $landingPage->hero_video_type ?? '') }}' }">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Hero Video Type</label>
-            <div class="flex space-x-4 mb-4">
-              <label class="flex items-center space-x-2 cursor-pointer">
-                <input type="radio" name="hero_video_type" value="url" x-model="videoType"
-                       class="text-primary-600 focus:ring-primary-500">
-                <span>Video URL (YouTube/Vimeo)</span>
-              </label>
-              <label class="flex items-center space-x-2 cursor-pointer">
-                <input type="radio" name="hero_video_type" value="upload" x-model="videoType"
-                       class="text-primary-600 focus:ring-primary-500">
-                <span>Upload Video</span>
-              </label>
+      <!-- Tab Content -->
+      <div class="space-y-6">
+        <!-- Basic Information Tab -->
+        <div x-show="activeTab === 'basic'" class="space-y-6">
+          <x-card variant="elevated">
+            <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+              <h2 class="text-lg font-medium text-gray-900">Basic Information</h2>
+              <p class="text-sm text-gray-500">Essential details for the landing page</p>
             </div>
 
-            <div x-show="videoType === 'url'" class="space-y-2">
-              <x-forms.input name="hero_video" label="Video URL" :value="old('hero_video', $landingPage->hero_video_type === 'url' ? $landingPage->hero_video : '')"
-                             :error="$errors->first('hero_video')" placeholder="https://www.youtube.com/watch?v=..." />
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <x-forms.input name="title" label="Title" :value="old('title', $landingPage->title)" required :error="$errors->first('title')" id="landing-title"
+                             placeholder="Enter landing page title" />
+              <x-forms.input name="slug" label="Slug" :value="old('slug', $landingPage->slug)" required :error="$errors->first('slug')"
+                             help="URL-friendly version" id="landing-slug" />
             </div>
 
-            <div x-show="videoType === 'upload'" class="space-y-2">
-              @if($landingPage->hero_video && $landingPage->hero_video_type === 'upload')
-                <div class="mb-2 text-sm text-gray-600">Current video: <a href="{{ Storage::url($landingPage->hero_video) }}" target="_blank" class="text-primary-600">View</a></div>
-              @endif
-              <label class="block text-sm font-medium text-gray-700">Video File</label>
-              <input type="file" name="hero_video_file" accept="video/mp4,video/quicktime"
-                     class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-              <p class="text-xs text-gray-500">MP4 or MOV, max 50MB.</p>
-              <x-forms.error :message="$errors->first('hero_video_file')" />
-              @if($landingPage->hero_video)
-                <div class="flex items-center gap-2 mt-2">
-                  <input type="checkbox" name="hero_video_remove" id="hero_video_remove" value="1" class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
-                  <label for="hero_video_remove" class="text-sm text-gray-700">Remove current video</label>
-                </div>
-              @endif
+            <div class="mt-6">
+              <x-forms.select name="product_id" label="Select Book" :options="$books" :value="old('product_id', $landingPage->product_id)" required
+                              :error="$errors->first('product_id')" id="product-id" />
             </div>
-          </div>
-        </div>
-      </x-card>
 
-      <!-- Custom Content -->
-      <x-card variant="elevated">
-        <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
-          <h2 class="text-lg font-medium text-gray-900">Custom Content</h2>
-          <p class="text-sm text-gray-500">Add custom content to make your landing page unique</p>
-        </div>
-
-        <div class="space-y-6">
-          <x-forms.rich-text name="custom_description" label="Custom Description" :value="old('custom_description', $landingPage->custom_description)"
-                             height="400px" :error="$errors->first('custom_description')"
-                             help="Rich text editor for detailed descriptions" />
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Custom Images</label>
-            <p class="mb-3 text-xs text-gray-500">Upload multiple images to showcase your product</p>
-            @if($landingPage->custom_images && count($landingPage->custom_images) > 0)
-              <div class="mb-3 grid grid-cols-4 gap-2">
-                @foreach($landingPage->custom_images as $image)
-                  <div class="relative">
-                    <img src="{{ Storage::url($image) }}" alt="" class="h-20 w-full rounded object-cover">
-                    <input type="checkbox" name="remove_images[]" value="{{ $image }}" class="absolute top-1 right-1 h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500">
-                  </div>
-                @endforeach
+            <!-- Section Visibility Toggles -->
+            <div class="mt-6 space-y-3">
+              <h3 class="text-sm font-medium text-gray-900">Section Visibility</h3>
+              <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                <label class="flex items-center space-x-2">
+                  <input type="hidden" name="show_hero" value="0">
+                  <input type="checkbox" name="show_hero" value="1" {{ old('show_hero', $landingPage->show_hero ?? true) ? 'checked' : '' }}
+                         class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                  <span class="text-sm text-gray-700">Hero Section</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                  <input type="hidden" name="show_pdf_preview" value="0">
+                  <input type="checkbox" name="show_pdf_preview" value="1" {{ old('show_pdf_preview', $landingPage->show_pdf_preview ?? true) ? 'checked' : '' }}
+                         class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                  <span class="text-sm text-gray-700">PDF Preview</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                  <input type="hidden" name="show_book_details" value="0">
+                  <input type="checkbox" name="show_book_details" value="1" {{ old('show_book_details', $landingPage->show_book_details ?? true) ? 'checked' : '' }}
+                         class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                  <span class="text-sm text-gray-700">Book Details</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                  <input type="hidden" name="show_features" value="0">
+                  <input type="checkbox" name="show_features" value="1" {{ old('show_features', $landingPage->show_features ?? true) ? 'checked' : '' }}
+                         class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                  <span class="text-sm text-gray-700">Features</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                  <input type="hidden" name="show_pricing" value="0">
+                  <input type="checkbox" name="show_pricing" value="1" {{ old('show_pricing', $landingPage->show_pricing ?? true) ? 'checked' : '' }}
+                         class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                  <span class="text-sm text-gray-700">Pricing</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                  <input type="hidden" name="show_order" value="0">
+                  <input type="checkbox" name="show_order" value="1" {{ old('show_order', $landingPage->show_order ?? true) ? 'checked' : '' }}
+                         class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                  <span class="text-sm text-gray-700">Order Form</span>
+                </label>
               </div>
-            @endif
-            <input type="file" name="custom_images[]" multiple accept="image/*"
-                   class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-            <x-forms.error :message="$errors->first('custom_images.*')" />
-          </div>
+            </div>
 
-          <div x-data="{ videoCount: {{ count(old('custom_videos', $landingPage->custom_videos ?? [])) > 0 ? count(old('custom_videos', $landingPage->custom_videos ?? [])) : 1 }}, videos: {{ json_encode(old('custom_videos', $landingPage->custom_videos ?? [])) }} }">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Custom Video URLs</label>
-            <p class="mb-3 text-xs text-gray-500">Add YouTube or Vimeo video URLs</p>
-            <div class="space-y-3" id="custom-videos-container">
-              <template x-for="(video, index) in Array.from({length: videoCount}, (_, i) => i)" :key="index">
-                <div class="flex gap-2">
-                  <div class="flex-1">
-                    <label :for="'custom_videos_' + index" class="block text-sm font-medium text-gray-700 mb-1" x-text="'Video URL ' + (index + 1)"></label>
-                    <input type="text" :name="'custom_videos[]'" :id="'custom_videos_' + index"
-                           :value="videos[index] || ''"
-                           placeholder="https://www.youtube.com/watch?v=..."
-                           class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-                  </div>
-                  <button type="button" @click="videoCount--" class="mt-6 text-red-600 hover:text-red-800">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
+            <!-- Status -->
+            <div class="mt-6 flex items-center space-x-3">
+              <input type="hidden" name="status" value="0">
+              <input type="checkbox" name="status" id="status" value="1" {{ old('status', $landingPage->status) ? 'checked' : '' }}
+                     class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+              <label for="status" class="text-sm font-medium text-gray-700">Active Status</label>
+            </div>
+          </x-card>
+        </div>
+
+        <!-- Hero Section Tab -->
+        <div x-show="activeTab === 'hero'" class="space-y-6">
+          <x-card variant="elevated">
+            <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+              <h2 class="text-lg font-medium text-gray-900">Hero Section</h2>
+              <p class="text-sm text-gray-500">Main banner area at the top of the landing page</p>
+            </div>
+
+            <div class="space-y-6">
+              <x-forms.input name="hero_english_title" label="English Title" :value="old('hero_english_title', $landingPage->hero_english_title)" :error="$errors->first('hero_english_title')"
+                             placeholder="SPOKEN ENGLISH IN REAL LIFE" />
+              <x-forms.textarea name="hero_bengali_title" label="Bengali Title" :value="old('hero_bengali_title', $landingPage->hero_bengali_title)" rows="3"
+                                :error="$errors->first('hero_bengali_title')" />
+              <x-forms.image-uploader name="hero_main_image" label="Main Hero Image" :value="old('hero_main_image', $landingPage->hero_main_image ? Storage::url($landingPage->hero_main_image) : '')" accept="image/*"
+                                      maxSize="2MB" :error="$errors->first('hero_main_image')" />
+              @if($landingPage->hero_main_image)
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" name="hero_main_image_remove" id="hero_main_image_remove" value="1" class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                  <label for="hero_main_image_remove" class="text-sm text-gray-700">Remove current image</label>
                 </div>
-              </template>
+              @endif
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Hero Preview Images</label>
+                @if($landingPage->hero_preview_images && count($landingPage->hero_preview_images) > 0)
+                  <div class="mb-3 grid grid-cols-4 gap-2">
+                    @foreach($landingPage->hero_preview_images as $image)
+                      <div class="relative">
+                        <img src="{{ Storage::url($image) }}" alt="" class="h-20 w-full rounded object-cover">
+                        <input type="checkbox" name="remove_preview_images[]" value="{{ $image }}" class="absolute top-1 right-1 h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500">
+                      </div>
+                    @endforeach
+                  </div>
+                @endif
+                <input type="file" name="hero_preview_images[]" multiple accept="image/*"
+                       class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+                <x-forms.error :message="$errors->first('hero_preview_images.*')" />
+              </div>
             </div>
-            <button type="button" @click="videoCount++" class="mt-3 text-sm text-primary-600 hover:text-primary-800">
-              + Add Another Video
-            </button>
-          </div>
-        </div>
-      </x-card>
-
-      <!-- Call to Action -->
-      <x-card variant="elevated">
-        <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
-          <h2 class="text-lg font-medium text-gray-900">Call to Action</h2>
-          <p class="text-sm text-gray-500">Configure the checkout button and CTA text</p>
+          </x-card>
         </div>
 
-        <div class="space-y-6">
-          <x-forms.textarea name="cta_text" label="CTA Text" :value="old('cta_text', $landingPage->cta_text)" rows="3"
-                            :error="$errors->first('cta_text')"
-                            placeholder="Compelling text to encourage action (e.g., 'Limited Time Offer!')" />
-          <x-forms.input name="cta_button_text" label="Button Text" :value="old('cta_button_text', $landingPage->cta_button_text ?? 'Enroll Now')"
-                         :error="$errors->first('cta_button_text')" placeholder="Enroll Now / Buy Now" />
-        </div>
-      </x-card>
-
-      <!-- SEO Settings -->
-      <x-card variant="elevated">
-        <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
-          <h2 class="text-lg font-medium text-gray-900">SEO Settings</h2>
-          <p class="text-sm text-gray-500">Optimize your landing page for search engines</p>
-        </div>
-
-        <div class="space-y-6">
-          <x-forms.input name="meta_title" label="Meta Title" :value="old('meta_title', $landingPage->meta_title)"
-                         :error="$errors->first('meta_title')" placeholder="SEO title (50-60 characters)" />
-          <x-forms.textarea name="meta_description" label="Meta Description" :value="old('meta_description', $landingPage->meta_description)" rows="3"
-                            :error="$errors->first('meta_description')"
-                            placeholder="SEO description (150-160 characters)" />
-          <x-forms.image-uploader name="meta_image" label="Meta Image (OG Image)" :value="old('meta_image', $landingPage->meta_image ? Storage::url($landingPage->meta_image) : '')"
-                                  accept="image/*" maxSize="2MB" :error="$errors->first('meta_image')"
-                                  help="Image for social media sharing (1200x630px recommended)" />
-          @if($landingPage->meta_image)
-            <div class="flex items-center gap-2">
-              <input type="checkbox" name="meta_image_remove" id="meta_image_remove" value="1" class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
-              <label for="meta_image_remove" class="text-sm text-gray-700">Remove current image</label>
+        <!-- PDF Preview Tab -->
+        <div x-show="activeTab === 'pdf'" class="space-y-6">
+          <x-card variant="elevated">
+            <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+              <h2 class="text-lg font-medium text-gray-900">PDF Preview Section</h2>
+              <p class="text-sm text-gray-500">PDF preview cards with images and links</p>
             </div>
-          @endif
+
+            <div class="space-y-4">
+              <label class="block text-sm font-medium text-gray-700">PDF Previews (JSON)</label>
+              <textarea name="pdf_previews" rows="12" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 font-mono text-sm"
+                        placeholder='[{"image": "https://example.com/preview1.png", "pdf_url": "https://example.com/book1.pdf", "title": "Preview 1"}]'>{{ old('pdf_previews', $landingPage->pdf_previews ? json_encode($landingPage->pdf_previews, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '') }}</textarea>
+              <p class="text-xs text-gray-500">Enter JSON array with objects containing: image (URL), pdf_url, and title</p>
+              <x-forms.error :message="$errors->first('pdf_previews')" />
+            </div>
+          </x-card>
         </div>
-      </x-card>
+
+        <!-- Book Details Tab -->
+        <div x-show="activeTab === 'book-details'" class="space-y-6">
+          <x-card variant="elevated">
+            <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+              <h2 class="text-lg font-medium text-gray-900">Book Details Section</h2>
+              <p class="text-sm text-gray-500">Detailed information about the book</p>
+            </div>
+
+            <div class="space-y-6">
+              <x-forms.input name="book_details_title" label="Section Title" :value="old('book_details_title', $landingPage->book_details_title)" :error="$errors->first('book_details_title')" />
+              <x-forms.rich-text name="book_details_description" label="Description" :value="old('book_details_description', $landingPage->book_details_description)"
+                                 height="300px" :error="$errors->first('book_details_description')" />
+              
+              <div class="space-y-4">
+                <label class="block text-sm font-medium text-gray-700">Book Specialties (JSON)</label>
+                <textarea name="book_details_specialties" rows="8" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 font-mono text-sm"
+                          placeholder='[{"title": "১০৮ টি লেসন", "description": "বিস্তারিত বর্ণনা"}]'>{{ old('book_details_specialties', $landingPage->book_details_specialties ? json_encode($landingPage->book_details_specialties, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '') }}</textarea>
+                <x-forms.error :message="$errors->first('book_details_specialties')" />
+              </div>
+
+              <div class="space-y-4">
+                <label class="block text-sm font-medium text-gray-700">Extraordinary Points (JSON)</label>
+                <textarea name="book_details_extraordinary" rows="6" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 font-mono text-sm"
+                          placeholder='["Point 1", "Point 2"]'>{{ old('book_details_extraordinary', $landingPage->book_details_extraordinary ? json_encode($landingPage->book_details_extraordinary, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '') }}</textarea>
+                <x-forms.error :message="$errors->first('book_details_extraordinary')" />
+              </div>
+
+              <div class="space-y-4">
+                <label class="block text-sm font-medium text-gray-700">Why Students Love (JSON)</label>
+                <textarea name="book_details_students_love" rows="6" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 font-mono text-sm"
+                          placeholder='["Reason 1", "Reason 2"]'>{{ old('book_details_students_love', $landingPage->book_details_students_love ? json_encode($landingPage->book_details_students_love, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '') }}</textarea>
+                <x-forms.error :message="$errors->first('book_details_students_love')" />
+              </div>
+            </div>
+          </x-card>
+        </div>
+
+        <!-- Features Tab -->
+        <div x-show="activeTab === 'features'" class="space-y-6">
+          <x-card variant="elevated">
+            <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+              <h2 class="text-lg font-medium text-gray-900">Features Section</h2>
+              <p class="text-sm text-gray-500">Book features and target audience information</p>
+            </div>
+
+            <div class="space-y-6">
+              <div class="space-y-4">
+                <label class="block text-sm font-medium text-gray-700">Features List (JSON)</label>
+                <textarea name="features_list" rows="15" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 font-mono text-sm"
+                          placeholder='[{"title": "বইটির অসাধারণ কিছু বৈশিষ্ট্য", "items": [{"text": "বৈশিষ্ট্য ১", "icon_color": "#1a237e"}]}]'>{{ old('features_list', $landingPage->features_list ? json_encode($landingPage->features_list, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '') }}</textarea>
+                <x-forms.error :message="$errors->first('features_list')" />
+              </div>
+
+              <div class="space-y-4">
+                <label class="block text-sm font-medium text-gray-700">Target Audience List (JSON)</label>
+                <textarea name="target_audience_list" rows="15" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 font-mono text-sm"
+                          placeholder='[{"title": "বইটি মূলত কাদের জন্য?", "items": [{"text": "দর্শক ১", "icon_color": "#1565c0"}]}]'>{{ old('target_audience_list', $landingPage->target_audience_list ? json_encode($landingPage->target_audience_list, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '') }}</textarea>
+                <x-forms.error :message="$errors->first('target_audience_list')" />
+              </div>
+
+              <x-forms.input name="game_changer_title" label="Game Changer Title" :value="old('game_changer_title', $landingPage->game_changer_title)" :error="$errors->first('game_changer_title')" />
+              
+              <div class="space-y-4">
+                <label class="block text-sm font-medium text-gray-700">Game Changer Points (JSON Array)</label>
+                <textarea name="game_changer_points" rows="6" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 font-mono text-sm"
+                          placeholder='["বাস্তব কথোপকথন", "ব্যবহারিক অভিব্যক্তি"]'>{{ old('game_changer_points', $landingPage->game_changer_points ? json_encode($landingPage->game_changer_points, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '') }}</textarea>
+                <x-forms.error :message="$errors->first('game_changer_points')" />
+              </div>
+
+              <x-forms.textarea name="game_changer_conclusion" label="Game Changer Conclusion" :value="old('game_changer_conclusion', $landingPage->game_changer_conclusion)" rows="3"
+                                :error="$errors->first('game_changer_conclusion')" />
+            </div>
+          </x-card>
+        </div>
+
+        <!-- Pricing Tab -->
+        <div x-show="activeTab === 'pricing'" class="space-y-6">
+          <x-card variant="elevated">
+            <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+              <h2 class="text-lg font-medium text-gray-900">Pricing Section</h2>
+              <p class="text-sm text-gray-500">Book pricing and offer information</p>
+            </div>
+
+            <div class="space-y-6">
+              <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <x-forms.input name="pricing_original_price" label="Original Price (BDT)" type="number" step="0.01" :value="old('pricing_original_price', $landingPage->pricing_original_price)"
+                               :error="$errors->first('pricing_original_price')" />
+                <x-forms.input name="pricing_offer_price" label="Offer Price (BDT)" type="number" step="0.01" :value="old('pricing_offer_price', $landingPage->pricing_offer_price)"
+                               :error="$errors->first('pricing_offer_price')" />
+              </div>
+              <x-forms.textarea name="pricing_description" label="Pricing Description" :value="old('pricing_description', $landingPage->pricing_description)" rows="3"
+                                :error="$errors->first('pricing_description')" />
+              <x-forms.input name="pricing_note" label="Pricing Note" :value="old('pricing_note', $landingPage->pricing_note)" :error="$errors->first('pricing_note')" />
+            </div>
+          </x-card>
+        </div>
+
+        <!-- Order Form Tab -->
+        <div x-show="activeTab === 'order'" class="space-y-6">
+          <x-card variant="elevated">
+            <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+              <h2 class="text-lg font-medium text-gray-900">Order Form Section</h2>
+              <p class="text-sm text-gray-500">Order form configuration</p>
+            </div>
+
+            <div class="space-y-6">
+              <x-forms.input name="order_section_title" label="Section Title" :value="old('order_section_title', $landingPage->order_section_title ?? 'Order Now')" :error="$errors->first('order_section_title')" />
+              
+              <div class="space-y-4">
+                <label class="block text-sm font-medium text-gray-700">Order Form Fields (JSON Array)</label>
+                <textarea name="order_form_fields" rows="3" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 font-mono text-sm"
+                          placeholder='["Name", "Phone", "Address", "Country/Region"]'>{{ old('order_form_fields', $landingPage->order_form_fields ? json_encode($landingPage->order_form_fields, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '["Name", "Phone", "Address", "Country/Region"]') }}</textarea>
+                <p class="text-xs text-gray-500">Enter JSON array of field names</p>
+                <x-forms.error :message="$errors->first('order_form_fields')" />
+              </div>
+
+              <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <x-forms.input name="order_shipping_charge" label="Shipping Charge (BDT)" type="number" step="0.01" :value="old('order_shipping_charge', $landingPage->order_shipping_charge ?? 90)"
+                               :error="$errors->first('order_shipping_charge')" />
+                <x-forms.input name="order_shipping_note" label="Shipping Note" :value="old('order_shipping_note', $landingPage->order_shipping_note)" :error="$errors->first('order_shipping_note')" />
+              </div>
+              <x-forms.input name="order_payment_note" label="Payment Note" :value="old('order_payment_note', $landingPage->order_payment_note)" :error="$errors->first('order_payment_note')" />
+            </div>
+          </x-card>
+        </div>
+
+        <!-- SEO & Settings Tab -->
+        <div x-show="activeTab === 'seo'" class="space-y-6">
+          <x-card variant="elevated">
+            <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+              <h2 class="text-lg font-medium text-gray-900">SEO Settings</h2>
+              <p class="text-sm text-gray-500">Optimize your landing page for search engines</p>
+            </div>
+
+            <div class="space-y-6">
+              <x-forms.input name="meta_title" label="Meta Title" :value="old('meta_title', $landingPage->meta_title)"
+                             :error="$errors->first('meta_title')" placeholder="SEO title (50-60 characters)" />
+              <x-forms.textarea name="meta_description" label="Meta Description" :value="old('meta_description', $landingPage->meta_description)" rows="3"
+                                :error="$errors->first('meta_description')"
+                                placeholder="SEO description (150-160 characters)" />
+              <x-forms.image-uploader name="meta_image" label="Meta Image (OG Image)" :value="old('meta_image', $landingPage->meta_image ? Storage::url($landingPage->meta_image) : '')"
+                                      accept="image/*" maxSize="2MB" :error="$errors->first('meta_image')"
+                                      help="Image for social media sharing (1200x630px recommended)" />
+              @if($landingPage->meta_image)
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" name="meta_image_remove" id="meta_image_remove" value="1" class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                  <label for="meta_image_remove" class="text-sm text-gray-700">Remove current image</label>
+                </div>
+              @endif
+            </div>
+          </x-card>
+        </div>
+      </div>
 
       <!-- Submit Button -->
-      <div class="flex items-center justify-end gap-4">
+      <div class="flex items-center justify-end gap-4 border-t border-gray-200 pt-6">
         <x-ui.link href="{{ route('admin.landing-pages.index') }}" variant="outline" size="md">
           Cancel
         </x-ui.link>
@@ -244,38 +380,7 @@
             .trim();
           $('#landing-slug').val(slug);
         });
-
-        // Dynamic product selection based on type
-        const courses = @json($courses);
-        const books = @json($books);
-
-        $('#product-type').on('change', function() {
-          const productType = $(this).val();
-          const $productSelect = $('#product-id');
-          $productSelect.empty();
-
-          if (productType === 'course') {
-            $productSelect.append('<option value="">Select a Course</option>');
-            Object.keys(courses).forEach(function(id) {
-              $productSelect.append('<option value="' + id + '">' + courses[id] + '</option>');
-            });
-          } else if (productType === 'book') {
-            $productSelect.append('<option value="">Select a Book</option>');
-            Object.keys(books).forEach(function(id) {
-              $productSelect.append('<option value="' + id + '">' + books[id] + '</option>');
-            });
-          } else {
-            $productSelect.append('<option value="">Select Product Type First</option>');
-          }
-        });
-
-        // Set initial value
-        @if(old('product_type', $landingPage->product_type))
-          $('#product-type').trigger('change');
-          $('#product-id').val('{{ old('product_id', $landingPage->product_id) }}');
-        @endif
       });
     </script>
   @endpush
 @endsection
-
