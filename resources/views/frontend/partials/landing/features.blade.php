@@ -1,7 +1,6 @@
 <section class="features-section section" style="background-color: #ffffff;">
-  <div class="container">
-    <div class="features-grid"
-         style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; align-items: start;">
+  <div class="container-narrow">
+    <div class="features-grid">
 
       <!-- Book Features Column -->
       <div class="feature-column">
@@ -11,7 +10,6 @@
         </h2>
 
         <ul style="list-style: none; padding: 0; margin: 0;">
-
           <li style="display: flex; align-items: flex-start; margin-bottom: 20px;">
             <span style="color: var(--primary-color); margin-right: 15px; flex-shrink: 0; font-size: 1.2rem;">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"
@@ -105,7 +103,8 @@
               </svg>
             </span>
             <span class="bengali-text" style="color: var(--dark-text); line-height: 1.6; font-size: 1.05rem;">
-              <b>বিশেষ অফারটি এটিকে আরও আকর্ষণীয় করে তোলে:</b> মূল্য ৳১২৮০ হলেও, প্রথম ৫০০ জন পাঠক পাবেন মাত্র ৳৭৫০, যা
+              <b>বিশেষ অফারটি এটিকে আরও আকর্ষণীয় করে তোলে:</b> মূল্য ৳১২৮০ হলেও, প্রথম ৫০০ জন পাঠক পাবেন মাত্র ৳৭৫০,
+              যা
               একটি দীর্ঘমেয়াদী দক্ষতায় বিনিয়োগের সেরা সুযোগ।
             </span>
           </li>
@@ -153,7 +152,8 @@
               </svg>
             </span>
             <span class="bengali-text" style="color: var(--dark-text); line-height: 1.6; font-size: 1.05rem;">
-              <b>ইংরেজি বলতে ভয় পান বা আত্মবিশ্বাসের অভাব অনুভব করেন:</b> যারা কথা বলতে গিয়ে বারবার আটকে যান—এই বই তাদের
+              <b>ইংরেজি বলতে ভয় পান বা আত্মবিশ্বাসের অভাব অনুভব করেন:</b> যারা কথা বলতে গিয়ে বারবার আটকে যান—এই বই
+              তাদের
               জন্য অত্যন্ত উপযোগী।
             </span>
           </li>
@@ -167,7 +167,8 @@
               </svg>
             </span>
             <span class="bengali-text" style="color: var(--dark-text); line-height: 1.6; font-size: 1.05rem;">
-              <b>বেসিক জানেন, কিন্তু ব্যবহার করতে পারেন না:</b> ব্যাকরণ জানা থাকলেও কথোপকথনে প্রয়োগ করতে পারেন না—তাদের
+              <b>বেসিক জানেন, কিন্তু ব্যবহার করতে পারেন না:</b> ব্যাকরণ জানা থাকলেও কথোপকথনে প্রয়োগ করতে পারেন
+              না—তাদের
               জন্য এটি একটি প্র্যাকটিক্যাল গাইডবুক।
             </span>
           </li>
@@ -285,7 +286,7 @@
 <style>
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 40px;
     align-items: start;
   }
@@ -293,6 +294,7 @@
   .feature-column {
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 
   .feature-heading {
@@ -305,12 +307,21 @@
     margin-top: 50px;
     padding-top: 50px;
     border-top: 2px solid #e0e0e0;
+    width: 100%;
   }
 
-  @media (max-width: 968px) {
+  /* Tablet and larger devices - 2 columns */
+  @media (min-width: 768px) {
     .features-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 40px;
+    }
+  }
+
+  /* Medium devices - adjust spacing */
+  @media (max-width: 968px) and (min-width: 768px) {
+    .features-grid {
+      gap: 30px;
     }
 
     .game-changer-section {
@@ -319,18 +330,25 @@
     }
   }
 
-  @media (max-width: 768px) {
+  /* Small devices - single column, full width */
+  @media (max-width: 767px) {
     .features-section h2 {
       font-size: 1.5rem !important;
     }
 
     .features-grid {
+      grid-template-columns: 1fr;
       gap: 30px;
+    }
+
+    .feature-column {
+      width: 100%;
     }
 
     .game-changer-section {
       margin-top: 30px;
       padding-top: 30px;
+      width: 100%;
     }
   }
 </style>
