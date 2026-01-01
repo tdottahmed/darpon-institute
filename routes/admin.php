@@ -26,6 +26,7 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
 
     // Book Management
     Route::resource('books', BookController::class);
+    Route::get('books/{book}/json', [BookController::class, 'json'])->name('books.json');
 
     // Video Blog Management
     Route::resource('video-blogs', VideoBlogController::class);

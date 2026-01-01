@@ -95,6 +95,19 @@ class BookController extends Controller
     }
 
     /**
+     * Return book data as JSON (for AJAX requests).
+     */
+    public function json(Book $book)
+    {
+        return response()->json([
+            'id' => $book->id,
+            'title' => $book->title,
+            'price' => $book->price,
+            'discounted_price' => $book->discounted_price ?? $book->price,
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Book $book)
