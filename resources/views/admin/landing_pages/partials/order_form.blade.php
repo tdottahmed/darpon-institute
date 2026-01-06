@@ -1,12 +1,25 @@
+@php
+  $formAction = isset($landingPage) 
+    ? route('admin.landing-pages.update-partial', $landingPage)
+    : route('admin.landing-pages.store-partial');
+@endphp
+
 <!-- Order Form Tab -->
-<div x-show="activeTab === 'order'" class="space-y-6">
+<div class="space-y-6">
   <x-card variant="elevated">
     <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
       <h2 class="text-lg font-medium text-gray-900">Order Form Section</h2>
       <p class="text-sm text-gray-500">Order form configuration, shipping, and payment information</p>
     </div>
 
-    <div class="space-y-6">
+    <form action="{{ $formAction }}" method="POST">
+      @csrf
+      @if(isset($landingPage))
+        @method('PUT')
+      @endif
+      <input type="hidden" name="tab" value="order">
+
+      <div class="space-y-6">
       <x-forms.input name="order_section_title" label="Section Title" 
                      :value="old('order_section_title', isset($landingPage) ? $landingPage->order_section_title : 'Order Now')" 
                      :error="$errors->first('order_section_title')"
@@ -57,8 +70,22 @@
             </div>
           </div>
         </div>
+
+        <!-- Submit Button -->
+        <div class="flex items-center justify-end gap-4 border-t border-gray-200 pt-6">
+          <a href="{{ isset($landingPage) ? route('admin.landing-pages.edit', $landingPage) : route('admin.landing-pages.create') }}?tab=order"
+             class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500">
+            Cancel
+          </a>
+          <x-button type="submit" variant="primary" size="md">
+            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            {{ isset($landingPage) ? 'Update Order Form' : 'Save Order Form' }}
+          </x-button>
+        </div>
       </div>
-    </div>
+    </form>
   </x-card>
 </div>
 

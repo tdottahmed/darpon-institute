@@ -1,7 +1,11 @@
+@php
+  $activeTab = request()->get('tab', 'basic');
+@endphp
+
 @extends('layouts.admin')
 
 @section('content')
-  <div class="space-y-6" x-data="{ activeTab: 'basic' }">
+  <div class="space-y-6">
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
@@ -13,38 +17,29 @@
       </x-ui.link>
     </div>
 
-    <!-- Form -->
-    <form action="{{ route('admin.landing-pages.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-      @csrf
+    <!-- Tabs Navigation -->
+    @include('admin.landing_pages.partials.tabs')
 
-      <!-- Tabs Navigation -->
-      @include('admin.landing_pages.partials.tabs')
-
-      <!-- Tab Content -->
-      <div class="space-y-6">
+    <!-- Tab Content -->
+    <div class="space-y-6">
+      @if ($activeTab === 'basic')
         @include('admin.landing_pages.partials.basic_info')
+      @elseif($activeTab === 'hero')
         @include('admin.landing_pages.partials.hero_section')
+      @elseif($activeTab === 'pdf')
         @include('admin.landing_pages.partials.pdf_preview')
+      @elseif($activeTab === 'book-details')
         @include('admin.landing_pages.partials.book_details')
+      @elseif($activeTab === 'features')
         @include('admin.landing_pages.partials.features')
+      @elseif($activeTab === 'pricing')
         @include('admin.landing_pages.partials.pricing')
+      @elseif($activeTab === 'order')
         @include('admin.landing_pages.partials.order_form')
+      @elseif($activeTab === 'seo')
         @include('admin.landing_pages.partials.seo_settings')
-      </div>
-
-      <!-- Submit Button -->
-      <div class="flex items-center justify-end gap-4 border-t border-gray-200 pt-6">
-        <x-ui.link href="{{ route('admin.landing-pages.index') }}" variant="outline" size="md">
-          Cancel
-        </x-ui.link>
-        <x-button type="submit" variant="primary" size="md">
-          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          Create Landing Page
-        </x-button>
-      </div>
-    </form>
+      @endif
+    </div>
   </div>
 
   @push('scripts')

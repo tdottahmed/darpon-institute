@@ -1,12 +1,25 @@
+@php
+  $formAction = isset($landingPage) 
+    ? route('admin.landing-pages.update-partial', $landingPage)
+    : route('admin.landing-pages.store-partial');
+@endphp
+
 <!-- Features Tab -->
-<div x-show="activeTab === 'features'" class="space-y-6">
+<div class="space-y-6">
   <x-card variant="elevated">
     <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
       <h2 class="text-lg font-medium text-gray-900">Features Section</h2>
       <p class="text-sm text-gray-500">Book features, target audience, and game changer information</p>
     </div>
 
-    <div class="space-y-6">
+    <form action="{{ $formAction }}" method="POST">
+      @csrf
+      @if(isset($landingPage))
+        @method('PUT')
+      @endif
+      <input type="hidden" name="tab" value="features">
+
+      <div class="space-y-6">
       <div class="space-y-4">
         <label class="block text-sm font-medium text-gray-700">Features List (JSON Format)</label>
         <p class="text-xs text-gray-500 mb-2">List of book features. Each feature group has a title and items with text and icon_color.</p>

@@ -1,12 +1,25 @@
+@php
+  $formAction = isset($landingPage) 
+    ? route('admin.landing-pages.update-partial', $landingPage)
+    : route('admin.landing-pages.store-partial');
+@endphp
+
 <!-- Pricing Tab -->
-<div x-show="activeTab === 'pricing'" class="space-y-6">
+<div class="space-y-6">
   <x-card variant="elevated">
     <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
       <h2 class="text-lg font-medium text-gray-900">Pricing Section</h2>
       <p class="text-sm text-gray-500">Book pricing, offers, and promotional information</p>
     </div>
 
-    <div class="space-y-6">
+    <form action="{{ $formAction }}" method="POST">
+      @csrf
+      @if(isset($landingPage))
+        @method('PUT')
+      @endif
+      <input type="hidden" name="tab" value="pricing">
+
+      <div class="space-y-6">
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <x-forms.input name="pricing_original_price" label="Original Price (BDT)" type="number"
                        step="0.01" :value="old('pricing_original_price', isset($landingPage) ? $landingPage->pricing_original_price : '')"
@@ -45,7 +58,21 @@
           </div>
         </div>
       </div>
-    </div>
+
+      <!-- Submit Button -->
+      <div class="flex items-center justify-end gap-4 border-t border-gray-200 pt-6">
+        <a href="{{ isset($landingPage) ? route('admin.landing-pages.edit', $landingPage) : route('admin.landing-pages.create') }}?tab=pricing"
+           class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500">
+          Cancel
+        </a>
+        <x-button type="submit" variant="primary" size="md">
+          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          {{ isset($landingPage) ? 'Update Pricing' : 'Save Pricing' }}
+        </x-button>
+      </div>
+    </form>
   </x-card>
 </div>
 

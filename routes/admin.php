@@ -61,4 +61,6 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
 
     // Landing Pages
     Route::resource('landing-pages', LandingPageController::class);
+    Route::post('landing-pages/store-partial', [LandingPageController::class, 'storePartial'])->name('landing-pages.store-partial');
+    Route::put('landing-pages/{landing_page}/update-partial', [LandingPageController::class, 'updatePartial'])->name('landing-pages.update-partial');
 });
