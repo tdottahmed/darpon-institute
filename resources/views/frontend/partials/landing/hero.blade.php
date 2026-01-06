@@ -14,16 +14,12 @@
 <section class="hero-section section-sm" style="background-color: #fff1d0; text-align: center;">
   <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
 
-    <!-- Hero Image with Zoom -->
+    <!-- Hero Image -->
     @if ($heroMainImage)
-      <div style="margin-bottom: 20px; position: relative; cursor: zoom-in;" id="heroMainImageContainer">
+      <div style="margin-bottom: 20px;">
         <img decoding="async" src="{{ $heroMainImage }}" alt="{{ $heroEnglishTitle }}" id="heroMainImage"
              class="hero-main-image"
-             style="max-width: 100%; height: auto; width: 300px; display: block; transition: transform 0.3s ease; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-        <div class="zoom-indicator"
-             style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; display: none;">
-          Click to zoom
-        </div>
+             style="max-width: 100%; height: auto; width: 300px; display: block; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
       </div>
     @endif
 
@@ -160,13 +156,6 @@
       transform: translateY(-50%) scale(1.1);
     }
 
-    .hero-main-image:hover {
-      transform: scale(1.05);
-    }
-
-    #heroMainImageContainer:hover .zoom-indicator {
-      display: block;
-    }
 
     .gallery-nav:hover {
       background: rgba(255, 255, 255, 0.4) !important;
@@ -254,8 +243,6 @@
       const allImages = @json($allImages);
       let currentGalleryIndex = 0;
 
-      const heroMainImage = document.getElementById('heroMainImage');
-      const heroMainImageContainer = document.getElementById('heroMainImageContainer');
       const previewSlider = document.getElementById('previewSlider');
       const sliderPrev = document.getElementById('sliderPrev');
       const sliderNext = document.getElementById('sliderNext');
@@ -273,39 +260,19 @@
         totalImagesSpan.textContent = allImages.length;
       }
 
-      // Update hero main image when preview is clicked
-      let clickTimer = null;
+      // Open gallery when preview is clicked
       previewSlides.forEach((slide, index) => {
-        slide.addEventListener('click', function(e) {
-          const imageUrl = this.dataset.image;
+        slide.addEventListener('click', function() {
+          // Open gallery starting from this image (index + 1 because main image is at index 0)
+          openGallery(index + 1);
 
-          // Clear any existing timer
-          if (clickTimer) {
-            clearTimeout(clickTimer);
-            clickTimer = null;
-            // Double click - open gallery
-            openGallery(index + 1);
-            return;
-          }
-
-          // Single click - update main image
-          clickTimer = setTimeout(() => {
-            if (heroMainImage) {
-              heroMainImage.src = imageUrl;
-              heroMainImage.style.animation = 'none';
-              setTimeout(() => {
-                heroMainImage.style.animation = 'zoomIn 0.3s ease';
-              }, 10);
-            }
-            // Update active slide
-            previewSlides.forEach(s => {
-              s.classList.remove('active');
-              s.querySelector('.preview-thumbnail').style.borderColor = '#ddd';
-            });
-            this.classList.add('active');
-            this.querySelector('.preview-thumbnail').style.borderColor = 'var(--accent-color, #ff9800)';
-            clickTimer = null;
-          }, 200);
+          // Update active slide
+          previewSlides.forEach(s => {
+            s.classList.remove('active');
+            s.querySelector('.preview-thumbnail').style.borderColor = '#ddd';
+          });
+          this.classList.add('active');
+          this.querySelector('.preview-thumbnail').style.borderColor = 'var(--accent-color, #ff9800)';
         });
       });
 
@@ -344,10 +311,7 @@
         updateGalleryImage();
       }
 
-      // Event listeners
-      if (heroMainImageContainer) {
-        heroMainImageContainer.addEventListener('click', () => openGallery(0));
-      }
+      // Event listeners - Gallery opens only from preview slider
 
 
       if (closeGallery) {
