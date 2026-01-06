@@ -678,8 +678,100 @@ class LandingPageController extends Controller
         // Note: pdf_previews is handled separately in handlePdfPreviews()
 
         foreach ($jsonFields as $field) {
+            // Handle book_details fields that might come as arrays
+            if ($field === 'book_details_specialties' && $request->has('specialties')) {
+                $specialties = array_filter($request->input('specialties', []), function($item) {
+                    return !empty($item['title']) || !empty($item['description']);
+                });
+                $validated[$field] = !empty($specialties) ? array_values($specialties) : null;
+                continue;
+            }
+            
+            if ($field === 'book_details_extraordinary' && $request->has('extraordinary')) {
+                $extraordinary = array_filter($request->input('extraordinary', []), function($item) {
+                    return !empty(trim($item));
+                });
+                $validated[$field] = !empty($extraordinary) ? array_values($extraordinary) : null;
+                continue;
+            }
+            
+            if ($field === 'book_details_students_love' && $request->has('students_love')) {
+                $studentsLove = array_filter($request->input('students_love', []), function($item) {
+                    return !empty(trim($item));
+                });
+                $validated[$field] = !empty($studentsLove) ? array_values($studentsLove) : null;
+                continue;
+            }
+            
+            // Handle features_list that might come as feature_groups array
+            if ($field === 'features_list' && $request->has('feature_groups')) {
+                $featureGroups = [];
+                foreach ($request->input('feature_groups', []) as $group) {
+                    if (!empty($group['title']) || !empty($group['items'])) {
+                        $items = [];
+                        foreach ($group['items'] ?? [] as $item) {
+                            if (!empty($item['text'])) {
+                                $items[] = [
+                                    'text' => $item['text'],
+                                    'icon_color' => $item['icon_color'] ?? '#1a237e'
+                                ];
+                            }
+                        }
+                        $featureGroups[] = [
+                            'title' => $group['title'] ?? '',
+                            'items' => $items
+                        ];
+                    }
+                }
+                $validated[$field] = !empty($featureGroups) ? $featureGroups : null;
+                continue;
+            }
+            
+            // Handle target_audience_list that might come as audience_groups array
+            if ($field === 'target_audience_list' && $request->has('audience_groups')) {
+                $audienceGroups = [];
+                foreach ($request->input('audience_groups', []) as $group) {
+                    if (!empty($group['title']) || !empty($group['items'])) {
+                        $items = [];
+                        foreach ($group['items'] ?? [] as $item) {
+                            if (!empty($item['text'])) {
+                                $items[] = [
+                                    'text' => $item['text'],
+                                    'icon_color' => $item['icon_color'] ?? '#1565c0'
+                                ];
+                            }
+                        }
+                        $audienceGroups[] = [
+                            'title' => $group['title'] ?? '',
+                            'items' => $items
+                        ];
+                    }
+                }
+                $validated[$field] = !empty($audienceGroups) ? $audienceGroups : null;
+                continue;
+            }
+            
+            // Handle game_changer_points that might come as game_changer_points_array
+            if ($field === 'game_changer_points' && $request->has('game_changer_points_array')) {
+                $points = array_filter($request->input('game_changer_points_array', []), function($item) {
+                    return !empty(trim($item));
+                });
+                $validated[$field] = !empty($points) ? array_values($points) : null;
+                continue;
+            }
+            
+            // Handle JSON string fields
             if ($request->filled($field)) {
-                $jsonString = trim($request->$field);
+                $value = $request->$field;
+                
+                // If already an array, use it directly
+                if (is_array($value)) {
+                    $validated[$field] = !empty($value) ? $value : null;
+                    continue;
+                }
+                
+                // Otherwise, try to decode JSON string
+                $jsonString = trim($value);
                 if (!empty($jsonString)) {
                     $decoded = json_decode($jsonString, true);
                     if (json_last_error() === JSON_ERROR_NONE) {
