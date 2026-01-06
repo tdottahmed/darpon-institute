@@ -15,8 +15,13 @@ class LandingPageController extends Controller
     {
         $landingPage = LandingPage::where('slug', $slug)
             ->where('status', true)
-            ->with(['course', 'book'])
+            ->with('book')
             ->firstOrFail();
+
+        // Ensure book exists for book-type landing pages
+        if ($landingPage->product_type === 'book' && !$landingPage->book) {
+            abort(404, 'Book not found for this landing page');
+        }
 
         return view('frontend.landing_page', compact('landingPage'));
     }

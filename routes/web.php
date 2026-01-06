@@ -60,6 +60,8 @@ Route::post('/books/{book:slug}/checkout', [BookOrderController::class, 'store']
 // ============================================
 Route::get('/lp/{slug}', [LandingPageController::class, 'show'])
     ->name('landing-page.show');
+Route::post('/lp/{slug}/order', [BookOrderController::class, 'storeFromLandingPage'])
+    ->name('landing-page.order.store');
 
 // ============================================
 // AUTHENTICATED ROUTES

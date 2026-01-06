@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\NewUserPasswordMail;
 use App\Models\Book;
 use App\Models\BookOrder;
+use App\Models\LandingPage;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -104,6 +105,102 @@ class BookOrderController extends Controller
                     'order' => $bookOrder,
                     'isNewUser' => $isNewUser,
                 ]);
+            });
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to place order. Please try again. ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Store a newly created order from a landing page.
+     */
+    public function storeFromLandingPage(Request $request, $slug)
+    {
+        $landingPage = LandingPage::where('slug', $slug)
+            ->where('status', true)
+            ->with('book')
+            ->firstOrFail();
+
+        $book = $landingPage->book;
+        if (!$book) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Book not found for this landing page.');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email:rfc,dns|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:500',
+            'quantity' => 'required|integer|min:1',
+            'shipping_method' => 'required|in:home_delivery',
+            'payment_method' => 'required|in:cod',
+        ]);
+
+        // Use pricing from landing page or fallback to book
+        $offerPrice = $landingPage->pricing_offer_price ?? ($book->discounted_price ?? $book->price);
+        $shippingCost = $landingPage->order_shipping_charge ?? 90;
+        $totalAmount = ($offerPrice * $request->quantity) + $shippingCost;
+
+        try {
+            return DB::transaction(function () use ($request, $book, $shippingCost, $offerPrice, $totalAmount, $landingPage) {
+                $user = Auth::user();
+                $isNewUser = false;
+                $password = null;
+
+                if (!$user) {
+                    $user = User::where('email', $request->email)->first();
+
+                    if (!$user) {
+                        // Create new user
+                        $password = \Illuminate\Support\Str::random(10);
+                        $user = User::create([
+                            'name' => $request->name,
+                            'email' => $request->email,
+                            'password' => Hash::make($password),
+                            'user_type' => 'customer',
+                        ]);
+                        $isNewUser = true;
+
+                        // Send email (mandatory, failure rolls back transaction)
+                        try {
+                            Mail::to($user->email)->send(new NewUserPasswordMail($user, $password));
+                        } catch (\Exception $mailException) {
+                            logger()->error($mailException->getMessage());
+                            throw new \Exception('Failed to send email. Please check your email address and try again.');
+                        }
+
+                        Auth::login($user);
+                    }
+                }
+
+                $bookOrder = BookOrder::create([
+                    'book_id' => $book->id,
+                    'user_id' => $user ? $user->id : null,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'address' => $request->address,
+                    'quantity' => $request->quantity,
+                    'shipping_method' => 'home_delivery', // Landing pages use home delivery
+                    'shipping_cost' => $shippingCost,
+                    'total_amount' => $totalAmount,
+                    'payment_method' => $request->payment_method ?? 'cod',
+                    'status' => 'pending',
+                    'note' => $request->note ?? 'Order from landing page: ' . $landingPage->title,
+                ]);
+
+                // Load relationships
+                $bookOrder->load('book', 'user');
+
+                // Redirect back to landing page with success message
+                return redirect()->route('landing-page.show', $landingPage->slug)
+                    ->with('order_success', true)
+                    ->with('order_id', $bookOrder->id)
+                    ->with('is_new_user', $isNewUser);
             });
         } catch (\Exception $e) {
             return redirect()->back()

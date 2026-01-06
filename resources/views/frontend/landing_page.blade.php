@@ -18,6 +18,33 @@
 </head>
 
 <body>
+  <!-- Success/Error Messages -->
+  @if (session('order_success'))
+    <div
+         style="position: fixed; top: 20px; right: 20px; background: #4caf50; color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; max-width: 400px;">
+      <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 10px;">✓ Order Placed Successfully!</div>
+      <div style="font-size: 0.9rem; margin-bottom: 10px;">Your order ID: <strong>#{{ session('order_id') }}</strong>
+      </div>
+      @if (session('is_new_user'))
+        <div style="font-size: 0.85rem; background: rgba(255,255,255,0.2); padding: 8px; border-radius: 4px;">
+          A password has been sent to your email. Please check your inbox.
+        </div>
+      @endif
+      <button onclick="this.parentElement.style.display='none'"
+              style="margin-top: 10px; background: rgba(255,255,255,0.3); border: none; color: white; padding: 5px 15px; border-radius: 4px; cursor: pointer;">Close</button>
+    </div>
+  @endif
+
+  @if (session('error'))
+    <div
+         style="position: fixed; top: 20px; right: 20px; background: #f44336; color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; max-width: 400px;">
+      <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 10px;">✗ Error</div>
+      <div style="font-size: 0.9rem;">{{ session('error') }}</div>
+      <button onclick="this.parentElement.style.display='none'"
+              style="margin-top: 10px; background: rgba(255,255,255,0.3); border: none; color: white; padding: 5px 15px; border-radius: 4px; cursor: pointer;">Close</button>
+    </div>
+  @endif
+
   <!-- Header Section -->
   @include('frontend.partials.landing.header')
 
