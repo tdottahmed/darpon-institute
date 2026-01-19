@@ -11,6 +11,12 @@
       ],
       'Content' => [
           [
+              'name' => 'About Us',
+              'href' => route('admin.about.index'),
+              'icon' => 'information-circle',
+              'active' => request()->routeIs('admin.about.*'),
+          ],
+          [
               'name' => 'Courses',
               'href' => route('admin.courses.index'),
               'icon' => 'courses',

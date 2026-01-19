@@ -344,7 +344,26 @@ class FrontendController extends Controller
      */
     public function about(): Response
     {
-        return Inertia::render('About/Index');
+        $contents = \App\Models\FrontendContent::where('section', 'about_page')->get();
+        $locale = app()->getLocale();
+        
+        $content = [
+            'page_title' => $contents->where('key', 'page_title')->first()->value[$locale] ?? $contents->where('key', 'page_title')->first()->value['en'] ?? 'About Us',
+            'page_subtitle' => $contents->where('key', 'page_subtitle')->first()->value[$locale] ?? $contents->where('key', 'page_subtitle')->first()->value['en'] ?? 'Learn more about our mission, vision, and commitment to English education',
+            'content' => $contents->where('key', 'content')->first()->value[$locale] ?? $contents->where('key', 'content')->first()->value['en'] ?? null,
+            // Sidebar
+            'sidebar_title' => $contents->where('key', 'sidebar_title')->first()->value[$locale] ?? $contents->where('key', 'sidebar_title')->first()->value['en'] ?? 'Join Our Community',
+            'sidebar_item_1_title' => $contents->where('key', 'sidebar_item_1_title')->first()->value[$locale] ?? $contents->where('key', 'sidebar_item_1_title')->first()->value['en'] ?? 'Expert Instructors',
+            'sidebar_item_1_text' => $contents->where('key', 'sidebar_item_1_text')->first()->value[$locale] ?? $contents->where('key', 'sidebar_item_1_text')->first()->value['en'] ?? 'Learn from the best in the industry with years of experience.',
+            'sidebar_item_2_title' => $contents->where('key', 'sidebar_item_2_title')->first()->value[$locale] ?? $contents->where('key', 'sidebar_item_2_title')->first()->value['en'] ?? 'Interactive Learning',
+            'sidebar_item_2_text' => $contents->where('key', 'sidebar_item_2_text')->first()->value[$locale] ?? $contents->where('key', 'sidebar_item_2_text')->first()->value['en'] ?? 'Engage with modern tools and methodologies for faster progress.',
+            'sidebar_item_3_title' => $contents->where('key', 'sidebar_item_3_title')->first()->value[$locale] ?? $contents->where('key', 'sidebar_item_3_title')->first()->value['en'] ?? 'Certified Success',
+            'sidebar_item_3_text' => $contents->where('key', 'sidebar_item_3_text')->first()->value[$locale] ?? $contents->where('key', 'sidebar_item_3_text')->first()->value['en'] ?? 'Receive recognized certificates upon completing your courses.',
+        ];
+
+        return Inertia::render('About/Index', [
+            'content' => $content
+        ]);
     }
 
     /**

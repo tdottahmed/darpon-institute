@@ -87,6 +87,12 @@ Route::middleware('auth')->group(function () {
 
     // Teachers Management
     Route::resource('admin/teachers', \App\Http\Controllers\Admin\TeacherController::class, ['as' => 'admin']);
+
+    // About Page Management
+    Route::group(['prefix' => 'admin/about', 'as' => 'admin.about.'], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\AboutController::class, 'index'])->name('index');
+        Route::post('/update', [\App\Http\Controllers\Admin\AboutController::class, 'update'])->name('update');
+    });
 });
 
 require __DIR__ . '/auth.php';

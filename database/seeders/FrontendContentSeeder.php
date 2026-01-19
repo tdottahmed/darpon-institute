@@ -651,6 +651,71 @@ class FrontendContentSeeder extends Seeder
                 'value' => ['en' => 'Learn from the best educators dedicated to your success', 'bn' => 'আপনার সাফল্যের জন্য নিবেদিত সেরা শিক্ষকদের কাছ থেকে শিখুন'],
                 'type' => 'textarea',
             ],
+            // About Page
+            [
+                'section' => 'about_page',
+                'key' => 'page_title',
+                'value' => ['en' => 'About Us', 'bn' => 'আমাদের সম্পর্কে'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'about_page',
+                'key' => 'page_subtitle',
+                'value' => ['en' => 'Learn more about our mission, vision, and commitment to English education', 'bn' => 'আমাদের লক্ষ্য, দৃষ্টি এবং ইংরেজি শিক্ষার প্রতি প্রতিশ্রুতি সম্পর্কে আরও জানুন'],
+                'type' => 'textarea',
+            ],
+            [
+                'section' => 'about_page',
+                'key' => 'content',
+                'value' => [
+                    'en' => '<h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Mission</h2><p class="text-lg leading-relaxed">We are dedicated to providing accessible, high-quality English education to students around the world. Our mission is to empower learners with the skills and confidence they need to succeed in their personal and professional lives.</p><h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4 mt-12">Our Vision</h2><p class="text-lg leading-relaxed">To become a leading platform for English language learning, recognized for innovation, quality, and student success. We envision a world where language barriers no longer limit opportunities.</p><h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4 mt-12">Why Choose Us</h2><ul class="list-disc list-inside space-y-3 text-lg"><li>Interactive and engaging learning methods</li><li>Experienced and qualified instructors</li><li>Flexible learning schedules</li><li>Comprehensive course materials</li><li>Personalized learning paths</li><li>Digital certificates upon completion</li></ul>',
+                    'bn' => '<h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">আমাদের লক্ষ্য</h2><p class="text-lg leading-relaxed">আমরা সারা বিশ্বের শিক্ষার্থীদের জন্য সহজলভ্য, উচ্চমানের ইংরেজি শিক্ষা প্রদানে নিবেদিত। আমাদের লক্ষ্য হল শিক্ষার্থীদের ব্যক্তিগত এবং পেশাগত জীবনে সফল হওয়ার জন্য প্রয়োজনীয় দক্ষতা এবং আত্মবিশ্বাসের সাথে ক্ষমতায়ন করা।</p><h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4 mt-12">আমাদের দৃষ্টি</h2><p class="text-lg leading-relaxed">ইংরেজি ভাষা শিক্ষার জন্য একটি শীর্ষস্থানীয় প্ল্যাটফর্ম হয়ে ওঠা, যা উদ্ভাবন, গুণমান এবং শিক্ষার্থীদের সাফল্যের জন্য স্বীকৃত। আমরা এমন একটি বিশ্বের কল্পনা করি যেখানে ভাষার বাধা আর সুযোগকে সীমাবদ্ধ করে না।</p><h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4 mt-12">কেন আমাদের বেছে নেবেন</h2><ul class="list-disc list-inside space-y-3 text-lg"><li>ইন্টারঅ্যাক্টিভ এবং আকর্ষক শেখার পদ্ধতি</li><li>অভিজ্ঞ এবং যোগ্য প্রশিক্ষক</li><li>নমনীয় শেখার সময়সূচী</li><li>ব্যাপক কোর্সের উপকরণ</li><li>ব্যক্তিগতকৃত শেখার পথ</li><li>সমাপ্তির পর ডিজিটাল সার্টিফিকেট</li></ul>'
+                ],
+                'type' => 'textarea',
+            ],
+            // About Page Sidebar
+            [
+                'section' => 'about_page',
+                'key' => 'sidebar_title',
+                'value' => ['en' => 'Join Our Community', 'bn' => 'আমাদের কমিউনিটিতে যোগ দিন'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'about_page',
+                'key' => 'sidebar_item_1_title',
+                'value' => ['en' => 'Expert Instructors', 'bn' => 'বিশেষজ্ঞ প্রশিক্ষক'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'about_page',
+                'key' => 'sidebar_item_1_text',
+                'value' => ['en' => 'Learn from the best in the industry with years of experience.', 'bn' => 'শিল্পের সেরাদের কাছ থেকে শিখুন যাদের রয়েছে বছরের পর বছর অভিজ্ঞতা।'],
+                'type' => 'textarea',
+            ],
+            [
+                'section' => 'about_page',
+                'key' => 'sidebar_item_2_title',
+                'value' => ['en' => 'Interactive Learning', 'bn' => 'ইন্টারঅ্যাক্টিভ শিক্ষা'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'about_page',
+                'key' => 'sidebar_item_2_text',
+                'value' => ['en' => 'Engage with modern tools and methodologies for faster progress.', 'bn' => 'দ্রুত অগ্রগতির জন্য আধুনিক সরঞ্জাম এবং পদ্ধতির সাথে যুক্ত হন।'],
+                'type' => 'textarea',
+            ],
+            [
+                'section' => 'about_page',
+                'key' => 'sidebar_item_3_title',
+                'value' => ['en' => 'Certified Success', 'bn' => 'সার্টিফাইড সাফল্য'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'about_page',
+                'key' => 'sidebar_item_3_text',
+                'value' => ['en' => 'Receive recognized certificates upon completing your courses.', 'bn' => 'আপনার কোর্স শেষ করার পর স্বীকৃত সার্টিফিকেট গ্রহণ করুন।'],
+                'type' => 'textarea',
+            ],
         ];
 
         foreach ($contents as $content) {
