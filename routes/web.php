@@ -82,6 +82,9 @@ Route::middleware('auth')->group(function () {
         ->name('admin.frontend-content.index');
     Route::post('/admin/frontend-content', [FrontendContentController::class, 'update'])
         ->name('admin.frontend-content.update');
+
+    // Teachers Management
+    Route::resource('admin/teachers', \App\Http\Controllers\Admin\TeacherController::class, ['as' => 'admin']);
 });
 
 require __DIR__ . '/auth.php';

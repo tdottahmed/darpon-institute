@@ -45,12 +45,17 @@ class FrontendController extends Controller
             ->ordered()
             ->take(8)->get();
 
+        $teachers = \App\Models\Teacher::where('is_active', true)
+            ->orderBy('order')
+            ->get();
+
         return Inertia::render('Home', [
             'courses' => $courses,
             'books' => $books,
             'videoBlogs' => $videoBlogs,
             'testimonials' => $testimonials,
             'galleries' => $galleries,
+            'teachers' => $teachers,
         ]);
     }
 

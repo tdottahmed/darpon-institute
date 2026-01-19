@@ -1,19 +1,16 @@
-import { Head, usePage } from "@inertiajs/react";
-import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
-import HeroSection from "@/Components/sections/HeroSection";
-import FeaturesSection from "@/Components/sections/FeaturesSection";
-import CoursesSection from "@/Components/sections/CoursesSection";
-import BookSection from "@/Components/sections/BookSection";
-import InstructorSection from "@/Components/sections/InstructorSection";
-import TestimonialsSection from "@/Components/sections/TestimonialsSection";
+import Header from "@/Components/layout/Header";
 import BlogSection from "@/Components/sections/BlogSection";
-import GallerySection from "@/Components/sections/GallerySection";
+import BookSection from "@/Components/sections/BookSection";
+import CoursesSection from "@/Components/sections/CoursesSection";
 import CTASection from "@/Components/sections/CTASection";
+import GallerySection from "@/Components/sections/GallerySection";
+import HeroSection from "@/Components/sections/HeroSection";
+import InstructorSection from "@/Components/sections/InstructorSection";
+import TeamSection from "@/Components/sections/TeamSection";
+import TestimonialsSection from "@/Components/sections/TestimonialsSection";
+import { Head, usePage } from "@inertiajs/react";
 
-// Imports removed
-
-// Imports removed
 
 export default function Welcome({
     courses,
@@ -21,6 +18,7 @@ export default function Welcome({
     videoBlogs,
     testimonials,
     galleries,
+    teachers,
 }) {
     const { translations } = usePage().props;
 
@@ -32,7 +30,7 @@ export default function Welcome({
                 <main>
                     <HeroSection translations={translations} />
                     <InstructorSection />
-                    <FeaturesSection />
+                    <TeamSection teachers={teachers || []} />
                     <CoursesSection courses={courses || []} />
                     <BookSection books={books || []} />
                     <GallerySection galleries={galleries || []} />

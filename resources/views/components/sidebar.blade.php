@@ -46,6 +46,12 @@
               'icon' => 'template',
               'active' => request()->routeIs('admin.landing-pages.*'),
           ],
+          [
+              'name' => 'Teachers',
+              'href' => route('admin.teachers.index'),
+              'icon' => 'academic-cap',
+              'active' => request()->routeIs('admin.teachers.*'),
+          ],
       ],
       'Management' => [
           [
