@@ -626,6 +626,31 @@ class FrontendContentSeeder extends Seeder
                 'value' => ['en' => 'Notable Achievement:', 'bn' => 'উল্লেখযোগ্য অর্জন:'],
                 'type' => 'text',
             ],
+            [
+                'section' => 'instructor',
+                'key' => 'achievement_label',
+                'value' => ['en' => 'Notable Achievement:', 'bn' => 'উল্লেখযোগ্য অর্জন:'],
+                'type' => 'text',
+            ],
+            // Team Section
+            [
+                'section' => 'team',
+                'key' => 'header_badge',
+                'value' => ['en' => 'Our Team', 'bn' => 'আমাদের টিম'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'team',
+                'key' => 'header_title',
+                'value' => ['en' => 'Meet Our Expert Instructors', 'bn' => 'আমাদের বিশেষজ্ঞ প্রশিক্ষকদের সাথে পরিচিত হন'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'team',
+                'key' => 'header_subtitle',
+                'value' => ['en' => 'Learn from the best educators dedicated to your success', 'bn' => 'আপনার সাফল্যের জন্য নিবেদিত সেরা শিক্ষকদের কাছ থেকে শিখুন'],
+                'type' => 'textarea',
+            ],
         ];
 
         foreach ($contents as $content) {

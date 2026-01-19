@@ -2,16 +2,24 @@ import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
 import TeacherCard from "../cards/TeacherCard";
 
+import { usePage } from "@inertiajs/react";
+
 export default function TeamSection({ teachers = [] }) {
     if (!teachers || teachers.length === 0) return null;
+
+    const { frontend_content } = usePage().props;
+    const content = frontend_content?.team || {};
 
     return (
         <section className="bg-white py-20 dark:bg-gray-900 sm:py-28">
             <Container>
                 <SectionHeader
-                    badge="Our Team"
-                    title="Meet Our Expert Instructors"
-                    subtitle="Learn from the best educators dedicated to your success"
+                    badge={content.header_badge || "Our Team"}
+                    title={content.header_title || "Meet Our Expert Instructors"}
+                    subtitle={
+                        content.header_subtitle ||
+                        "Learn from the best educators dedicated to your success"
+                    }
                     alignment="center"
                     className="mb-16"
                 />

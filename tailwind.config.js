@@ -15,7 +15,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Figtree", "Noto Sans Bengali", ...defaultTheme.fontFamily.sans],
+                sans: ["Figtree", "Tiro Bangla", ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 primary: {
