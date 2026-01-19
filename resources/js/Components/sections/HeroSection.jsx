@@ -43,39 +43,46 @@ export default function HeroSection({ translations }) {
             <Container className="relative z-10">
                 <div className="max-w-5xl mx-auto text-center space-y-6 sm:space-y-8 md:space-y-10">
                     {/* Welcome Badge - Enhanced */}
-                    <div className="flex justify-center animate-fade-in">
-                        <Badge
-                            variant="primary"
-                            className="bg-gradient-to-r from-primary-500/30 via-primary-400/30 to-secondary-500/30 text-primary-100 border-primary-300/40 backdrop-blur-lg px-4 py-1.5 text-xs sm:text-sm font-semibold shadow-lg shadow-primary-500/20 hover:scale-105 transition-transform duration-300"
-                        >
-                            <span className="flex items-center gap-1.5">
-                                {content.welcome_badge ||
-                                    t.welcome ||
-                                    "Start Learning Today"}
-                            </span>
-                        </Badge>
-                    </div>
+                    {(content.welcome_badge || t.welcome) && (
+                        <div className="flex justify-center animate-fade-in">
+                            <Badge
+                                variant="primary"
+                                className="bg-gradient-to-r from-primary-500/30 via-primary-400/30 to-secondary-500/30 text-primary-100 border-primary-300/40 backdrop-blur-lg px-4 py-1.5 text-xs sm:text-sm font-semibold shadow-lg shadow-primary-500/20 hover:scale-105 transition-transform duration-300"
+                            >
+                                <span className="flex items-center gap-1.5">
+                                    {content.welcome_badge || t.welcome}
+                                </span>
+                            </Badge>
+                        </div>
+                    )}
 
                     {/* Main Heading - Enhanced Typography */}
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight animate-fade-in-up drop-shadow-2xl">
-                        <span className="block mb-2 sm:mb-3 bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
-                            {content.title_line_1 || "Master English"}
-                        </span>
-                        <span className="block bg-gradient-to-r from-primary-300 via-primary-400 to-secondary-400 bg-clip-text text-transparent">
-                            {content.title_line_2 || "From Anywhere"}
-                        </span>
-                    </h1>
+                    {(content.title_line_1 || content.title_line_2) && (
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight animate-fade-in-up drop-shadow-2xl">
+                            {content.title_line_1 && (
+                                <span className="block mb-2 sm:mb-3 bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+                                    {content.title_line_1}
+                                </span>
+                            )}
+                            {content.title_line_2 && (
+                                <span className="block bg-gradient-to-r from-primary-300 via-primary-400 to-secondary-400 bg-clip-text text-transparent">
+                                    {content.title_line_2}
+                                </span>
+                            )}
+                        </h1>
+                    )}
 
                     {/* Enhanced Description */}
-                    <div
-                        className="max-w-3xl mx-auto animate-fade-in-up"
-                        style={{ animationDelay: "0.2s" }}
-                    >
-                        <p className="text-base sm:text-lg text-gray-200 font-normal leading-relaxed drop-shadow-lg">
-                            {content.description ||
-                                "Interactive learning platform with modern methods, digital diplomas, and personalized study plans designed to help you achieve fluency faster."}
-                        </p>
-                    </div>
+                    {content.description && (
+                         <div
+                            className="max-w-3xl mx-auto animate-fade-in-up"
+                            style={{ animationDelay: "0.2s" }}
+                        >
+                            <p className="text-base sm:text-lg text-gray-200 font-normal leading-relaxed drop-shadow-lg">
+                                {content.description}
+                            </p>
+                        </div>
+                    )}
 
                     {/* Enhanced Search Bar */}
                     <form
@@ -133,41 +140,47 @@ export default function HeroSection({ translations }) {
                     </form>
 
                     {/* Enhanced Stats */}
-                    <div
-                        className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8 justify-center pt-10 md:pt-12 border-t border-white/30 animate-fade-in-up"
-                        style={{ animationDelay: "0.8s" }}
-                    >
-                        {[
-                            {
-                                value: content.stat_1_value || "10K+",
-                                label: content.stat_1_label || "Happy Students",
-                            },
-                            {
-                                value: content.stat_2_value || "500+",
-                                label: content.stat_2_label || "Courses",
-                            },
-                            {
-                                value: content.stat_3_value || "4.9",
-                                label: content.stat_3_label || "User Rating",
-                            },
-                            {
-                                value: content.stat_4_value || "98%",
-                                label: content.stat_4_label || "Success Rate",
-                            },
-                        ].map((stat, index) => (
-                            <div
-                                key={index}
-                                className="text-center group cursor-default"
-                            >
-                                <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-1.5 drop-shadow-2xl bg-gradient-to-b from-white to-gray-200 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">
-                                    {stat.value}
+                    {(content.stat_1_value || content.stat_2_value || content.stat_3_value || content.stat_4_value) && (
+                        <div
+                            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8 justify-center pt-10 md:pt-12 border-t border-white/30 animate-fade-in-up"
+                            style={{ animationDelay: "0.8s" }}
+                        >
+                            {[
+                                {
+                                    value: content.stat_1_value,
+                                    label: content.stat_1_label,
+                                },
+                                {
+                                    value: content.stat_2_value,
+                                    label: content.stat_2_label,
+                                },
+                                {
+                                    value: content.stat_3_value,
+                                    label: content.stat_3_label,
+                                },
+                                {
+                                    value: content.stat_4_value,
+                                    label: content.stat_4_label,
+                                },
+                            ]
+                                .filter(stat => stat.value) // Only render available stats
+                                .map((stat, index) => (
+                                <div
+                                    key={index}
+                                    className="text-center group cursor-default"
+                                >
+                                    <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-1.5 drop-shadow-2xl bg-gradient-to-b from-white to-gray-200 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">
+                                        {stat.value}
+                                    </div>
+                                    {stat.label && (
+                                        <div className="text-xs sm:text-sm md:text-base text-gray-200 font-medium">
+                                            {stat.label}
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="text-xs sm:text-sm md:text-base text-gray-200 font-medium">
-                                    {stat.label}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </Container>
 

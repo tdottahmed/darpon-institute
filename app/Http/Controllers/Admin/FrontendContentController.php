@@ -82,4 +82,32 @@ class FrontendContentController extends Controller
         return redirect()->route('admin.frontend-content.index', ['section' => $section])
             ->with('success', 'Content updated successfully.');
     }
+    public function destroy($id)
+    {
+        dd($id);
+        $content = FrontendContent::findOrFail($id);
+        
+        // If it's an image, delete the files
+        if ($content->type === 'image' && is_array($content->value)) {
+            foreach ($content->value as $url) {
+                if ($url) {
+                    // Extract path from URL (assuming storage/ URL structure)
+                    $path = str_replace('/storage/', '', $url);
+                    if (Storage::disk('public')->exists($path)) {
+                        Storage::disk('public')->delete($path);
+                    }
+                }
+            }
+        }
+
+        $section = $content->section;
+        $content->delete();
+
+        // Clear cache
+        \Illuminate\Support\Facades\Cache::forget('frontend_content_en');
+        \Illuminate\Support\Facades\Cache::forget('frontend_content_bn');
+
+        return redirect()->route('admin.frontend-content.index', ['section' => $section])
+            ->with('success', 'Content item removed successfully.');
+    }
 }

@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
         ->name('admin.frontend-content.index');
     Route::post('/admin/frontend-content', [FrontendContentController::class, 'update'])
         ->name('admin.frontend-content.update');
+    Route::post('/admin/frontend-content/{id}', [FrontendContentController::class, 'destroy'])->name('admin.frontend-content.destroy');
 
     // Teachers Management
     Route::resource('admin/teachers', \App\Http\Controllers\Admin\TeacherController::class, ['as' => 'admin']);
