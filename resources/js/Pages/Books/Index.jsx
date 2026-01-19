@@ -4,7 +4,7 @@ import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import BookCard from "@/Components/cards/BookCard";
 
-export default function Index({ books, filters }) {
+export default function Index({ books, filters, trans }) {
     const [search, setSearch] = useState(filters.search || "");
 
     // Debounce search
@@ -34,16 +34,16 @@ export default function Index({ books, filters }) {
                         <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
                             <div>
                                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-                                    Our Books
+                                    {trans.title}
                                 </h1>
                                 <p className="mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-400">
-                                    Browse our complete collection of resources designed for your learning journey.
+                                    {trans.subtitle}
                                 </p>
                             </div>
                             
                             <div className="w-full md:w-72">
                                 <label htmlFor="search" className="sr-only">
-                                    Search books
+                                    {trans.search_label}
                                 </label>
                                 <div className="relative">
                                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -67,7 +67,7 @@ export default function Index({ books, filters }) {
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
                                         className="block w-full rounded-full border-0 py-2.5 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 dark:bg-gray-800 dark:ring-gray-700 dark:text-white sm:text-sm sm:leading-6"
-                                        placeholder="Search by title or author..."
+                                        placeholder={trans.search_placeholder}
                                     />
                                 </div>
                             </div>
@@ -98,17 +98,17 @@ export default function Index({ books, filters }) {
                                     />
                                 </svg>
                                 <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                                    No books found
+                                    {trans.no_books_found}
                                 </h3>
                                 <p className="mt-2 text-gray-500 text-center max-w-sm">
-                                    We couldn't find any books matching your search. Try different keywords or browse all options.
+                                    {trans.no_books_description}
                                 </p>
                                 {filters.search && (
                                     <button
                                         onClick={() => setSearch("")}
                                         className="mt-6 text-sm font-semibold text-primary-600 hover:text-primary-500"
                                     >
-                                        Clear search
+                                        {trans.clear_search}
                                     </button>
                                 )}
                             </div>

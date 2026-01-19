@@ -169,6 +169,15 @@ class FrontendController extends Controller
                 'search' => $request->search,
                 'tag' => $request->tag,
             ],
+            'trans' => [
+                'title' => __('books.title'),
+                'subtitle' => __('books.subtitle'),
+                'search_placeholder' => __('books.search_placeholder'),
+                'search_label' => __('books.search_label'),
+                'no_books_found' => __('books.no_books_found'),
+                'no_books_description' => __('books.no_books_description'),
+                'clear_search' => __('books.clear_search'),
+            ],
         ]);
     }
 
