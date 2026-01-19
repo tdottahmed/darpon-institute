@@ -118,19 +118,37 @@ export default function Index({ books, filters }) {
                         {books.links && books.links.length > 3 && (
                             <div className="mt-16 flex justify-center">
                                 <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                                    {books.links.map((link, i) => (
-                                        <Link
-                                            key={i}
-                                            href={link.url || "#"}
-                                            disabled={!link.url}
-                                            className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
-                                                link.active
-                                                    ? 'z-10 bg-primary-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
-                                                    : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:text-gray-200 dark:ring-gray-700 dark:hover:bg-gray-800'
-                                            } ${i === 0 ? 'rounded-l-md' : ''} ${i === books.links.length - 1 ? 'rounded-r-md' : ''}`}
-                                            dangerouslySetInnerHTML={{ __html: link.label }}
-                                        />
-                                    ))}
+                                    {books.links.map((link, i) => {
+                                        const isFirst = i === 0;
+                                        const isLast = i === books.links.length - 1;
+                                        const roundedClasses = `${isFirst ? 'rounded-l-md' : ''} ${isLast ? 'rounded-r-md' : ''}`;
+                                        const commonClasses = `relative inline-flex items-center px-4 py-2 text-sm font-semibold ${roundedClasses}`;
+
+                                        if (!link.url) {
+                                            return (
+                                                <span
+                                                    key={i}
+                                                    className={`${commonClasses} text-gray-400 ring-1 ring-inset ring-gray-300 cursor-not-allowed dark:text-gray-600 dark:ring-gray-700`}
+                                                    dangerouslySetInnerHTML={{ __html: link.label }}
+                                                />
+                                            );
+                                        }
+
+                                        return (
+                                            <Link
+                                                key={i}
+                                                href={link.url}
+                                                preserveScroll
+                                                preserveState
+                                                className={`${commonClasses} ${
+                                                    link.active
+                                                        ? 'z-10 bg-primary-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
+                                                        : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:text-gray-200 dark:ring-gray-700 dark:hover:bg-gray-800'
+                                                }`}
+                                                dangerouslySetInnerHTML={{ __html: link.label }}
+                                            />
+                                        );
+                                    })}
                                 </nav>
                             </div>
                         )}

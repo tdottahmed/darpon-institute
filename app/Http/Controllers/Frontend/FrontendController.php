@@ -161,7 +161,7 @@ class FrontendController extends Controller
             $query->whereJsonContains('tags', $request->tag);
         }
 
-        $books = $query->latest()->paginate(12)->withQueryString();
+        $books = $query->latest()->paginate(6)->withQueryString();
 
         return Inertia::render('Books/Index', [
             'books' => $books,
