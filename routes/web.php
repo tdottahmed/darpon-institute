@@ -96,4 +96,23 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+// We need here route for artisan migrtae and seed
+Route::group(['prefix'=> '','as'=> ''], function () {
+    Route::get('/migrate', function () {
+        Artisan::call('migrate');
+        return redirect()->back()->with('success','Migrated successfully');
+    })->name('migrate');
+    Route::get('/seed', function () {
+        Artisan::call('db:seed --class=FrontendContentSeeder');
+        return redirect()->back()->with('success','Seeded successfully');
+    })->name('seed');
+    Route::get('optimize', function () {
+        Artisan::call('optimize');
+        return redirect()->back()->with('success','Optimized successfully');
+    })->name('optimize');
+    Route::get('optimize-clear', function () {
+        Artisan::call('optimize:clear');
+        return redirect()->back()->with('success','Optimized clear successfully');
+    })->name('optimize-clear');
+});
 require __DIR__ . '/auth.php';

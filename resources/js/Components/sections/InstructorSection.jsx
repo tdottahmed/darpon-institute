@@ -81,7 +81,7 @@ export default function InstructorSection() {
                         )}
 
                         {/* Skills */}
-                        {skills && skills.length > 0 && (
+                        {/* {skills && skills.length > 0 && (
                             <div>
                                 <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                                     {content.skills_label || "Areas of Expertise"}
@@ -98,10 +98,10 @@ export default function InstructorSection() {
                                     ))}
                                 </div>
                             </div>
-                        )}
+                        )} */}
 
                         {/* Additional Info / Achievement */}
-                        {content.achievement && (
+                        {/* {content.achievement && (
                             <div className="p-6 bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-xl border border-primary-200 dark:border-primary-800">
                                 <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
                                     <span className="font-semibold text-primary-700 dark:text-primary-400">
@@ -110,7 +110,7 @@ export default function InstructorSection() {
                                     {content.achievement}
                                 </p>
                             </div>
-                        )}
+                        )} */}
                     </div>
 
                     {/* Right Side - Image */}
@@ -120,7 +120,7 @@ export default function InstructorSection() {
                             <div className="absolute -inset-4 bg-gradient-to-br from-primary-200 via-secondary-200 to-primary-300 dark:from-primary-800 dark:via-secondary-800 dark:to-primary-900 rounded-2xl transform rotate-3 opacity-20"></div>
                             
                             {/* Image Container */}
-                            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                            <div className="relative rounded-2xl overflow-hidden shadow-2xl max-h-[600px]">
                                 <img
                                     src={
                                         content.image ||
@@ -135,7 +135,7 @@ export default function InstructorSection() {
                             </div>
 
                             {/* Floating Badge */}
-                            <div className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 border border-gray-200 dark:border-gray-700">
+                            {/* <div className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 border border-gray-200 dark:border-gray-700">
                                 <div className="text-center">
                                     <p className="text-3xl font-bold text-primary-600 dark:text-primary-400">
                                         {content.students_count || "5K+"}
@@ -144,7 +144,7 @@ export default function InstructorSection() {
                                         {content.students_label || "Students Taught"}
                                     </p>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
