@@ -60,7 +60,7 @@
 
       <!-- Order Button -->
       <button onclick="document.getElementById('orderFormSection').scrollIntoView({behavior: 'smooth'})" style="background-color: var(--accent-color); color: var(--light-text); border: none; border-radius: 5px; padding: 15px 30px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; text-transform: uppercase;" onmouseover="this.style.backgroundColor='#f57c00'" onmouseout="this.style.backgroundColor='var(--accent-color)'">
-        অর্ডার করুন
+        {{ $landingPage->product_type === 'course' ? 'রেজিস্ট্রেশন করুন' : 'অর্ডার করুন' }}
       </button>
 
     </div>

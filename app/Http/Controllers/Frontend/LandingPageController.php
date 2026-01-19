@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\LandingPage;
+use App\Models\PaymentGateway;
 use Illuminate\Http\Request;
 
 class LandingPageController extends Controller
@@ -15,14 +16,22 @@ class LandingPageController extends Controller
     {
         $landingPage = LandingPage::where('slug', $slug)
             ->where('status', true)
-            ->with('book')
+            ->with(['book', 'course'])
             ->firstOrFail();
 
-        // Ensure book exists for book-type landing pages
-        if ($landingPage->product_type === 'book' && !$landingPage->book) {
-            abort(404, 'Book not found for this landing page');
+        $paymentGateways = [];
+        // Ensure product exists and get additional data
+        if ($landingPage->product_type === 'course') {
+            if (!$landingPage->course) {
+                abort(404, 'Course not found for this landing page');
+            }
+            $paymentGateways = PaymentGateway::active()->get();
+        } elseif ($landingPage->product_type === 'book') {
+            if (!$landingPage->book) {
+                abort(404, 'Book not found for this landing page');
+            }
         }
 
-        return view('frontend.landing_page', compact('landingPage'));
+        return view('frontend.landing_page', compact('landingPage', 'paymentGateways'));
     }
 }

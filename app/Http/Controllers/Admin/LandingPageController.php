@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\LandingPage;
 use App\Models\Book;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -45,8 +46,9 @@ class LandingPageController extends Controller
     public function create()
     {
         $books = Book::where('status', true)->orderBy('title')->pluck('title', 'id');
+        $courses = Course::where('status', true)->orderBy('title')->pluck('title', 'id');
 
-        return view('admin.landing_pages.create', compact('books'));
+        return view('admin.landing_pages.create', compact('books', 'courses'));
     }
 
     /**
@@ -107,9 +109,10 @@ class LandingPageController extends Controller
     public function edit(LandingPage $landingPage)
     {
         $books = Book::where('status', true)->orderBy('title')->pluck('title', 'id');
-        $landingPage->load('book');
+        $courses = Course::where('status', true)->orderBy('title')->pluck('title', 'id');
+        $landingPage->load(['book', 'course']);
 
-        return view('admin.landing_pages.edit', compact('landingPage', 'books'));
+        return view('admin.landing_pages.edit', compact('landingPage', 'books', 'courses'));
     }
 
     /**
@@ -163,14 +166,24 @@ class LandingPageController extends Controller
         if ($tab === 'basic') {
             $validated = $this->validatePartialRequest($request, $tab);
             
-            // Verify book exists
-            $book = Book::find($validated['product_id']);
-            if (!$book) {
-                return redirect()->back()->withErrors(['product_id' => 'Selected book does not exist.'])->withInput();
+            // Determine product type and verify existence
+            $productType = $request->input('product_type', 'book');
+            $product = null;
+
+            if ($productType === 'course') {
+                $product = Course::find($validated['product_id']);
+                if (!$product) {
+                    return redirect()->back()->withErrors(['product_id' => 'Selected course does not exist.'])->withInput();
+                }
+            } else {
+                $product = Book::find($validated['product_id']);
+                if (!$product) {
+                    return redirect()->back()->withErrors(['product_id' => 'Selected book does not exist.'])->withInput();
+                }
             }
             
-            // Set product type to book
-            $validated['product_type'] = 'book';
+            // Set product type
+            $validated['product_type'] = $productType;
             
             // Set default status and visibility
             $validated['status'] = $request->has('status') ? 1 : 1;
@@ -183,7 +196,7 @@ class LandingPageController extends Controller
             
             // Initialize default content for empty fields before creating
             $landingPage = new LandingPage($validated);
-            $this->initializeDefaultContent($landingPage, $book);
+            $this->initializeDefaultContent($landingPage, $product);
             $landingPage->save();
             
             return redirect(route('admin.landing-pages.edit', $landingPage) . '?tab=' . $tab)
@@ -268,7 +281,8 @@ class LandingPageController extends Controller
                 $rules = [
                     'title' => 'required|string|max:255',
                     'slug' => $slugRule,
-                    'product_id' => 'required|integer|exists:books,id',
+                    'product_id' => 'required|integer', // We verify existence in controller logic
+                    'product_type' => 'required|in:book,course',
                     'status' => 'boolean',
                     'show_hero' => 'boolean',
                     'show_pdf_preview' => 'boolean',
@@ -377,7 +391,8 @@ class LandingPageController extends Controller
         return $request->validate([
             'title' => 'required|string|max:255',
             'slug' => $slugRule,
-            'product_id' => 'required|integer|exists:books,id',
+            'product_id' => 'required|integer', // Verified manually
+            'product_type' => 'nullable|in:book,course',
             'hero_title' => 'nullable|string|max:500',
             'hero_subtitle' => 'nullable|string|max:500',
             'hero_image' => 'nullable|image|max:2048',
@@ -792,9 +807,9 @@ class LandingPageController extends Controller
     /**
      * Initialize default content for empty fields.
      */
-    protected function initializeDefaultContent(LandingPage $landingPage, Book $book)
+    protected function initializeDefaultContent(LandingPage $landingPage, $product)
     {
-        $defaults = LandingPage::getDefaultContent($book);
+        $defaults = LandingPage::getDefaultContent($product);
 
         foreach ($defaults as $key => $value) {
             if (is_null($landingPage->$key) || $landingPage->$key === '') {

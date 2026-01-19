@@ -23,6 +23,7 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
 
     // Course Management
     Route::resource('courses', CourseController::class);
+    Route::get('courses/{course}/json', [CourseController::class, 'json'])->name('courses.json');
 
     // Book Management
     Route::resource('books', BookController::class);

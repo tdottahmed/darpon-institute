@@ -55,6 +55,26 @@
             .trim();
           $('#landing-slug').val(slug);
         });
+
+        // Initialize state
+        const initialType = $('input[name="product_type"]:checked').val();
+        toggleProductSelect(initialType);
+
+        // Handle product type change
+        $('input[name="product_type"]').on('change', function() {
+          const type = $(this).val();
+          toggleProductSelect(type);
+        });
+
+        function toggleProductSelect(type) {
+          if (type === 'book') {
+            $('#book-select-container').show().find('select, input').prop('disabled', false);
+            $('#course-select-container').hide().find('select, input').prop('disabled', true);
+          } else {
+            $('#course-select-container').show().find('select, input').prop('disabled', false);
+            $('#book-select-container').hide().find('select, input').prop('disabled', true);
+          }
+        }
       });
     </script>
   @endpush

@@ -7,7 +7,9 @@ use App\Jobs\GenerateCourseEnrollmentInvoicePdfJob;
 use App\Jobs\SendCourseEnrollmentInvoiceJob;
 use App\Mail\NewUserPasswordMail;
 use App\Models\Course;
+
 use App\Models\CourseRegistration;
+use App\Models\LandingPage;
 use App\Models\CourseVariation;
 use App\Models\PaymentGateway;
 use App\Models\User;
@@ -161,6 +163,120 @@ class CourseRegistrationController extends Controller
                     'totalPrice' => $totalPrice,
                     'isNewUser' => $isNewUser,
                 ]);
+            });
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to submit registration. Please try again. ' . $e->getMessage());
+        }
+    }
+    /**
+     * Store a newly created registration from a landing page.
+     */
+    public function storeFromLandingPage(Request $request, $slug)
+    {
+        $landingPage = LandingPage::where('slug', $slug)
+            ->where('status', true)
+            ->with(['course.variations'])
+            ->firstOrFail();
+
+        $course = $landingPage->course;
+        if (!$course) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Course not found for this landing page.');
+        }
+
+        // Determine price from landing page or fallback to course
+        $offerPrice = $landingPage->pricing_offer_price ?? ($course->discounted_price ?? $course->price ?? 0);
+        $totalPrice = $offerPrice;
+
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email:rfc,dns|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:500',
+            'payment_screenshot' => 'nullable|image|max:5120', // 5MB
+        ];
+
+        // Add payment validation if price > 0
+        if ($totalPrice > 0) {
+            $rules['payment_gateway_id'] = 'required|exists:payment_gateways,id';
+            $rules['transaction_id'] = 'required|string|max:255';
+        }
+
+        $request->validate($rules);
+
+        try {
+            return DB::transaction(function () use ($request, $course, $totalPrice, $landingPage) {
+                // Determine User
+                $user = Auth::user();
+                $isNewUser = false;
+                $password = null;
+
+                if (!$user) {
+                    $user = User::where('email', $request->email)->first();
+
+                    if (!$user) {
+                        // Create new user
+                        $password = \Illuminate\Support\Str::random(10);
+                        $user = User::create([
+                            'name' => $request->name,
+                            'email' => $request->email,
+                            'password' => Hash::make($password),
+                            'user_type' => 'customer',
+                        ]);
+                        $isNewUser = true;
+
+                        // Send email
+                        try {
+                            Mail::to($user->email)->send(new NewUserPasswordMail($user, $password));
+                        } catch (\Exception $mailException) {
+                            logger()->error($mailException->getMessage());
+                            // Continue without failing transaction for email
+                        }
+
+                        Auth::login($user);
+                    }
+                }
+
+                // Handle Screenshot
+                $paymentScreenshot = null;
+                $isPaidCourse = $totalPrice > 0;
+                if ($isPaidCourse && $request->hasFile('payment_screenshot')) {
+                    $paymentScreenshot = $request->file('payment_screenshot')->store('course-registrations/payments', 'public');
+                }
+
+                // Create Registration
+                $courseRegistration = CourseRegistration::create([
+                    'course_id' => $course->id,
+                    'course_variation_id' => null, // Landing page typically implies base course
+                    'user_id' => $user->id,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'address' => $request->address,
+                    'status' => $isPaidCourse ? 'pending' : 'confirmed',
+                    'payment_gateway_id' => $isPaidCourse ? $request->payment_gateway_id : null,
+                    'transaction_id' => $isPaidCourse ? $request->transaction_id : null,
+                    'payment_screenshot' => $paymentScreenshot,
+                    'payment_status' => $isPaidCourse ? 'pending' : 'verified',
+                    'enrollment_type' => 'online',
+                ]);
+
+                // Load relationships
+                $courseRegistration->load('course', 'paymentGateway');
+
+                // Chain jobs: Generate PDF first, then send email
+                GenerateCourseEnrollmentInvoicePdfJob::withChain([
+                    new SendCourseEnrollmentInvoiceJob($courseRegistration, $totalPrice)
+                ])->dispatch($courseRegistration, $totalPrice);
+
+                // Redirect back to Landing Page with Success
+                return redirect()->route('landing-page.show', $landingPage->slug)
+                    ->with('registration_success', true)
+                    ->with('registration_id', $courseRegistration->id)
+                    ->with('is_new_user', $isNewUser);
             });
         } catch (\Exception $e) {
             return redirect()->back()

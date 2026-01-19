@@ -30,6 +30,20 @@ class CourseController extends Controller
     }
 
     /**
+     * Return course details as JSON.
+     */
+    public function json(Course $course)
+    {
+        return response()->json([
+            'id' => $course->id,
+            'title' => $course->title,
+            'price' => $course->price,
+            'discounted_price' => $course->discounted_price,
+            'slug' => $course->slug,
+        ]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

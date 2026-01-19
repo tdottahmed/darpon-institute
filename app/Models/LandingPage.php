@@ -119,15 +119,18 @@ class LandingPage extends Model
     /**
      * Get default content for a new landing page
      */
-    public static function getDefaultContent($book = null)
+    public static function getDefaultContent($product = null)
     {
+        $isBook = $product instanceof Book;
+        $isCourse = $product instanceof Course;
+
         $defaults = [
-            'hero_english_title' => $book ? strtoupper($book->title) : 'BOOK TITLE',
-            'hero_bengali_title' => $book ? 'বইটির বর্ণনা এখানে লিখুন' : 'বইটির বর্ণনা এখানে লিখুন',
+            'hero_english_title' => $product ? strtoupper($product->title) : 'TITLE',
+            'hero_bengali_title' => $product ? ($isCourse ? 'কোর্সটির বর্ণনা এখানে লিখুন' : 'বইটির বর্ণনা এখানে লিখুন') : 'বর্ণনা এখানে লিখুন',
             'hero_preview_images' => [],
             'pdf_previews' => [],
-            'book_details_title' => 'বইটি সম্পর্কে যা না জানলেই নয়',
-            'book_details_description' => 'বইটির বিস্তারিত বর্ণনা এখানে লিখুন।',
+            'book_details_title' => $isCourse ? 'কোর্সটি সম্পর্কে যা না জানলেই নয়' : 'বইটি সম্পর্কে যা না জানলেই নয়',
+            'book_details_description' => $isCourse ? 'কোর্সটির বিস্তারিত বর্ণনা এখানে লিখুন।' : 'বইটির বিস্তারিত বর্ণনা এখানে লিখুন।',
             'book_details_specialties' => [
                 ['title' => 'বিশেষত্ব ১', 'description' => 'বর্ণনা'],
                 ['title' => 'বিশেষত্ব ২', 'description' => 'বর্ণনা'],
@@ -136,7 +139,7 @@ class LandingPage extends Model
             'book_details_students_love' => [],
             'features_list' => [
                 [
-                    'title' => 'বইটির অসাধারণ কিছু বৈশিষ্ট্য',
+                    'title' => $isCourse ? 'কোর্সটির অসাধারণ কিছু বৈশিষ্ট্য' : 'বইটির অসাধারণ কিছু বৈশিষ্ট্য',
                     'items' => [
                         ['text' => 'বৈশিষ্ট্য ১', 'icon_color' => '#1a237e'],
                         ['text' => 'বৈশিষ্ট্য ২', 'icon_color' => '#1a237e'],
@@ -145,29 +148,29 @@ class LandingPage extends Model
             ],
             'target_audience_list' => [
                 [
-                    'title' => 'বইটি মূলত কাদের জন্য?',
+                    'title' => $isCourse ? 'কোর্সটি মূলত কাদের জন্য?' : 'বইটি মূলত কাদের জন্য?',
                     'items' => [
                         ['text' => 'দর্শক ১', 'icon_color' => '#1565c0'],
                         ['text' => 'দর্শক ২', 'icon_color' => '#1565c0'],
                     ]
                 ]
             ],
-            'game_changer_title' => 'কেন এই বই একটি গেম চেঞ্জার',
+            'game_changer_title' => $isCourse ? 'কেন এই কোর্স একটি গেম চেঞ্জার' : 'কেন এই বই একটি গেম চেঞ্জার',
             'game_changer_points' => [
                 'বাস্তব কথোপকথন',
                 'ব্যবহারিক অভিব্যক্তি',
                 'স্পষ্ট উদাহরণ',
             ],
             'game_changer_conclusion' => 'ধাপে ধাপে এটি আপনাকে বেসিক থেকে অ্যাডভান্স-এ নিয়ে যায়।',
-            'pricing_original_price' => $book ? $book->price : 0,
-            'pricing_offer_price' => $book ? ($book->discounted_price ?? $book->price) : 0,
+            'pricing_original_price' => $product ? $product->price : 0,
+            'pricing_offer_price' => $product ? ($product->discounted_price ?? $product->price) : 0,
             'pricing_description' => 'বিশেষ অফারের বর্ণনা',
-            'pricing_note' => 'অর্ডার করতে ১ টাকা অগ্রীম পেমেন্ট করতে হবে না',
-            'order_section_title' => 'Order Now',
-            'order_form_fields' => ['Name', 'Phone', 'Address', 'Country/Region'],
-            'order_shipping_charge' => 90,
-            'order_shipping_note' => 'সারা বাংলাদেশে হোম ডেলিভারি চার্জ',
-            'order_payment_note' => 'Pay with cash upon delivery.',
+            'pricing_note' => $isCourse ? 'এনরোল করতে পেমেন্ট সম্পন্ন করুন' : 'অর্ডার করতে ১ টাকা অগ্রীম পেমেন্ট করতে হবে না',
+            'order_section_title' => $isCourse ? 'Enroll Now' : 'Order Now',
+            'order_form_fields' => ['Name', 'Phone', 'Address', 'Country/Region'], // Course might need fewer fields, but keeping consistent for now
+            'order_shipping_charge' => $isBook ? 90 : 0,
+            'order_shipping_note' => $isBook ? 'সারা বাংলাদেশে হোম ডেলিভারি চার্জ' : '',
+            'order_payment_note' => $isBook ? 'Pay with cash upon delivery.' : 'Pay via bKash/Nagad/Rocket.',
         ];
 
         return $defaults;
@@ -178,8 +181,8 @@ class LandingPage extends Model
      */
     public function initializeDefaults()
     {
-        $book = $this->book;
-        $defaults = self::getDefaultContent($book);
+        $product = $this->product;
+        $defaults = self::getDefaultContent($product);
 
         foreach ($defaults as $key => $value) {
             if (is_null($this->$key)) {

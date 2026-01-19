@@ -56,30 +56,59 @@
           $('#landing-slug').val(slug);
         });
 
+        // Initialize state
+        const initialType = $('input[name="product_type"]:checked').val();
+        toggleProductSelect(initialType);
+
+        // Handle product type change
+        $('input[name="product_type"]').on('change', function() {
+          const type = $(this).val();
+          toggleProductSelect(type);
+        });
+
+        function toggleProductSelect(type) {
+          if (type === 'book') {
+            $('#book-select-container').show().find('select, input').prop('disabled', false);
+            $('#course-select-container').hide().find('select, input').prop('disabled', true);
+          } else {
+            $('#course-select-container').show().find('select, input').prop('disabled', false);
+            $('#book-select-container').hide().find('select, input').prop('disabled', true);
+          }
+        }
+
         // Auto-populate from book when selected
-        $('#product-id').on('change', function() {
+        $('#book-id').on('change', function() {
           const bookId = $(this).val();
           if (bookId) {
-            // Fetch book details and populate defaults
             $.get('/admin/books/' + bookId + '/json', function(book) {
-              if (book) {
-                // Populate hero titles if empty
-                if (!$('input[name="hero_english_title"]').val()) {
-                  $('input[name="hero_english_title"]').val(book.title ? book.title.toUpperCase() : '');
-                }
-                // Populate pricing if empty
-                if (!$('input[name="pricing_original_price"]').val()) {
-                  $('input[name="pricing_original_price"]').val(book.price || '');
-                }
-                if (!$('input[name="pricing_offer_price"]').val()) {
-                  $('input[name="pricing_offer_price"]').val(book.discounted_price || book.price || '');
-                }
-              }
-            }).fail(function() {
-              console.log('Could not fetch book details');
-            });
+              if (book) populateDefaults(book);
+            }).fail(function() { console.log('Could not fetch book details'); });
           }
         });
+
+        // Auto-populate from course when selected
+        $('#course-id').on('change', function() {
+          const courseId = $(this).val();
+          if (courseId) {
+            $.get('/admin/courses/' + courseId + '/json', function(course) {
+              if (course) populateDefaults(course);
+            }).fail(function() { console.log('Could not fetch course details'); });
+          }
+        });
+
+        function populateDefaults(data) {
+           // Populate hero titles if empty
+           if (!$('input[name="hero_english_title"]').val()) {
+              $('input[name="hero_english_title"]').val(data.title ? data.title.toUpperCase() : '');
+           }
+           // Populate pricing if empty
+           if (!$('input[name="pricing_original_price"]').val()) {
+              $('input[name="pricing_original_price"]').val(data.price || '');
+           }
+           if (!$('input[name="pricing_offer_price"]').val()) {
+              $('input[name="pricing_offer_price"]').val(data.discounted_price || data.price || '');
+           }
+        }
       });
     </script>
   @endpush

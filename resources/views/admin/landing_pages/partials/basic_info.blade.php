@@ -29,11 +29,44 @@
                          help="URL-friendly version (e.g., spoken-english-book)" id="landing-slug" />
         </div>
 
-        <div>
+        <!-- Product Type Selection -->
+        <div class="space-y-3">
+            <label class="text-sm font-medium text-gray-700">Product Type</label>
+            <div class="flex items-center space-x-6">
+                <label class="flex items-center space-x-2">
+                    <input type="radio" name="product_type" value="book" 
+                           {{ old('product_type', isset($landingPage) ? $landingPage->product_type : 'book') === 'book' ? 'checked' : '' }}
+                           class="text-primary-600 focus:ring-primary-500 h-4 w-4 border-gray-300">
+                    <span class="text-gray-700">Book</span>
+                </label>
+                <label class="flex items-center space-x-2">
+                    <input type="radio" name="product_type" value="course" 
+                           {{ old('product_type', isset($landingPage) ? $landingPage->product_type : '') === 'course' ? 'checked' : '' }}
+                           class="text-primary-600 focus:ring-primary-500 h-4 w-4 border-gray-300">
+                    <span class="text-gray-700">Course</span>
+                </label>
+            </div>
+            @error('product_type')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Book Select -->
+        <div id="book-select-container" style="{{ old('product_type', isset($landingPage) ? $landingPage->product_type : 'book') === 'book' ? '' : 'display: none;' }}">
           <x-forms.select name="product_id" label="Select Book" :options="$books" 
-                          :value="old('product_id', isset($landingPage) ? $landingPage->product_id : '')" required
-                          :error="$errors->first('product_id')" id="product-id" 
-                          help="Select a book for this landing page" />
+                          :value="old('product_id', isset($landingPage) && $landingPage->product_type === 'book' ? $landingPage->product_id : '')" 
+                          id="book-id" 
+                          help="Select a book for this landing page" 
+                          :disabled="old('product_type', isset($landingPage) ? $landingPage->product_type : 'book') !== 'book'" />
+        </div>
+
+        <!-- Course Select -->
+        <div id="course-select-container" style="{{ old('product_type', isset($landingPage) ? $landingPage->product_type : '') === 'course' ? '' : 'display: none;' }}">
+          <x-forms.select name="product_id" label="Select Course" :options="$courses ?? []" 
+                          :value="old('product_id', isset($landingPage) && $landingPage->product_type === 'course' ? $landingPage->product_id : '')" 
+                          id="course-id" 
+                          help="Select a course for this landing page" 
+                          :disabled="old('product_type', isset($landingPage) ? $landingPage->product_type : '') !== 'course'" />
         </div>
 
         <!-- Section Visibility Toggles -->

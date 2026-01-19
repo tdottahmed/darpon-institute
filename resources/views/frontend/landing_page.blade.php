@@ -72,7 +72,9 @@
   @endif
 
   <!-- FAQ Section -->
-  @include('frontend.partials.landing.faq')
+  @if ($landingPage->product_type === 'book')
+    @include('frontend.partials.landing.faq')
+  @endif
 
   <!-- Pricing Section -->
   @if ($landingPage->show_pricing ?? true)
@@ -80,9 +82,9 @@
   @endif
 
   <!-- Order Section -->
-  @if ($landingPage->show_order ?? true)
-    @include('frontend.partials.landing.order', ['landingPage' => $landingPage])
-  @endif
+    @if ($landingPage->show_order)
+        @include('frontend.partials.landing.order')
+    @endif
 
   <!-- Footer -->
   @include('frontend.partials.landing.footer')
