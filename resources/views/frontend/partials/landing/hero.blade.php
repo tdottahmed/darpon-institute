@@ -19,7 +19,7 @@
       <div style="margin-bottom: 20px;">
         <img decoding="async" src="{{ $heroMainImage }}" alt="{{ $heroEnglishTitle }}" id="heroMainImage"
              class="hero-main-image"
-             style="max-width: 100%; height: auto; width: 300px; display: block; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+             style="max-width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
       </div>
     @endif
 

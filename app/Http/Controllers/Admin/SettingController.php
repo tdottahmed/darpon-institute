@@ -89,45 +89,54 @@ class SettingController extends Controller
         ]);
 
         // Handle logo uploads - Process both logos independently
-        // Light Logo
+        // IMPORTANT: Only update logos when explicitly provided. Never clear or update if fields are missing.
+        // This ensures logos are preserved when updating other settings.
+
+        // Light Logo - Only update if explicitly provided
         if ($request->hasFile('logo_light')) {
-            // Delete old logo if exists
+            // New file uploaded - update logo
             $oldLogo = Setting::get('logo_light');
             if ($oldLogo && Storage::disk('public')->exists($oldLogo)) {
                 Storage::disk('public')->delete($oldLogo);
             }
             $logoLightPath = $request->file('logo_light')->store('logos/light', 'public');
             Setting::set('logo_light', $logoLightPath);
-        } elseif ($request->filled('logo_light_existing')) {
-            // Preserve existing logo
+        } elseif ($request->has('logo_light_existing') && $request->filled('logo_light_existing')) {
+            // Only update if the field exists AND has a value
             $existingValue = $request->input('logo_light_existing');
-            // Extract storage path from URL if it's a full URL
-            $storagePath = $this->extractStoragePath($existingValue);
-            if ($storagePath) {
-                Setting::set('logo_light', $storagePath);
+            if (!empty(trim($existingValue))) {
+                // Preserve existing logo - extract storage path from URL if needed
+                $storagePath = $this->extractStoragePath($existingValue);
+                if ($storagePath && !empty(trim($storagePath))) {
+                    Setting::set('logo_light', $storagePath);
+                }
             }
+            // If existing value is empty/null/whitespace, don't update (preserve current value)
         }
-        // Note: If neither file nor existing value is provided, logo_light remains unchanged
+        // If logo_light fields are not present in request at all, logo_light remains unchanged
 
-        // Dark Logo
+        // Dark Logo - Only update if explicitly provided
         if ($request->hasFile('logo_dark')) {
-            // Delete old logo if exists
+            // New file uploaded - update logo
             $oldLogo = Setting::get('logo_dark');
             if ($oldLogo && Storage::disk('public')->exists($oldLogo)) {
                 Storage::disk('public')->delete($oldLogo);
             }
             $logoDarkPath = $request->file('logo_dark')->store('logos/dark', 'public');
             Setting::set('logo_dark', $logoDarkPath);
-        } elseif ($request->filled('logo_dark_existing')) {
-            // Preserve existing logo
+        } elseif ($request->has('logo_dark_existing') && $request->filled('logo_dark_existing')) {
+            // Only update if the field exists AND has a value
             $existingValue = $request->input('logo_dark_existing');
-            // Extract storage path from URL if it's a full URL
-            $storagePath = $this->extractStoragePath($existingValue);
-            if ($storagePath) {
-                Setting::set('logo_dark', $storagePath);
+            if (!empty(trim($existingValue))) {
+                // Preserve existing logo - extract storage path from URL if needed
+                $storagePath = $this->extractStoragePath($existingValue);
+                if ($storagePath && !empty(trim($storagePath))) {
+                    Setting::set('logo_dark', $storagePath);
+                }
             }
+            // If existing value is empty/null/whitespace, don't update (preserve current value)
         }
-        // Note: If neither file nor existing value is provided, logo_dark remains unchanged
+        // If logo_dark fields are not present in request at all, logo_dark remains unchanged
 
         // Remove logo fields from validated array as they're already handled
         unset($validated['logo_light'], $validated['logo_dark'], $validated['logo_light_existing'], $validated['logo_dark_existing']);
@@ -136,9 +145,12 @@ class SettingController extends Controller
             // Handle boolean values
             if ($key === 'meta_pixel_enabled') {
                 Setting::set($key, $request->has('meta_pixel_enabled') ? 1 : 0);
-            } else {
+            } elseif ($request->has($key)) {
+                // Only update settings that are explicitly present in the request
+                // This prevents clearing values when they're not in the form
                 Setting::set($key, $value);
             }
+            // If key is not in request, skip it (preserve existing value)
         }
 
         return redirect()->route('admin.settings.index')
@@ -147,6 +159,10 @@ class SettingController extends Controller
 
     /**
      * Extract storage path from URL or return the path as-is
+     * Handles formats like:
+     * - /storage/logos/light/image.png -> logos/light/image.png
+     * - http://domain.com/storage/logos/light/image.png -> logos/light/image.png
+     * - logos/light/image.png -> logos/light/image.png (already correct)
      */
     private function extractStoragePath($value)
     {
@@ -154,30 +170,36 @@ class SettingController extends Controller
             return null;
         }
 
-        // If it's already a storage path (doesn't start with http), return as-is
-        if (!str_starts_with($value, 'http')) {
-            return $value;
+        // Trim whitespace
+        $value = trim($value);
+
+        // Handle URLs (http:// or https://)
+        if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
+            $parsedUrl = parse_url($value);
+            $path = $parsedUrl['path'] ?? $value;
+        } else {
+            // It's already a path
+            $path = $value;
         }
 
-        // Extract path from storage URL
-        // Storage::url() creates URLs like: /storage/logos/image.png
-        // We need to extract: logos/image.png
-        $parsedUrl = parse_url($value);
-        $path = $parsedUrl['path'] ?? '';
+        // Remove leading slash
+        $path = ltrim($path, '/');
 
-        // Remove /storage prefix if present
-        if (str_starts_with($path, '/storage/')) {
-            return substr($path, 9); // Remove '/storage/' (9 characters)
+        // Handle multiple /storage/ prefixes (clean them up)
+        while (str_starts_with($path, 'storage/')) {
+            $path = substr($path, 8); // Remove 'storage/' (8 characters)
         }
 
-        // If it doesn't match expected pattern, try to extract from the path
-        $parts = explode('/', trim($path, '/'));
-        if (count($parts) >= 2 && $parts[0] === 'storage') {
-            array_shift($parts); // Remove 'storage'
-            return implode('/', $parts);
+        // Remove any remaining /storage/ patterns in the middle
+        $path = str_replace('/storage/', '/', $path);
+        $path = preg_replace('#/storage/#', '/', $path);
+
+        // If path still starts with storage/, remove it one more time
+        if (str_starts_with($path, 'storage/')) {
+            $path = substr($path, 8);
         }
 
-        // Fallback: return as-is if we can't parse it
-        return $value;
+        // Return the cleaned path
+        return $path ?: null;
     }
 }

@@ -86,8 +86,6 @@ export default function InstructorSection() {
                     {/* Right Side - Image */}
                     <div className="order-1 lg:order-2">
                         <div className="relative">
-                            {/* Decorative Background */}
-                            <div className="absolute -inset-4 bg-gradient-to-br from-primary-200 via-secondary-200 to-primary-300 dark:from-primary-800 dark:via-secondary-800 dark:to-primary-900 rounded-2xl transform rotate-3 opacity-20"></div>
                             
                             {/* Image Container */}
                             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
@@ -100,8 +98,7 @@ export default function InstructorSection() {
                                     className="w-full h-auto object-cover aspect-[3/4]"
                                     loading="lazy"
                                 />
-                                {/* Overlay Gradient */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                               
                             </div>
                         </div>
                     </div>
