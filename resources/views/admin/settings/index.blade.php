@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <form action="{{ route('admin.settings.update') }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.settings.update') }}" method="POST" class="space-y-6" enctype="multipart/form-data">
       @csrf
 
       <!-- Steadfast Courier API Settings -->
@@ -181,8 +181,70 @@
         </div>
       </x-card>
 
+      <!-- Social Media Links -->
+      <x-card variant="elevated">
+        <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+          <h2 class="text-lg font-medium text-gray-900">Social Media Links</h2>
+          <p class="text-sm text-gray-500">Configure social media links displayed in the footer</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <x-forms.input name="social_facebook" label="Facebook URL" type="url" :value="old('social_facebook', $settings['social_facebook'])"
+                         :error="$errors->first('social_facebook')" placeholder="https://facebook.com/yourpage" />
+
+          <x-forms.input name="social_instagram" label="Instagram URL" type="url" :value="old('social_instagram', $settings['social_instagram'])"
+                         :error="$errors->first('social_instagram')" placeholder="https://instagram.com/yourpage" />
+
+          <x-forms.input name="social_twitter" label="Twitter/X URL" type="url" :value="old('social_twitter', $settings['social_twitter'])"
+                         :error="$errors->first('social_twitter')" placeholder="https://twitter.com/yourpage" />
+
+          <x-forms.input name="social_youtube" label="YouTube URL" type="url" :value="old('social_youtube', $settings['social_youtube'])" :error="$errors->first('social_youtube')"
+                         placeholder="https://youtube.com/yourchannel" />
+        </div>
+      </x-card>
+
+      <!-- Logo Settings -->
+      <x-card variant="elevated">
+        <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+          <h2 class="text-lg font-medium text-gray-900">Logo Settings</h2>
+          <p class="text-sm text-gray-500">Upload logos for light and dark themes</p>
+        </div>
+
+        <!-- Light Logo -->
+        <div class="min-w-0">
+          <x-forms.image-uploader name="logo_light" label="Light Logo" :value="!empty($settings['logo_light']) ? Storage::url($settings['logo_light']) : ''" :error="$errors->first('logo_light')"
+                                  help="Logo displayed on light backgrounds (recommended: transparent PNG)"
+                                  accept="image/*" maxSize="2MB" />
+        </div>
+
+        <!-- Dark Logo -->
+        <div class="min-w-0">
+          <x-forms.image-uploader name="logo_dark" label="Dark Logo" :value="!empty($settings['logo_dark']) ? Storage::url($settings['logo_dark']) : ''" :error="$errors->first('logo_dark')"
+                                  help="Logo displayed on dark backgrounds (recommended: white/light colored logo). If not provided, light logo will be used as fallback."
+                                  accept="image/*" maxSize="2MB" />
+        </div>
+
+        <div class="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
+          <div class="flex items-start gap-3">
+            <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-600" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <p class="text-sm font-medium text-blue-900">Logo Usage</p>
+              <p class="mt-1 text-xs text-blue-700">
+                The light logo is used by default. If a dark logo is uploaded, it will automatically be used when the site
+                is in dark mode.
+                If no dark logo is provided, the light logo will be used for both themes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </x-card>
+
       <!-- Submit Button -->
-      <div class="flex items-center justify-end gap-4">
+      <div class="flex items-center justify-end gap-4 pt-2">
         <x-button type="submit" variant="primary" size="md">
           <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />

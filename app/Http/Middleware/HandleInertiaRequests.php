@@ -59,6 +59,34 @@ class HandleInertiaRequests extends Middleware
                 'info' => $request->session()->get('info'),
             ],
             'locale' => app()->getLocale(),
+            'settings' => function () {
+                try {
+                    if (class_exists(\App\Models\Setting::class)) {
+                        return [
+                            'social_facebook' => \App\Models\Setting::get('social_facebook'),
+                            'social_instagram' => \App\Models\Setting::get('social_instagram'),
+                            'social_twitter' => \App\Models\Setting::get('social_twitter'),
+                            'social_youtube' => \App\Models\Setting::get('social_youtube'),
+                            'logo_light' => \App\Models\Setting::get('logo_light') 
+                                ? \Illuminate\Support\Facades\Storage::url(\App\Models\Setting::get('logo_light'))
+                                : '/darponbdv.png',
+                            'logo_dark' => \App\Models\Setting::get('logo_dark')
+                                ? \Illuminate\Support\Facades\Storage::url(\App\Models\Setting::get('logo_dark'))
+                                : null,
+                        ];
+                    }
+                } catch (\Exception $e) {
+                    // Silently fail if database is not available
+                }
+                return [
+                    'social_facebook' => null,
+                    'social_instagram' => null,
+                    'social_twitter' => null,
+                    'social_youtube' => null,
+                    'logo_light' => '/darponbdv.png',
+                    'logo_dark' => null,
+                ];
+            },
         ];
     }
 }
