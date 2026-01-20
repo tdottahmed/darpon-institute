@@ -1,68 +1,70 @@
-import { useState } from "react";
-import Button from "../ui/Button";
-import Badge from "../ui/Badge";
-import { router, usePage } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 
 export default function HeroSection({ translations }) {
     const { frontend_content } = usePage().props;
     const content = frontend_content?.hero || {};
 
-    const t = translations?.common || {};
-    const [searchQuery, setSearchQuery] = useState("");
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        if (searchQuery.trim()) {
-            router.visit(
-                `/courses?search=${encodeURIComponent(searchQuery.trim())}`
-            );
-        }
-    };
-
     return (
-        <section className="relative min-h-[85vh] overflow-hidden py-12 sm:py-16 md:py-20">
+        <section className="relative  overflow-hidden">
             {/* Full Width Background Image */}
-            <div className="absolute inset-0 z-0 select-none overflow-hidden">
+            <div className="absolute inset-0 z-0 select-none overflow-hidden ">
                 <img
                     src={
                         content.bg_image ||
                         "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1920&auto=format&fit=crop"
                     }
                     alt="Background"
-                    className="w-full h-full object-cover object-center"
+                    className="w-full h-full object-cover object-center scale-105 md:scale-100 transition-transform duration-700 ease-out"
                     loading="eager"
                 />
-                {/* Enhanced Overlay with Gradient - Lighter */}
-                <div className="absolute inset-0 bg-gradient-to-b from-gray-900/40 via-gray-900/35 to-gray-900/45"></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 via-gray-900/30 to-transparent"></div>
+                {/* Enhanced Overlay with Gradient - Optimized for top-left text */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-900/55 to-gray-900/30"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-900/85 via-gray-900/45 to-transparent"></div>
                 {/* Accent Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-600/15 via-transparent to-secondary-600/15"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-600/25 via-primary-600/10 to-transparent"></div>
+                {/* Subtle overlay for depth */}
+                <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-gray-900/30 to-transparent"></div>
             </div>
 
-            <div className="relative z-10 pt-20 flex items-center">
+            {/* Content Container - Top Left Positioned */}
+            <div className="relative z-10 flex items-start min-h-[45vh] sm:min-h-[50vh] md:min-h-[65vh] lg:min-h-[75vh] xl:min-h-[80vh] pt-6 sm:pt-8 md:pt-12 lg:pt-16 xl:pt-20">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {/* Main Heading - Enhanced Typography */}
-                    {(content.title_line_1 || content.title_line_2) && (
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight animate-fade-in-up drop-shadow-2xl text-left">
-                            {content.title_line_1 && (
-                                <span className="block mb-2 sm:mb-3 bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
-                                    {content.title_line_1}
-                                </span>
-                            )}
-                            {content.title_line_2 && (
-                                <span className="block bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
-                                    {content.title_line_2}
-                                </span>
-                            )}
-                        </h1>
-                    )}
+                    <div className="max-w-4xl">
+                        {/* Main Heading - Clean Typography */}
+                        {(content.title_line_1 || content.title_line_2) && (
+                            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black text-white leading-[1.08] tracking-[-0.02em] sm:tracking-[-0.03em] md:tracking-[-0.04em] text-left">
+                                    {content.title_line_1 && (
+                                        <span 
+                                            className="block mb-2 sm:mb-3 md:mb-4 lg:mb-5"
+                                            style={{
+                                                textShadow: '0 2px 10px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5)'
+                                            }}
+                                        >
+                                            {content.title_line_1}
+                                        </span>
+                                    )}
+                                    {content.title_line_2 && (
+                                        <span 
+                                            className="block"
+                                            style={{
+                                                textShadow: '0 2px 10px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5)'
+                                            }}
+                                        >
+                                            {content.title_line_2}
+                                        </span>
+                                    )}
+                                </h1>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 
-            {/* Enhanced Scroll Indicator */}
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
-                <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center backdrop-blur-md bg-white/10 shadow-lg">
-                    <div className="w-1.5 h-3 bg-gradient-to-b from-primary-400 to-primary-500 rounded-full mt-2 animate-pulse"></div>
+            {/* Enhanced Scroll Indicator - Positioned at bottom center */}
+            <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 lg:bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
+                <div className="w-5 h-9 sm:w-6 sm:h-10 md:w-7 md:h-12 border-2 border-white/70 rounded-full flex justify-center backdrop-blur-md bg-white/15 shadow-xl hover:bg-white/20 transition-all duration-300 cursor-pointer">
+                    <div className="w-1.5 h-2 sm:w-1.5 sm:h-3 md:w-2 md:h-4 bg-gradient-to-b from-primary-400 to-primary-500 rounded-full mt-2 sm:mt-2.5 md:mt-3 animate-pulse"></div>
                 </div>
             </div>
         </section>
