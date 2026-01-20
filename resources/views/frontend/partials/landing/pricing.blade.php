@@ -12,7 +12,7 @@
     <div style="background: #ffffff; padding: 40px; border-radius: 15px; border: 2px solid var(--accent-color); box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
       
       <h2 class="bengali-text" style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
-        বইয়ের মূল্য:
+        {{ $landingPage->book ? 'বইয়ের মূল্য:' : 'কোর্সের মূল্য:' }}
       </h2>
 
       <!-- Price Display -->

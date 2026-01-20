@@ -93,7 +93,7 @@
   <div class="space-y-6">
     <x-card variant="elevated">
       <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
-        <h2 class="text-lg font-medium text-gray-900">Book Details Section</h2>
+        <h2 class="text-lg font-medium text-gray-900">Details Section</h2>
         <p class="text-sm text-gray-500">Detailed information about the book, specialties, and why students love it</p>
       </div>
 
@@ -121,7 +121,7 @@
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <label class="block text-sm font-medium text-gray-700">
-                Book Specialties
+                Specialties
               </label>
               <button type="button" id="add-specialty"
                       class="text-sm font-medium text-primary-600 hover:text-primary-700">

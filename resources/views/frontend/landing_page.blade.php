@@ -54,7 +54,7 @@
   @endif
 
   <!-- PDF Preview Section -->
-  @if ($landingPage->show_pdf_preview ?? true)
+  @if ($landingPage->show_pdf_preview ?? true && $landingPage->product_type === 'book')
     @include('frontend.partials.landing.pdf_preview', ['landingPage' => $landingPage])
   @endif
 
@@ -82,9 +82,9 @@
   @endif
 
   <!-- Order Section -->
-    @if ($landingPage->show_order)
-        @include('frontend.partials.landing.order')
-    @endif
+  @if ($landingPage->show_order)
+    @include('frontend.partials.landing.order')
+  @endif
 
   <!-- Footer -->
   @include('frontend.partials.landing.footer')

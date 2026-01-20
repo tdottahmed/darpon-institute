@@ -27,7 +27,7 @@ export default function HeroSection({ translations }) {
             </div>
 
             {/* Content Container - Top Left Positioned */}
-            <div className="relative z-10 flex items-start min-h-[45vh] sm:min-h-[50vh] md:min-h-[65vh] lg:min-h-[75vh] xl:min-h-[80vh] pt-6 sm:pt-8 md:pt-12 lg:pt-16 xl:pt-20">
+            <div className="relative z-10 flex items-start min-h-[45vh] sm:min-h-[50vh] md:min-h-[65vh] lg:min-h-[75vh] xl:min-h-[80vh]">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-4xl">
                         {/* Main Heading - Clean Typography */}
