@@ -80,37 +80,7 @@ export default function InstructorSection() {
                             </div>
                         )}
 
-                        {/* Skills */}
-                        {/* {skills && skills.length > 0 && (
-                            <div>
-                                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                                    {content.skills_label || "Areas of Expertise"}
-                                </h4>
-                                <div className="flex flex-wrap gap-2">
-                                    {skills.map((skill, index) => (
-                                        <Badge
-                                            key={index}
-                                            variant="primary"
-                                            className="text-sm px-4 py-2 bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 border-primary-200 dark:border-primary-800"
-                                        >
-                                            {skill}
-                                        </Badge>
-                                    ))}
-                                </div>
-                            </div>
-                        )} */}
-
-                        {/* Additional Info / Achievement */}
-                        {/* {content.achievement && (
-                            <div className="p-6 bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-xl border border-primary-200 dark:border-primary-800">
-                                <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
-                                    <span className="font-semibold text-primary-700 dark:text-primary-400">
-                                        {content.achievement_label || "Notable Achievement:"}
-                                    </span>{" "}
-                                    {content.achievement}
-                                </p>
-                            </div>
-                        )} */}
+                        
                     </div>
 
                     {/* Right Side - Image */}
@@ -120,7 +90,7 @@ export default function InstructorSection() {
                             <div className="absolute -inset-4 bg-gradient-to-br from-primary-200 via-secondary-200 to-primary-300 dark:from-primary-800 dark:via-secondary-800 dark:to-primary-900 rounded-2xl transform rotate-3 opacity-20"></div>
                             
                             {/* Image Container */}
-                            <div className="relative rounded-2xl overflow-hidden shadow-2xl max-h-[600px]">
+                            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                                 <img
                                     src={
                                         content.image ||
@@ -133,18 +103,6 @@ export default function InstructorSection() {
                                 {/* Overlay Gradient */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
                             </div>
-
-                            {/* Floating Badge */}
-                            {/* <div className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 border border-gray-200 dark:border-gray-700">
-                                <div className="text-center">
-                                    <p className="text-3xl font-bold text-primary-600 dark:text-primary-400">
-                                        {content.students_count || "5K+"}
-                                    </p>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
-                                        {content.students_label || "Students Taught"}
-                                    </p>
-                                </div>
-                            </div> */}
                         </div>
                     </div>
                 </div>

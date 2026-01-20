@@ -22,14 +22,14 @@ export default function HeroSection({ translations }) {
     return (
         <section className="relative min-h-[85vh] overflow-hidden py-12 sm:py-16 md:py-20">
             {/* Full Width Background Image */}
-            <div className="absolute inset-0 z-0 select-none">
+            <div className="absolute inset-0 z-0 select-none overflow-hidden">
                 <img
                     src={
                         content.bg_image ||
                         "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1920&auto=format&fit=crop"
                     }
                     alt="Background"
-                    className="w-full h-full object-cover scale-105 transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover object-center"
                     loading="eager"
                 />
                 {/* Enhanced Overlay with Gradient - Lighter */}

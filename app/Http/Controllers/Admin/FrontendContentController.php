@@ -84,7 +84,6 @@ class FrontendContentController extends Controller
     }
     public function destroy($id)
     {
-        dd($id);
         $content = FrontendContent::findOrFail($id);
         
         // If it's an image, delete the files
