@@ -39,7 +39,7 @@ export default function HeroSection({ translations }) {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary-600/15 via-transparent to-secondary-600/15"></div>
             </div>
 
-            <div className="relative z-10 min-h-[85vh] flex items-center">
+            <div className="relative z-10 pt-20 flex items-center">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Main Heading - Enhanced Typography */}
                     {(content.title_line_1 || content.title_line_2) && (
