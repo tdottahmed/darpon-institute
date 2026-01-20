@@ -32,8 +32,8 @@ export default function HeroSection({ translations }) {
                     <div className="max-w-4xl">
                         {/* Main Heading - Clean Typography */}
                         {(content.title_line_1 || content.title_line_2) && (
-                            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black text-white leading-[1.08] tracking-[-0.02em] sm:tracking-[-0.03em] md:tracking-[-0.04em] text-left">
+                            <div className="animate-fade-in-up pt-[25px]" style={{ animationDelay: '0.2s' }}>
+                                <h1 class="text-4xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl xxl:text-8xl font-black text-white leading-[1.08] tracking-[-0.02em] sm:tracking-[-0.03em] md:tracking-[-0.04em] text-left pt-2">
                                     {content.title_line_1 && (
                                         <span 
                                             className="block mb-2 sm:mb-3 md:mb-4 lg:mb-5"
