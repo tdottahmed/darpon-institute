@@ -295,7 +295,7 @@
         </div>
 
         <button type="submit" id="submitOrderBtn"
-                style="width: 100%; background-color: var(--accent-color); color: white; border: none; padding: 15px; border-radius: 5px; font-size: 1.1rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: background-color 0.3s; margin-top:20px">
+                style="width: 100%; background-color: #1A237E; color: white; border: none; padding: 15px; border-radius: 5px; font-size: 1.1rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: background-color 0.3s; margin-top:20px">
           {{ $productType === 'course' ? 'Enroll Now' : 'Place Order' }} <span
                 id="submitTotal">{{ number_format($offerPrice + $shippingCharge, 0) }}</span>৳
         </button>

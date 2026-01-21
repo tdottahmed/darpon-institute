@@ -6,13 +6,13 @@
   $pricingNote = $landingPage->pricing_note ?? '';
 @endphp
 
-<section class="pricing-section section" style="background-color: #fff1d0;">
+<section class="pricing-section section" style="background-color: #353e4b;">
   <div class="container-narrow" style="text-align: center;">
     
     <div style="background: #ffffff; padding: 40px; border-radius: 15px; border: 2px solid var(--accent-color); box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
       
       <h2 class="bengali-text" style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
-        {{ $landingPage->book ? 'বইয়ের মূল্য:' : 'কোর্সের মূল্য:' }}
+        {{ $landingPage->book ? 'বইয়ের মূল্য:' : 'কোর্সের মূল্য:' }}
       </h2>
 
       <!-- Price Display -->
@@ -59,7 +59,7 @@
       </div>
 
       <!-- Order Button -->
-      <button onclick="document.getElementById('orderFormSection').scrollIntoView({behavior: 'smooth'})" style="background-color: var(--accent-color); color: var(--light-text); border: none; border-radius: 5px; padding: 15px 30px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; text-transform: uppercase;" onmouseover="this.style.backgroundColor='#f57c00'" onmouseout="this.style.backgroundColor='var(--accent-color)'">
+      <button onclick="document.getElementById('orderFormSection').scrollIntoView({behavior: 'smooth'})" style="background-color: #1A237E; color: var(--light-text); border: none; border-radius: 5px; padding: 15px 30px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; text-transform: uppercase;" onmouseover="this.style.backgroundColor='#f57c00'" onmouseout="this.style.backgroundColor='#1A237E'">
         {{ $landingPage->product_type === 'course' ? 'রেজিস্ট্রেশন করুন' : 'অর্ডার করুন' }}
       </button>
 

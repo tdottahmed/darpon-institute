@@ -11,7 +11,7 @@
   $allImages = array_merge([$heroMainImage], array_map(fn($img) => Storage::url($img), $previewImages));
 @endphp
 
-<section class="hero-section section-sm" style="background-color: #fff1d0; text-align: center;">
+<section class="hero-section section-sm" style="background-color: #353e4b; text-align: center;">
   <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
 
     <!-- Hero Image -->
@@ -27,7 +27,7 @@
     @if ($heroEnglishTitle)
       <div style="margin-bottom: 15px;">
         <h2
-            style="margin: 0; color: #000000; font-family: 'Times New Roman', serif; font-weight: 700; font-size: 2rem; text-transform: uppercase;">
+            style="margin: 0; color: #ffffff; font-family: 'Times New Roman', serif; font-weight: 700; font-size: 2rem; text-transform: uppercase;">
           {{ strtoupper($heroEnglishTitle) }}
         </h2>
       </div>
@@ -37,7 +37,7 @@
     @if ($heroBengaliTitle)
       <div>
         <h2 class="bengali-text"
-            style="margin: 0; color: #0d47a1; font-weight: 600; font-size: 1.5rem; line-height: 1.4;">
+            style="margin: 0; color: #ffffff; font-weight: 600; font-size: 1.5rem; line-height: 1.4;">
           {!! nl2br(e($heroBengaliTitle)) !!}
         </h2>
       </div>

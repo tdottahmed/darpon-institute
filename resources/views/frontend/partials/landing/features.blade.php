@@ -117,7 +117,7 @@
 
         <div style="text-align: center; margin-top: 40px;">
           <button onclick="document.getElementById('orderForm').scrollIntoView({behavior: 'smooth'})"
-                  style="background-color: var(--accent-color); color: white; border: none; padding: 12px 30px; border-radius: 5px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s;"
+                  style="background-color: #1A237E; color: white; border: none; padding: 12px 30px; border-radius: 5px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s;"
                   onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
             অর্ডার করুন
           </button>
@@ -165,7 +165,7 @@
 
         <div style="text-align: center; margin-top: 40px;">
           <button onclick="document.getElementById('orderForm').scrollIntoView({behavior: 'smooth'})"
-                  style="background-color: var(--accent-color); color: white; border: none; padding: 12px 30px; border-radius: 5px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s;"
+                  style="background-color: #1A237E; color: white; border: none; padding: 12px 30px; border-radius: 5px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s;"
                   onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
             অর্ডার করুন
           </button>
@@ -208,7 +208,7 @@
 
         <div style="text-align: center; margin-top: 30px;">
           <button onclick="document.getElementById('orderForm').scrollIntoView({behavior: 'smooth'})"
-                  style="background-color: var(--accent-color); color: white; border: none; padding: 12px 30px; border-radius: 5px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s;"
+                  style="background-color: #1A237E; color: white; border: none; padding: 12px 30px; border-radius: 5px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s;"
                   onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
             অর্ডার করুন
           </button>
