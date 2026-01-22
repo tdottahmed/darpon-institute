@@ -2,6 +2,7 @@ import { Link, usePage } from "@inertiajs/react";
 import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
 import { useState, useEffect } from "react";
+import Button from "../ui/Button";
 
 export default function GallerySection({ galleries = [] }) {
     const { frontend_content } = usePage().props;
@@ -141,6 +142,12 @@ export default function GallerySection({ galleries = [] }) {
                             </Link>
                         </div>
                     )}
+                    <Button
+                        href={route("galleries.index")}
+                        className="group inline-flex items-center gap-2 text-base font-semibold text-primary-600 transition-all duration-200 hover:text-primary-700 hover:gap-3 dark:text-primary-400 dark:hover:text-primary-300"
+                    >
+                        {content.view_all_link || "View All Images"}
+                    </Button>
                 </Container>
             </section>
 

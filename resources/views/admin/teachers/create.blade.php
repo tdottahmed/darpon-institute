@@ -4,8 +4,8 @@
   <div class="space-y-6">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Add New Teacher</h1>
-        <p class="mt-1 text-sm text-gray-600">Create a new teacher profile</p>
+        <h1 class="text-2xl font-bold text-gray-900">Add New Instructor</h1>
+        <p class="mt-1 text-sm text-gray-600">Create a new instructor profile</p>
       </div>
       <x-ui.link href="{{ route('admin.teachers.index') }}" variant="secondary" size="md">
         Back to List
@@ -58,7 +58,7 @@
             Cancel
           </x-ui.link>
           <x-button type="submit" variant="primary" size="md">
-            Create Teacher
+            Create Instructor
           </x-button>
         </div>
       </form>
