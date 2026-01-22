@@ -36,6 +36,8 @@
         @include('admin.landing_pages.partials.pricing')
       @elseif($activeTab === 'order')
         @include('admin.landing_pages.partials.order_form')
+      @elseif($activeTab === 'author')
+        @include('admin.landing_pages.partials.author_info')
       @elseif($activeTab === 'seo')
         @include('admin.landing_pages.partials.seo_settings')
       @endif

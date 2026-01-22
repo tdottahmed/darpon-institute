@@ -55,6 +55,12 @@ class LandingPage extends Model
         'order_shipping_charge',
         'order_shipping_note',
         'order_payment_note',
+        // Author Section
+        'author_badge',
+        'author_name',
+        'author_title',
+        'author_description',
+        'author_image',
         // Section visibility
         'show_hero',
         'show_pdf_preview',

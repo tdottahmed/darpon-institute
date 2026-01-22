@@ -1,3 +1,21 @@
+@php
+  // Default author information
+  $defaultAuthorBadge = 'About The Author';
+  $defaultAuthorName = 'মো: শফিকুল ইসলাম';
+  $defaultAuthorTitle = 'প্রতিষ্ঠাতা ও পরিচালক, দর্পণ ইংলিশ টিচিং জোন';
+  $defaultAuthorDescription = '<p><strong>মো: শফিকুল ইসলাম</strong> একজন অভিজ্ঞ ও গবেষণাশীল ইংরেজি শিক্ষক, যার শিক্ষকতার বয়স <strong style="color: #ff9800;">২৫ বছরেরও বেশি</strong>। তিনি আধুনিক পদ্ধতিতে Spoken English, Written English, Phonetics ও Academic English শেখানোর ক্ষেত্রে সুনাম অর্জন করেছেন।</p><p>ইংরেজি ভাষার ওপর ১৬ বছর ধরে গবেষণা করছেন এবং এখন পর্যন্ত ৩০টিরও বেশি বই রচনা করেছেন। <em>\'Spoken English In Real Life\'</em> তার প্রথম প্রকাশিত বই। তাঁর বইগুলো সহজবোধ্য উপস্থাপনা, বাস্তব উদাহরণ ও শিক্ষার্থী-বান্ধব স্টাইলে সমৃদ্ধ, যা ইংরেজি শেখাকে আরও সহজ ও কার্যকর করে তোলে। ইংরেজি শিক্ষাকে সবার জন্য সহজ ও আনন্দময় করাই তাঁর মূল লক্ষ্য।</p>';
+  $defaultAuthorImage = 'https://book.darponbd.com/wp-content/uploads/2025/11/Book-Writer-removebg-preview.png';
+  
+  // Get values from landing page or use defaults
+  $authorBadge = $landingPage->author_badge ?? $defaultAuthorBadge;
+  $authorName = $landingPage->author_name ?? $defaultAuthorName;
+  $authorTitle = $landingPage->author_title ?? $defaultAuthorTitle;
+  $authorDescription = $landingPage->author_description ?? $defaultAuthorDescription;
+  $authorImage = $landingPage->author_image 
+    ? Storage::url($landingPage->author_image) 
+    : $defaultAuthorImage;
+@endphp
+
 <section class="section" style="background-color: #353e4b;">
   <div class="container-narrow">
     
@@ -11,8 +29,8 @@
       <!-- Author Image Wrapper -->
       <div style="flex: 0 0 350px; position: relative; z-index: 1;">
         <div style="position: relative; border-radius: 50%; overflow: visible;">
-           <img decoding="async" src="https://book.darponbd.com/wp-content/uploads/2025/11/Book-Writer-removebg-preview.png" 
-             alt="মো: শফিকুল ইসলাম" 
+           <img decoding="async" src="{{ $authorImage }}" 
+             alt="{{ $authorName }}" 
              style="width: 100%; height: auto; display: block; filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.2)); transform: scale(1.05);">
         </div>
       </div>
@@ -22,25 +40,20 @@
         
         <div style="margin-bottom: 20px;">
           <span style="background-color: #e3f2fd; color: #0d47a1; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
-            About The Author
+            {{ $authorBadge }}
           </span>
         </div>
 
         <h2 class="bengali-text" style="color: #0d47a1; margin: 0 0 5px; font-size: 2.2rem; font-weight: 700; line-height: 1.2;">
-          মো: শফিকুল ইসলাম
+          {!! $authorName !!}
         </h2>
         
         <h3 class="bengali-text" style="color: #555; margin: 0 0 25px; font-size: 1.1rem; font-weight: 600; border-left: 4px solid #ff9800; padding-left: 15px;">
-          প্রতিষ্ঠাতা ও পরিচালক, দর্পণ ইংলিশ টিচিং জোন
+          {!! $authorTitle !!}
         </h3>
         
         <div class="bengali-text" style="color: #444; line-height: 1.8; font-size: 1.05rem; text-align: justify;">
-          <p style="margin-bottom: 15px;">
-            <strong style="color: #0d47a1;">মো: শফিকুল ইসলাম</strong> একজন অভিজ্ঞ ও গবেষণাশীল ইংরেজি শিক্ষক, যার শিক্ষকতার বয়স <strong style="color: #ff9800;">২৫ বছরেরও বেশি</strong>। তিনি আধুনিক পদ্ধতিতে Spoken English, Written English, Phonetics ও Academic English শেখানোর ক্ষেত্রে সুনাম অর্জন করেছেন।
-          </p>
-          <p>
-            ইংরেজি ভাষার ওপর ১৬ বছর ধরে গবেষণা করছেন এবং এখন পর্যন্ত ৩০টিরও বেশি বই রচনা করেছেন। <em>‘Spoken English In Real Life’</em> তার প্রথম প্রকাশিত বই। তাঁর বইগুলো সহজবোধ্য উপস্থাপনা, বাস্তব উদাহরণ ও শিক্ষার্থী-বান্ধব স্টাইলে সমৃদ্ধ, যা ইংরেজি শেখাকে আরও সহজ ও কার্যকর করে তোলে। ইংরেজি শিক্ষাকে সবার জন্য সহজ ও আনন্দময় করাই তাঁর মূল লক্ষ্য।
-          </p>
+          {!! $authorDescription !!}
         </div>
 
       </div>

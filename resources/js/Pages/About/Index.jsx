@@ -42,7 +42,7 @@ export default function AboutIndex({ content }) {
                                 <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
                                     <div className="lg:pr-8 lg:pt-4">
                                         <div className="lg:max-w-lg">
-                                            <div className="prose prose-lg prose-primary dark:prose-invert max-w-none">
+                                            <div className="prose prose-lg prose-primary dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-strong:text-gray-900 dark:prose-strong:text-white prose-a:text-primary-600 dark:prose-a:text-primary-400">
                                                 <div dangerouslySetInnerHTML={{ __html: content.content }} />
                                             </div>
                                         </div>

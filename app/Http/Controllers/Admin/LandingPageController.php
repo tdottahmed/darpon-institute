@@ -254,6 +254,9 @@ class LandingPageController extends Controller
             case 'hero':
                 $this->handleFileUploads($request, $validated, $landing_page);
                 break;
+            case 'author':
+                $this->handleAuthorInfo($request, $validated, $landing_page);
+                break;
             default:
                 $this->handleJsonFields($request, $validated);
                 break;
@@ -353,6 +356,16 @@ class LandingPageController extends Controller
                 ];
                 break;
                 
+            case 'author':
+                $rules = [
+                    'author_badge' => 'nullable|string|max:255',
+                    'author_name' => 'nullable|string|max:500',
+                    'author_title' => 'nullable|string|max:500',
+                    'author_description' => 'nullable|string',
+                    'author_image' => 'nullable|image|max:2048',
+                ];
+                break;
+                
             case 'seo':
                 $rules = [
                     'meta_title' => 'nullable|string|max:255',
@@ -430,6 +443,11 @@ class LandingPageController extends Controller
             'order_shipping_charge' => 'nullable|numeric|min:0',
             'order_shipping_note' => 'nullable|string|max:500',
             'order_payment_note' => 'nullable|string|max:500',
+            'author_badge' => 'nullable|string|max:255',
+            'author_name' => 'nullable|string|max:500',
+            'author_title' => 'nullable|string|max:500',
+            'author_description' => 'nullable|string',
+            'author_image' => 'nullable|image|max:2048',
             'custom_description' => 'nullable|string',
             'custom_images.*' => 'nullable|image|max:2048',
             'custom_videos.*' => 'nullable|string',
@@ -446,6 +464,25 @@ class LandingPageController extends Controller
             'meta_description' => 'nullable|string|max:500',
             'meta_image' => 'nullable|image|max:2048',
         ]);
+    }
+
+    /**
+     * Handle author information updates.
+     */
+    protected function handleAuthorInfo(Request $request, array &$validated, ?LandingPage $landingPage = null)
+    {
+        // Handle author image upload
+        if ($request->hasFile('author_image')) {
+            if ($landingPage && $landingPage->author_image) {
+                Storage::disk('public')->delete($landingPage->author_image);
+            }
+            $validated['author_image'] = $request->file('author_image')->store('landing_pages/author', 'public');
+        } elseif ($landingPage && $request->has('author_image_remove')) {
+            if ($landingPage->author_image) {
+                Storage::disk('public')->delete($landingPage->author_image);
+            }
+            $validated['author_image'] = null;
+        }
     }
 
     /**
@@ -839,6 +876,9 @@ class LandingPageController extends Controller
         }
         if ($landingPage->meta_image) {
             Storage::disk('public')->delete($landingPage->meta_image);
+        }
+        if ($landingPage->author_image) {
+            Storage::disk('public')->delete($landingPage->author_image);
         }
         if ($landingPage->custom_images) {
             foreach ($landingPage->custom_images as $image) {

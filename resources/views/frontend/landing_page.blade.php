@@ -59,7 +59,7 @@
   @endif
 
   <!-- Author Section -->
-  @include('frontend.partials.landing.author')
+  @include('frontend.partials.landing.author', ['landingPage' => $landingPage])
 
   <!-- Book Details Section -->
   @if ($landingPage->show_book_details ?? true)
