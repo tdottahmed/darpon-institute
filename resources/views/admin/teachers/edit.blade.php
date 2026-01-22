@@ -4,8 +4,8 @@
   <div class="space-y-6">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Edit Teacher</h1>
-        <p class="mt-1 text-sm text-gray-600">Update teacher profile</p>
+        <h1 class="text-2xl font-bold text-gray-900">Edit Instructor</h1>
+        <p class="mt-1 text-sm text-gray-600">Update instructor profile</p>
       </div>
       <x-ui.link href="{{ route('admin.teachers.index') }}" variant="secondary" size="md">
         Back to List
@@ -63,7 +63,7 @@
             Cancel
           </x-ui.link>
           <x-button type="submit" variant="primary" size="md">
-            Update Teacher
+            Update Instructor
           </x-button>
         </div>
       </form>

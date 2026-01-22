@@ -9,6 +9,7 @@
       'features' => 'Features',
       'pricing' => 'Pricing',
       'order' => 'Order Form',
+      'author' => 'Author Info',
       'seo' => 'SEO & Settings',
   ];
 

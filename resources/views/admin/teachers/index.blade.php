@@ -5,14 +5,14 @@
     <!-- Header -->
     <div class="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Teachers</h1>
-        <p class="mt-1 text-sm text-gray-600">Manage your teachers</p>
+        <h1 class="text-2xl font-bold text-gray-900">Instructors</h1>
+        <p class="mt-1 text-sm text-gray-600">Manage your instructors</p>
       </div>
       <x-ui.link href="{{ route('admin.teachers.create') }}" variant="primary" size="md">
         <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
-        Add New Teacher
+        Add New Instructor
       </x-ui.link>
     </div>
 
@@ -35,13 +35,13 @@
       </form>
     </x-card>
 
-    <!-- Teachers Table -->
+    <!-- Instructors Table -->
     @if ($teachers->count() > 0)
       <x-card variant="elevated">
         <x-ui.table>
           <x-ui.table-head>
             <x-ui.table-row>
-              <x-ui.table-cell header>Teacher</x-ui.table-cell>
+              <x-ui.table-cell header>Instructor</x-ui.table-cell>
               <x-ui.table-cell header>Designation</x-ui.table-cell>
               <x-ui.table-cell header>Department</x-ui.table-cell>
               <x-ui.table-cell header>Order</x-ui.table-cell>
@@ -111,9 +111,9 @@
       </x-card>
     @else
       <x-card variant="elevated">
-        <x-ui.empty-state title="No teachers found" description="Get started by adding a new teacher." icon="users">
+        <x-ui.empty-state title="No instructors found" description="Get started by adding a new instructor." icon="users">
           <x-ui.link href="{{ route('admin.teachers.create') }}" variant="primary" size="md">
-            Add New Teacher
+            Add New Instructor
           </x-ui.link>
         </x-ui.empty-state>
       </x-card>
