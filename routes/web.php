@@ -114,5 +114,9 @@ Route::group(['prefix'=> '','as'=> ''], function () {
         Artisan::call('optimize:clear');
         return redirect()->back()->with('success','Optimized clear successfully');
     })->name('optimize-clear');
+    Route::get('storage-link', function () {
+        Artisan::call('storage:link');
+        return redirect()->back()->with('success','Storage linked successfully');
+    })->name('storage-link');
 });
 require __DIR__ . '/auth.php';
