@@ -76,7 +76,7 @@
 
 <section class="features-section section" style="background-color: #ffffff;">
   <div class="container-narrow">
-    <div class="features-grid">
+    <div class="features-grid" style="display: grid; grid-template-columns: 1fr">
 
       <!-- Book Features Column -->
       @if(!empty($featuresList))
@@ -89,7 +89,7 @@
 
         <ul style="list-style: none; padding: 0; margin: 0;">
           @foreach($featureGroup['items'] ?? [] as $item)
-            <li style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+            <li style="display: flex; align-items: flex-start; background-color: #F0F4F8; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
               <span style="color: {{ $item['icon_color'] ?? 'var(--primary-color)' }}; margin-right: 15px; flex-shrink: 0; font-size: 1.2rem;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"
                      fill="currentColor">
@@ -127,7 +127,7 @@
       @endif
 
       <!-- Target Audience Column -->
-      @if(!empty($targetAudienceList))
+      {{-- @if(!empty($targetAudienceList))
       @foreach($targetAudienceList as $audienceGroup)
       <div class="feature-column">
         <h2 class="bengali-text feature-heading"
@@ -172,12 +172,12 @@
         </div>
       </div>
       @endforeach
-      @endif
+      @endif --}}
 
       <!-- Why a Game Changer Column (Full Width below) -->
       @if(!empty($gameChangerPoints))
       <div class="game-changer-section"
-           style="grid-column: 1 / -1; margin-top: 50px; padding-top: 50px; border-top: 2px solid #e0e0e0;">
+           style="grid-column: 1 / -1; margin-top: 50px; padding-top: 50px;">
         <h2 class="bengali-text feature-heading"
             style="color: var(--primary-color); margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; width: 100%;">
           {{ $gameChangerTitle }}
@@ -243,7 +243,7 @@
     grid-column: 1 / -1;
     margin-top: 50px;
     padding-top: 50px;
-    border-top: 2px solid #e0e0e0;
+    /* border-top: 2px solid #e0e0e0; */
     width: 100%;
   }
 
