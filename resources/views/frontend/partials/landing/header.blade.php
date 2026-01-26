@@ -1,4 +1,4 @@
-<header style="background-color: #E31D26; color: #ffffff; padding: 30px 0 10px; text-align: center;">
+<header style="background-color: #49515d; color: #ffffff; padding: 30px 0 10px; text-align: center;">
   <div class="container">
     <!-- Logo Placeholder -->
     <img src="{{ asset('darponbdv.png') }}" alt="Darpon Logo" style="height: 80px; width: auto; margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto;">

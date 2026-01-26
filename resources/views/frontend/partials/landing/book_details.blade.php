@@ -114,7 +114,7 @@
     <!-- Description Block -->
     @if ($description)
       <div
-           style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 40px; text-align: center;">
+           style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 40px; text-align: left;">
         <h3 class="bengali-text" style="color: #444; font-size: 1.2rem; line-height: 1.8; font-weight: 500;">
           {!! $description !!}
         </h3>
