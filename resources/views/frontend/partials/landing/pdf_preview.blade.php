@@ -3,7 +3,7 @@
 @endphp
 
 @if(count($pdfPreviews) > 0)
-  <section class="section-sm" style="background-color: #fff1d0;">
+  <section class="section-sm" style="background-color: #073050;">
     <div class="container">
       <!-- PDF Preview Carousel -->
       <div style="width: 100%; overflow: hidden;">

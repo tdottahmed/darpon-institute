@@ -1,4 +1,4 @@
-<section class="section" style="background-color: #f9f9f9;">
+<section class="section" style="background-color: #073050;">
   <div class="container-narrow">
     
     <div style="text-align: center; margin-bottom: 40px;">

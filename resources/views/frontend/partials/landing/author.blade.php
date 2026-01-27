@@ -16,7 +16,7 @@
     : $defaultAuthorImage;
 @endphp
 
-<section class="section" style="background-color: #353e4b;">
+<section class="section" style="background-color: #073050;">
   <div class="container-narrow">
     
     <div style="background: #ffffff; border-radius: 15px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; flex-direction: row; gap: 40px; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 1px solid rgba(13, 71, 161, 0.1);">

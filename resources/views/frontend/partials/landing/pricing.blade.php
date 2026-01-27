@@ -6,7 +6,7 @@
   $pricingNote = $landingPage->pricing_note ?? '';
 @endphp
 
-<section class="pricing-section section" style="background-color: #353e4b;">
+<section class="pricing-section section" style="background-color: #073050;">
   <div class="container-narrow" style="text-align: center;">
     
     <div style="background: #ffffff; padding: 40px; border-radius: 15px; border: 2px solid var(--accent-color); box-shadow: 0 5px 20px rgba(0,0,0,0.1);">

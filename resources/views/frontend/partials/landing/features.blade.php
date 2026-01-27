@@ -74,7 +74,7 @@
   }
 @endphp
 
-<section class="features-section section" style="background-color: #ffffff;">
+<section class="features-section section" style="background-color: #073050;">
   <div class="container-narrow">
     <div class="features-grid" style="display: grid; grid-template-columns: 1fr">
 
@@ -83,7 +83,7 @@
       @foreach($featuresList as $featureGroup)
       <div class="feature-column">
         <h2 class="bengali-text feature-heading"
-            style="color: var(--primary-color); margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; width: 100%;">
+            style="color: white; margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; width: 100%;">
           {{ $featureGroup['title'] ?? 'বইটির অসাধারণ কিছু বৈশিষ্ট্য:' }}
         </h2>
 
@@ -179,7 +179,7 @@
       <div class="game-changer-section"
            style="grid-column: 1 / -1; margin-top: 50px; padding-top: 50px;">
         <h2 class="bengali-text feature-heading"
-            style="color: var(--primary-color); margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; width: 100%;">
+            style="color: white; margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; width: 100%;">
           {{ $gameChangerTitle }}
         </h2>
 

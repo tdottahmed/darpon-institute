@@ -38,11 +38,11 @@
           : route('landing-page.order.store', $landingPage->slug);
 @endphp
 
-<section id="orderFormSection" class="section" style="background-color: #f9f9f9;">
+<section id="orderFormSection" class="section" style="background-color: #073050;">
   <div class="container-narrow">
     @if ($orderTitle)
       <h2 class="bengali-text"
-          style="text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 30px; color: var(--primary-color);">
+          style="text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 30px; color: white;">
         {{ $orderTitle }}
       </h2>
     @endif

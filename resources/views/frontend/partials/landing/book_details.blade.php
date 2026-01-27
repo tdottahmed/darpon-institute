@@ -99,16 +99,16 @@
   }
 @endphp
 
-<section class="book-details-section section" style="background-color: #f0f4f8;">
+<section class="book-details-section section" style="background-color: #073050;">
   <div class="container-narrow">
 
     <!-- Main Heading -->
     <div style="text-align: center; margin-bottom: 40px;">
       <h2 class="bengali-text"
-          style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">
+          style="color: white; font-size: 2rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">
         {{ $title }}
       </h2>
-      <div style="width: 80px; height: 4px; background-color: var(--accent-color); margin: 0 auto;"></div>
+      <div style="width: 80px; height: 4px; background-color: white; margin: 0 auto;"></div>
     </div>
 
     <!-- Description Block -->
@@ -125,7 +125,7 @@
     @if (!empty($specialties))
       <div>
         <h2 class="bengali-text"
-            style="color: var(--primary-color); margin: 0 0 25px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 10px;">
+            style="color: white; margin: 0 0 25px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 10px;">
           {{ $landingPage->product_type === 'book' ? 'এই বইয়ের বিশেষত্ব:' : 'এই কোর্সের বিশেষত্ব:' }}
         </h2>
 
@@ -203,7 +203,7 @@
         @if (!empty($studentsLove))
           <div>
             <h2 class="bengali-text"
-                style="color: var(--primary-color); margin: 0 0 25px; font-size: 1.6rem; font-weight: 700; text-align: center; width: 100%; border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 10px;">
+                style="color: white; margin: 0 0 25px; font-size: 1.6rem; font-weight: 700; text-align: center; width: 100%; border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 10px;">
               কেন শিক্ষার্থীরা এই বইকে ভালোবাসেন
             </h2>
             <ul style="list-style: none; padding: 0; margin: 0;">

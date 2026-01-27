@@ -11,7 +11,7 @@
   $allImages = array_merge([$heroMainImage], array_map(fn($img) => Storage::url($img), $previewImages));
 @endphp
 
-<section class="hero-section section-sm" style="background-color: #49515d; text-align: center; padding-top: 10px">
+<section class="hero-section section-sm" style="background-color: #073050; text-align: center; padding-top: 10px">
   <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
 
     <!-- Hero Image -->

@@ -1,4 +1,4 @@
-<footer class="section-sm" style="background-color: #1F2937; color: var(--light-text);">
+<footer class="section-sm" style="background-color: #073050; color: var(--light-text);">
   <div class="container" style="text-align: center;">
     <p style="margin: 0 0 15px; font-size: 0.9rem;">
       © 2024 bookdarponbd | Powered by Nix Software
