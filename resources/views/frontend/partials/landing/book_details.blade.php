@@ -114,7 +114,7 @@
     <!-- Description Block -->
     @if ($description)
       <div
-           style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 40px; text-align: center;">
+           style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 40px; text-align: left;">
         <h3 class="bengali-text" style="color: #444; font-size: 1.2rem; line-height: 1.8; font-weight: 500;">
           {!! $description !!}
         </h3>
@@ -171,10 +171,10 @@
            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 60px;">
 
         <!-- Column 1: What makes it extraordinary -->
-        @if (!empty($extraordinary))
+        {{-- @if (!empty($extraordinary))
           <div>
             <h2 class="bengali-text"
-                style="color: var(--primary-color); margin: 0 0 25px; font-size: 1.6rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 10px;">
+                style="color: var(--primary-color); margin: 0 0 25px; font-size: 1.6rem; font-weight: 700; text-align: center; width: 100%; border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 10px;">
               কী এই বইটিকে সত্যিই অসাধারণ করে তুলেছে?
             </h2>
             <ul style="list-style: none; padding: 0; margin: 0;">
@@ -197,13 +197,13 @@
               </button>
             </div>
           </div>
-        @endif
+        @endif --}}
 
         <!-- Column 2: Why Students Love -->
         @if (!empty($studentsLove))
           <div>
             <h2 class="bengali-text"
-                style="color: var(--primary-color); margin: 0 0 25px; font-size: 1.6rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 10px;">
+                style="color: var(--primary-color); margin: 0 0 25px; font-size: 1.6rem; font-weight: 700; text-align: center; width: 100%; border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 10px;">
               কেন শিক্ষার্থীরা এই বইকে ভালোবাসেন
             </h2>
             <ul style="list-style: none; padding: 0; margin: 0;">
