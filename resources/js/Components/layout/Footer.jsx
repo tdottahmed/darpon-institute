@@ -85,33 +85,20 @@ export default function Footer() {
     ].filter((link) => link.href !== "#"); // Only show links that have been configured
 
     return (
-        <footer className="bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 transition-colors duration-300">
+        <footer className="bg-[#F47F16] border-t border-gray-900/10 transition-colors duration-300">
             <Container>
                 <div className="pt-16 pb-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
                     {/* Brand Column */}
                     <div className="lg:col-span-4 space-y-4">
                         <Link href="/" className="inline-block">
+                             {/* Always show light logo (dark text) for orange background */}
                             <img
                                 src={settings?.logo_light || "/darponbdv.png"}
                                 alt="Darpon Logo"
-                                className="h-16 w-auto dark:hidden"
+                                className="h-16 w-auto"
                             />
-                            {settings?.logo_dark && (
-                                <img
-                                    src={settings.logo_dark}
-                                    alt="Darpon Logo"
-                                    className="h-16 w-auto hidden dark:block"
-                                />
-                            )}
-                            {!settings?.logo_dark && (
-                                <img
-                                    src={settings?.logo_light || "/darponbdv.png"}
-                                    alt="Darpon Logo"
-                                    className="h-16 w-auto hidden dark:block"
-                                />
-                            )}
                         </Link>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-sm">
+                        <p className="text-gray-900 text-sm leading-relaxed max-w-sm">
                             {content.description ||
                                 "Empowering students with accessible, high-quality English education. Join Darpon and start your learning journey today."}
                         </p>
@@ -125,7 +112,7 @@ export default function Footer() {
                                         href={item.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                                        className="text-gray-800 hover:text-white transition-colors"
                                         aria-label={item.name}
                                     >
                                         <item.icon
@@ -142,7 +129,7 @@ export default function Footer() {
                     <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-8">
                         {/* Column 1: Products */}
                         <div>
-                            <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+                            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">
                                 {content.col_1_title || "Learn"}
                             </h3>
                             <ul className="space-y-3">
@@ -150,7 +137,7 @@ export default function Footer() {
                                     <li key={link.name}>
                                         <Link
                                             href={link.href}
-                                            className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                                            className="text-sm text-gray-800 hover:text-white transition-colors"
                                         >
                                             {link.name}
                                         </Link>
@@ -161,7 +148,7 @@ export default function Footer() {
 
                         {/* Column 2: Company */}
                         <div>
-                            <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+                            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">
                                 {content.col_2_title || "Company"}
                             </h3>
                             <ul className="space-y-3">
@@ -169,7 +156,7 @@ export default function Footer() {
                                     <li key={link.name}>
                                         <Link
                                             href={link.href}
-                                            className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                                            className="text-sm text-gray-800 hover:text-white transition-colors"
                                         >
                                             {link.name}
                                         </Link>
@@ -180,7 +167,7 @@ export default function Footer() {
 
                         {/* Column 3: Legal/Support */}
                         <div className="col-span-2 sm:col-span-1">
-                            <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+                            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">
                                 {content.col_3_title || "Legal & Support"}
                             </h3>
                             <ul className="space-y-3">
@@ -188,7 +175,7 @@ export default function Footer() {
                                     <li key={link.name}>
                                         <Link
                                             href={link.href}
-                                            className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                                            className="text-sm text-gray-800 hover:text-white transition-colors"
                                         >
                                             {link.name}
                                         </Link>
@@ -200,15 +187,15 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="border-t border-gray-100 dark:border-gray-800 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-gray-500 text-sm">
+                <div className="border-t border-gray-900/10 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-gray-800 text-sm">
                         &copy; {currentYear}{" "}
                         {import.meta.env.VITE_APP_NAME || "Darpon"}.{" "}
                         {content.copyright || "All rights reserved."}
                     </p>
                     <div className="flex items-center gap-6">
                         {/* Optional region/language selector or other bottom links could go here */}
-                        <span className="flex items-center gap-2 text-sm text-gray-500">
+                        <span className="flex items-center gap-2 text-sm text-gray-800">
                             <span className="w-2 h-2 rounded-full bg-green-500"></span>
                             System Operational
                         </span>
@@ -216,14 +203,14 @@ export default function Footer() {
                 </div>
 
                 {/* Developer Credit */}
-                <div className="border-t border-gray-100 dark:border-gray-800 py-4 text-center">
-                    <p className="text-gray-500 text-sm">
+                <div className="border-t border-gray-900/10 py-4 text-center">
+                    <p className="text-gray-800 text-sm">
                         Developed by{" "}
                         <a
                             href="https://nixsoftware.net/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium transition-colors"
+                            className="text-gray-900 hover:text-white font-medium transition-colors"
                         >
                             nix software
                         </a>

@@ -11,24 +11,11 @@ export default function Logo() {
             href={route("home")}
             className="flex items-center space-x-3 group"
         >
-            <div className="relative flex-shrink-0">
-                {/* Light Logo */}
+                {/* Logo - Use Default/Light logo which typically has dark text */}
                 <img
                     src={lightLogo}
                     alt="Darpon Logo"
-                    className="h-12 w-auto transition-transform duration-300 group-hover:scale-105 dark:hidden"
-                    onError={(e) => {
-                        e.target.style.display = "none";
-                        if (e.target.nextElementSibling) {
-                            e.target.nextElementSibling.style.display = "flex";
-                        }
-                    }}
-                />
-                {/* Dark Logo */}
-                <img
-                    src={darkLogo}
-                    alt="Darpon Logo"
-                    className="h-12 w-auto transition-transform duration-300 group-hover:scale-105 hidden dark:block"
+                    className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
                     onError={(e) => {
                         e.target.style.display = "none";
                         if (e.target.nextElementSibling) {
@@ -40,7 +27,6 @@ export default function Logo() {
                 <div className="h-12 w-12 hidden items-center justify-center">
                     <ApplicationLogo variant="icon" />
                 </div>
-            </div>
         </Link>
     );
 }

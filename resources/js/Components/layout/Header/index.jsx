@@ -137,7 +137,7 @@ export default function Header() {
     }));
 
     return (
-        <header className="sticky top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm">
+        <header className="sticky top-0 left-0 right-0 z-50 bg-[#F47F16] backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm">
             <ToastListener />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">

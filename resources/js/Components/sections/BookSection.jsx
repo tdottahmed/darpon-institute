@@ -22,9 +22,7 @@ export default function BookSection({ books }) {
                     title={
                         <>
                             {content.header_title_prefix || "Latest"}{" "}
-                            <span className="text-primary-600 dark:text-primary-400">
-                                {content.header_title_highlight || "Books"}
-                            </span>
+                            {content.header_title_highlight || "Books"}
                         </>
                     }
                     subtitle={

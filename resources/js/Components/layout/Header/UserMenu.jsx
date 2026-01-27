@@ -16,11 +16,11 @@ export default function UserMenu({ content = {} }) {
                 <Dropdown.Trigger>
                     <button
                         type="button"
-                        className="flex items-center space-x-2 rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                        className="flex items-center space-x-2 rounded-lg px-3 py-2 hover:bg-black/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                     >
                         <Avatar name={user.name} email={user.email} size="sm" />
                         <div className="hidden xl:block text-left">
-                            <p className="text-sm font-medium text-gray-900 dark:text-white">
+                            <p className="text-sm font-medium text-gray-900">
                                 {user.name}
                             </p>
                         </div>

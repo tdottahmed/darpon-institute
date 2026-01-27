@@ -2,7 +2,7 @@ export default function MobileMenuButton({ isOpen, onClick }) {
     return (
         <button
             onClick={onClick}
-            className="lg:hidden p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="lg:hidden p-2 rounded-lg text-gray-900 hover:bg-black/5 transition-colors"
             aria-label="Toggle menu"
         >
             <svg

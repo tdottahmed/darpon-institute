@@ -18,9 +18,7 @@ export default function BlogSection({ videoBlogs }) {
                     title={
                         <>
                             {content.header_title_prefix || "Video"}{" "}
-                            <span className="text-primary-600 dark:text-primary-400">
-                                {content.header_title_highlight || "Blogs"}
-                            </span>
+                            {content.header_title_highlight || "Blogs"}
                         </>
                     }
                     subtitle={
