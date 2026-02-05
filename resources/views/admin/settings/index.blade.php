@@ -203,6 +203,41 @@
         </div>
       </x-card>
 
+      <!-- SEO & Analytics Settings -->
+      <x-card variant="elevated">
+        <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">
+          <h2 class="text-lg font-medium text-gray-900">SEO & Analytics</h2>
+          <p class="text-sm text-gray-500">Configure SEO tools and analytics tracking</p>
+        </div>
+
+        <div class="space-y-6">
+          <div>
+            <x-forms.input name="sitemap_url" label="Sitemap URL" type="url" :value="old('sitemap_url', $settings['sitemap_url'])" :error="$errors->first('sitemap_url')"
+                           placeholder="https://yoursite.com/sitemap.xml" />
+            <p class="mt-1 text-xs text-gray-500">
+              The URL to your sitemap.xml file. This helps search engines discover and index your pages.
+            </p>
+          </div>
+
+          <div>
+            <x-forms.input name="rss_feed_url" label="RSS Feed URL" type="url" :value="old('rss_feed_url', $settings['rss_feed_url'])" :error="$errors->first('rss_feed_url')"
+                           placeholder="https://yoursite.com/feed" />
+            <p class="mt-1 text-xs text-gray-500">
+              The URL to your RSS feed. This allows users and feed readers to subscribe to your content updates.
+            </p>
+          </div>
+
+          <div>
+            <x-forms.input name="google_analytics_id" label="Google Analytics ID" type="text" :value="old('google_analytics_id', $settings['google_analytics_id'])" :error="$errors->first('google_analytics_id')"
+                           placeholder="G-XXXXXXXXXX or UA-XXXXXXXXX-X" />
+            <p class="mt-1 text-xs text-gray-500">
+              Your Google Analytics tracking ID (e.g., G-XXXXXXXXXX for GA4 or UA-XXXXXXXXX-X for Universal Analytics).
+              This will be used to track website traffic and user behavior.
+            </p>
+          </div>
+        </div>
+      </x-card>
+
       <!-- Logo Settings -->
       <x-card variant="elevated">
         <div class="-mx-6 -mt-6 mb-6 rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-3">

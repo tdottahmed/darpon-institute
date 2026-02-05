@@ -44,6 +44,11 @@ class SettingController extends Controller
             // Logos
             'logo_light' => Setting::get('logo_light'),
             'logo_dark' => Setting::get('logo_dark'),
+
+            // SEO & Analytics
+            'sitemap_url' => Setting::get('sitemap_url'),
+            'rss_feed_url' => Setting::get('rss_feed_url'),
+            'google_analytics_id' => Setting::get('google_analytics_id'),
         ];
 
         return view('admin.settings.index', compact('settings'));
@@ -86,6 +91,11 @@ class SettingController extends Controller
             'logo_dark' => 'nullable|image|max:2048',
             'logo_light_existing' => 'nullable|string',
             'logo_dark_existing' => 'nullable|string',
+
+            // SEO & Analytics
+            'sitemap_url' => 'nullable|url|max:255',
+            'rss_feed_url' => 'nullable|url|max:255',
+            'google_analytics_id' => 'nullable|string|max:255',
         ]);
 
         // Handle logo uploads - Process both logos independently
