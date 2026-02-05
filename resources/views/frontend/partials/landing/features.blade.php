@@ -83,37 +83,29 @@
       @foreach($featuresList as $featureGroup)
       <div class="feature-column">
         <h2 class="bengali-text feature-heading"
-            style="color: white; margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; width: 100%;">
+            style="color: white; margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; padding-bottom: 10px; width: 100%; text-align: center; position: relative;">
           {{ $featureGroup['title'] ?? 'বইটির অসাধারণ কিছু বৈশিষ্ট্য:' }}
+          <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
         </h2>
 
-        <ul style="list-style: none; padding: 0; margin: 0;">
+        <div style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
           @foreach($featureGroup['items'] ?? [] as $item)
-            <li style="display: flex; align-items: flex-start; background-color: #F0F4F8; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
-              <span style="color: {{ $item['icon_color'] ?? 'var(--primary-color)' }}; margin-right: 15px; flex-shrink: 0; font-size: 1.2rem;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"
-                     fill="currentColor">
-                  <path
-                        d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" />
-                </svg>
-              </span>
-              <span class="bengali-text" style="color: var(--dark-text); line-height: 1.6; font-size: 1.05rem;">
-                @if(isset($item['text']))
-                  @php
-                    $textParts = explode(':', $item['text'], 2);
-                    $boldPart = $textParts[0] ?? '';
-                    $descriptionPart = $textParts[1] ?? '';
-                  @endphp
-                  @if($descriptionPart)
-                    <b>{{ $boldPart }}:</b> {{ $descriptionPart }}
-                  @else
-                    {{ $item['text'] }}
-                  @endif
+            <p class="bengali-text" style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem; margin-bottom: 15px;">
+              @if(isset($item['text']))
+                @php
+                  $textParts = explode(':', $item['text'], 2);
+                  $boldPart = $textParts[0] ?? '';
+                  $descriptionPart = $textParts[1] ?? '';
+                @endphp
+                @if($descriptionPart)
+                  {{ $boldPart }}: {{ $descriptionPart }}
+                @else
+                  {{ $item['text'] }}
                 @endif
-              </span>
-            </li>
+              @endif
+            </p>
           @endforeach
-        </ul>
+        </div>
 
         <div style="text-align: center; margin-top: 40px;">
           <button onclick="document.getElementById('orderForm').scrollIntoView({behavior: 'smooth'})"
@@ -153,7 +145,7 @@
                     $descriptionPart = $textParts[1] ?? '';
                   @endphp
                   @if($descriptionPart)
-                    <b>{{ $boldPart }}:</b> {{ $descriptionPart }}
+                    {{ $boldPart }}: {{ $descriptionPart }}
                   @else
                     {{ $item['text'] }}
                   @endif
@@ -179,12 +171,13 @@
       <div class="game-changer-section"
            style="grid-column: 1 / -1; margin-top: 50px; padding-top: 50px;">
         <h2 class="bengali-text feature-heading"
-            style="color: white; margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; width: 100%;">
+            style="color: white; margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; padding-bottom: 10px; width: 100%; text-align: center; position: relative;">
           {{ $gameChangerTitle }}
+          <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
         </h2>
 
         <ul
-            style="list-style: none; padding: 30px; margin: 0; background-color: #f9f9f9; border-radius: 10px; border-left: 5px solid var(--primary-color);">
+            style="list-style: none; padding: 30px; margin: 0; background-color: white; border-radius: 10px; border: 2px solid var(--accent-color);">
           @if($gameChangerConclusion)
           <li class="bengali-text"
               style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text); margin-bottom: 15px;">

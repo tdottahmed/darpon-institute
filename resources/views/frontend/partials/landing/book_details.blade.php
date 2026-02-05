@@ -114,7 +114,7 @@
     <!-- Description Block -->
     @if ($description)
       <div
-           style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 40px; text-align: left;">
+           style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 40px; text-align: left; border: 2px solid var(--accent-color);">
         <h3 class="bengali-text" style="color: #444; font-size: 1.2rem; line-height: 1.8; font-weight: 500;">
           {!! $description !!}
         </h3>
@@ -125,35 +125,25 @@
     @if (!empty($specialties))
       <div>
         <h2 class="bengali-text"
-            style="color: white; margin: 0 0 25px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 10px;">
+            style="color: white; margin: 0 0 25px; font-size: 1.8rem; text-align: center; font-weight: 700; padding-bottom: 10px; width: 100%; position: relative;">
           {{ $landingPage->product_type === 'book' ? 'এই বইয়ের বিশেষত্ব:' : 'এই কোর্সের বিশেষত্ব:' }}
+          <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
         </h2>
 
-        <ul style="list-style: none; padding: 0; margin: 0;">
+        <div style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
           @foreach ($specialties as $specialty)
-            <li
-                style="display: flex; align-items: flex-start; margin-bottom: 20px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.03);">
-              <span
-                    style="color: var(--primary-color); margin-right: 15px; flex-shrink: 0; font-size: 1.2rem; margin-top: 2px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"
-                     fill="currentColor">
-                  <path
-                        d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z" />
-                </svg>
-              </span>
-              <span class="bengali-text" style="color: var(--dark-text); line-height: 1.6; font-size: 1.05rem;">
-                @if (isset($specialty['title']))
-                  <b>{{ $specialty['title'] }}:</b>
-                @endif
-                @if (isset($specialty['description']))
-                  {{ $specialty['description'] }}
-                @elseif(is_string($specialty))
-                  {{ $specialty }}
-                @endif
-              </span>
-            </li>
+            <p class="bengali-text" style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem; margin-bottom: 15px;">
+              @if (isset($specialty['title']))
+                {{ $specialty['title'] }}:
+              @endif
+              @if (isset($specialty['description']))
+                {{ $specialty['description'] }}
+              @elseif(is_string($specialty))
+                {{ $specialty }}
+              @endif
+            </p>
           @endforeach
-        </ul>
+        </div>
       </div>
     @endif
 
@@ -203,18 +193,16 @@
         @if (!empty($studentsLove))
           <div>
             <h2 class="bengali-text"
-                style="color: white; margin: 0 0 25px; font-size: 1.6rem; font-weight: 700; text-align: center; width: 100%; border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 10px;">
+                style="color: white; margin: 0 0 25px; font-size: 1.6rem; font-weight: 700; text-align: center; width: 100%; padding-bottom: 10px; position: relative;">
               কেন শিক্ষার্থীরা এই বইকে ভালোবাসেন
+              <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
             </h2>
-            <ul style="list-style: none; padding: 0; margin: 0;">
+            <div style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
               @foreach ($studentsLove as $point)
-                <li
-                    style="margin-bottom: 15px; background: white; padding: 12px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); border-left: 4px solid var(--primary-color);">
-                  <span class="bengali-text"
-                        style="color: #444; font-size: 1.05rem; line-height: 1.5; display: block;">{{ $point }}</span>
-                </li>
+                <p class="bengali-text"
+                   style="color: #444; font-size: 1.05rem; line-height: 1.8; margin-bottom: 15px;">{{ $point }}</p>
               @endforeach
-            </ul>
+            </div>
             <div style="text-align: center; margin-top: 20px;">
               <button onclick="document.getElementById('orderForm').scrollIntoView({behavior: 'smooth'})"
                       style="background-color: #1A237E; color: white; border: none; padding: 10px 25px; border-radius: 5px; font-size: 0.9rem; font-weight: 600; cursor: pointer;">
