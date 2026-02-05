@@ -181,6 +181,18 @@ export default function Footer() {
                                         </Link>
                                     </li>
                                 ))}
+                                {settings?.rss_feed_url && (
+                                    <li>
+                                        <a
+                                            href={settings.rss_feed_url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-sm text-gray-800 hover:text-white transition-colors"
+                                        >
+                                            RSS Feed
+                                        </a>
+                                    </li>
+                                )}
                             </ul>
                         </div>
                     </div>

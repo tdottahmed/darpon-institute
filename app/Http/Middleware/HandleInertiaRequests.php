@@ -67,6 +67,7 @@ class HandleInertiaRequests extends Middleware
                             'social_instagram' => \App\Models\Setting::get('social_instagram'),
                             'social_twitter' => \App\Models\Setting::get('social_twitter'),
                             'social_youtube' => \App\Models\Setting::get('social_youtube'),
+                            'rss_feed_url' => \App\Models\Setting::get('rss_feed_url'),
                             'logo_light' => \App\Models\Setting::get('logo_light') 
                                 ? \Illuminate\Support\Facades\Storage::url(\App\Models\Setting::get('logo_light'))
                                 : '/darponbdv.png',
@@ -83,6 +84,7 @@ class HandleInertiaRequests extends Middleware
                     'social_instagram' => null,
                     'social_twitter' => null,
                     'social_youtube' => null,
+                    'rss_feed_url' => null,
                     'logo_light' => '/darponbdv.png',
                     'logo_dark' => null,
                 ];
