@@ -2,6 +2,6 @@
   <div class="container">
     <!-- Logo Placeholder -->
     <img src="{{ asset('darpond-landing-logo.webp') }}" alt="Darpon Logo" style="height: 150px; width: auto; display: block; margin-left: auto; margin-right: auto;">
-    <p style="font-size: 1rem; font-weight: 600; color: #073050; text-transform: uppercase;">Shafipur, Kaliakoir, Gazipur</p>
+    <p style="font-size: 1rem; font-weight: 600; color: #073050; padding-bottom: 20px; text-transform: uppercase;">Shafipur, Kaliakoir, Gazipur</p>
   </div>
 </header>
