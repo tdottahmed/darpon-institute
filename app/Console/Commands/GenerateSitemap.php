@@ -3,7 +3,12 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Spatie\Sitemap\SitemapGenerator;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
+use App\Models\Course;
+use App\Models\Book;
+use App\Models\VideoBlog;
+use App\Models\LandingPage;
 
 class GenerateSitemap extends Command
 {
@@ -19,7 +24,7 @@ class GenerateSitemap extends Command
      *
      * @var string
      */
-    protected $description = 'Generate sitemap.xml by crawling the website';
+    protected $description = 'Generate sitemap.xml manually providing routes';
 
     /**
      * Execute the console command.
@@ -28,16 +33,56 @@ class GenerateSitemap extends Command
     {
         $this->info('Generating sitemap...');
 
-        $baseUrl = config('app.url');
-        
-        if (!$baseUrl) {
-            $this->error('APP_URL is not set in your .env file.');
-            return Command::FAILURE;
-        }
+        // Force set APP_URL to live site for this command execution
+        $baseUrl = 'https://darponbd.com';
+        \Illuminate\Support\Facades\URL::forceRootUrl($baseUrl);
+        \Illuminate\Support\Facades\URL::forceScheme('https');
+
 
         try {
-            SitemapGenerator::create($baseUrl)
-                ->writeToFile(public_path('sitemap.xml'));
+            $sitemap = Sitemap::create();
+
+            // 1. Static Pages
+            $this->info('Adding static pages...');
+            $sitemap->add(Url::create(route('home')))
+                    ->add(Url::create(route('courses.index')))
+                    ->add(Url::create(route('books.index')))
+                    ->add(Url::create(route('video_blogs.index')))
+                    ->add(Url::create(route('galleries.index')))
+                    ->add(Url::create(route('about')))
+                    ->add(Url::create(route('contact')));
+
+            // 2. Dynamic Content: Courses
+            $this->info('Adding courses...');
+            Course::all()->each(function (Course $course) use ($sitemap) {
+                $sitemap->add(Url::create(route('courses.show', $course->slug)));
+            });
+
+            // 3. Dynamic Content: Books
+            $this->info('Adding books...');
+            Book::all()->each(function (Book $book) use ($sitemap) {
+                $sitemap->add(Url::create(route('books.show', $book->slug)));
+            });
+
+            // 4. Dynamic Content: Video Blogs
+            $this->info('Adding video blogs...');
+            VideoBlog::all()->each(function (VideoBlog $videoBlog) use ($sitemap) {
+                $sitemap->add(Url::create(route('video_blogs.show', $videoBlog->slug)));
+            });
+
+            // 5. Dynamic Content: Landing Pages
+            // Only include active landing pages if there's a status field, assuming all for now or check structure
+            // Based on previous file view, LandingPage model exists.
+            $this->info('Adding landing pages...');
+            LandingPage::all()->each(function (LandingPage $lp) use ($sitemap) {
+                // Assuming the route param is 'slug' based on routes/web.php: Route::get('/lp/{slug}', ...)
+                if ($lp->slug) {
+                     $sitemap->add(Url::create(route('landing-page.show', $lp->slug)));
+                }
+            });
+
+            // Write to file
+            $sitemap->writeToFile(public_path('sitemap.xml'));
 
             $this->info('Sitemap generated successfully at: ' . public_path('sitemap.xml'));
             
@@ -57,6 +102,8 @@ class GenerateSitemap extends Command
             return Command::SUCCESS;
         } catch (\Exception $e) {
             $this->error('Failed to generate sitemap: ' . $e->getMessage());
+            // Log the full error for debugging
+             \Illuminate\Support\Facades\Log::error('Sitemap generation failed: ' . $e);
             return Command::FAILURE;
         }
     }
