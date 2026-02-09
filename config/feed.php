@@ -51,5 +51,25 @@ return [
              */
             'contentType' => '',
         ],
+
+        'courses' => [
+            'items' => [\App\Models\Course::class, 'getFeedItems'],
+            'url' => '/feed/courses',
+            'title' => config('app.name') . ' - Courses Feed',
+            'description' => 'Latest courses from ' . config('app.name'),
+            'language' => 'en-US',
+            'format' => 'rss',
+            'view' => 'feed::rss',
+        ],
+
+        'books' => [
+            'items' => [\App\Models\Book::class, 'getFeedItems'],
+            'url' => '/feed/books',
+            'title' => config('app.name') . ' - Books Feed',
+            'description' => 'Latest books from ' . config('app.name'),
+            'language' => 'en-US',
+            'format' => 'rss',
+            'view' => 'feed::rss',
+        ],
     ],
 ];

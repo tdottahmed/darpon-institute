@@ -99,6 +99,20 @@ class GenerateSitemap extends Command
                 $this->info('RSS Feed URL updated in settings: ' . $rssFeedUrl);
             }
 
+            $rssFeedUrlCourses = \App\Models\Setting::get('rss_feed_url_courses');
+            if (!$rssFeedUrlCourses) {
+                $rssFeedUrlCourses = $baseUrl . '/feed/courses';
+                \App\Models\Setting::set('rss_feed_url_courses', $rssFeedUrlCourses);
+                $this->info('Courses RSS Feed URL updated in settings: ' . $rssFeedUrlCourses);
+            }
+
+            $rssFeedUrlBooks = \App\Models\Setting::get('rss_feed_url_books');
+            if (!$rssFeedUrlBooks) {
+                $rssFeedUrlBooks = $baseUrl . '/feed/books';
+                \App\Models\Setting::set('rss_feed_url_books', $rssFeedUrlBooks);
+                $this->info('Books RSS Feed URL updated in settings: ' . $rssFeedUrlBooks);
+            }
+
             return Command::SUCCESS;
         } catch (\Exception $e) {
             $this->error('Failed to generate sitemap: ' . $e->getMessage());
