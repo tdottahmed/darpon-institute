@@ -36,6 +36,9 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 Route::get('/language/{locale}', [LanguageController::class, 'switch'])
     ->name('language.switch');
 
+// RSS Feed
+Route::feeds();
+
 // ============================================
 // COURSE ENROLLMENT ROUTES
 // ============================================
