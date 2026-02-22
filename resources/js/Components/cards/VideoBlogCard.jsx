@@ -1,6 +1,12 @@
 import { Link } from "@inertiajs/react";
 import Badge from "../ui/Badge";
 
+/** Strip HTML tags and return plain text (safe for display, works in SSR). */
+function stripHtml(html) {
+    if (html == null || typeof html !== "string") return "";
+    return html.replace(/<[^>]*>/g, "").trim();
+}
+
 export default function VideoBlogCard({ video }) {
     return (
         <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
@@ -87,13 +93,13 @@ export default function VideoBlogCard({ video }) {
                     className="group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 mb-3"
                 >
                     <h3 className="line-clamp-2 text-xl font-bold text-gray-900 dark:text-white leading-tight">
-                        {video.title}
+                        {stripHtml(video.title)}
                     </h3>
                 </Link>
 
                 {/* Description */}
                 <p className="mb-4 line-clamp-2 text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-1">
-                    {video.short_description}
+                    {stripHtml(video.short_description)}
                 </p>
 
                 {/* Footer */}
