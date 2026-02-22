@@ -137,8 +137,8 @@ class LandingPageController extends Controller
         // Handle PDF previews with file uploads
         $this->handlePdfPreviews($request, $validated, $landingPage);
 
-        // Handle JSON fields
-        $this->handleJsonFields($request, $validated);
+        // Handle JSON fields (pass existing model so we don't overwrite other sections with null)
+        $this->handleJsonFields($request, $validated, $landingPage);
 
         // Set status and visibility
         $validated['status'] = $request->has('status') ? 1 : 0;
@@ -161,11 +161,11 @@ class LandingPageController extends Controller
     public function storePartial(Request $request)
     {
         $tab = $request->get('tab', 'basic');
-        
+
         // For basic tab, we need to create the landing page first
         if ($tab === 'basic') {
             $validated = $this->validatePartialRequest($request, $tab);
-            
+
             // Determine product type and verify existence
             $productType = $request->input('product_type', 'book');
             $product = null;
@@ -181,10 +181,10 @@ class LandingPageController extends Controller
                     return redirect()->back()->withErrors(['product_id' => 'Selected book does not exist.'])->withInput();
                 }
             }
-            
+
             // Set product type
             $validated['product_type'] = $productType;
-            
+
             // Set default status and visibility
             $validated['status'] = $request->has('status') ? 1 : 1;
             $validated['show_hero'] = $request->has('show_hero') ? 1 : 1;
@@ -193,27 +193,27 @@ class LandingPageController extends Controller
             $validated['show_features'] = $request->has('show_features') ? 1 : 1;
             $validated['show_pricing'] = $request->has('show_pricing') ? 1 : 1;
             $validated['show_order'] = $request->has('show_order') ? 1 : 1;
-            
+
             // Initialize default content for empty fields before creating
             $landingPage = new LandingPage($validated);
             $this->initializeDefaultContent($landingPage, $product);
             $landingPage->save();
-            
+
             return redirect(route('admin.landing-pages.edit', $landingPage) . '?tab=' . $tab)
                 ->with('success', 'Landing page created. You can now edit other sections.');
         }
-        
+
         // For tabs with file uploads (like PDF, Hero, SEO), require landing page to exist first
         // We can't store file uploads in session, so user must create landing page first
         if (in_array($tab, ['pdf', 'hero', 'seo'])) {
             return redirect()->route('admin.landing-pages.create', ['tab' => $tab])
                 ->with('error', 'Please complete Basic Information first to create the landing page. File uploads require an existing landing page.');
         }
-        
+
         // For other tabs without file uploads, validate and store only non-file data
         try {
             $validated = $this->validatePartialRequest($request, $tab);
-            
+
             // Remove any file objects from validated data before storing in session
             $sessionData = [];
             foreach ($validated as $key => $value) {
@@ -221,7 +221,7 @@ class LandingPageController extends Controller
                     $sessionData[$key] = $value;
                 }
             }
-            
+
             // Store only non-file data in session
             if (!empty($sessionData)) {
                 session()->put('landing_page_draft.' . $tab, $sessionData);
@@ -231,7 +231,7 @@ class LandingPageController extends Controller
                 ->withErrors($e->errors())
                 ->withInput($request->except(['pdf_preview_images', 'pdf_preview_files', 'hero_main_image', 'hero_preview_images', 'meta_image']));
         }
-        
+
         return redirect()->route('admin.landing-pages.create', ['tab' => $tab])
             ->with('info', 'Please complete Basic Information first.')
             ->withInput($request->except(['pdf_preview_images', 'pdf_preview_files', 'hero_main_image', 'hero_preview_images', 'meta_image']));
@@ -243,9 +243,9 @@ class LandingPageController extends Controller
     public function updatePartial(Request $request, LandingPage $landing_page)
     {
         $tab = $request->get('tab', 'basic');
-        
+
         $validated = $this->validatePartialRequest($request, $tab, $landing_page);
-        
+
         // Handle specific tab updates
         switch ($tab) {
             case 'pdf':
@@ -258,13 +258,13 @@ class LandingPageController extends Controller
                 $this->handleAuthorInfo($request, $validated, $landing_page);
                 break;
             default:
-                $this->handleJsonFields($request, $validated);
+                $this->handleJsonFields($request, $validated, $landing_page);
                 break;
         }
-        
+
         // Update only the fields for this tab
         $landing_page->update($validated);
-        
+
         return redirect(route('admin.landing-pages.edit', $landing_page) . '?tab=' . $tab)
             ->with('success', ucfirst($tab) . ' section updated successfully.');
     }
@@ -275,7 +275,7 @@ class LandingPageController extends Controller
     protected function validatePartialRequest(Request $request, string $tab, ?LandingPage $landingPage = null)
     {
         $rules = [];
-        
+
         switch ($tab) {
             case 'basic':
                 $slugRule = $landingPage
@@ -295,7 +295,7 @@ class LandingPageController extends Controller
                     'show_order' => 'boolean',
                 ];
                 break;
-                
+
             case 'hero':
                 $rules = [
                     'hero_english_title' => 'nullable|string|max:500',
@@ -304,7 +304,7 @@ class LandingPageController extends Controller
                     'hero_preview_images.*' => 'nullable|image|max:2048',
                 ];
                 break;
-                
+
             case 'pdf':
                 $rules = [
                     'pdf_preview_images.*' => 'nullable|image|max:2048',
@@ -316,7 +316,7 @@ class LandingPageController extends Controller
                     'pdf_preview_existing_files.*' => 'nullable|string',
                 ];
                 break;
-                
+
             case 'book-details':
                 $rules = [
                     'book_details_title' => 'nullable|string|max:500',
@@ -326,7 +326,7 @@ class LandingPageController extends Controller
                     'book_details_students_love' => 'nullable|string',
                 ];
                 break;
-                
+
             case 'features':
                 $rules = [
                     'features_list' => 'nullable|string',
@@ -336,7 +336,7 @@ class LandingPageController extends Controller
                     'game_changer_conclusion' => 'nullable|string|max:1000',
                 ];
                 break;
-                
+
             case 'pricing':
                 $rules = [
                     'pricing_original_price' => 'nullable|numeric|min:0',
@@ -345,7 +345,7 @@ class LandingPageController extends Controller
                     'pricing_note' => 'nullable|string|max:500',
                 ];
                 break;
-                
+
             case 'order':
                 $rules = [
                     'order_section_title' => 'nullable|string|max:255',
@@ -355,7 +355,7 @@ class LandingPageController extends Controller
                     'order_payment_note' => 'nullable|string|max:500',
                 ];
                 break;
-                
+
             case 'author':
                 $rules = [
                     'author_badge' => 'nullable|string|max:255',
@@ -365,7 +365,7 @@ class LandingPageController extends Controller
                     'author_image' => 'nullable|image|max:2048',
                 ];
                 break;
-                
+
             case 'seo':
                 $rules = [
                     'meta_title' => 'nullable|string|max:255',
@@ -374,7 +374,7 @@ class LandingPageController extends Controller
                 ];
                 break;
         }
-        
+
         return $request->validate($rules);
     }
 
@@ -714,8 +714,10 @@ class LandingPageController extends Controller
 
     /**
      * Handle JSON fields from the request.
+     * When $landingPage is provided (update), only sets fields that are present in the request,
+     * so other section content is not overwritten with null.
      */
-    protected function handleJsonFields(Request $request, array &$validated)
+    protected function handleJsonFields(Request $request, array &$validated, ?LandingPage $landingPage = null)
     {
         $jsonFields = [
             'book_details_specialties',
@@ -726,35 +728,63 @@ class LandingPageController extends Controller
             'game_changer_points',
             'order_form_fields'
         ];
-        
+
+        $isUpdate = $landingPage !== null;
+
+        // Helper: when updating, only set this field if request has the section's data; otherwise skip.
+        $requestHasJsonSection = function (string $field) use ($request) {
+            switch ($field) {
+                case 'book_details_specialties':
+                    return $request->has('specialties');
+                case 'book_details_extraordinary':
+                    return $request->has('extraordinary');
+                case 'book_details_students_love':
+                    return $request->has('students_love');
+                case 'features_list':
+                    return $request->has('feature_groups');
+                case 'target_audience_list':
+                    return $request->has('audience_groups');
+                case 'game_changer_points':
+                    return $request->has('game_changer_points_array');
+                case 'order_form_fields':
+                    return $request->has('order_form_fields');
+                default:
+                    return true;
+            }
+        };
+
         // Note: pdf_previews is handled separately in handlePdfPreviews()
 
         foreach ($jsonFields as $field) {
+            if ($isUpdate && !$requestHasJsonSection($field)) {
+                continue;
+            }
+
             // Handle book_details fields that might come as arrays
             if ($field === 'book_details_specialties' && $request->has('specialties')) {
-                $specialties = array_filter($request->input('specialties', []), function($item) {
+                $specialties = array_filter($request->input('specialties', []), function ($item) {
                     return !empty($item['title']) || !empty($item['description']);
                 });
                 $validated[$field] = !empty($specialties) ? array_values($specialties) : null;
                 continue;
             }
-            
+
             if ($field === 'book_details_extraordinary' && $request->has('extraordinary')) {
-                $extraordinary = array_filter($request->input('extraordinary', []), function($item) {
+                $extraordinary = array_filter($request->input('extraordinary', []), function ($item) {
                     return !empty(trim($item));
                 });
                 $validated[$field] = !empty($extraordinary) ? array_values($extraordinary) : null;
                 continue;
             }
-            
+
             if ($field === 'book_details_students_love' && $request->has('students_love')) {
-                $studentsLove = array_filter($request->input('students_love', []), function($item) {
+                $studentsLove = array_filter($request->input('students_love', []), function ($item) {
                     return !empty(trim($item));
                 });
                 $validated[$field] = !empty($studentsLove) ? array_values($studentsLove) : null;
                 continue;
             }
-            
+
             // Handle features_list that might come as feature_groups array
             if ($field === 'features_list' && $request->has('feature_groups')) {
                 $featureGroups = [];
@@ -778,7 +808,7 @@ class LandingPageController extends Controller
                 $validated[$field] = !empty($featureGroups) ? $featureGroups : null;
                 continue;
             }
-            
+
             // Handle target_audience_list that might come as audience_groups array
             if ($field === 'target_audience_list' && $request->has('audience_groups')) {
                 $audienceGroups = [];
@@ -802,26 +832,26 @@ class LandingPageController extends Controller
                 $validated[$field] = !empty($audienceGroups) ? $audienceGroups : null;
                 continue;
             }
-            
+
             // Handle game_changer_points that might come as game_changer_points_array
             if ($field === 'game_changer_points' && $request->has('game_changer_points_array')) {
-                $points = array_filter($request->input('game_changer_points_array', []), function($item) {
+                $points = array_filter($request->input('game_changer_points_array', []), function ($item) {
                     return !empty(trim($item));
                 });
                 $validated[$field] = !empty($points) ? array_values($points) : null;
                 continue;
             }
-            
-            // Handle JSON string fields
+
+            // Handle JSON string fields (e.g. order_form_fields)
             if ($request->filled($field)) {
                 $value = $request->$field;
-                
+
                 // If already an array, use it directly
                 if (is_array($value)) {
                     $validated[$field] = !empty($value) ? $value : null;
                     continue;
                 }
-                
+
                 // Otherwise, try to decode JSON string
                 $jsonString = trim($value);
                 if (!empty($jsonString)) {
@@ -829,14 +859,15 @@ class LandingPageController extends Controller
                     if (json_last_error() === JSON_ERROR_NONE) {
                         $validated[$field] = $decoded;
                     } else {
-                        // If JSON is invalid, set to null and let validation handle it
                         $validated[$field] = null;
                     }
                 } else {
                     $validated[$field] = null;
                 }
             } else {
-                $validated[$field] = null;
+                if (!$isUpdate) {
+                    $validated[$field] = null;
+                }
             }
         }
     }
