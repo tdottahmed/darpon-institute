@@ -326,6 +326,8 @@ class LandingPageController extends Controller
                     'book_details_specialties_description' => 'nullable|string',
                     'book_details_specialties' => 'nullable|string',
                     'book_details_extraordinary' => 'nullable|string',
+                    'book_details_extraordinary_title' => 'nullable|string|max:500',
+                    'book_details_extraordinary_description' => 'nullable|string',
                     'book_details_students_love_title' => 'nullable|string|max:500',
                     'book_details_students_love_description' => 'nullable|string',
                     'book_details_students_love' => 'nullable|string',
@@ -335,9 +337,14 @@ class LandingPageController extends Controller
             case 'features':
                 $rules = [
                     'features_list' => 'nullable|string',
+                    'features_list_title' => 'nullable|string|max:500',
+                    'features_list_description' => 'nullable|string',
                     'target_audience_list' => 'nullable|string',
+                    'target_audience_list_title' => 'nullable|string|max:500',
+                    'target_audience_list_description' => 'nullable|string',
                     'game_changer_title' => 'nullable|string|max:500',
                     'game_changer_points' => 'nullable|string',
+                    'game_changer_description' => 'nullable|string',
                     'game_changer_conclusion' => 'nullable|string|max:1000',
                 ];
                 break;
@@ -725,10 +732,6 @@ class LandingPageController extends Controller
     protected function handleJsonFields(Request $request, array &$validated, ?LandingPage $landingPage = null)
     {
         $jsonFields = [
-            'book_details_extraordinary',
-            'features_list',
-            'target_audience_list',
-            'game_changer_points',
             'order_form_fields'
         ];
 

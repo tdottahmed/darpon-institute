@@ -6,14 +6,8 @@
   $specialtiesDescription = $landingPage->book_details_specialties_description ?? '';
   $studentsLoveTitle = $landingPage->book_details_students_love_title ?? 'কেন শিক্ষার্থীরা এই বইকে ভালোবাসেন';
   $studentsLoveDescription = $landingPage->book_details_students_love_description ?? '';
-
-  // Get extraordinary points (still used)
-  $extraordinary = [];
-  if ($landingPage->book_details_extraordinary) {
-      $extraordinary = is_array($landingPage->book_details_extraordinary)
-          ? $landingPage->book_details_extraordinary
-          : json_decode($landingPage->book_details_extraordinary, true) ?? [];
-  }
+  $extraordinaryTitle = $landingPage->book_details_extraordinary_title ?? 'কী এই বইটিকে সত্যিই অসাধারণ করে তুলেছে?';
+  $extraordinaryDescription = $landingPage->book_details_extraordinary_description ?? '';
 
   // Default static content if empty
   $defaultDescription = '<span style="color: var(--primary-color); font-weight: 700;">SPOKEN ENGLISH IN REAL LIFE</span> হলো এমন একটি বই যা আপনাকে ইংরেজিতে কথা বলার ভয় দূর করে বাস্তব জীবনের যেকোনো পরিস্থিতিতে আত্মবিশ্বাসের সাথে ইংরেজিতে কথা বলতে সাহায্য করবে।

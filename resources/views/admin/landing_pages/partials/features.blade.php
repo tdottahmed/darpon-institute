@@ -93,139 +93,29 @@
         <input type="hidden" name="tab" value="features">
 
         <div class="space-y-6">
-          <!-- Features List -->
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <label class="block text-sm font-medium text-gray-700">
-                Features List
-              </label>
-              <button type="button" id="add-feature-group"
-                      class="text-sm font-medium text-primary-600 hover:text-primary-700">
-                + Add Feature Group
-              </button>
-            </div>
-            <p class="text-xs text-gray-500">List of book features. Each feature group has a title and items with text and icon_color.</p>
+          <!-- Features Title -->
+          <x-forms.input name="features_list_title" label="Features Section Title" :value="old(
+              'features_list_title',
+              isset($landingPage) ? $landingPage->features_list_title : 'বইটির অসাধারণ কিছু বৈশিষ্ট্য',
+          )" :error="$errors->first('features_list_title')"
+                         placeholder="বইটির অসাধারণ কিছু বৈশিষ্ট্য" help="Title for the features section" />
 
-            <div id="features-list-container" class="space-y-4">
-              @foreach (old('feature_groups', $featuresList) as $groupIndex => $group)
-                <div class="feature-group rounded-lg border border-gray-200 bg-gray-50 p-4">
-                  <div class="mb-4 flex items-start justify-between">
-                    <div class="flex-1">
-                      <input type="text" name="feature_groups[{{ $groupIndex }}][title]"
-                             value="{{ old("feature_groups.{$groupIndex}.title", $group['title'] ?? '') }}"
-                             placeholder="e.g., বইটির অসাধারণ কিছু বৈশিষ্ট্য"
-                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm font-medium">
-                    </div>
-                    <button type="button" class="ml-3 remove-feature-group text-red-600 hover:text-red-700">
-                      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-                  <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                      <span class="text-xs font-medium text-gray-600">Feature Items</span>
-                      <button type="button"
-                              class="add-feature-item text-xs font-medium text-primary-600 hover:text-primary-700"
-                              data-group-index="{{ $groupIndex }}">
-                        + Add Item
-                      </button>
-                    </div>
-                    <div class="feature-items space-y-2">
-                      @foreach (old("feature_groups.{$groupIndex}.items", $group['items'] ?? []) as $itemIndex => $item)
-                        <div class="feature-item flex items-start gap-2 rounded-md border border-gray-200 bg-white p-3">
-                          <div class="flex-1 space-y-2">
-                            <textarea name="feature_groups[{{ $groupIndex }}][items][{{ $itemIndex }}][text]" rows="2"
-                                      placeholder="e.g., বাস্তবমুখী শেখা, শুধুই তত্ত্ব নয়"
-                                      class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">{{ old("feature_groups.{$groupIndex}.items.{$itemIndex}.text", $item['text'] ?? '') }}</textarea>
-                            <input type="text" name="feature_groups[{{ $groupIndex }}][items][{{ $itemIndex }}][icon_color]"
-                                   value="{{ old("feature_groups.{$groupIndex}.items.{$itemIndex}.icon_color", $item['icon_color'] ?? '#1a237e') }}"
-                                   placeholder="Icon color (e.g., #1a237e)"
-                                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-                          </div>
-                          <button type="button" class="remove-feature-item text-red-600 hover:text-red-700">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                          </button>
-                        </div>
-                      @endforeach
-                    </div>
-                  </div>
-                </div>
-              @endforeach
-            </div>
-            <x-forms.error :message="$errors->first('features_list')" />
-          </div>
+          <!-- Features Description -->
+          <x-forms.rich-text name="features_list_description" label="Features Description" :value="old('features_list_description', isset($landingPage) ? $landingPage->features_list_description : '')" height="300px"
+                             :error="$errors->first('features_list_description')"
+                             help="Rich text description of the book's features. This will replace the list format." />
 
-          <!-- Target Audience List -->
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <label class="block text-sm font-medium text-gray-700">
-                Target Audience List
-              </label>
-              <button type="button" id="add-audience-group"
-                      class="text-sm font-medium text-primary-600 hover:text-primary-700">
-                + Add Audience Group
-              </button>
-            </div>
-            <p class="text-xs text-gray-500">List describing who the book is for. Structure is similar to features list.</p>
+          <!-- Target Audience Title -->
+          <x-forms.input name="target_audience_list_title" label="Target Audience Section Title" :value="old(
+              'target_audience_list_title',
+              isset($landingPage) ? $landingPage->target_audience_list_title : 'বইটি মূলত কাদের জন্য?',
+          )" :error="$errors->first('target_audience_list_title')"
+                         placeholder="বইটি মূলত কাদের জন্য?" help="Title for the target audience section" />
 
-            <div id="audience-list-container" class="space-y-4">
-              @foreach (old('audience_groups', $targetAudienceList) as $groupIndex => $group)
-                <div class="audience-group rounded-lg border border-gray-200 bg-gray-50 p-4">
-                  <div class="mb-4 flex items-start justify-between">
-                    <div class="flex-1">
-                      <input type="text" name="audience_groups[{{ $groupIndex }}][title]"
-                             value="{{ old("audience_groups.{$groupIndex}.title", $group['title'] ?? '') }}"
-                             placeholder="e.g., বইটি মূলত কাদের জন্য?"
-                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm font-medium">
-                    </div>
-                    <button type="button" class="ml-3 remove-audience-group text-red-600 hover:text-red-700">
-                      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-                  <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                      <span class="text-xs font-medium text-gray-600">Audience Items</span>
-                      <button type="button"
-                              class="add-audience-item text-xs font-medium text-primary-600 hover:text-primary-700"
-                              data-group-index="{{ $groupIndex }}">
-                        + Add Item
-                      </button>
-                    </div>
-                    <div class="audience-items space-y-2">
-                      @foreach (old("audience_groups.{$groupIndex}.items", $group['items'] ?? []) as $itemIndex => $item)
-                        <div class="audience-item flex items-start gap-2 rounded-md border border-gray-200 bg-white p-3">
-                          <div class="flex-1 space-y-2">
-                            <textarea name="audience_groups[{{ $groupIndex }}][items][{{ $itemIndex }}][text]" rows="2"
-                                      placeholder="e.g., যারা বাস্তব জীবনে সাবলীল ইংরেজিতে কথা বলতে চান"
-                                      class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">{{ old("audience_groups.{$groupIndex}.items.{$itemIndex}.text", $item['text'] ?? '') }}</textarea>
-                            <input type="text" name="audience_groups[{{ $groupIndex }}][items][{{ $itemIndex }}][icon_color]"
-                                   value="{{ old("audience_groups.{$groupIndex}.items.{$itemIndex}.icon_color", $item['icon_color'] ?? '#1565c0') }}"
-                                   placeholder="Icon color (e.g., #1565c0)"
-                                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-                          </div>
-                          <button type="button" class="remove-audience-item text-red-600 hover:text-red-700">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                          </button>
-                        </div>
-                      @endforeach
-                    </div>
-                  </div>
-                </div>
-              @endforeach
-            </div>
-            <x-forms.error :message="$errors->first('target_audience_list')" />
-          </div>
+          <!-- Target Audience Description -->
+          <x-forms.rich-text name="target_audience_list_description" label="Target Audience Description" :value="old('target_audience_list_description', isset($landingPage) ? $landingPage->target_audience_list_description : '')" height="300px"
+                             :error="$errors->first('target_audience_list_description')"
+                             help="Rich text description of who the book is for. This will replace the list format." />
 
           <!-- Game Changer Section -->
           <div class="border-t border-gray-200 pt-6">
@@ -236,33 +126,10 @@
                           :error="$errors->first('game_changer_title')" placeholder="কেন এই বই একটি গেম চেঞ্জার"
                           help="Title for the game changer section" />
 
-            <div class="mt-4 space-y-4">
-              <div class="flex items-center justify-between">
-                <label class="block text-sm font-medium text-gray-700">Game Changer Points</label>
-                <button type="button" id="add-game-changer-point"
-                        class="text-sm font-medium text-primary-600 hover:text-primary-700">
-                  + Add Point
-                </button>
-              </div>
-              <p class="text-xs text-gray-500">Simple array of key points that make this book a game changer.</p>
-
-              <div id="game-changer-points-container" class="space-y-2">
-                @foreach (old('game_changer_points_array', $gameChangerPoints) as $index => $point)
-                  <div class="game-changer-point-item flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3">
-                    <input type="text" name="game_changer_points_array[{{ $index }}]"
-                           value="{{ old("game_changer_points_array.{$index}", $point) }}"
-                           placeholder="e.g., ১। বাস্তব কথোপকথন"
-                           class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-                    <button type="button" class="remove-game-changer-point text-red-600 hover:text-red-700">
-                      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-                @endforeach
-              </div>
-              <x-forms.error :message="$errors->first('game_changer_points')" />
+            <div class="mt-4">
+              <x-forms.rich-text name="game_changer_description" label="Game Changer Description" :value="old('game_changer_description', isset($landingPage) ? $landingPage->game_changer_description : '')" height="300px"
+                                 :error="$errors->first('game_changer_description')"
+                                 help="Rich text description explaining why this book is a game changer. This will replace the points format." />
             </div>
 
             <div class="mt-4">
@@ -294,260 +161,7 @@
 
   @push('scripts')
     <script>
-      $(document).ready(function() {
-        let featureGroupIndex = {{ count($featuresList) }};
-        let audienceGroupIndex = {{ count($targetAudienceList) }};
-        let gameChangerPointIndex = {{ count($gameChangerPoints) }};
-
-        // Add Feature Group
-        $('#add-feature-group').on('click', function() {
-          const html = `
-            <div class="feature-group rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <div class="mb-4 flex items-start justify-between">
-                <div class="flex-1">
-                  <input type="text" name="feature_groups[${featureGroupIndex}][title]"
-                         placeholder="e.g., বইটির অসাধারণ কিছু বৈশিষ্ট্য"
-                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm font-medium">
-                </div>
-                <button type="button" class="ml-3 remove-feature-group text-red-600 hover:text-red-700">
-                  <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
-              </div>
-              <div class="space-y-2">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-medium text-gray-600">Feature Items</span>
-                  <button type="button" class="add-feature-item text-xs font-medium text-primary-600 hover:text-primary-700" data-group-index="${featureGroupIndex}">
-                    + Add Item
-                  </button>
-                </div>
-                <div class="feature-items space-y-2"></div>
-              </div>
-            </div>
-          `;
-          $('#features-list-container').append(html);
-          featureGroupIndex++;
-        });
-
-        // Remove Feature Group
-        $(document).on('click', '.remove-feature-group', function() {
-          if (confirm('Are you sure you want to remove this feature group?')) {
-            $(this).closest('.feature-group').remove();
-          }
-        });
-
-        // Add Feature Item
-        $(document).on('click', '.add-feature-item', function() {
-          const groupIndex = $(this).data('group-index');
-          const itemsContainer = $(this).closest('.feature-group').find('.feature-items');
-          const itemIndex = itemsContainer.find('.feature-item').length;
-          const html = `
-            <div class="feature-item flex items-start gap-2 rounded-md border border-gray-200 bg-white p-3">
-              <div class="flex-1 space-y-2">
-                <textarea name="feature_groups[${groupIndex}][items][${itemIndex}][text]" rows="2"
-                          placeholder="e.g., বাস্তবমুখী শেখা, শুধুই তত্ত্ব নয়"
-                          class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"></textarea>
-                <input type="text" name="feature_groups[${groupIndex}][items][${itemIndex}][icon_color]"
-                       value="#1a237e"
-                       placeholder="Icon color (e.g., #1a237e)"
-                       class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-              </div>
-              <button type="button" class="remove-feature-item text-red-600 hover:text-red-700">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            </div>
-          `;
-          itemsContainer.append(html);
-        });
-
-        // Remove Feature Item
-        $(document).on('click', '.remove-feature-item', function() {
-          if (confirm('Are you sure you want to remove this item?')) {
-            $(this).closest('.feature-item').remove();
-          }
-        });
-
-        // Add Audience Group
-        $('#add-audience-group').on('click', function() {
-          const html = `
-            <div class="audience-group rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <div class="mb-4 flex items-start justify-between">
-                <div class="flex-1">
-                  <input type="text" name="audience_groups[${audienceGroupIndex}][title]"
-                         placeholder="e.g., বইটি মূলত কাদের জন্য?"
-                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm font-medium">
-                </div>
-                <button type="button" class="ml-3 remove-audience-group text-red-600 hover:text-red-700">
-                  <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
-              </div>
-              <div class="space-y-2">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-medium text-gray-600">Audience Items</span>
-                  <button type="button" class="add-audience-item text-xs font-medium text-primary-600 hover:text-primary-700" data-group-index="${audienceGroupIndex}">
-                    + Add Item
-                  </button>
-                </div>
-                <div class="audience-items space-y-2"></div>
-              </div>
-            </div>
-          `;
-          $('#audience-list-container').append(html);
-          audienceGroupIndex++;
-        });
-
-        // Remove Audience Group
-        $(document).on('click', '.remove-audience-group', function() {
-          if (confirm('Are you sure you want to remove this audience group?')) {
-            $(this).closest('.audience-group').remove();
-          }
-        });
-
-        // Add Audience Item
-        $(document).on('click', '.add-audience-item', function() {
-          const groupIndex = $(this).data('group-index');
-          const itemsContainer = $(this).closest('.audience-group').find('.audience-items');
-          const itemIndex = itemsContainer.find('.audience-item').length;
-          const html = `
-            <div class="audience-item flex items-start gap-2 rounded-md border border-gray-200 bg-white p-3">
-              <div class="flex-1 space-y-2">
-                <textarea name="audience_groups[${groupIndex}][items][${itemIndex}][text]" rows="2"
-                          placeholder="e.g., যারা বাস্তব জীবনে সাবলীল ইংরেজিতে কথা বলতে চান"
-                          class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"></textarea>
-                <input type="text" name="audience_groups[${groupIndex}][items][${itemIndex}][icon_color]"
-                       value="#1565c0"
-                       placeholder="Icon color (e.g., #1565c0)"
-                       class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-              </div>
-              <button type="button" class="remove-audience-item text-red-600 hover:text-red-700">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            </div>
-          `;
-          itemsContainer.append(html);
-        });
-
-        // Remove Audience Item
-        $(document).on('click', '.remove-audience-item', function() {
-          if (confirm('Are you sure you want to remove this item?')) {
-            $(this).closest('.audience-item').remove();
-          }
-        });
-
-        // Add Game Changer Point
-        $('#add-game-changer-point').on('click', function() {
-          const html = `
-            <div class="game-changer-point-item flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3">
-              <input type="text" name="game_changer_points_array[${gameChangerPointIndex}]"
-                     placeholder="e.g., ১। বাস্তব কথোপকথন"
-                     class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-              <button type="button" class="remove-game-changer-point text-red-600 hover:text-red-700">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            </div>
-          `;
-          $('#game-changer-points-container').append(html);
-          gameChangerPointIndex++;
-        });
-
-        // Remove Game Changer Point
-        $(document).on('click', '.remove-game-changer-point', function() {
-          if (confirm('Are you sure you want to remove this point?')) {
-            $(this).closest('.game-changer-point-item').remove();
-          }
-        });
-
-        // Convert arrays to JSON before form submission
-        $('#featuresForm').on('submit', function(e) {
-          // Convert feature groups to JSON
-          const featuresList = [];
-          $('.feature-group').each(function() {
-            const title = $(this).find('input[name*="[title]"]').val();
-            const items = [];
-            $(this).find('.feature-item').each(function() {
-              const text = $(this).find('textarea[name*="[text]"]').val();
-              const iconColor = $(this).find('input[name*="[icon_color]"]').val();
-              if (text) {
-                items.push({
-                  text: text,
-                  icon_color: iconColor || '#1a237e'
-                });
-              }
-            });
-            if (title || items.length > 0) {
-              featuresList.push({
-                title: title || '',
-                items: items
-              });
-            }
-          });
-
-          // Convert audience groups to JSON
-          const targetAudienceList = [];
-          $('.audience-group').each(function() {
-            const title = $(this).find('input[name*="[title]"]').val();
-            const items = [];
-            $(this).find('.audience-item').each(function() {
-              const text = $(this).find('textarea[name*="[text]"]').val();
-              const iconColor = $(this).find('input[name*="[icon_color]"]').val();
-              if (text) {
-                items.push({
-                  text: text,
-                  icon_color: iconColor || '#1565c0'
-                });
-              }
-            });
-            if (title || items.length > 0) {
-              targetAudienceList.push({
-                title: title || '',
-                items: items
-              });
-            }
-          });
-
-          // Convert game changer points array to JSON
-          const gameChangerPoints = [];
-          $('.game-changer-point-item input').each(function() {
-            const value = $(this).val();
-            if (value) {
-              gameChangerPoints.push(value);
-            }
-          });
-
-          // Add hidden inputs with JSON values
-          $('<input>').attr({
-            type: 'hidden',
-            name: 'features_list',
-            value: JSON.stringify(featuresList)
-          }).appendTo(this);
-
-          $('<input>').attr({
-            type: 'hidden',
-            name: 'target_audience_list',
-            value: JSON.stringify(targetAudienceList)
-          }).appendTo(this);
-
-          $('<input>').attr({
-            type: 'hidden',
-            name: 'game_changer_points',
-            value: JSON.stringify(gameChangerPoints)
-          }).appendTo(this);
-        });
-      });
+      // No JavaScript needed for description fields
     </script>
   @endpush
 @endif

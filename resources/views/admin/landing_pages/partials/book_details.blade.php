@@ -72,38 +72,17 @@
                              :error="$errors->first('book_details_specialties_description')"
                              help="Rich text description of the book's specialties. This will replace the list format." />
 
-          <!-- Extraordinary Points -->
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <label class="block text-sm font-medium text-gray-700">
-                Extraordinary Points
-              </label>
-              <button type="button" id="add-extraordinary"
-                      class="text-sm font-medium text-primary-600 hover:text-primary-700">
-                + Add Point
-              </button>
-            </div>
-            <p class="text-xs text-gray-500">Simple array of points that make the book extraordinary. These will be
-              displayed in the left column.</p>
+          <!-- Extraordinary Title -->
+          <x-forms.input name="book_details_extraordinary_title" label="Extraordinary Section Title" :value="old(
+              'book_details_extraordinary_title',
+              isset($landingPage) ? $landingPage->book_details_extraordinary_title : 'কী এই বইটিকে সত্যিই অসাধারণ করে তুলেছে?',
+          )" :error="$errors->first('book_details_extraordinary_title')"
+                         placeholder="কী এই বইটিকে সত্যিই অসাধারণ করে তুলেছে?" help="Title for the extraordinary section" />
 
-            <div id="extraordinary-container" class="space-y-2">
-              @foreach (old('extraordinary', $extraordinary) as $index => $point)
-                <div class="extraordinary-item flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3">
-                  <input type="text" name="extraordinary[{{ $index }}]"
-                         value="{{ old("extraordinary.{$index}", $point) }}"
-                         placeholder="e.g., ১। বৃহৎ কনটেন্ট । সর্বোচ্চ শেখা।"
-                         class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-                  <button type="button" class="remove-extraordinary text-red-600 hover:text-red-700">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
-                </div>
-              @endforeach
-            </div>
-            <x-forms.error :message="$errors->first('book_details_extraordinary')" />
-          </div>
+          <!-- Extraordinary Description -->
+          <x-forms.rich-text name="book_details_extraordinary_description" label="Extraordinary Description" :value="old('book_details_extraordinary_description', isset($landingPage) ? $landingPage->book_details_extraordinary_description : '')" height="300px"
+                             :error="$errors->first('book_details_extraordinary_description')"
+                             help="Rich text description of what makes the book extraordinary. This will replace the points format." />
 
           <!-- Why Students Love Title -->
           <x-forms.input name="book_details_students_love_title" label="Why Students Love Section Title" :value="old(
@@ -137,54 +116,7 @@
 
   @push('scripts')
     <script>
-      $(document).ready(function() {
-        let extraordinaryIndex = {{ count($extraordinary) }};
-
-        // Add Extraordinary Point
-        $('#add-extraordinary').on('click', function() {
-          const html = `
-      <div class="extraordinary-item flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3">
-        <input type="text" 
-               name="extraordinary[${extraordinaryIndex}]" 
-               placeholder="e.g., ১। বৃহৎ কনটেন্ট । সর্বোচ্চ শেখা।"
-               class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm">
-        <button type="button" class="remove-extraordinary text-red-600 hover:text-red-700">
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
-        </button>
-      </div>
-    `;
-          $('#extraordinary-container').append(html);
-          extraordinaryIndex++;
-        });
-
-        // Remove Extraordinary Point
-        $(document).on('click', '.remove-extraordinary', function() {
-          if (confirm('Are you sure you want to remove this point?')) {
-            $(this).closest('.extraordinary-item').remove();
-          }
-        });
-
-        // Convert extraordinary array to JSON before form submission
-        $('#bookDetailsForm').on('submit', function(e) {
-          // Convert extraordinary array to JSON
-          const extraordinary = [];
-          $('.extraordinary-item input').each(function() {
-            const value = $(this).val();
-            if (value) {
-              extraordinary.push(value);
-            }
-          });
-
-          // Add hidden input with JSON value
-          $('<input>').attr({
-            type: 'hidden',
-            name: 'book_details_extraordinary',
-            value: JSON.stringify(extraordinary)
-          }).appendTo(this);
-        });
-      });
+      // No JavaScript needed for description fields
     </script>
   @endpush
 @endif
