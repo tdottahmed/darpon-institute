@@ -59,9 +59,7 @@
       </div>
 
       <!-- Order Button -->
-      <button onclick="document.getElementById('orderFormSection').scrollIntoView({behavior: 'smooth'})" style="background-color: #1A237E; color: var(--light-text); border: none; border-radius: 5px; padding: 15px 30px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; text-transform: uppercase;" onmouseover="this.style.backgroundColor='#f57c00'" onmouseout="this.style.backgroundColor='#1A237E'">
-        {{ $landingPage->product_type === 'course' ? 'রেজিস্ট্রেশন করুন' : 'অর্ডার করুন' }}
-      </button>
+      <x-cta-button :landingPage="$landingPage" style="color: var(--light-text); padding: 15px 30px; font-size: 1.2rem; font-weight: 700; text-transform: uppercase;" />
 
     </div>
   </div>

@@ -36,8 +36,12 @@ class LandingPage extends Model
         'book_details_title',
         'book_details_description',
         'book_details_specialties',
+        'book_details_specialties_title',
+        'book_details_specialties_description',
         'book_details_extraordinary',
         'book_details_students_love',
+        'book_details_students_love_title',
+        'book_details_students_love_description',
         // Features Section
         'features_list',
         'target_audience_list',

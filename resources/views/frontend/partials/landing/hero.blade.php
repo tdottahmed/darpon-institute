@@ -44,11 +44,7 @@
         @endif
 
         <div style="text-align: center; margin-top: 40px;">
-            <button onclick="document.getElementById('orderFormSection').scrollIntoView({behavior: 'smooth'})"
-                style="background-color: rgb(26, 35, 126); color: white; border: none; padding: 12px 30px; border-radius: 5px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s; transform: scale(1.05);"
-                onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                অর্ডার করুন
-            </button>
+            <x-cta-button :landingPage="$landingPage" />
         </div>
 
         <!-- Book Preview Slider -->

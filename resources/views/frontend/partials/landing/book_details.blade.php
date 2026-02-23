@@ -2,29 +2,17 @@
   // Get dynamic data from landing page
   $title = $landingPage->book_details_title ?? 'বইটি সম্পর্কে যা না জানলেই নয়';
   $description = $landingPage->book_details_description ?? '';
+  $specialtiesTitle = $landingPage->book_details_specialties_title ?? ($landingPage->product_type === 'book' ? 'এই বইয়ের বিশেষত্ব:' : 'এই কোর্সের বিশেষত্ব:');
+  $specialtiesDescription = $landingPage->book_details_specialties_description ?? '';
+  $studentsLoveTitle = $landingPage->book_details_students_love_title ?? 'কেন শিক্ষার্থীরা এই বইকে ভালোবাসেন';
+  $studentsLoveDescription = $landingPage->book_details_students_love_description ?? '';
 
-  // Get specialties
-  $specialties = [];
-  if ($landingPage->book_details_specialties) {
-      $specialties = is_array($landingPage->book_details_specialties)
-          ? $landingPage->book_details_specialties
-          : json_decode($landingPage->book_details_specialties, true) ?? [];
-  }
-
-  // Get extraordinary points
+  // Get extraordinary points (still used)
   $extraordinary = [];
   if ($landingPage->book_details_extraordinary) {
       $extraordinary = is_array($landingPage->book_details_extraordinary)
           ? $landingPage->book_details_extraordinary
           : json_decode($landingPage->book_details_extraordinary, true) ?? [];
-  }
-
-  // Get students love points
-  $studentsLove = [];
-  if ($landingPage->book_details_students_love) {
-      $studentsLove = is_array($landingPage->book_details_students_love)
-          ? $landingPage->book_details_students_love
-          : json_decode($landingPage->book_details_students_love, true) ?? [];
   }
 
   // Default static content if empty
@@ -33,33 +21,6 @@
         পুরো বইটি বাংলায় ব্যাখ্যা করা, যাতে যেকোনো শিক্ষার্থী খুব সহজেই বুঝে নিতে পারে এবং অনুশীলন করতে পারে।
         <br><br>
         এই বইয়ে আপনি যা পাবেন তা আপনাকে ধাপে ধাপে একজন আত্মবিশ্বাসী ইংরেজি বক্তায় পরিণত করবে—সম্পূর্ণ বাস্তব ব্যবহারভিত্তিক কনটেন্টে সাজানো।';
-
-  $defaultSpecialties = [
-      [
-          'title' => '১০৮ টি লেসন—Beginner থেকে Advanced পর্যন্ত',
-          'description' =>
-              'প্রতিটি লেসন বাস্তব জীবনের নির্দিষ্ট পরিস্থিতির উপর সাজানো—যেমন দোকান, বাজার, ভ্রমণ, স্কুল, অফিস, ফোনকল, রেস্টুরেন্ট, হোটেল, চিকিৎসা, অ্যাপয়েন্টমেন্ট, ইত্যাদি।',
-      ],
-      [
-          'title' => '১১৭৮টি প্রয়োজনীয় অভিব্যক্তি (Expressions)',
-          'description' =>
-              'দৈনন্দিন কথোপকথনে ব্যবহৃত সব গুরুত্বপূর্ণ এক্সপ্রেশন যুক্ত করা হয়েছে—যা ইংরেজি বলার ভিত্তি তৈরি করে।',
-      ],
-      [
-          'title' => '৩৫৩৪টি বাস্তব উদাহরণ বাক্য',
-          'description' =>
-              'বইটির প্রতিটি বিষয় পরিষ্কারভাবে বুঝিয়ে দিতে প্রচুর উদাহরণ দেওয়া হয়েছে, যাতে শেখা সহজ হয় ও মনে থাকে।',
-      ],
-      [
-          'title' => '১০৮০টি বাস্তব জীবনের সংলাপ (Dialogues)',
-          'description' => 'যা আপনাকে সত্যিকারের ইংরেজি ব্যবহারের অভিজ্ঞতা দেবে—একাই অনুশীলন করার জন্য পারফেক্ট।',
-      ],
-      [
-          'title' => 'অসংখ্য অনুশীলন (Exercises)',
-          'description' =>
-              'প্রতিটি লেসনের শেষে পর্যাপ্ত অনুশীলন, যাতে আপনি শেখা বিষয়টি ব্যবহার করে আত্মবিশ্বাস বাড়াতে পারেন।',
-      ],
-  ];
 
   $defaultExtraordinary = [
       '১। বৃহৎ কনটেন্ট । সর্বোচ্চ শেখা।',
@@ -74,25 +35,9 @@
       '১০। সম্পূর্ণ বইটিই বাংলায় ব্যাখ্যাসহ উপস্থাপিত',
   ];
 
-  $defaultStudentsLove = [
-      '১। দৈনন্দিন জীবনের সব পরিস্থিতি—বাড়ি, স্কুল, অফিস, বাজার, ভ্রমণ, ফোনকথা, মিটিং, প্রেজেন্টেশন—সবকিছুই কভার করা হয়েছে',
-      '২। মুখস্থ না করে স্বাভাবিকভাবে বলার উপায় শেখায়',
-      '৩। সহজ বাংলা ব্যাখ্যার মাধ্যমে আত্মবিশ্বাস বৃদ্ধি করে',
-      '৪। আধুনিক শব্দভান্ডার, স্মার্ট এক্সপ্রেশন এবং বাস্তব কথোপকথনের প্যাটার্ন অন্তর্ভুক্ত',
-      '৫। স্ব-শিক্ষা, কোচিং সেন্টার এবং পেশাগত ট্রেনিং—সবক্ষেত্রেই উপযোগী',
-      '৬। বেসিক থেকে অ্যাডভান্স লেভেল পর্যন্ত সবার জন্য',
-      '৭। কথোপকথনগুলো বাস্তবসম্মত, প্রাসঙ্গিক এবং সহজে ব্যবহারযোগ্য',
-  ];
-
   // Use defaults if empty
-  if (empty($specialties)) {
-      $specialties = $defaultSpecialties;
-  }
   if (empty($extraordinary)) {
       $extraordinary = $defaultExtraordinary;
-  }
-  if (empty($studentsLove)) {
-      $studentsLove = $defaultStudentsLove;
   }
   if (empty($description)) {
       $description = $defaultDescription;
@@ -121,38 +66,25 @@
       </div>
     @endif
 
-    <!-- Specialties List -->
-    @if (!empty($specialties))
+    <!-- Specialties Description -->
+    @if (!empty($specialtiesDescription))
       <div>
         <h2 class="bengali-text"
             style="color: white; margin: 0 0 25px; font-size: 1.8rem; text-align: center; font-weight: 700; padding-bottom: 10px; width: 100%; position: relative;">
-          {{ $landingPage->product_type === 'book' ? 'এই বইয়ের বিশেষত্ব:' : 'এই কোর্সের বিশেষত্ব:' }}
+          {{ $specialtiesTitle }}
           <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
         </h2>
 
         <div style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
-          @foreach ($specialties as $specialty)
-            <p class="bengali-text" style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem; margin-bottom: 15px;">
-              @if (isset($specialty['title']))
-                {{ $specialty['title'] }}:
-              @endif
-              @if (isset($specialty['description']))
-                {{ $specialty['description'] }}
-              @elseif(is_string($specialty))
-                {{ $specialty }}
-              @endif
-            </p>
-          @endforeach
+          <div class="bengali-text" style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
+            {!! $specialtiesDescription !!}
+          </div>
         </div>
       </div>
     @endif
 
     <div style="text-align: center; margin-top: 40px;">
-      <button onclick="document.getElementById('orderFormSection').scrollIntoView({behavior: 'smooth'})"
-              style="background-color: #1A237E; color: white; border: none; padding: 12px 30px; border-radius: 5px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s;"
-              onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-        অর্ডার করুন
-      </button>
+      <x-cta-button :landingPage="$landingPage" />
     </div>
 
     @if ($landingPage->product_type === 'book')
@@ -190,24 +122,20 @@
         @endif --}}
 
         <!-- Column 2: Why Students Love -->
-        @if (!empty($studentsLove))
+        @if (!empty($studentsLoveDescription))
           <div>
             <h2 class="bengali-text"
                 style="color: white; margin: 0 0 25px; font-size: 1.6rem; font-weight: 700; text-align: center; width: 100%; padding-bottom: 10px; position: relative;">
-              কেন শিক্ষার্থীরা এই বইকে ভালোবাসেন
+              {{ $studentsLoveTitle }}
               <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
             </h2>
             <div style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
-              @foreach ($studentsLove as $point)
-                <p class="bengali-text"
-                   style="color: #444; font-size: 1.05rem; line-height: 1.8; margin-bottom: 15px;">{{ $point }}</p>
-              @endforeach
+              <div class="bengali-text" style="color: #444; font-size: 1.05rem; line-height: 1.8;">
+                {!! $studentsLoveDescription !!}
+              </div>
             </div>
             <div style="text-align: center; margin-top: 20px;">
-              <button onclick="document.getElementById('orderFormSection').scrollIntoView({behavior: 'smooth'})"
-                      style="background-color: #1A237E; color: white; border: none; padding: 10px 25px; border-radius: 5px; font-size: 0.9rem; font-weight: 600; cursor: pointer;">
-                অর্ডার করুন
-              </button>
+              <x-cta-button :landingPage="$landingPage" style="padding: 10px 25px; font-size: 0.9rem;" />
             </div>
           </div>
         @endif

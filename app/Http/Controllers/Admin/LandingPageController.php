@@ -321,8 +321,12 @@ class LandingPageController extends Controller
                 $rules = [
                     'book_details_title' => 'nullable|string|max:500',
                     'book_details_description' => 'nullable|string',
+                    'book_details_specialties_title' => 'nullable|string|max:500',
+                    'book_details_specialties_description' => 'nullable|string',
                     'book_details_specialties' => 'nullable|string',
                     'book_details_extraordinary' => 'nullable|string',
+                    'book_details_students_love_title' => 'nullable|string|max:500',
+                    'book_details_students_love_description' => 'nullable|string',
                     'book_details_students_love' => 'nullable|string',
                 ];
                 break;
@@ -720,9 +724,7 @@ class LandingPageController extends Controller
     protected function handleJsonFields(Request $request, array &$validated, ?LandingPage $landingPage = null)
     {
         $jsonFields = [
-            'book_details_specialties',
             'book_details_extraordinary',
-            'book_details_students_love',
             'features_list',
             'target_audience_list',
             'game_changer_points',
@@ -734,12 +736,8 @@ class LandingPageController extends Controller
         // Helper: when updating, only set this field if request has the section's data; otherwise skip.
         $requestHasJsonSection = function (string $field) use ($request) {
             switch ($field) {
-                case 'book_details_specialties':
-                    return $request->has('specialties');
                 case 'book_details_extraordinary':
                     return $request->has('extraordinary');
-                case 'book_details_students_love':
-                    return $request->has('students_love');
                 case 'features_list':
                     return $request->has('feature_groups');
                 case 'target_audience_list':
@@ -760,28 +758,11 @@ class LandingPageController extends Controller
                 continue;
             }
 
-            // Handle book_details fields that might come as arrays
-            if ($field === 'book_details_specialties' && $request->has('specialties')) {
-                $specialties = array_filter($request->input('specialties', []), function ($item) {
-                    return !empty($item['title']) || !empty($item['description']);
-                });
-                $validated[$field] = !empty($specialties) ? array_values($specialties) : null;
-                continue;
-            }
-
             if ($field === 'book_details_extraordinary' && $request->has('extraordinary')) {
                 $extraordinary = array_filter($request->input('extraordinary', []), function ($item) {
                     return !empty(trim($item));
                 });
                 $validated[$field] = !empty($extraordinary) ? array_values($extraordinary) : null;
-                continue;
-            }
-
-            if ($field === 'book_details_students_love' && $request->has('students_love')) {
-                $studentsLove = array_filter($request->input('students_love', []), function ($item) {
-                    return !empty(trim($item));
-                });
-                $validated[$field] = !empty($studentsLove) ? array_values($studentsLove) : null;
                 continue;
             }
 
