@@ -16,6 +16,18 @@
   <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&display=swap" rel="stylesheet">
 
+  <!-- SEO: Sitemap & RSS Feed -->
+  @php
+    $sitemapUrl = \App\Models\Setting::get('sitemap_url');
+    $rssFeedUrl = \App\Models\Setting::get('rss_feed_url');
+  @endphp
+  @if($sitemapUrl)
+    <link rel="sitemap" type="application/xml" href="{{ $sitemapUrl }}">
+  @endif
+  @if($rssFeedUrl)
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ $rssFeedUrl }}">
+  @endif
+
   <!-- Scripts -->
   @routes
   @viteReactRefresh
@@ -45,6 +57,9 @@
            src="https://www.facebook.com/tr?id={{ $metaPixelId }}&ev=PageView&noscript=1"/>
     </noscript>
   @endif
+
+  <!-- Google Analytics -->
+  <x-google-analytics />
 </head>
 
 <body class="font-sans antialiased">

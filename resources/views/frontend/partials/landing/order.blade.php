@@ -48,18 +48,23 @@
     @endif
 
     <form id="landingPageOrderForm" action="{{ $formAction }}" method="POST" enctype="multipart/form-data"
-          style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start;">
+          style="display: flex; flex-direction: column; gap: 30px;">
       @csrf
       <input type="hidden" name="landing_page_id" value="{{ $landingPage->id }}">
       @if ($productType === 'book')
         <input type="hidden" name="book_id" value="{{ $product->id }}">
       @endif
 
-      <!-- Left Column: Billing Details -->
-      <div style="background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+      <!-- Full Width White Background Container -->
+      <div style="background: white; padding: 30px; border-radius: 8px; border: 2px solid var(--accent-color);">
+
+      <!-- Top Section: Billing Details -->
+      <div style="margin-bottom: 40px;">
         <h3
-            style="font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; color: #333;">
-          {{ $productType === 'course' ? 'Registration Details' : 'Billing details' }}</h3>
+            style="font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; color: #333; text-align: center; position: relative;">
+          {{ $productType === 'course' ? 'Registration Details' : 'Billing details' }}
+          <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
+        </h3>
 
         <div style="margin-bottom: 15px;">
           <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #333;">আপনার নাম লিখুন <span
@@ -110,13 +115,13 @@
         </div>
       </div>
 
-      <!-- Right Column: Order Review -->
-      <div style="background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-
-        <!-- Product item -->
+      <!-- Bottom Section: Your Products -->
+      <div style="border-top: 2px solid #eee; padding-top: 30px;">
         <h3
-            style="font-size: 1.1rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; color: #333;">
-          Your {{ $productType === 'course' ? 'Course' : 'Products' }}</h3>
+            style="font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; color: #333; text-align: center; position: relative;">
+          Your {{ $productType === 'course' ? 'Course' : 'Products' }}
+          <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
+        </h3>
         <div
              style="display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
           <div style="width: 60px; height: 60px; flex-shrink: 0;">
@@ -165,7 +170,7 @@
 
         <!-- Order Summary Table -->
         <h3
-            style="font-size: 1.1rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; color: #333;">
+            style="font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; color: #333; border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
           Your order</h3>
 
         <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem;">
@@ -301,14 +306,15 @@
         </button>
 
       </div>
+      </div>
 
     </form>
   </div>
 
   <style>
     @media (max-width: 768px) {
-      #landingPageOrderForm {
-        grid-template-columns: 1fr !important;
+      #orderFormSection .container-narrow > form > div[style*="background: white"] {
+        padding: 20px !important;
       }
     }
   </style>

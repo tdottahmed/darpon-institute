@@ -31,8 +31,8 @@
             @endphp
             @if($image && $pdfUrl)
               <a href="{{ $pdfUrl }}" target="_blank" style="display: block; position: relative; min-width: 250px; height: 350px; border-radius: 10px; overflow: hidden; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                <div style="background-image: url('{{ $image }}'); background-size: cover; background-position: center; width: 100%; height: 100%; transition: transform 0.3s;"></div>
-                <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0'">
+                <div style="background-image: url('{{ $image }}'); border: 1px solid #F47F16; background-size: cover; background-position: center; width: 100%; height: 100%; transition: transform 0.3s;"></div>
+                <div style="position: absolute; inset: 0; border: 1px solid #F47F16; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0'">
                   <span style="background-color: var(--accent-color); color: white; padding: 10px 20px; border-radius: 5px; font-weight: 600;">Read More</span>
                 </div>
                 @if($title)

@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Feed\Feedable;
+use Spatie\Feed\FeedItem;
 
-class Book extends Model
+class Book extends Model implements Feedable
 {
     protected $fillable = [
         'title',
@@ -39,5 +41,29 @@ class Book extends Model
             return $this->price - ($this->price * $this->discount / 100);
         }
         return $this->price;
+    }
+
+    /**
+     * Convert the model to a feed item.
+     */
+    public function toFeedItem(): FeedItem
+    {
+        return FeedItem::create()
+            ->id($this->id)
+            ->title($this->title)
+            ->summary($this->short_description ?: strip_tags($this->long_description ?: ''))
+            ->updated($this->updated_at)
+            ->link(route('books.show', $this->slug))
+            ->authorName($this->author ?: config('app.name'));
+    }
+
+    /**
+     * Get all feed items.
+     */
+    public static function getFeedItems()
+    {
+        return static::where('status', true)
+            ->latest()
+            ->get();
     }
 }

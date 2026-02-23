@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Feed\Feedable;
+use Spatie\Feed\FeedItem;
 
-class Course extends Model
+class Course extends Model implements Feedable
 {
     protected $fillable = [
         'title',
@@ -75,5 +77,29 @@ class Course extends Model
     public function activeVariations()
     {
         return $this->variations()->where('status', true);
+    }
+
+    /**
+     * Convert the model to a feed item.
+     */
+    public function toFeedItem(): FeedItem
+    {
+        return FeedItem::create()
+            ->id($this->id)
+            ->title($this->title)
+            ->summary($this->short_description ?: strip_tags($this->long_description ?: ''))
+            ->updated($this->updated_at)
+            ->link(route('courses.show', $this->slug))
+            ->authorName(config('app.name'));
+    }
+
+    /**
+     * Get all feed items.
+     */
+    public static function getFeedItems()
+    {
+        return static::where('status', true)
+            ->latest()
+            ->get();
     }
 }

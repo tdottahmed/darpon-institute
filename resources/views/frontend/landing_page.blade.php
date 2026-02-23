@@ -10,11 +10,26 @@
 
   <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png" />
 
+  <!-- SEO: Sitemap & RSS Feed -->
+  @php
+    $sitemapUrl = \App\Models\Setting::get('sitemap_url');
+    $rssFeedUrl = \App\Models\Setting::get('rss_feed_url');
+  @endphp
+  @if($sitemapUrl)
+    <link rel="sitemap" type="application/xml" href="{{ $sitemapUrl }}">
+  @endif
+  @if($rssFeedUrl)
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ $rssFeedUrl }}">
+  @endif
+
   <!-- Scripts -->
   @vite(['resources/css/app.css'])
   <script src="{{ asset('js/alpine.min.js') }}" defer></script>
 
   @include('frontend.partials.landing.styles')
+
+  <!-- Google Analytics -->
+  <x-google-analytics />
 </head>
 
 <body>

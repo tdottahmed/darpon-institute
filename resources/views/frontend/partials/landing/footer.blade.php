@@ -11,6 +11,14 @@
       <a href="#" style="color: var(--light-text); text-decoration: none; margin: 0 10px; font-size: 0.9rem; opacity: 0.9;">
         Terms & Conditions
       </a>
+      @php
+        $rssFeedUrl = \App\Models\Setting::get('rss_feed_url');
+      @endphp
+      @if($rssFeedUrl)
+        <a href="{{ $rssFeedUrl }}" target="_blank" rel="noopener" style="color: var(--light-text); text-decoration: none; margin: 0 10px; font-size: 0.9rem; opacity: 0.9;">
+          RSS Feed
+        </a>
+      @endif
     </div>
 
     <div style="margin-top: 15px; font-size: 0.9rem;">
