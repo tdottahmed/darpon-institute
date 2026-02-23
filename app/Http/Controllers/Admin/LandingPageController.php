@@ -286,6 +286,7 @@ class LandingPageController extends Controller
                     'slug' => $slugRule,
                     'product_id' => 'required|integer', // We verify existence in controller logic
                     'product_type' => 'required|in:book,course',
+                    'cta_button_text' => 'nullable|string|max:255',
                     'status' => 'boolean',
                     'show_hero' => 'boolean',
                     'show_pdf_preview' => 'boolean',

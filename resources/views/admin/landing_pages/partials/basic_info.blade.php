@@ -119,6 +119,13 @@
           </div>
         </div>
 
+        <!-- CTA Button Text -->
+        <x-forms.input name="cta_button_text" label="CTA Button Text" 
+                       :value="old('cta_button_text', isset($landingPage) ? $landingPage->cta_button_text : 'অর্ডার করুন')" 
+                       :error="$errors->first('cta_button_text')"
+                       placeholder="অর্ডার করুন" 
+                       help="Text displayed on all CTA buttons throughout the landing page (e.g., 'অর্ডার করুন', 'রেজিস্ট্রেশন করুন')" />
+
         <!-- Status -->
         <div class="flex items-center space-x-3">
           <input type="hidden" name="status" value="0">
