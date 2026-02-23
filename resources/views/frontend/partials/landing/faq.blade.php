@@ -5,7 +5,7 @@
       <h2 class="bengali-text" style="color: white; font-size: 1.8rem; font-weight: 700; margin-bottom: 20px;">
         অর্ডার ও ডেলিভারি সম্পর্কিত কিছু সাধারণ প্রশ্ন:
       </h2>
-      <div style="width: 80px; height: 3px; background-color: var(--accent-color); margin: 0 auto;"></div>
+      <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
     </div>
 
     <!-- FAQ Accordion -->

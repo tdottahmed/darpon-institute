@@ -108,7 +108,7 @@
           style="color: white; font-size: 2rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">
         {{ $title }}
       </h2>
-      <div style="width: 80px; height: 4px; background-color: white; margin: 0 auto;"></div>
+      <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
     </div>
 
     <!-- Description Block -->
