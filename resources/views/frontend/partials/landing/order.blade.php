@@ -163,7 +163,7 @@
               @endif
 
               <div style="font-weight: 700; color: #333; font-size: 1rem;" id="productPrice">
-                {{ number_format($offerPrice, 0) }}৳</div>
+               Tk. {{ number_format($offerPrice, 0) }}</div>
             </div>
           </div>
         </div>
@@ -183,13 +183,13 @@
           <span style="color: #666;" id="productLineItem">{{ $productTitle }} × <span
                   id="qtyDisplay">1</span></span>
           <span style="font-weight: 600; color: #333;"
-                id="productSubtotal">{{ number_format($offerPrice, 0) }}৳</span>
+                id="productSubtotal">Tk. {{ number_format($offerPrice, 0) }}</span>
         </div>
 
         <div
              style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem; border-bottom: 1px solid #eee; padding-bottom: 10px;">
           <span style="font-weight: 600; color: #555;">Subtotal</span>
-          <span style="font-weight: 600; color: #333;" id="orderSubtotal">{{ number_format($offerPrice, 0) }}৳</span>
+          <span style="font-weight: 600; color: #333;" id="orderSubtotal">Tk. {{ number_format($offerPrice, 0) }}</span>
         </div>
 
         @if ($productType === 'book')
@@ -199,7 +199,7 @@
               <input type="radio" name="shipping_method" value="home_delivery" checked
                      style="accent-color: var(--accent-color);">
               <span>{{ $shippingNote }}: <b
-                   id="shippingChargeDisplay">{{ number_format($shippingCharge, 0) }}৳</b></span>
+                   id="shippingChargeDisplay">Tk. {{ number_format($shippingCharge, 0) }}</b></span>
             </label>
           </div>
         @endif
@@ -208,7 +208,7 @@
              style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 10px;">
           <span style="font-weight: 700; color: #333;">Total</span>
           <span style="font-weight: 700; color: #333;"
-                id="orderTotal">{{ number_format($offerPrice + $shippingCharge, 0) }}৳</span>
+                id="orderTotal">Tk. {{ number_format($offerPrice + $shippingCharge, 0) }}</span>
         </div>
 
         <!-- Payment Method -->
@@ -302,7 +302,7 @@
         <button type="submit" id="submitOrderBtn"
                 style="width: 100%; background-color: #1A237E; color: white; border: none; padding: 15px; border-radius: 5px; font-size: 1.1rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: background-color 0.3s; margin-top:20px">
           {{ $productType === 'course' ? 'Enroll Now' : 'Place Order' }} <span
-                id="submitTotal">{{ number_format($offerPrice + $shippingCharge, 0) }}</span>৳
+                id="submitTotal">Tk. {{ number_format($offerPrice + $shippingCharge, 0) }}</span>
         </button>
 
       </div>
@@ -339,9 +339,9 @@
         const total = subtotal + shippingCharge;
 
         if (qtyDisplay) qtyDisplay.textContent = quantity;
-        productSubtotal.textContent = subtotal.toLocaleString('en-US') + '৳';
-        orderSubtotal.textContent = subtotal.toLocaleString('en-US') + '৳';
-        orderTotal.textContent = total.toLocaleString('en-US') + '৳';
+        productSubtotal.textContent = subtotal.toLocaleString('en-US') + 'Tk.';
+        orderSubtotal.textContent = subtotal.toLocaleString('en-US') + 'Tk.';
+        orderTotal.textContent = total.toLocaleString('en-US') + 'Tk.';
         submitTotal.textContent = total.toLocaleString('en-US');
       }
 
