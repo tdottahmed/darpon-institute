@@ -22,13 +22,13 @@ class FrontendContentSeeder extends Seeder
         //     [
         //         'section' => 'hero',
         //         'key' => 'title_line_1',
-        //         'value' => ['en' => 'Master English', 'bn' => 'ইংরেজি শিখুন'],
+        //         'value' => ['en' => '', 'bn' => ''],
         //         'type' => 'text',
         //     ],
         //     [
         //         'section' => 'hero',
         //         'key' => 'title_line_2',
-        //         'value' => ['en' => 'From Anywhere', 'bn' => 'যেকোনো জায়গা থেকে'],
+        //         'value' => ['en' => '', 'bn' => ''],
         //         'type' => 'text',
         //     ],
         //     [
@@ -546,13 +546,13 @@ class FrontendContentSeeder extends Seeder
             [
                 'section' => 'hero',
                 'key' => 'title_line_1',
-                'value' => ['en' => 'Master English', 'bn' => 'ইংরেজি শিখুন'],
+                'value' => ['en' => '', 'bn' => ''],
                 'type' => 'text',
             ],
             [
                 'section' => 'hero',
                 'key' => 'title_line_2',
-                'value' => ['en' => 'From Anywhere', 'bn' => 'যেকোনো জায়গা থেকে'],
+                'value' => ['en' => '', 'bn' => ''],
                 'type' => 'text',
             ],
             [

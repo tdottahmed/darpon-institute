@@ -27,13 +27,13 @@ export default function HeroSection({ translations }) {
             </div>
 
             {/* Content Container - Top Left Positioned */}
-            <div className="relative z-10 flex items-start min-h-[45vh] sm:min-h-[50vh] md:min-h-[65vh] lg:min-h-[75vh] xl:min-h-[80vh]">
+            <div className="relative z-10 flex items-center min-h-[45vh] sm:min-h-[50vh] md:min-h-[65vh] lg:min-h-[75vh] xl:min-h-[80vh]">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-4xl">
+                    <div className="max-w-4xl mx-auto">
                         {/* Main Heading - Clean Typography */}
                         {(content.title_line_1 || content.title_line_2) && (
                             <div className="animate-fade-in-up pt-[25px]" style={{ animationDelay: '0.2s' }}>
-                                <h1 class="text-4xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl xxl:text-8xl font-black text-white leading-[1.08] tracking-[-0.02em] sm:tracking-[-0.03em] md:tracking-[-0.04em] text-left pt-2">
+                                <h1 class="text-4xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl xxl:text-8xl font-black text-white leading-[1.08] tracking-[-0.02em] sm:tracking-[-0.03em] md:tracking-[-0.04em] text-center pt-2">
                                     {content.title_line_1 && (
                                         <span 
                                             className="block mb-2 sm:mb-3 md:mb-4 lg:mb-5"
