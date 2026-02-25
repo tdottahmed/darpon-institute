@@ -58,9 +58,10 @@ class FrontendContentController extends Controller
                     if (!$content->type && !empty($fieldData["{$lang}_existing"])) {
                         $content->type = 'image';
                     }
-                } elseif (isset($fieldData[$lang])) {
-                    // Handle text/textarea values
-                    $currentValue[$lang] = $fieldData[$lang];
+                } elseif (array_key_exists($lang, $fieldData)) {
+                    // Handle text/textarea values (including explicit null to clear)
+                    $value = $fieldData[$lang];
+                    $currentValue[$lang] = $value === null ? '' : $value;
                 }
             }
 
