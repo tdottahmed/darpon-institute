@@ -60,6 +60,10 @@
     </div>
   @endif
 
+  {{-- @php
+    dd($landingPage);
+  @endphp --}}
+
   <!-- Header Section -->
   @include('frontend.partials.landing.header')
 

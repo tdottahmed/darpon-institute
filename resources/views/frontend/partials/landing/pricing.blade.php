@@ -4,6 +4,12 @@
   $offerPrice = $landingPage->pricing_offer_price ?? ($landingPage->book->discounted_price ?? $originalPrice);
   $pricingDescription = $landingPage->pricing_description ?? '';
   $pricingNote = $landingPage->pricing_note ?? '';
+  
+  // Get course duration if product type is course
+  $courseDuration = null;
+  if ($landingPage->product_type === 'course' && $landingPage->course) {
+    $courseDuration = $landingPage->course->duration ?? null;
+  }
 @endphp
 
 <section class="pricing-section section" style="background-color: #073050;">
@@ -17,6 +23,15 @@
 
       <!-- Price Display -->
       <div style="margin-bottom: 30px;">
+        
+        <!-- Course Duration (if course) -->
+        @if($courseDuration)
+        <div style="margin-bottom: 15px;">
+          <p class="bengali-text" style="font-size: 1.2rem; color: var(--primary-color); font-weight: 600;">
+            কোর্সের সময়কাল: <span style="color: var(--dark-text);">{{ $courseDuration }}</span>
+          </p>
+        </div>
+        @endif
         
         <!-- Original Price -->
         @if($originalPrice > $offerPrice)

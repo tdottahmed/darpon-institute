@@ -12,20 +12,6 @@
           : json_decode($landingPage->book_details_extraordinary, true) ?? [];
   }
 
-  // Default static content if empty
-  $defaultExtraordinary = [
-      '১। বৃহৎ কনটেন্ট । সর্বোচ্চ শেখা।',
-      '২। ৫৭৬ প্রিমিয়াম পৃষ্ঠা',
-      '৩। ১০৮ সহজবোধ্য লেসন',
-      '৪। ১০৮০ বাস্তব জীবনের ডায়লগ',
-      '৫। ১১৭৮ দৈনন্দিন ব্যবহৃত অভিব্যক্তি',
-      '৬। ৩৫৩৪ স্পষ্ট উদাহরণ (ইংরেজি–বাংলা)',
-      '৭। শতাধিক অনুশীলন',
-      '৮। ৩টি শক্তিশালী পার্ট',
-      '৯। উচ্চমানের পারটেক্স অফ-হোয়াইট পেপার',
-      '১০। সম্পূর্ণ বইটিই বাংলায় ব্যাখ্যাসহ উপস্থাপিত',
-  ];
-
   // Use defaults if empty
   if (empty($extraordinary)) {
       $extraordinary = $defaultExtraordinary;
