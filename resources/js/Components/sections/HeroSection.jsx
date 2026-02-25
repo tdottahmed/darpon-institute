@@ -18,8 +18,8 @@ export default function HeroSection({ translations }) {
                     loading="eager"
                 />
                 {/* Enhanced Overlay with Gradient - Optimized for top-left text */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-900/55 to-gray-900/30"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-900/85 via-gray-900/45 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-900/50 via-gray-900/40 to-gray-900/30"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-900/50 via-gray-900/30 to-transparent"></div>
                 {/* Accent Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary-600/25 via-primary-600/10 to-transparent"></div>
                 {/* Subtle overlay for depth */}
