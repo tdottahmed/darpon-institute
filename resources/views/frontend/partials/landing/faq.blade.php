@@ -109,7 +109,7 @@
         </div>
       </details>
 
-       <!-- Item 8 -->
+       {{-- <!-- Item 8 -->
       <details style="margin-bottom: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); overflow: hidden;">
         <summary style="padding: 20px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; list-style: none; font-weight: 600; color: var(--dark-text);">
           <span class="bengali-text" style="font-size: 1.1rem;">প্রোডাক্টে সমস্যা থাকলে কী করবেন ?</span>
@@ -177,7 +177,7 @@
         <div style="padding: 0 20px 20px; color: #555; line-height: 1.6;">
           <p class="bengali-text">হ্যাঁ, শিপমেন্ট দেওয়ার পর ট্র্যাকিং লিংক পাঠানো হবে।</p>
         </div>
-      </details>
+      </details> --}}
 
     </div>
 

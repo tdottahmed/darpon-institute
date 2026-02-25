@@ -33,29 +33,23 @@
         </div>
         @endif
         
-        <!-- Original Price -->
-        @if($originalPrice > $offerPrice)
-        <h3 class="bengali-text" style="font-size: 1.5rem; color: #555; margin-bottom: 10px;">
-          প্রকৃত মূল্য: 
-          <span style="position: relative; display: inline-block; color: #777;">
-            {{ number_format($originalPrice, 0) }} টাকা
-            <svg style="position: absolute; top: 50%; left: -5%; width: 110%; height: 2px; overflow: visible;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150" preserveAspectRatio="none">
-              <path d="M497.4,23.9C301.6,40,155.9,80.6,4,144.4" stroke="red" stroke-width="25" fill="none" opacity="0.6"/>
-              <path d="M14.1,27.6c204.5,20.3,393.8,74,467.3,111.7" stroke="red" stroke-width="25" fill="none" opacity="0.6"/>
-            </svg>
+        <!-- Price Display -->
+        @php
+          $isCourse = $landingPage->product_type === 'course';
+          $regularLabel = $isCourse ? 'Regular Fee' : 'Regular Price';
+          $offerLabel = $isCourse ? 'Offer Fee' : 'Offer Price';
+        @endphp
+        
+        <div style="font-size: 1.5rem; color: var(--dark-text); font-weight: 600; line-height: 1.8;">
+          @if($originalPrice > $offerPrice)
+            <span style="text-decoration: line-through; color: #777; margin-right: 20px;">
+              {{ $regularLabel }}: Tk. {{ number_format($originalPrice, 0) }}
+            </span>
+          @endif
+          <span style="color: var(--accent-color); font-weight: 700;">
+            {{ $offerLabel }}: Tk. {{ number_format($offerPrice, 0) }}
           </span>
-        </h3>
-        @endif
-
-        <!-- Offer Price -->
-        <h3 class="bengali-text" style="font-size: 2.5rem; color: var(--accent-color); font-weight: 800; margin: 10px 0;">
-          অফার মূল্য <span style="position: relative; display: inline-block;">
-             {{ number_format($offerPrice, 0) }} টাকা
-             <svg style="position: absolute; bottom: -10px; left: 0; width: 100%; height: 10px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150" preserveAspectRatio="none">
-               <path d="M3,146.1c17.1-8.8,33.5-17.8,51.4-17.8c15.6,0,17.1,18.1,30.2,18.1c22.9,0,36-18.6,53.9-18.6 c17.1,0,21.3,18.5,37.5,18.5c21.3,0,31.8-18.6,49-18.6c22.1,0,18.8,18.8,36.8,18.8c18.8,0,37.5-18.6,49-18.6c20.4,0,17.1,19,36.8,19 c22.9,0,36.8-20.6,54.7-18.6c17.7,1.4,7.1,19.5,33.5,18.8c17.1,0,47.2-6.5,61.1-15.6" stroke="var(--accent-color)" stroke-width="15" fill="none"/>
-             </svg>
-          </span>
-        </h3>
+        </div>
 
       </div>
 
