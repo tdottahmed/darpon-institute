@@ -43,6 +43,24 @@
                      placeholder="অর্ডার করতে ১ টাকা অগ্রীম পেমেন্ট করতে হবে না" 
                      help="Important note about payment/pricing. This will be displayed prominently in red text." />
 
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+        <x-forms.input name="pricing_regular_label" label="Regular Label" 
+                       :value="old('pricing_regular_label', isset($landingPage) ? $landingPage->pricing_regular_label : '')" 
+                       :error="$errors->first('pricing_regular_label')"
+                       placeholder="Regular Fee / Regular Price" 
+                       help="Label for regular/original price (e.g., 'Regular Fee' or 'Regular Price')" />
+        <x-forms.input name="pricing_offer_label" label="Offer Label" 
+                       :value="old('pricing_offer_label', isset($landingPage) ? $landingPage->pricing_offer_label : '')" 
+                       :error="$errors->first('pricing_offer_label')"
+                       placeholder="Offer Fee / Offer Price" 
+                       help="Label for offer/discounted price (e.g., 'Offer Fee' or 'Offer Price')" />
+        <x-forms.input name="pricing_book_label" label="Book/Course Label" 
+                       :value="old('pricing_book_label', isset($landingPage) ? $landingPage->pricing_book_label : '')" 
+                       :error="$errors->first('pricing_book_label')"
+                       placeholder="Book Price / Course Fee" 
+                       help="Label for the main heading (e.g., 'Book Price:' or 'Course Fee:')" />
+      </div>
+
       <div class="rounded-md bg-yellow-50 p-4">
         <div class="flex">
           <div class="flex-shrink-0">

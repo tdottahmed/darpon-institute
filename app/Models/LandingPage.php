@@ -60,6 +60,9 @@ class LandingPage extends Model
         'pricing_offer_price',
         'pricing_description',
         'pricing_note',
+        'pricing_regular_label',
+        'pricing_offer_label',
+        'pricing_book_label',
         // Order Section
         'order_section_title',
         'order_form_fields',

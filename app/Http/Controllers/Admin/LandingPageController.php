@@ -355,6 +355,9 @@ class LandingPageController extends Controller
                     'pricing_offer_price' => 'nullable|numeric|min:0',
                     'pricing_description' => 'nullable|string|max:1000',
                     'pricing_note' => 'nullable|string|max:500',
+                    'pricing_regular_label' => 'nullable|string|max:255',
+                    'pricing_offer_label' => 'nullable|string|max:255',
+                    'pricing_book_label' => 'nullable|string|max:255',
                 ];
                 break;
 
@@ -450,6 +453,9 @@ class LandingPageController extends Controller
             'pricing_offer_price' => 'nullable|numeric|min:0',
             'pricing_description' => 'nullable|string|max:1000',
             'pricing_note' => 'nullable|string|max:500',
+            'pricing_regular_label' => 'nullable|string|max:255',
+            'pricing_offer_label' => 'nullable|string|max:255',
+            'pricing_book_label' => 'nullable|string|max:255',
             'order_section_title' => 'nullable|string|max:255',
             'order_form_fields' => 'nullable|string',
             'order_shipping_charge' => 'nullable|numeric|min:0',

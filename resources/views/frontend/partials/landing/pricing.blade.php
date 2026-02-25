@@ -18,7 +18,7 @@
     <div style="background: #ffffff; padding: 40px; border-radius: 15px; border: 2px solid var(--accent-color); box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
       
       <h2 class="bengali-text" style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
-        {{ $landingPage->book ? 'বইয়ের মূল্য:' : 'কোর্সের মূল্য:' }}
+        {{ $landingPage->pricing_book_label ?? ($landingPage->book ? 'Book Price:' : 'Course Fee:') }}
       </h2>
 
       <!-- Price Display -->
@@ -28,7 +28,7 @@
         @if($courseDuration)
         <div style="margin-bottom: 15px;">
           <p class="bengali-text" style="font-size: 1.2rem; color: var(--primary-color); font-weight: 600;">
-            কোর্সের সময়কাল: <span style="color: var(--dark-text);">{{ $courseDuration }}</span>
+            Course Duration: <span style="color: var(--dark-text);">{{ $courseDuration }}</span>
           </p>
         </div>
         @endif
@@ -36,8 +36,8 @@
         <!-- Price Display -->
         @php
           $isCourse = $landingPage->product_type === 'course';
-          $regularLabel = $isCourse ? 'Regular Fee' : 'Regular Price';
-          $offerLabel = $isCourse ? 'Offer Fee' : 'Offer Price';
+          $regularLabel = $landingPage->pricing_regular_label ?? ($isCourse ? 'Regular Fee' : 'Regular Price');
+          $offerLabel = $landingPage->pricing_offer_label ?? ($isCourse ? 'Offer Fee' : 'Offer Price');
         @endphp
         
         <div style="font-size: 1.5rem; color: var(--dark-text); font-weight: 600; line-height: 1.8;">
