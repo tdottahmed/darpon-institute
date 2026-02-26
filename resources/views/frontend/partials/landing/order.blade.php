@@ -173,27 +173,27 @@
             style="font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; color: #333; border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
           Your order</h3>
 
-        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem;">
           <span style="font-weight: 600; color: #555;">Product</span>
           <span style="font-weight: 600; color: #555;">Subtotal</span>
         </div>
 
         <div
-             style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+             style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 10px;">
           <span style="color: #666;" id="productLineItem">{{ $productTitle }} × <span
                   id="qtyDisplay">1</span></span>
-          <span style="font-weight: 600; color: #333;"
+          <span style="font-weight: 600; font-size: 0.9rem; color: #333;"
                 id="productSubtotal">Tk. {{ number_format($offerPrice, 0) }}</span>
         </div>
 
         <div
-             style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-          <span style="font-weight: 600; color: #555;">Subtotal</span>
-          <span style="font-weight: 600; color: #333;" id="orderSubtotal">Tk. {{ number_format($offerPrice, 0) }}</span>
+             style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+          <span style="font-weight: 600; font-size: 0.9rem; color: #555;">Subtotal</span>
+          <span style="font-weight: 600; font-size: 0.9rem; color: #333;" id="orderSubtotal">Tk. {{ number_format($offerPrice, 0) }}</span>
         </div>
 
         @if ($productType === 'book')
-          <div style="margin-bottom: 10px; font-size: 0.95rem; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+          <div style="margin-bottom: 10px; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 10px;">
             <div style="font-weight: 600; color: #555; margin-bottom: 5px;">Shipping</div>
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
               <input type="radio" name="shipping_method" value="home_delivery" checked
@@ -206,8 +206,8 @@
 
         <div
              style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-          <span style="font-weight: 700; color: #333;">Total</span>
-          <span style="font-weight: 700; color: #333;"
+          <span style="font-weight: 700;  color: #333;">Total</span>
+          <span style="font-weight: 700;  color: #333;"
                 id="orderTotal">Tk. {{ number_format($offerPrice + $shippingCharge, 0) }}</span>
         </div>
 

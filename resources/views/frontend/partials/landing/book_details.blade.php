@@ -37,9 +37,9 @@
 
     <!-- Description Block -->
     @if ($description)
-      <div
+      <div class="description-block"
            style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 40px; text-align: left; border: 2px solid var(--accent-color);">
-        <h3 class="bengali-text" style="color: #444; font-size: 1.2rem; line-height: 1.8; font-weight: 500;">
+        <h3 class="bengali-text description-text" style="color: #444; font-size: 1.2rem; line-height: 1.8; font-weight: 500;">
           {!! $description !!}
         </h3>
       </div>
@@ -121,7 +121,13 @@
       .book-details-section h2 {
         font-size: 1.5rem !important;
       }
-
+      .description-block {
+        padding: 20px !important;
+      }
+      .description-text {
+        font-size: 1rem !important;
+        text-align: left !important;
+      }
     }
   </style>
 </section>

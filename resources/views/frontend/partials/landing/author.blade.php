@@ -55,7 +55,7 @@
                     {!! $authorTitle !!}
                 </h3>
 
-                <div class="bengali-text"
+                <div class="bengali-text author-description"
                     style="color: #444; line-height: 1.8; font-size: 1.05rem; text-align: justify;">
                     {!! $authorDescription !!}
                 </div>
@@ -97,10 +97,10 @@
                 /* Force center on mobile for container */
             }
 
-            div[style*="text-align: justify"] {
-                text-align: center !important;
-                /* Mobile readability often better centered or left, but user might prefer justify. Let's stick closer to center for author bios on mobile usually, or keep justify but ensure padding. */
-                text-align-last: center !important;
+            .author-description {
+                text-align: left !important;
+                font-size: 1rem !important;
+                text-align-last: left !important;
             }
 
             div[style*="position: absolute; top: -20px"] {

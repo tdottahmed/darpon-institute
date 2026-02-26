@@ -44,8 +44,8 @@
           <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
         </h2>
 
-        <div style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
-          <div class="bengali-text" style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
+        <div class="target-audience-card" style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
+          <div class="bengali-text target-audience-text" style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
             {!! $targetAudienceDescription !!}
           </div>
         </div>
@@ -66,13 +66,13 @@
           <span style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
         </h2>
 
-        <div
+        <div class="game-changer-card"
             style="padding: 30px; margin: 0; background-color: white; border-radius: 10px; border: 2px solid var(--accent-color);">
-          <div class="bengali-text" style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text);">
+          <div class="bengali-text game-changer-text" style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text);">
             {!! $gameChangerDescription !!}
           </div>
           @if($gameChangerConclusion)
-          <div class="bengali-text"
+          <div class="bengali-text game-changer-text"
               style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text); font-weight: 600; margin-top: 15px;">
             {{ $gameChangerConclusion }}
           </div>
@@ -155,6 +155,16 @@
       margin-top: 30px;
       padding-top: 30px;
       width: 100%;
+    }
+
+    .target-audience-card,
+    .game-changer-card {
+      padding: 20px !important;
+    }
+
+    .target-audience-text,
+    .game-changer-text {
+      font-size: 1rem !important;
     }
   }
 </style>
