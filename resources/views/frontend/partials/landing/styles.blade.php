@@ -57,7 +57,7 @@
   }
 
   .section-sm {
-    padding: 40px 20px;
+    padding: 20px 20px;
   }
 
   .section-lg {
@@ -76,7 +76,7 @@
       padding: 40px 15px;
     }
     .section-sm {
-      padding: 30px 15px;
+      padding: 10px;
     }
     .section-lg {
       padding: 50px 15px;

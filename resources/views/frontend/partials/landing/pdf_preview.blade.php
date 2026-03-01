@@ -7,7 +7,7 @@
     <div class="container">
       <!-- PDF Preview Carousel -->
       <div style="width: 100%; overflow: hidden;">
-        <div style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; justify-content: center;">
+        <div style="display: flex; gap: 20px; overflow: hidden; justify-content: center;">
           
           @foreach($pdfPreviews as $preview)
             @php

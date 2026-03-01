@@ -15,7 +15,7 @@
     $authorImage = $landingPage->author_image ? Storage::url($landingPage->author_image) : $defaultAuthorImage;
 @endphp
 
-<section class="section" style="background-color: #073050;">
+<section class="section-sm" style="background-color: #073050;">
     <div class="container-narrow">
 
         <div
@@ -56,7 +56,7 @@
                 </h3>
 
                 <div class="bengali-text author-description"
-                    style="color: #444; line-height: 1.8; font-size: 1.05rem; text-align: justify;">
+                    style="color: #444; line-height: 1.8; font-size: 1.05rem; text-align: left;">
                     {!! $authorDescription !!}
                 </div>
 
