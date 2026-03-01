@@ -1,4 +1,4 @@
-<header style="background-color: #F47F16; color: #ffffff; padding: 30px 0 10px; text-align: center;">
+<header style="background-color: {{ $landingPage->header_background_color ?? '#ffffff' }}; color: #ffffff; padding: 30px 0 10px; text-align: center;">
   <div class="container">
     <!-- Logo Placeholder -->
     <img src="{{ asset('darpond-landing-logo.webp') }}" alt="Darpon Logo" style="height: 150px; width: auto; display: block; margin-left: auto; margin-right: auto;">

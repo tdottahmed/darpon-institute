@@ -21,6 +21,7 @@ class LandingPage extends Model
         'custom_videos',
         'cta_text',
         'cta_button_text',
+        'header_background_color',
         'status',
         'meta_title',
         'meta_description',

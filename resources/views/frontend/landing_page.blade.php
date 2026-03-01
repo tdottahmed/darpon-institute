@@ -65,7 +65,7 @@
   @endphp --}}
 
   <!-- Header Section -->
-  @include('frontend.partials.landing.header')
+  @include('frontend.partials.landing.header', ['landingPage' => $landingPage])
 
   <!-- Main Banner Section -->
   @if ($landingPage->show_hero ?? true)
