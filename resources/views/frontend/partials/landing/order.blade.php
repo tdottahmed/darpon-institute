@@ -120,20 +120,26 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 15px;">
+                    <div style="margin-bottom: 40px;">
                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #333;">Country /
                             Region</label>
                         <div style="font-weight: 700; padding: 10px; background: #f9f9f9; border-radius: 4px;">
                             Bangladesh</div>
                     </div>
 
+                    <!-- Divider between sections -->
+                    <div style="text-align: center; margin: 60px 0;">
+                        <span
+                            style="display: block; width: 100%; height: 2px; background: var(--accent-color); margin: 0 auto;"></span>
+                    </div>
+
                     <!-- Bottom Section: Your Products -->
-                    <div style="border-top: 2px solid #eee; padding-top: 80px;">
+                    <div >
                         <h3
                             style="font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; color: #333; text-align: center; position: relative;">
                             Your {{ $productType === 'course' ? 'Course' : 'Products' }}
                             <span
-                                style="display: block; width: 20%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
+                                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
                         </h3>
                         <div
                             style="display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px;">

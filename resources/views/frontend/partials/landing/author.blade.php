@@ -36,27 +36,23 @@
             </div>
 
             <!-- Author Content -->
-            <div style="flex: 1; z-index: 1; text-align: left;">
+            <div class="author-content">
 
-                <div style="margin-bottom: 20px;">
-                    <span
-                        style="background-color: #e3f2fd; color: #0d47a1; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+                <div class="author-badge">
+                    <span class="author-badge-text">
                         {{ $authorBadge }}
                     </span>
                 </div>
 
-                <h2 class="bengali-text"
-                    style="color: #0d47a1; margin: 0 0 5px; font-size: 2.2rem; font-weight: 700; line-height: 1.2;">
+                <h2 class="bengali-text author-name">
                     {!! $authorName !!}
                 </h2>
 
-                <h3 class="bengali-text"
-                    style="color: #555; margin: 0 0 25px; font-size: 1.1rem; font-weight: 600; border-left: 4px solid #ff9800; padding-left: 15px;">
+                <h3 class="bengali-text author-title">
                     {!! $authorTitle !!}
                 </h3>
 
-                <div class="bengali-text author-description"
-                    style="color: #444; line-height: 1.8; font-size: 1.05rem; text-align: left;">
+                <div class="bengali-text author-description">
                     {!! $authorDescription !!}
                 </div>
 
@@ -71,7 +67,71 @@
     </div>
 
     <style>
+        .author-content {
+            flex: 1;
+            z-index: 1;
+            text-align: left;
+        }
+
+        .author-badge {
+            margin-bottom: 20px;
+        }
+
+        .author-badge-text {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .author-name {
+            color: #0d47a1;
+            margin: 0 0 5px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .author-title {
+            color: #555;
+            margin: 0 0 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-left: 4px solid #ff9800;
+            padding-left: 15px;
+        }
+
+        .author-description {
+            color: #444;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            text-align: left;
+        }
+
+        .author-description p,
+        .author-description div,
+        .author-description span,
+        .author-description em,
+        .author-description strong {
+            text-align: left !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+
         @media (max-width: 900px) {
+
+            .author-name {
+                font-size: 1.5rem;
+            }
+
+            .author-description {
+                font-size: 0.9rem;
+            }
+
             div[style*="flex-direction: row"] {
                 flex-direction: column !important;
                 text-align: center !important;
@@ -84,7 +144,7 @@
                 margin: 0 auto 20px !important;
             }
 
-            h3[style*="border-left"] {
+            .author-title {
                 border-left: none !important;
                 border-bottom: 3px solid #ff9800 !important;
                 padding-left: 0 !important;
@@ -92,7 +152,7 @@
                 display: inline-block !important;
             }
 
-            div[style*="text-align: left"] {
+            .author-content {
                 text-align: center !important;
                 /* Force center on mobile for container */
             }
