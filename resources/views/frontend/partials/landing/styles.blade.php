@@ -75,9 +75,6 @@
     .section {
       padding: 40px 15px;
     }
-    .section-sm {
-      padding: 10px;
-    }
     .section-lg {
       padding: 50px 15px;
     }
