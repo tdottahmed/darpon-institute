@@ -10,6 +10,7 @@
       'pricing' => 'Pricing',
       'order' => 'Order Form',
       'author' => 'Author Info',
+      'faq' => 'FAQ',
       'seo' => 'SEO & Settings',
   ];
 

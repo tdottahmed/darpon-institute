@@ -76,6 +76,9 @@ class LandingPage extends Model
         'author_title',
         'author_description',
         'author_image',
+        // FAQ Section
+        'faq_section_title',
+        'faq_list',
         // Section visibility
         'show_hero',
         'show_pdf_preview',
@@ -97,6 +100,7 @@ class LandingPage extends Model
         'target_audience_list' => 'array',
         'game_changer_points' => 'array',
         'order_form_fields' => 'array',
+        'faq_list' => 'array',
         'status' => 'boolean',
         'show_hero' => 'boolean',
         'show_pdf_preview' => 'boolean',

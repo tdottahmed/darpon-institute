@@ -30,6 +30,9 @@
 
   <!-- Google Analytics -->
   <x-google-analytics />
+
+  <!-- Facebook Pixel -->
+  <x-facebook-pixel />
 </head>
 
 <body>
@@ -92,7 +95,7 @@
 
   <!-- FAQ Section -->
   @if ($landingPage->product_type === 'book')
-    @include('frontend.partials.landing.faq')
+    @include('frontend.partials.landing.faq', ['landingPage' => $landingPage])
   @endif
 
   <!-- Pricing Section -->

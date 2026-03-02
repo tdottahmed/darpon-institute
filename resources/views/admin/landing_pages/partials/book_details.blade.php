@@ -14,7 +14,7 @@
 
   // Use defaults if empty
   if (empty($extraordinary)) {
-      $extraordinary = $defaultExtraordinary;
+      $extraordinary = [];
   }
 @endphp
 
@@ -37,7 +37,7 @@
           <!-- Section Title -->
           <x-forms.input name="book_details_title" label="Section Title" :value="old(
               'book_details_title',
-              isset($landingPage) ? $landingPage->book_details_title : 'বইটি সম্পর্কে যা না জানলেই নয়',
+              isset($landingPage) ? $landingPage->book_details_title : '',
           )" :error="$errors->first('book_details_title')"
                          placeholder="বইটি সম্পর্কে যা না জানলেই নয়" help="Main heading for the book details section" />
 
@@ -61,7 +61,7 @@
           <!-- Extraordinary Title -->
           <x-forms.input name="book_details_extraordinary_title" label="Extraordinary Section Title" :value="old(
               'book_details_extraordinary_title',
-              isset($landingPage) ? $landingPage->book_details_extraordinary_title : 'কী এই বইটিকে সত্যিই অসাধারণ করে তুলেছে?',
+              isset($landingPage) ? $landingPage->book_details_extraordinary_title : '',
           )" :error="$errors->first('book_details_extraordinary_title')"
                          placeholder="কী এই বইটিকে সত্যিই অসাধারণ করে তুলেছে?" help="Title for the extraordinary section" />
 
@@ -73,7 +73,7 @@
           <!-- Why Students Love Title -->
           <x-forms.input name="book_details_students_love_title" label="Why Students Love Section Title" :value="old(
               'book_details_students_love_title',
-              isset($landingPage) ? $landingPage->book_details_students_love_title : 'কেন শিক্ষার্থীরা এই বইকে ভালোবাসেন',
+              isset($landingPage) ? $landingPage->book_details_students_love_title : '',
           )" :error="$errors->first('book_details_students_love_title')"
                          placeholder="কেন শিক্ষার্থীরা এই বইকে ভালোবাসেন" help="Title for the 'Why Students Love' section" />
 

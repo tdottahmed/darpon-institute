@@ -382,6 +382,15 @@ class LandingPageController extends Controller
                 ];
                 break;
 
+            case 'faq':
+                $rules = [
+                    'faq_section_title' => 'nullable|string|max:500',
+                    'faq_list' => 'nullable|array',
+                    'faq_list.*.question' => 'nullable|string|max:1000',
+                    'faq_list.*.answer' => 'nullable|string',
+                ];
+                break;
+
             case 'seo':
                 $rules = [
                     'meta_title' => 'nullable|string|max:255',
@@ -740,7 +749,8 @@ class LandingPageController extends Controller
     protected function handleJsonFields(Request $request, array &$validated, ?LandingPage $landingPage = null)
     {
         $jsonFields = [
-            'order_form_fields'
+            'order_form_fields',
+            'faq_list'
         ];
 
         $isUpdate = $landingPage !== null;
@@ -758,6 +768,8 @@ class LandingPageController extends Controller
                     return $request->has('game_changer_points_array');
                 case 'order_form_fields':
                     return $request->has('order_form_fields');
+                case 'faq_list':
+                    return $request->has('faq_list');
                 default:
                     return true;
             }
@@ -832,6 +844,21 @@ class LandingPageController extends Controller
                     return !empty(trim($item));
                 });
                 $validated[$field] = !empty($points) ? array_values($points) : null;
+                continue;
+            }
+
+            // Handle faq_list - filter out empty FAQs
+            if ($field === 'faq_list' && $request->has('faq_list')) {
+                $faqList = [];
+                foreach ($request->input('faq_list', []) as $faq) {
+                    if (!empty(trim($faq['question'] ?? '')) && !empty(trim($faq['answer'] ?? ''))) {
+                        $faqList[] = [
+                            'question' => trim($faq['question']),
+                            'answer' => trim($faq['answer'])
+                        ];
+                    }
+                }
+                $validated[$field] = !empty($faqList) ? $faqList : null;
                 continue;
             }
 

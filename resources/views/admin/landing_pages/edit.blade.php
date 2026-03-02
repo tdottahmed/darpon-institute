@@ -38,6 +38,8 @@
         @include('admin.landing_pages.partials.order_form')
       @elseif($activeTab === 'author')
         @include('admin.landing_pages.partials.author_info')
+      @elseif($activeTab === 'faq')
+        @include('admin.landing_pages.partials.faq_section')
       @elseif($activeTab === 'seo')
         @include('admin.landing_pages.partials.seo_settings')
       @endif
