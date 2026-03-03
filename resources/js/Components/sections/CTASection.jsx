@@ -8,7 +8,7 @@ export default function CTASection({ translations }) {
     const t = translations?.common || {};
 
     return (
-        <section className="relative py-20 sm:py-28 overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 dark:from-primary-800 dark:via-primary-900 dark:to-secondary-800">
+        <section className="relative py-20 sm:py-20 overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 dark:from-primary-800 dark:via-primary-900 dark:to-secondary-800">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
                 <div

@@ -37,7 +37,7 @@ export default function TestimonialsSection({ testimonials }) {
     return (
         <section
             id="testimonials"
-            className="py-20 sm:py-28 bg-gray-50 dark:bg-gray-800/50"
+            className="py-20 sm:py-20 bg-gray-50 dark:bg-gray-900"
         >
             <Container>
                 <SectionHeader

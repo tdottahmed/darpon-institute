@@ -10,7 +10,7 @@ export default function CoursesSection({ courses = [] }) {
     const displayedCourses = courses.slice(0, 6);
 
     return (
-        <section className="pb-20 sm:pb-28 bg-white dark:bg-gray-900">
+        <section className="py-20 sm:py-20 bg-white dark:bg-gray-900">
             <Container>
                 {/* Section Header */}
                 <SectionHeader

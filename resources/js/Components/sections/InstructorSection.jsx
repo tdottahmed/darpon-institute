@@ -15,7 +15,7 @@ export default function InstructorSection() {
     const experience = content.experience || "10+ Years";
 
     return (
-        <section className="py-20 sm:py-28 bg-gray-50 dark:bg-gray-800/50">
+        <section className="py-20 sm:py-20 bg-gray-50 dark:bg-gray-800/50">
             <Container>
                 {/* Section Header */}
                 <SectionHeader

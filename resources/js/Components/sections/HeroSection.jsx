@@ -5,7 +5,7 @@ export default function HeroSection({ translations }) {
     const content = frontend_content?.hero || {};
 
     return (
-        <section className="relative overflow-hidden bg-white dark:bg-gray-950 min-h-[75vh] md:min-h-[85vh] flex items-center py-12 lg:py-0">
+        <section className="relative overflow-hidden bg-white dark:bg-gray-950 min-h-[75vh] md:min-h-[85vh] flex items-center py-20 sm:py-20">
             {/* Background Decorations */}
             <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary-500/10 rounded-full blur-[80px] md:blur-[120px]"></div>
             <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-secondary-500/10 rounded-full blur-[70px] md:blur-[100px]"></div>
@@ -50,7 +50,7 @@ export default function HeroSection({ translations }) {
                         </div>
 
                         {/* Stats Badges */}
-                        <div className="pt-10 flex flex-wrap justify-center lg:justify-start gap-10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                        {/* <div className="pt-10 flex flex-wrap justify-center lg:justify-start gap-10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                             {(content.stat_1_value || content.stat_1_label) && (
                                 <div className="flex flex-col">
                                     <span className="text-3xl font-black text-gray-900 dark:text-white">{content.stat_1_value || "10K+"}</span>
@@ -71,7 +71,7 @@ export default function HeroSection({ translations }) {
                                     <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{content.stat_3_label || "User Rating"}</span>
                                 </div>
                             )}
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Right Column: High Quality Image */}
