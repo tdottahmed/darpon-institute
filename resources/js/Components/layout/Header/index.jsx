@@ -9,6 +9,7 @@ import UserMenu from "./UserMenu";
 import AuthButtons from "./AuthButtons";
 import MobileMenuButton from "./MobileMenuButton";
 import MobileMenu from "./MobileMenu";
+import Search from "./Search";
 
 export default function Header() {
     const { auth, translations, frontend_content } = usePage().props;
@@ -149,6 +150,7 @@ export default function Header() {
 
                     {/* Right Side Actions */}
                     <div className="hidden lg:flex items-center space-x-3">
+                        <Search />
                         <LanguageSwitcher />
                         <DarkModeToggle />
                         {auth?.user ? (
@@ -158,11 +160,14 @@ export default function Header() {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
-                    <MobileMenuButton
-                        isOpen={mobileMenuOpen}
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    />
+                    {/* Mobile Actions */}
+                    <div className="flex items-center lg:hidden space-x-1">
+                        <Search />
+                        <MobileMenuButton
+                            isOpen={mobileMenuOpen}
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        />
+                    </div>
                 </div>
 
                 {/* Mobile Menu */}

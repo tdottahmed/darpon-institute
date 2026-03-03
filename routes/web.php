@@ -9,11 +9,15 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\LandingPageController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 // ============================================
 // PUBLIC ROUTES
 // ============================================
+
+// Search API
+Route::get('/api/search', [SearchController::class, 'search'])->name('search.api');
 
 // Home Page
 Route::get('/', [FrontendController::class, 'index'])->name('home');
@@ -100,26 +104,26 @@ Route::middleware('auth')->group(function () {
 });
 
 // We need here route for artisan migrtae and seed
-Route::group(['prefix'=> '','as'=> ''], function () {
+Route::group(['prefix' => '', 'as' => ''], function () {
     Route::get('/migrate', function () {
         Artisan::call('migrate');
-        return redirect()->back()->with('success','Migrated successfully');
+        return redirect()->back()->with('success', 'Migrated successfully');
     })->name('migrate');
     Route::get('/seed', function () {
         Artisan::call('db:seed --class=FrontendContentSeeder');
-        return redirect()->back()->with('success','Seeded successfully');
+        return redirect()->back()->with('success', 'Seeded successfully');
     })->name('seed');
     Route::get('optimize', function () {
         Artisan::call('optimize');
-        return redirect()->back()->with('success','Optimized successfully');
+        return redirect()->back()->with('success', 'Optimized successfully');
     })->name('optimize');
     Route::get('optimize-clear', function () {
         Artisan::call('optimize:clear');
-        return redirect()->back()->with('success','Optimized clear successfully');
+        return redirect()->back()->with('success', 'Optimized clear successfully');
     })->name('optimize-clear');
     Route::get('storage-link', function () {
         Artisan::call('storage:link');
-        return redirect()->back()->with('success','Storage linked successfully');
+        return redirect()->back()->with('success', 'Storage linked successfully');
     })->name('storage-link');
 });
 require __DIR__ . '/auth.php';

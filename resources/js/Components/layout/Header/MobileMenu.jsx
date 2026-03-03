@@ -4,6 +4,7 @@ import Button from "../../ui/Button";
 import Navigation from "./Navigation";
 import LanguageSwitcher from "../../LanguageSwitcher";
 import DarkModeToggle from "../../DarkModeToggle";
+import Search from "./Search";
 
 export default function MobileMenu({
     isOpen,
@@ -18,6 +19,11 @@ export default function MobileMenu({
 
     return (
         <div className="lg:hidden py-3 border-t border-gray-200 dark:border-gray-800 animate-in slide-in-from-top-2 duration-200">
+            {/* Search */}
+            <div className="px-3 mb-4">
+                <Search mobile={true} onClose={onClose} />
+            </div>
+
             {/* Navigation Links */}
             <Navigation items={navigationItems} mobile={true} />
 
