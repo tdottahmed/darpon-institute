@@ -543,22 +543,64 @@ class FrontendContentSeeder extends Seeder
 
         $contents = [
             // Hero Section
+            // [
+            //     'section' => 'hero',
+            //     'key' => 'welcome_badge',
+            //     'value' => ['en' => '🎓 Start Learning Today', 'bn' => '🎓 আজই শেখা শুরু করুন'],
+            //     'type' => 'text',
+            // ],
             [
                 'section' => 'hero',
                 'key' => 'title_line_1',
-                'value' => ['en' => '', 'bn' => ''],
+                'value' => ['en' => 'Unlock Your Potential', 'bn' => 'আপনার প্রতিভা বিকশিত করুন'],
                 'type' => 'text',
             ],
             [
                 'section' => 'hero',
                 'key' => 'title_line_2',
-                'value' => ['en' => '', 'bn' => ''],
+                'value' => ['en' => 'with Darpon Institute', 'bn' => 'দর্পণ ইনস্টিটিউটের সাথে'],
                 'type' => 'text',
             ],
             [
                 'section' => 'hero',
-                'key' => 'bg_image',
-                'value' => ['en' => 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1920&auto=format&fit=crop', 'bn' => 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1920&auto=format&fit=crop'],
+                'key' => 'description',
+                'value' => ['en' => 'Interactive learning platform with modern methods, digital diplomas, and personalized study plans designed to help you achieve fluency faster.', 'bn' => 'আধুনিক পদ্ধতি, ডিজিটাল ডিপ্লোমা এবং ব্যক্তিগতকৃত স্টাডি প্ল্যান সহ একটি ইন্টারঅ্যাক্টিভ লার্নিং প্ল্যাটফর্ম যা আপনাকে দ্রুত ইংরেজি শিখতে সাহায্য করবে।'],
+                'type' => 'textarea',
+            ],
+            [
+                'section' => 'hero',
+                'key' => 'button_1_text',
+                'value' => ['en' => 'Explore Courses', 'bn' => 'কোর্সগুলো দেখুন'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'hero',
+                'key' => 'button_1_link',
+                'value' => ['en' => '/courses', 'bn' => '/courses'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'hero',
+                'key' => 'button_2_text',
+                'value' => ['en' => 'Explore Books', 'bn' => 'বইগুলো দেখুন'],
+                'type' => 'text',
+            ],
+            [
+                'section' => 'hero',
+                'key' => 'button_2_link',
+                'value' => ['en' => '/books', 'bn' => '/books'],
+                'type' => 'text',
+            ],
+            // [
+            //     'section' => 'hero',
+            //     'key' => 'bg_image',
+            //     'value' => ['en' => 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1920&auto=format&fit=crop', 'bn' => 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1920&auto=format&fit=crop'],
+            //     'type' => 'image',
+            // ],
+            [
+                'section' => 'hero',
+                'key' => 'hero_image',
+                'value' => ['en' => 'https://images.unsplash.com/photo-1523240715627-5d0b501f2185?q=80&w=1470&auto=format&fit=crop', 'bn' => 'https://images.unsplash.com/photo-1523240715627-5d0b501f2185?q=80&w=1470&auto=format&fit=crop'],
                 'type' => 'image',
             ],
             // Team Section
