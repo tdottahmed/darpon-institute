@@ -259,6 +259,45 @@
                                   accept="image/*" maxSize="2MB" />
         </div>
 
+        <!-- Header & Footer Colors -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div class="space-y-1">
+            <label for="header_footer_color_light" class="block text-sm font-medium text-gray-700">Light Mode Header/Footer Color</label>
+            <div class="flex items-center gap-3">
+              <input type="color" name="header_footer_color_light" id="header_footer_color_light_picker"
+                     value="{{ old('header_footer_color_light', $settings['header_footer_color_light']) }}"
+                     class="h-10 w-20 rounded border border-gray-300 p-1"
+                     oninput="document.getElementById('header_footer_color_light_text').value = this.value">
+              <input type="text" name="header_footer_color_light" id="header_footer_color_light_text"
+                     value="{{ old('header_footer_color_light', $settings['header_footer_color_light']) }}"
+                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                     oninput="document.getElementById('header_footer_color_light_picker').value = this.value">
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Background color for header and footer in light mode.</p>
+            @if ($errors->has('header_footer_color_light'))
+              <p class="mt-1 text-sm text-red-600">{{ $errors->first('header_footer_color_light') }}</p>
+            @endif
+          </div>
+
+          <div class="space-y-1">
+            <label for="header_footer_color_dark" class="block text-sm font-medium text-gray-700">Dark Mode Header/Footer Color</label>
+            <div class="flex items-center gap-3">
+              <input type="color" name="header_footer_color_dark" id="header_footer_color_dark_picker"
+                     value="{{ old('header_footer_color_dark', $settings['header_footer_color_dark']) }}"
+                     class="h-10 w-20 rounded border border-gray-300 p-1"
+                     oninput="document.getElementById('header_footer_color_dark_text').value = this.value">
+              <input type="text" name="header_footer_color_dark" id="header_footer_color_dark_text"
+                     value="{{ old('header_footer_color_dark', $settings['header_footer_color_dark']) }}"
+                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                     oninput="document.getElementById('header_footer_color_dark_picker').value = this.value">
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Background color for header and footer in dark mode.</p>
+            @if ($errors->has('header_footer_color_dark'))
+              <p class="mt-1 text-sm text-red-600">{{ $errors->first('header_footer_color_dark') }}</p>
+            @endif
+          </div>
+        </div>
+
         <div class="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
           <div class="flex items-start gap-3">
             <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-600" fill="none" stroke="currentColor"

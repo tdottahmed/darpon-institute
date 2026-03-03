@@ -60,6 +60,14 @@
 
   <!-- Google Analytics -->
   <x-google-analytics />
+
+  <!-- Custom Styles for Header/Footer Colors -->
+  <style>
+    :root {
+      --header-footer-bg-light: {{ \App\Models\Setting::get('header_footer_color_light', '#ffffff') }};
+      --header-footer-bg-dark: {{ \App\Models\Setting::get('header_footer_color_dark', '#111827') }};
+    }
+  </style>
 </head>
 
 <body class="font-sans antialiased">

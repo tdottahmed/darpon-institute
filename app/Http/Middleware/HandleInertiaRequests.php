@@ -68,12 +68,14 @@ class HandleInertiaRequests extends Middleware
                             'social_twitter' => \App\Models\Setting::get('social_twitter'),
                             'social_youtube' => \App\Models\Setting::get('social_youtube'),
                             'rss_feed_url' => \App\Models\Setting::get('rss_feed_url'),
-                            'logo_light' => \App\Models\Setting::get('logo_light') 
+                            'logo_light' => \App\Models\Setting::get('logo_light')
                                 ? \Illuminate\Support\Facades\Storage::url(\App\Models\Setting::get('logo_light'))
                                 : '/darponbdv.png',
                             'logo_dark' => \App\Models\Setting::get('logo_dark')
                                 ? \Illuminate\Support\Facades\Storage::url(\App\Models\Setting::get('logo_dark'))
                                 : null,
+                            'header_footer_color_light' => \App\Models\Setting::get('header_footer_color_light', '#ffffff'),
+                            'header_footer_color_dark' => \App\Models\Setting::get('header_footer_color_dark', '#111827'),
                         ];
                     }
                 } catch (\Exception $e) {
@@ -87,6 +89,8 @@ class HandleInertiaRequests extends Middleware
                     'rss_feed_url' => null,
                     'logo_light' => '/darponbdv.png',
                     'logo_dark' => null,
+                    'header_footer_color_light' => '#ffffff',
+                    'header_footer_color_dark' => '#111827',
                 ];
             },
         ];
