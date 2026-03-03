@@ -50,7 +50,7 @@ export default function HeroSection({ translations }) {
                         </div>
 
                         {/* Stats Badges */}
-                        {/* <div className="pt-10 flex flex-wrap justify-center lg:justify-start gap-10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                        <div className="pt-10 flex flex-wrap justify-center lg:justify-start gap-10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                             {(content.stat_1_value || content.stat_1_label) && (
                                 <div className="flex flex-col">
                                     <span className="text-3xl font-black text-gray-900 dark:text-white">{content.stat_1_value || "10K+"}</span>
@@ -71,7 +71,7 @@ export default function HeroSection({ translations }) {
                                     <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{content.stat_3_label || "User Rating"}</span>
                                 </div>
                             )}
-                        </div> */}
+                        </div>
                     </div>
 
                     {/* Right Column: High Quality Image */}
@@ -124,11 +124,11 @@ export default function HeroSection({ translations }) {
             </div>
 
             {/* Scroll Indicator */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden xl:block animate-bounce">
+            {/* <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden xl:block animate-bounce">
                 <div className="w-7 h-11 border-2 border-gray-200 dark:border-gray-800 rounded-full flex justify-center p-1.5 backdrop-blur-sm bg-white/10 dark:bg-black/10">
                     <div className="w-1.5 h-2.5 bg-primary-600 dark:bg-primary-400 rounded-full"></div>
                 </div>
-            </div>
+            </div> */}
         </section>
     );
 }

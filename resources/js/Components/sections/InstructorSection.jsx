@@ -52,7 +52,7 @@ export default function InstructorSection() {
                         </div>
 
                         {/* Experience */}
-                        {experience && (
+                            {experience && (
                             <div className="flex items-center gap-4 p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm border border-gray-200 dark:border-gray-600">
                                 <div className="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
                                     <svg
@@ -89,15 +89,15 @@ export default function InstructorSection() {
                             
                             {/* Image Container */}
                             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                                <img
+                            <img
                                     src={
                                         content.image ||
                                         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"
                                     }
-                                    alt={content.name || "Instructor"}
+                                alt={content.name || "Instructor"}
                                     className="w-full h-auto object-cover aspect-[3/4]"
-                                    loading="lazy"
-                                />
+                                loading="lazy"
+                            />
                                
                             </div>
                         </div>
