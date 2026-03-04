@@ -10,7 +10,7 @@ export default function BlogSection({ videoBlogs }) {
     if (!videoBlogs || videoBlogs.length === 0) return null;
 
     return (
-        <section className="py-20 sm:py-28 bg-white dark:bg-gray-900">
+        <section className="py-20 sm:py-20 bg-white dark:bg-gray-800/50">
             <Container>
                 {/* Section Header */}
                 <SectionHeader

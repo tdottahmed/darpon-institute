@@ -49,6 +49,8 @@ class SettingController extends Controller
             'sitemap_url' => Setting::get('sitemap_url'),
             'rss_feed_url' => Setting::get('rss_feed_url'),
             'google_analytics_id' => Setting::get('google_analytics_id'),
+            'header_footer_color_light' => Setting::get('header_footer_color_light', '#ffffff'),
+            'header_footer_color_dark' => Setting::get('header_footer_color_dark', '#111827'),
         ];
 
         return view('admin.settings.index', compact('settings'));
@@ -96,6 +98,8 @@ class SettingController extends Controller
             'sitemap_url' => 'nullable|url|max:255',
             'rss_feed_url' => 'nullable|url|max:255',
             'google_analytics_id' => 'nullable|string|max:255',
+            'header_footer_color_light' => ['nullable', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
+            'header_footer_color_dark' => ['nullable', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
         ]);
 
         // Handle logo uploads - Process both logos independently

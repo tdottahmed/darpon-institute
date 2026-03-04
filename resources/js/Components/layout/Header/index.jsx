@@ -9,6 +9,7 @@ import UserMenu from "./UserMenu";
 import AuthButtons from "./AuthButtons";
 import MobileMenuButton from "./MobileMenuButton";
 import MobileMenu from "./MobileMenu";
+import Search from "./Search";
 
 export default function Header() {
     const { auth, translations, frontend_content } = usePage().props;
@@ -137,7 +138,7 @@ export default function Header() {
     }));
 
     return (
-        <header className="sticky top-0 left-0 right-0 z-50 bg-[#F47F16] backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm">
+        <header className="sticky top-0 left-0 right-0 z-50 bg-[var(--header-footer-bg-light)] dark:bg-[var(--header-footer-bg-dark)] backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors duration-300">
             <ToastListener />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
@@ -149,6 +150,7 @@ export default function Header() {
 
                     {/* Right Side Actions */}
                     <div className="hidden lg:flex items-center space-x-3">
+                        <Search />
                         <LanguageSwitcher />
                         <DarkModeToggle />
                         {auth?.user ? (
@@ -158,11 +160,14 @@ export default function Header() {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
-                    <MobileMenuButton
-                        isOpen={mobileMenuOpen}
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    />
+                    {/* Mobile Actions */}
+                    <div className="flex items-center lg:hidden space-x-1">
+                        <Search />
+                        <MobileMenuButton
+                            isOpen={mobileMenuOpen}
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        />
+                    </div>
                 </div>
 
                 {/* Mobile Menu */}

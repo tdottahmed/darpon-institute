@@ -14,7 +14,7 @@ export default function BookSection({ books }) {
     if (!books || books.length === 0) return null;
 
     return (
-        <section className="py-20 sm:py-28 bg-gray-50 dark:bg-gray-800/50">
+        <section className="py-20 sm:py-20 bg-gray-50 dark:bg-gray-800/50">
             <Container>
                 {/* Section Header */}
                 <SectionHeader

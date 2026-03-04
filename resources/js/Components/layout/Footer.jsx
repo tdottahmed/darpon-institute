@@ -85,18 +85,25 @@ export default function Footer() {
     ].filter((link) => link.href !== "#"); // Only show links that have been configured
 
     return (
-        <footer className="bg-[#F47F16] border-t border-gray-900/10 transition-colors duration-300">
+        <footer className="bg-[var(--header-footer-bg-light)] dark:bg-[var(--header-footer-bg-dark)] border-t border-gray-900/10 transition-colors duration-300">
             <Container>
                 <div className="pt-16 pb-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
                     {/* Brand Column */}
                     <div className="lg:col-span-4 space-y-4">
                         <Link href="/" className="inline-block">
-                             {/* Always show light logo (dark text) for orange background */}
+                            {/* Show light logo for light mode, dark logo for dark mode */}
                             <img
                                 src={settings?.logo_light || "/darponbdv.png"}
                                 alt="Darpon Logo"
-                                className="h-16 w-auto"
+                                className={`h-16 w-auto ${settings?.logo_dark ? 'dark:hidden' : ''}`}
                             />
+                            {settings?.logo_dark && (
+                                <img
+                                    src={settings.logo_dark}
+                                    alt="Darpon Logo"
+                                    className="h-16 w-auto hidden dark:block"
+                                />
+                            )}
                         </Link>
                         <p className="text-gray-900 text-sm leading-relaxed max-w-sm">
                             {content.description ||

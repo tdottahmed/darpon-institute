@@ -11,22 +11,30 @@ export default function Logo() {
             href={route("home")}
             className="flex items-center space-x-3 group"
         >
-                {/* Logo - Use Default/Light logo which typically has dark text */}
+            {/* Light Logo */}
+            <img
+                src={lightLogo}
+                alt="Darpon Logo"
+                className={`h-12 w-auto transition-transform duration-300 group-hover:scale-105 ${darkLogo ? 'dark:hidden' : ''}`}
+                onError={(e) => {
+                    e.target.style.display = "none";
+                }}
+            />
+            {/* Dark Logo */}
+            {darkLogo && (
                 <img
-                    src={lightLogo}
+                    src={darkLogo}
                     alt="Darpon Logo"
-                    className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
+                    className="h-12 w-auto hidden dark:block transition-transform duration-300 group-hover:scale-105"
                     onError={(e) => {
                         e.target.style.display = "none";
-                        if (e.target.nextElementSibling) {
-                            e.target.nextElementSibling.style.display = "flex";
-                        }
                     }}
                 />
-                {/* Fallback Logo */}
-                <div className="h-12 w-12 hidden items-center justify-center">
-                    <ApplicationLogo variant="icon" />
-                </div>
+            )}
+            {/* Fallback Logo */}
+            <div className="h-12 w-12 hidden items-center justify-center">
+                <ApplicationLogo variant="icon" />
+            </div>
         </Link>
     );
 }
