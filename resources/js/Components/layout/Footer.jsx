@@ -81,9 +81,9 @@ export default function Footer() {
         <footer className="relative overflow-hidden bg-[var(--header-footer-bg-light)] dark:bg-[var(--header-footer-bg-dark)] border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
             <Container className="relative z-10">
                 {/* 3 columns */}
-                <div className="pt-16 pb-12 grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+                <div className="pt-16 pb-12 grid grid-cols-2 md:grid-cols-3 gap-12 lg:gap-16 text-center md:text-left">
                     {/* Column 1: Brand */}
-                    <div className="space-y-5">
+                    <div className="col-span-2 md:col-span-1 space-y-5 flex flex-col items-center md:items-start">
                         <Link href="/" className="inline-block">
                             <img
                                 src={settings?.logo_light || "/darponbdv.png"}
@@ -133,10 +133,10 @@ export default function Footer() {
 
                     {/* Column 2: Explore */}
                     <div>
-                        <h3 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6 text-center">
+                        <h3 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6 md:text-left text-center">
                             {content.col_1_title || "Explore"}
                         </h3>
-                        <ul className="space-y-3.5 text-center">
+                        <ul className="space-y-3.5 md:text-left text-center">
                             {exploreLinks.map((link) => (
                                 <li key={link.name}>
                                     <Link
@@ -152,10 +152,10 @@ export default function Footer() {
 
                     {/* Column 3: Support / Legal */}
                     <div>
-                        <h3 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6 text-center">
+                        <h3 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6 md:text-left text-center">
                             {content.col_3_title || "Support"}
                         </h3>
-                        <ul className="space-y-3.5 text-center">
+                        <ul className="space-y-3.5 md:text-left text-center">
                             {supportLinks.map((link) => (
                                 <li key={link.name}>
                                     <Link
