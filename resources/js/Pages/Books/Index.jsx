@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import BookCard from "@/Components/cards/BookCard";
+import PageBackground from "@/Components/ui/PageBackground";
 
 export default function Index({ books, filters, trans }) {
     const [search, setSearch] = useState(filters.search || "");
@@ -25,10 +26,10 @@ export default function Index({ books, filters, trans }) {
     return (
         <>
             <Head title="Library - English Learning Platform" />
-            <div className="min-h-screen bg-white dark:bg-gray-900">
+            <div className="relative min-h-screen bg-white dark:bg-gray-900 overflow-hidden">
+                <PageBackground variant="alt" />
                 <Header />
-                
-                <main className="py-20">
+                <main className="relative z-10 py-20">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         {/* Header & Filter */}
                         <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
