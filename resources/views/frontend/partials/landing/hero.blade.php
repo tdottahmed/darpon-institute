@@ -43,13 +43,13 @@
             </div>
         @endif
 
-        <div style="text-align: center; margin-top: 40px;">
+        <div style="text-align: center; margin-top: 20px;">
             <x-cta-button :landingPage="$landingPage" />
         </div>
 
         <!-- Book Preview Slider -->
         @if (count($previewImages) > 0)
-            <div style="margin-top: 40px; width: 100%; max-width: 1200px;">
+            <div style="margin-top: 20px; width: 100%; max-width: 1200px;">
                 <div class="preview-slider-container" style="position: relative;">
                     <!-- Slider Wrapper -->
                     <div class="preview-slider" id="previewSlider"
