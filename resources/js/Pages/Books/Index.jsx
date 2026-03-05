@@ -4,6 +4,8 @@ import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import BookCard from "@/Components/cards/BookCard";
 import PageBackground from "@/Components/ui/PageBackground";
+import SectionBackground from "@/Components/ui/SectionBackground";
+import Container from "@/Components/ui/Container";
 
 export default function Index({ books, filters, trans }) {
     const [search, setSearch] = useState(filters.search || "");
@@ -15,7 +17,7 @@ export default function Index({ books, filters, trans }) {
                 router.get(
                     route("books.index"),
                     { search: search, tag: filters.tag },
-                    { preserveState: true, replace: true }
+                    { preserveState: true, replace: true },
                 );
             }
         }, 300);
@@ -27,10 +29,24 @@ export default function Index({ books, filters, trans }) {
         <>
             <Head title="Library - English Learning Platform" />
             <div className="relative min-h-screen bg-white dark:bg-gray-900 overflow-hidden">
-                <PageBackground variant="alt" />
                 <Header />
-                <main className="relative z-10 py-20">
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <main className="relative z-10 pb-20">
+                    {/* Hero Section (matches home section background) */}
+                    <section className="relative overflow-hidden py-12 sm:py-8 lg:py-12">
+                        <SectionBackground variant="a" />
+                        <Container className="relative z-10">
+                            <div className="mx-auto max-w-2xl text-center">
+                                <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
+                                    Books
+                                </h1>
+                                <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                                    Explore our comprehensive collection of
+                                    English learning books
+                                </p>
+                            </div>
+                        </Container>
+                    </section>
+                    <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
                         {/* Header & Filter */}
                         <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
                             <div>
@@ -41,7 +57,7 @@ export default function Index({ books, filters, trans }) {
                                     {trans.subtitle}
                                 </p>
                             </div>
-                            
+
                             <div className="w-full md:w-72">
                                 <label htmlFor="search" className="sr-only">
                                     {trans.search_label}
@@ -66,7 +82,9 @@ export default function Index({ books, filters, trans }) {
                                         name="search"
                                         id="search"
                                         value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
+                                        onChange={(e) =>
+                                            setSearch(e.target.value)
+                                        }
                                         className="block w-full rounded-full border-0 py-2.5 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 dark:bg-gray-800 dark:ring-gray-700 dark:text-white sm:text-sm sm:leading-6"
                                         placeholder={trans.search_placeholder}
                                     />
@@ -118,11 +136,15 @@ export default function Index({ books, filters, trans }) {
                         {/* Pagination */}
                         {books.links && books.links.length > 3 && (
                             <div className="mt-16 flex justify-center">
-                                <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                                <nav
+                                    className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+                                    aria-label="Pagination"
+                                >
                                     {books.links.map((link, i) => {
                                         const isFirst = i === 0;
-                                        const isLast = i === books.links.length - 1;
-                                        const roundedClasses = `${isFirst ? 'rounded-l-md' : ''} ${isLast ? 'rounded-r-md' : ''}`;
+                                        const isLast =
+                                            i === books.links.length - 1;
+                                        const roundedClasses = `${isFirst ? "rounded-l-md" : ""} ${isLast ? "rounded-r-md" : ""}`;
                                         const commonClasses = `relative inline-flex items-center px-4 py-2 text-sm font-semibold ${roundedClasses}`;
 
                                         if (!link.url) {
@@ -130,7 +152,9 @@ export default function Index({ books, filters, trans }) {
                                                 <span
                                                     key={i}
                                                     className={`${commonClasses} text-gray-400 ring-1 ring-inset ring-gray-300 cursor-not-allowed dark:text-gray-600 dark:ring-gray-700`}
-                                                    dangerouslySetInnerHTML={{ __html: link.label }}
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: link.label,
+                                                    }}
                                                 />
                                             );
                                         }
@@ -143,10 +167,12 @@ export default function Index({ books, filters, trans }) {
                                                 preserveState
                                                 className={`${commonClasses} ${
                                                     link.active
-                                                        ? 'z-10 bg-primary-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
-                                                        : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:text-gray-200 dark:ring-gray-700 dark:hover:bg-gray-800'
+                                                        ? "z-10 bg-primary-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
+                                                        : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:text-gray-200 dark:ring-gray-700 dark:hover:bg-gray-800"
                                                 }`}
-                                                dangerouslySetInnerHTML={{ __html: link.label }}
+                                                dangerouslySetInnerHTML={{
+                                                    __html: link.label,
+                                                }}
                                             />
                                         );
                                     })}
@@ -155,7 +181,7 @@ export default function Index({ books, filters, trans }) {
                         )}
                     </div>
                 </main>
-                
+
                 <Footer />
             </div>
         </>

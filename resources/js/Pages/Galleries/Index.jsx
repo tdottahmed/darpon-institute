@@ -4,6 +4,7 @@ import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
 import SectionHeader from "@/Components/ui/SectionHeader";
 import { useState, useEffect } from "react";
+import SectionBackground from "@/Components/ui/SectionBackground";
 
 export default function GalleryIndex({ galleries }) {
     const { frontend_content } = usePage().props;
@@ -57,16 +58,16 @@ export default function GalleryIndex({ galleries }) {
             <div className="min-h-screen bg-white dark:bg-gray-900">
                 <Header />
                 <main>
-                    {/* Hero Section */}
-                    <section className="bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-gray-800 dark:to-gray-900 py-16 sm:py-20">
-                        <Container>
-                            <div className="text-center max-w-3xl mx-auto">
-                                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-                                    {content.page_title || "Image Gallery"}
+                    {/* Hero Section (matches home section background) */}
+                    <section className="relative overflow-hidden py-12 sm:py-8 lg:py-12">
+                        <SectionBackground variant="a" />
+                        <Container className="relative z-10">
+                            <div className="mx-auto max-w-2xl text-center">
+                                <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
+                                    {content.page_title || "Gallery"}
                                 </h1>
-                                <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300">
-                                    {content.page_subtitle ||
-                                        "Explore our collection of images from classes, events, and memorable moments"}
+                                <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                                    {content.page_subtitle || "Explore our gallery of images"}
                                 </p>
                             </div>
                         </Container>

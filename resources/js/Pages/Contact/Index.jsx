@@ -4,6 +4,7 @@ import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
 import Button from "@/Components/ui/Button";
 import { useState } from "react";
+import SectionBackground from "@/Components/ui/SectionBackground";
 
 export default function ContactIndex() {
     const { frontend_content } = usePage().props;
@@ -25,26 +26,25 @@ export default function ContactIndex() {
     return (
         <>
             <Head title="Contact Us - English Learning Platform" />
+            <Header />
             <div className="min-h-screen bg-white dark:bg-gray-900">
-                <Header />
                 <main>
-                    {/* Hero Section */}
-                    <section className="bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-gray-800 dark:to-gray-900 py-16 sm:py-20">
-                        <Container>
-                            <div className="text-center max-w-3xl mx-auto">
-                                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+                    {/* Hero Section (matches home section background) */}
+                    <section className="relative overflow-hidden py-12 sm:py-8 lg:py-12">
+                        <SectionBackground variant="a" />
+                        <Container className="relative z-10">
+                            <div className="mx-auto max-w-2xl text-center">
+                                <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
                                     {content.page_title || "Contact Us"}
                                 </h1>
-                                <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300">
-                                    {content.page_subtitle ||
-                                        "Get in touch with us. We'd love to hear from you!"}
+                                <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                                    {content.page_subtitle || "Get in touch with us. We'd love to hear from you!"}
                                 </p>
                             </div>
                         </Container>
                     </section>
-
                     {/* Contact Section */}
-                    <section className="py-16 sm:py-24">
+                    <section className="py-12 sm:py-8 lg:py-12">
                         <Container>
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
                                 {/* Contact Information */}
@@ -188,7 +188,7 @@ export default function ContactIndex() {
                                                     onChange={(e) =>
                                                         setData(
                                                             "name",
-                                                            e.target.value
+                                                            e.target.value,
                                                         )
                                                     }
                                                     className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -215,7 +215,7 @@ export default function ContactIndex() {
                                                     onChange={(e) =>
                                                         setData(
                                                             "email",
-                                                            e.target.value
+                                                            e.target.value,
                                                         )
                                                     }
                                                     className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -243,7 +243,7 @@ export default function ContactIndex() {
                                                 onChange={(e) =>
                                                     setData(
                                                         "phone",
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                                 className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -269,7 +269,7 @@ export default function ContactIndex() {
                                                 onChange={(e) =>
                                                     setData(
                                                         "subject",
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                                 className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -296,7 +296,7 @@ export default function ContactIndex() {
                                                 onChange={(e) =>
                                                     setData(
                                                         "message",
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                                 className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"

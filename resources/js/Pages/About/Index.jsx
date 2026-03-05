@@ -13,7 +13,7 @@ export default function AboutIndex({ content }) {
                 <Header />
                 <main>
                     {/* Hero Section (matches home section background) */}
-                    <section className="relative overflow-hidden py-20 sm:py-28 lg:py-32">
+                    <section className="relative overflow-hidden py-12 sm:py-8 lg:py-12">
                         <SectionBackground variant="a" />
                         <Container className="relative z-10">
                             <div className="mx-auto max-w-2xl text-center">
