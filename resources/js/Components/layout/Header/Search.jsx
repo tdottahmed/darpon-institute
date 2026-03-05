@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "@inertiajs/react";
 import { Search as SearchIcon, X, Loader2, ArrowLeft } from "lucide-react";
 import { useDebounce } from "../../../Utils/useDebounce";
+import { createPortal } from "react-dom";
 
 export default function Search({ mobile = false, onClose }) {
     const [query, setQuery] = useState("");
@@ -9,9 +10,14 @@ export default function Search({ mobile = false, onClose }) {
     const [loading, setLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [showMobileOverlay, setShowMobileOverlay] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const searchRef = useRef(null);
     const mobileInputRef = useRef(null);
     const debouncedQuery = useDebounce(query, 300);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleSearch = async (q) => {
         if (!q.trim()) {
@@ -78,7 +84,7 @@ export default function Search({ mobile = false, onClose }) {
     // If passed 'mobile' as true, it's intended to be embedded in the mobile menu
     if (mobile) {
         return (
-            <div className="w-full px-1 py-1">
+            <div className="w-full px-1 py-1" ref={searchRef}>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         {loading ? (
@@ -96,44 +102,61 @@ export default function Search({ mobile = false, onClose }) {
                     />
                 </div>
 
-                {/* Inline Mobile Results */}
-                {results.length > 0 && (
-                    <div className="mt-3 space-y-1 max-h-[50vh] overflow-y-auto custom-scrollbar">
-                        {results.map((result) => (
-                            <Link
-                                key={`${result.type}-${result.id}`}
-                                href={result.url}
-                                onClick={handleResultClick}
-                                className="flex items-center p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors bg-white/50 dark:bg-white/5"
-                            >
-                                <div className="h-10 w-10 flex-shrink-0 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden shadow-sm">
-                                    {result.image ? (
-                                        <img src={`/storage/${result.image}`} alt={result.title} className="h-full w-full object-cover" />
-                                    ) : (
-                                        <div className="h-full w-full flex items-center justify-center text-gray-400 text-xs">
-                                            {result.type[0].toUpperCase()}
-                                        </div>
-                                    )}
+                {/* Mobile menu results: fixed overlay so they stay above header/banner */}
+                {mounted && results.length > 0 && createPortal(
+                    <div className="fixed inset-0 z-[200]">
+                        <div
+                            className="absolute inset-0 bg-black/20 dark:bg-black/40"
+                            aria-hidden="true"
+                            onClick={() => setResults([])}
+                        />
+                        <div className="absolute left-0 right-0 top-16 bottom-0 z-[201] bg-white dark:bg-gray-950 overflow-hidden flex flex-col">
+                            <div className="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 shrink-0">
+                                <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    {results.length} result{results.length !== 1 ? "s" : ""}
+                                </span>
+                            </div>
+                            <div className="flex-1 overflow-y-auto overscroll-contain p-3 pb-[env(safe-area-inset-bottom)] custom-scrollbar">
+                                <div className="space-y-2">
+                                    {results.map((result) => (
+                                        <Link
+                                            key={`${result.type}-${result.id}`}
+                                            href={result.url}
+                                            onClick={handleResultClick}
+                                            className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/80 hover:bg-gray-100 dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-colors active:scale-[0.99]"
+                                        >
+                                            <div className="h-12 w-12 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-sm">
+                                                {result.image ? (
+                                                    <img src={`/storage/${result.image}`} alt={result.title} className="h-full w-full object-cover" />
+                                                ) : (
+                                                    <div className="h-full w-full flex items-center justify-center text-gray-400 text-sm font-bold">
+                                                        {result.type[0].toUpperCase()}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+                                                    {result.title}
+                                                </p>
+                                                <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                                    <span className={`text-[10px] px-2 py-0.5 rounded-md font-bold uppercase tracking-wider ${result.type === "course"
+                                                        ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
+                                                        : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                                                        }`}>
+                                                        {result.type}
+                                                    </span>
+                                                    <span className="text-sm font-bold text-primary-600 dark:text-primary-400">
+                                                        ৳{result.discount_price || result.price}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))}
                                 </div>
-                                <div className="ml-3 flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                                        {result.title}
-                                    </p>
-                                    <div className="flex items-center gap-2 mt-0.5">
-                                        <span className={`text-[9px] px-1.5 py-0 rounded-md font-bold uppercase tracking-wider ${result.type === 'course'
-                                            ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'
-                                            : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300'
-                                            }`}>
-                                            {result.type}
-                                        </span>
-                                        <span className="text-xs font-bold text-primary-600 dark:text-primary-400">
-                                            ৳{result.discount_price || result.price}
-                                        </span>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
+                            </div>
+                        </div>
+                    </div>,
+                    document.body
                 )}
             </div>
         );
@@ -186,8 +209,8 @@ export default function Search({ mobile = false, onClose }) {
             </button>
 
             {/* Mobile Search Overlay */}
-            {showMobileOverlay && (
-                <div className="fixed inset-0 z-[100] bg-white dark:bg-gray-950 flex flex-col animate-in fade-in slide-in-from-bottom-5 duration-300">
+            {mounted && showMobileOverlay && createPortal(
+                <div className="fixed inset-0 z-[150] bg-white dark:bg-gray-950 flex flex-col animate-in fade-in slide-in-from-bottom-5 duration-300">
                     <div className="flex items-center p-4 border-b border-gray-100 dark:border-gray-900 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md sticky top-0">
                         <button
                             onClick={() => setShowMobileOverlay(false)}
@@ -266,7 +289,8 @@ export default function Search({ mobile = false, onClose }) {
                             </div>
                         ) : null}
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* Desktop Dropdown Search Results */}

@@ -1,139 +1,191 @@
 import { usePage, Link } from "@inertiajs/react";
+import { useEffect, useRef, useState } from "react";
+import { useCountUp } from "@/hooks/useCountUp";
+
+function StatItem({ value, label, fallbackLabel, isVisible }) {
+    const displayValue = useCountUp(value, isVisible, 1800);
+    if (!value && !label) return null;
+    return (
+        <div className="text-center">
+            <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white tabular-nums">
+                {displayValue}
+            </div>
+            <div className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-1">
+                {label || fallbackLabel}
+            </div>
+        </div>
+    );
+}
 
 export default function HeroSection({ translations }) {
     const { frontend_content } = usePage().props;
     const content = frontend_content?.hero || {};
+    const sectionRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    const heroImage =
+        content.bg_image ||
+        content.hero_image ||
+        "https://res.cloudinary.com/dztksqwip/image/upload/v1727787355/student-reading-book-PNG_vsw91r.png";
+
+    const hasStats =
+        content.stat_1_value ||
+        content.stat_2_value ||
+        content.stat_3_value ||
+        content.stat_4_value;
+
+    useEffect(() => {
+        const el = sectionRef.current;
+        if (!el) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                }
+            },
+            { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+        );
+
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
 
     return (
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#f8fdf2] via-[#fbf7f0] to-[#f0f6fc] dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 min-h-[85vh] flex items-center py-16 md:py-24">
-            
-            {/* Top Left Red Crosses */}
-            <div className="absolute top-24 left-10 md:left-24 grid grid-cols-2 gap-3 opacity-60 dark:opacity-40">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-400 dark:text-red-500">
-                    <path d="M12 2V22M2 12H22" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/>
-                </svg>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-400 dark:text-red-500">
-                    <path d="M12 2V22M2 12H22" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/>
-                </svg>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-400 dark:text-red-500">
-                    <path d="M12 2V22M2 12H22" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/>
-                </svg>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-400 dark:text-red-500">
-                    <path d="M12 2V22M2 12H22" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/>
-                </svg>
+        <section
+            ref={sectionRef}
+            className={`relative z-10 min-h-[70vh] flex flex-col overflow-visible ${isVisible ? "hero-visible" : ""}`}
+        >
+            {/* Background image */}
+            <div className="absolute inset-0">
+                <img
+                    src={heroImage}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.4s] ease-out"
+                    style={{
+                        transform: isVisible ? "scale(1.03)" : "scale(1.12)",
+                    }}
+                />
+                {/* Dark overlay for readability (works in light & dark mode) */}
+                <div
+                    className="absolute inset-0 bg-black/45 dark:bg-black/60"
+                    aria-hidden="true"
+                />
+                {/* Gradient to keep content area brighter */}
+                <div
+                    className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30 dark:to-black/50"
+                    aria-hidden="true"
+                />
             </div>
 
-            {/* Right Middle Green Dots */}
-            <div className="absolute right-10 top-[40%] hidden lg:grid grid-cols-3 gap-2 opacity-60 dark:opacity-40">
-                {[...Array(15)].map((_, i) => (
-                    <div key={i} className="w-1.5 h-1.5 rounded-full bg-green-500 dark:bg-green-600"></div>
-                ))}
-            </div>
+            {/* Main content - centered */}
+            <div className="relative z-10 flex-1 flex items-center py-16 md:py-20">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-16 max-w-4xl w-full text-center">
+                    <h1 className="hero-item hero-item-1 text-[2.25rem] sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-bold text-white leading-[1.15] tracking-tight drop-shadow-sm">
+                        <span className="whitespace-pre-line block">
+                            {content.title_line_1 ||
+                                "Best Online Platform\nto Learn Everything"}
+                        </span>
+                        {content.title_line_2 && (
+                            <span className="inline-block mt-3 bg-[#FFC510] dark:bg-yellow-500 text-gray-900 px-4 py-1.5 rounded-xl font-bold">
+                                {content.title_line_2}
+                            </span>
+                        )}
+                    </h1>
+                    <p className="hero-item hero-item-2 mt-5 text-base sm:text-lg text-gray-200 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                        {content.description ||
+                            "Discover interactive courses, track progress in real-time, and unlock certifications. Our AI-powered platform adapts to your learning style for maximum knowledge retention."}
+                    </p>
 
-            <div className="container mx-auto px-4 sm:px-6 lg:px-16 relative z-10 w-full max-w-7xl mt-4">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-
-                    {/* Left Column: Content */}
-                    <div className="space-y-6 text-center lg:text-left z-10 pt-8 lg:pt-0">
-                        <h1 className="text-[2.5rem] sm:text-5xl md:text-6xl lg:text-[4.2rem] font-bold text-[#0a1e14] dark:text-white leading-[1.1] tracking-tight whitespace-pre-line">
-                            {content.title_line_1 || "Best Online Platform\nto Learn Everything"}
-                            {content.title_line_2 && (
-                                <span className="inline-block bg-[#FFC510] dark:bg-yellow-500 text-[#0a1e14] dark:text-gray-900 px-4 py-1 pb-1.5 rounded-xl mt-3 ml-0 lg:ml-2">
-                                    {content.title_line_2}
-                                </span>
-                            )}
-                        </h1>
-                        <p className="text-[15px] sm:text-[17px] text-gray-500 dark:text-gray-400 max-w-[500px] mx-auto lg:mx-0 leading-relaxed pt-3">
-                            {content.description || "Discover interactive courses, track progress in real-time, and unlock certifications. Our AI-powered platform adapts to your learning style for maximum knowledge retention."}
-                        </p>
-
-                        <div className="pt-2 pb-6 flex flex-col sm:flex-row justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-                            <Link
-                                href={content.button_1_link || "/courses"}
-                                className="group flex items-center justify-between sm:justify-start space-x-3 bg-[#5A45FF] hover:bg-[#4a34e0] dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white rounded-full pr-1.5 pl-7 py-1.5 transition-all duration-300 shadow-[0_8px_20px_rgba(90,69,255,0.25)] dark:shadow-none"
-                            >
-                                <span className="font-semibold text-sm sm:text-[15px] py-2.5">{content.button_1_text || "Find Courses"}</span>
-                                <div className="bg-white dark:bg-gray-800 rounded-full p-2 flex items-center justify-center group-hover:bg-gray-100 dark:group-hover:bg-gray-700 transition-colors">
-                                    <svg className="w-4 h-4 text-[#5A45FF] dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 12h14M12 5l7 7-7 7" />
-                                    </svg>
-                                </div>
-                            </Link>
-
-                            <Link
-                                href={content.button_2_link || "/books"}
-                                className="group flex items-center justify-between sm:justify-start space-x-3 bg-[#FFC510] hover:bg-[#eab308] dark:bg-yellow-500 dark:hover:bg-yellow-600 text-[#0a1e14] dark:text-gray-900 rounded-full pr-1.5 pl-7 py-1.5 transition-all duration-300 shadow-[0_8px_20px_rgba(255,197,16,0.25)] dark:shadow-none"
-                            >
-                                <span className="font-semibold text-sm sm:text-[15px] py-2.5">{content.button_2_text || "Find Books"}</span>
-                                <div className="bg-white dark:bg-gray-800 rounded-full p-2 flex items-center justify-center group-hover:bg-gray-100 dark:group-hover:bg-gray-700 transition-colors">
-                                    <svg className="w-4 h-4 text-[#0a1e14] dark:text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 12h14M12 5l7 7-7 7" />
-                                    </svg>
-                                </div>
-                            </Link>
-                        </div>
-
-                        {/* Stats Badges */}
-                        <div className="pt-6 flex flex-wrap justify-center lg:justify-start gap-8 lg:gap-12 border-t border-gray-200 dark:border-gray-800">
-                            {(content.stat_1_value || content.stat_1_label) && (
-                                <div className="flex flex-col mt-4">
-                                    <span className="text-2xl font-black text-gray-900 dark:text-white">{content.stat_1_value}</span>
-                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{content.stat_1_label}</span>
-                                </div>
-                            )}
-                            {(content.stat_2_value || content.stat_2_label) && (
-                                <div className="flex flex-col mt-4">
-                                    <span className="text-2xl font-black text-gray-900 dark:text-white">{content.stat_2_value}</span>
-                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{content.stat_2_label }</span>
-                                </div>
-                            )}
-                            {(content.stat_3_value || content.stat_3_label) && (
-                                <div className="flex flex-col mt-4">
-                                    <span className="text-2xl font-black text-gray-900 dark:text-white">{content.stat_3_value}</span>
-                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{content.stat_3_label || "Ratings"}</span>
-                                </div>
-                            )}
-                            {(content.stat_4_value || content.stat_4_label) && (
-                                <div className="flex flex-col mt-4">
-                                    <span className="text-2xl font-black text-gray-900 dark:text-white">{content.stat_4_value}</span>
-                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{content.stat_4_label}</span>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Right Column: Image */}
-                    <div className="relative w-full max-w-[500px] mx-auto mt-12 lg:mt-0 flex justify-center">
-                        {/* Background Container for positioning */}
-                        <div className="relative w-full aspect-square flex items-center justify-center">
-                            
-                            {/* Background Circle */}
-                            <div className="absolute inset-8 bg-white dark:bg-gray-800/50 rounded-full translate-x-4 shadow-[0_20px_50px_rgba(0,0,0,0.06)] dark:shadow-none -z-10"></div>
-                            
-                            {/* Image */}
-                            <img
-                                src={content.bg_image || content.hero_image || "https://res.cloudinary.com/dztksqwip/image/upload/v1727787355/student-reading-book-PNG_vsw91r.png"}
-                                alt="Hero Image"
-                                className="w-[85%] relative z-10 drop-shadow-2xl dark:drop-shadow-[0_25px_25px_rgba(0,0,0,0.6)] object-cover rounded-3xl"
-                                style={{ transform: 'scale(1.1) translateY(-10px)' }}
-                            />
-
-                            {/* Bottom Left Green Dots */}
-                            <div className="absolute bottom-16 -left-6 grid grid-cols-3 gap-2 opacity-60 dark:opacity-40">
-                                {[...Array(15)].map((_, i) => (
-                                    <div key={i} className="w-1.5 h-1.5 rounded-full bg-green-500 dark:bg-green-600"></div>
-                                ))}
-                            </div>
-
-                            {/* Top Right Circle */}
-                            <div className="absolute top-12 -right-4 w-10 h-10 border border-gray-200 dark:border-gray-700/50 rounded-full flex items-center justify-center opacity-80">
-                                <div className="w-1 h-1 bg-blue-500 dark:bg-blue-600 rounded-full"></div>
-                            </div>
-
-                        </div>
+                    <div className="hero-item hero-item-3 flex flex-col sm:flex-row gap-4 justify-center mt-8">
+                        <Link
+                            href={content.button_1_link || "/courses"}
+                            className="group inline-flex items-center justify-center gap-3 bg-[#5A45FF] hover:bg-[#4a34e0] dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white rounded-full pl-6 pr-2 py-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02]"
+                        >
+                            <span className="font-semibold text-sm sm:text-base">
+                                {content.button_1_text || "Find Courses"}
+                            </span>
+                            <span className="bg-white/20 rounded-full p-2 group-hover:bg-white/30 transition-colors">
+                                <svg
+                                    className="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2.5"
+                                        d="M5 12h14M12 5l7 7-7 7"
+                                    />
+                                </svg>
+                            </span>
+                        </Link>
+                        <Link
+                            href={content.button_2_link || "/books"}
+                            className="group inline-flex items-center justify-center gap-3 bg-[#FFC510] hover:bg-[#eab308] dark:bg-yellow-500 dark:hover:bg-yellow-600 text-gray-900 rounded-full pl-6 pr-2 py-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02]"
+                        >
+                            <span className="font-semibold text-sm sm:text-base">
+                                {content.button_2_text || "Find Books"}
+                            </span>
+                            <span className="bg-gray-900/10 rounded-full p-2 group-hover:bg-gray-900/20 transition-colors">
+                                <svg
+                                    className="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2.5"
+                                        d="M5 12h14M12 5l7 7-7 7"
+                                    />
+                                </svg>
+                            </span>
+                        </Link>
                     </div>
                 </div>
             </div>
+
+            {/* Stats bar - full width, overlaps next section */}
+            {hasStats && (
+                <div className="relative z-20 hero-stats-bar -mb-16 md:-mb-20">
+                    <div className="w-full px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 py-6 lg:py-8 px-6 lg:px-12 rounded-2xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-x border-gray-200/80 dark:border-gray-700/80 shadow-[0_-8px_40px_rgba(0,0,0,0.1)] dark:shadow-none">
+                            {(content.stat_1_value || content.stat_1_label) && (
+                                <StatItem
+                                    value={content.stat_1_value}
+                                    label={content.stat_1_label}
+                                    isVisible={isVisible}
+                                />
+                            )}
+                            {(content.stat_2_value || content.stat_2_label) && (
+                                <StatItem
+                                    value={content.stat_2_value}
+                                    label={content.stat_2_label}
+                                    isVisible={isVisible}
+                                />
+                            )}
+                            {(content.stat_3_value || content.stat_3_label) && (
+                                <StatItem
+                                    value={content.stat_3_value}
+                                    label={content.stat_3_label}
+                                    fallbackLabel="Ratings"
+                                    isVisible={isVisible}
+                                />
+                            )}
+                            {(content.stat_4_value || content.stat_4_label) && (
+                                <StatItem
+                                    value={content.stat_4_value}
+                                    label={content.stat_4_label}
+                                    isVisible={isVisible}
+                                />
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }

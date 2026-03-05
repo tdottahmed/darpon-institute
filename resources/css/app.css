@@ -64,4 +64,51 @@
         animation: fade-in-up 0.8s ease-out forwards;
         opacity: 0;
     }
+
+    /* Hero section entrance animations (triggered when in view) */
+    @keyframes hero-reveal-up {
+        from {
+            opacity: 0;
+            transform: translateY(28px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes hero-stats-up {
+        from {
+            opacity: 0;
+            transform: translateY(24px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .hero-item {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    .hero-visible .hero-item {
+        animation: hero-reveal-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .hero-visible .hero-item-1 { animation-delay: 0.08s; }
+    .hero-visible .hero-item-2 { animation-delay: 0.2s; }
+    .hero-visible .hero-item-3 { animation-delay: 0.32s; }
+    .hero-visible .hero-item-4 { animation-delay: 0.44s; }
+    .hero-visible .hero-item-5 { animation-delay: 0.56s; }
+
+    .hero-stats-bar {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    .hero-visible .hero-stats-bar {
+        animation: hero-stats-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+    }
 }
