@@ -31,7 +31,7 @@ export default function CoursesSection({ courses = [] }) {
     return (
         <section
             ref={sectionRef}
-            className={`relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "courses-visible" : ""}`}
+            className={`relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
         >
             <SectionBackground variant="a" />
             <Container className="relative z-10">

@@ -29,7 +29,7 @@ export default function TeamSection({ teachers = [] }) {
     return (
         <section
             ref={sectionRef}
-            className={`relative overflow-hidden py-16 sm:py-20 lg:py-28 ${isVisible ? "team-visible" : ""}`}
+            className={`relative overflow-hidden py-16 sm:py-20 lg:py-28 ${isVisible ? "section-visible" : ""}`}
         >
             <SectionBackground variant="b" />
 

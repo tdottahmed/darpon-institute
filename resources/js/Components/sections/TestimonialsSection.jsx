@@ -56,7 +56,7 @@ export default function TestimonialsSection({ testimonials }) {
         <section
             id="testimonials"
             ref={sectionRef}
-            className={`relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "testimonials-visible" : ""}`}
+            className={`relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
         >
             <SectionBackground variant="b" />
             <Container className="relative z-10">

@@ -3,89 +3,40 @@
 @tailwind utilities;
 
 @layer utilities {
+    /* Reusable motion keyframes */
     @keyframes float {
-        0%,
-        100% {
-            transform: translateY(0px);
-        }
-        50% {
-            transform: translateY(-20px);
-        }
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
     }
 
     @keyframes blob {
-        0% {
-            transform: translate(0px, 0px) scale(1);
-        }
-        33% {
-            transform: translate(30px, -50px) scale(1.1);
-        }
-        66% {
-            transform: translate(-20px, 20px) scale(0.9);
-        }
-        100% {
-            transform: translate(0px, 0px) scale(1);
-        }
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(30px, -50px) scale(1.1); }
+        66% { transform: translate(-20px, 20px) scale(0.9); }
     }
 
     @keyframes fade-in {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
     @keyframes fade-in-up {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    .animate-float {
-        animation: float 3s ease-in-out infinite;
-    }
-
-    .animate-blob {
-        animation: blob 7s infinite;
-    }
-
-    .animate-fade-in {
-        animation: fade-in 0.6s ease-out;
-    }
-
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    .animate-blob { animation: blob 7s infinite; }
+    .animate-fade-in { animation: fade-in 0.6s ease-out; }
     .animate-fade-in-up {
         animation: fade-in-up 0.8s ease-out forwards;
         opacity: 0;
     }
 
-    /* Hero section entrance animations (triggered when in view) */
-    @keyframes hero-reveal-up {
-        from {
-            opacity: 0;
-            transform: translateY(28px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes hero-stats-up {
-        from {
-            opacity: 0;
-            transform: translateY(24px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* Hero: scroll-triggered reveal */
+    @keyframes hero-reveal {
+        from { opacity: 0; transform: translateY(28px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .hero-item {
@@ -94,7 +45,7 @@
     }
 
     .hero-visible .hero-item {
-        animation: hero-reveal-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        animation: hero-reveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
     .hero-visible .hero-item-1 { animation-delay: 0.08s; }
@@ -109,91 +60,33 @@
     }
 
     .hero-visible .hero-stats-bar {
-        animation: hero-stats-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+        animation: hero-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
     }
 
-    /* Unified section entrance animations - same effect for all sections (text, cards, images) */
+    /* Sections: single scroll-triggered reveal (add .section-visible when in view) */
     @keyframes section-reveal {
-        from {
-            opacity: 0;
-            transform: translateY(22px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(22px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    .section-animate {
-        opacity: 0;
-        transform: translateY(22px);
-    }
-
-    .instructor-visible .section-animate,
-    .team-visible .section-animate,
-    .courses-visible .section-animate,
-    .book-visible .section-animate,
-    .gallery-visible .section-animate,
-    .testimonials-visible .section-animate,
-    .blog-visible .section-animate {
-        animation: section-reveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    .instructor-visible .section-animate-delay-1,
-    .team-visible .section-animate-delay-1,
-    .courses-visible .section-animate-delay-1,
-    .book-visible .section-animate-delay-1,
-    .gallery-visible .section-animate-delay-1,
-    .testimonials-visible .section-animate-delay-1,
-    .blog-visible .section-animate-delay-1 { animation-delay: 0.08s; }
-    .instructor-visible .section-animate-delay-2,
-    .team-visible .section-animate-delay-2,
-    .courses-visible .section-animate-delay-2,
-    .book-visible .section-animate-delay-2,
-    .gallery-visible .section-animate-delay-2,
-    .testimonials-visible .section-animate-delay-2,
-    .blog-visible .section-animate-delay-2 { animation-delay: 0.16s; }
-    .instructor-visible .section-animate-delay-3,
-    .team-visible .section-animate-delay-3,
-    .courses-visible .section-animate-delay-3,
-    .book-visible .section-animate-delay-3,
-    .gallery-visible .section-animate-delay-3,
-    .testimonials-visible .section-animate-delay-3,
-    .blog-visible .section-animate-delay-3 { animation-delay: 0.24s; }
-    .instructor-visible .section-animate-delay-4,
-    .team-visible .section-animate-delay-4,
-    .courses-visible .section-animate-delay-4,
-    .book-visible .section-animate-delay-4,
-    .gallery-visible .section-animate-delay-4,
-    .testimonials-visible .section-animate-delay-4,
-    .blog-visible .section-animate-delay-4 { animation-delay: 0.32s; }
-    .instructor-visible .section-animate-delay-5,
-    .team-visible .section-animate-delay-5,
-    .courses-visible .section-animate-delay-5,
-    .book-visible .section-animate-delay-5,
-    .gallery-visible .section-animate-delay-5,
-    .testimonials-visible .section-animate-delay-5,
-    .blog-visible .section-animate-delay-5 { animation-delay: 0.4s; }
-    .instructor-visible .section-animate-delay-6,
-    .team-visible .section-animate-delay-6,
-    .courses-visible .section-animate-delay-6,
-    .book-visible .section-animate-delay-6,
-    .gallery-visible .section-animate-delay-6,
-    .testimonials-visible .section-animate-delay-6,
-    .blog-visible .section-animate-delay-6 { animation-delay: 0.48s; }
-
+    .section-animate,
     .section-card-animate {
         opacity: 0;
         transform: translateY(22px);
     }
 
-    .instructor-visible .section-card-animate,
-    .team-visible .section-card-animate,
-    .courses-visible .section-card-animate,
-    .book-visible .section-card-animate,
-    .gallery-visible .section-card-animate,
-    .testimonials-visible .section-card-animate,
-    .blog-visible .section-card-animate {
+    .section-visible .section-animate {
+        animation: section-reveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .section-visible .section-animate-delay-1 { animation-delay: 0.08s; }
+    .section-visible .section-animate-delay-2 { animation-delay: 0.16s; }
+    .section-visible .section-animate-delay-3 { animation-delay: 0.24s; }
+    .section-visible .section-animate-delay-4 { animation-delay: 0.32s; }
+    .section-visible .section-animate-delay-5 { animation-delay: 0.4s; }
+    .section-visible .section-animate-delay-6 { animation-delay: 0.48s; }
+
+    .section-visible .section-card-animate {
         animation: section-reveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 }
