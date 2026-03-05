@@ -79,12 +79,11 @@ export default function HeroSection({ translations }) {
             </div>
 
             {/* Main content - centered */}
-            <div className="relative z-10 flex-1 flex items-center py-16 md:py-20">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-16 max-w-4xl w-full text-center">
+            <div className="relative z-10 flex-1 flex items-left py-16 md:py-20">
+                <div className="container mx-auto max-w-6xl text-left">
                     <h1 className="hero-item hero-item-1 text-[2.25rem] sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-bold text-white leading-[1.15] tracking-tight drop-shadow-sm">
                         <span className="whitespace-pre-line block">
-                            {content.title_line_1 ||
-                                "Best Online Platform\nto Learn Everything"}
+                            {content.title_line_1 || ""}
                         </span>
                         {content.title_line_2 && (
                             <span className="inline-block mt-3 bg-[#FFC510] dark:bg-yellow-500 text-gray-900 px-4 py-1.5 rounded-xl font-bold">
@@ -92,12 +91,11 @@ export default function HeroSection({ translations }) {
                             </span>
                         )}
                     </h1>
-                    <p className="hero-item hero-item-2 mt-5 text-base sm:text-lg text-gray-200 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                        {content.description ||
-                            "Discover interactive courses, track progress in real-time, and unlock certifications. Our AI-powered platform adapts to your learning style for maximum knowledge retention."}
+                    <p className="hero-item hero-item-2 mt-5 text-base sm:text-lg text-gray-200 dark:text-gray-300 max-w-3xl leading-relaxed">
+                        {content.description || ""}
                     </p>
 
-                    <div className="hero-item hero-item-3 flex flex-col sm:flex-row gap-4 justify-center mt-8">
+                    <div className="hero-item hero-item-3 flex flex-col sm:flex-row gap-4 justify-start mt-8">
                         <Link
                             href={content.button_1_link || "/courses"}
                             className="group inline-flex items-center justify-center gap-3 bg-[#5A45FF] hover:bg-[#4a34e0] dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white rounded-full pl-6 pr-2 py-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02]"
