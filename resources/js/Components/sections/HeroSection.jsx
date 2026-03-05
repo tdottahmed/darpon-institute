@@ -80,7 +80,7 @@ export default function HeroSection({ translations }) {
 
             {/* Main content - centered */}
             <div className="relative z-10 flex-1 flex items-left py-16 md:py-20">
-                <div className="container mx-auto max-w-6xl text-left">
+                <div className="container mx-auto max-w-6xl text-left px-4">
                     <h1 className="hero-item hero-item-1 text-[2.25rem] sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-bold text-white leading-[1.15] tracking-tight drop-shadow-sm">
                         <span className="whitespace-pre-line block">
                             {content.title_line_1 || ""}
