@@ -1,40 +1,72 @@
+import { useEffect, useRef, useState } from "react";
 import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
+import SectionBackground from "../ui/SectionBackground";
 import CourseCard from "../courses/CourseCard";
 import Button from "../ui/Button";
 import { usePage } from "@inertiajs/react";
+
+const SECTION_PADDING = "py-16 sm:py-20 lg:py-28";
 
 export default function CoursesSection({ courses = [] }) {
     const { frontend_content } = usePage().props;
     const content = frontend_content?.courses || {};
     const displayedCourses = courses.slice(0, 6);
+    const sectionRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const el = sectionRef.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) setIsVisible(true);
+            },
+            { threshold: 0.08, rootMargin: "0px 0px -20px 0px" }
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
 
     return (
-        <section className="py-20 sm:py-20 bg-white dark:bg-gray-900">
-            <Container>
-                {/* Section Header */}
-                <SectionHeader
-                    badge={content.header_badge || "Courses"}
-                    title={content.header_title || "Featured Courses"}
-                    subtitle={
-                        content.header_subtitle ||
-                        "Discover our most popular English learning courses designed to help you achieve fluency"
-                    }
-                    alignment="center"
-                    className="mb-16"
-                />
+        <section
+            ref={sectionRef}
+            className={`relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "courses-visible" : ""}`}
+        >
+            <SectionBackground variant="a" />
+            <Container className="relative z-10">
+                <div className="section-animate section-animate-delay-1 mb-10 sm:mb-12 lg:mb-16">
+                    <SectionHeader
+                        badge={content.header_badge || "Courses"}
+                        title={content.header_title || "Featured Courses"}
+                        subtitle={
+                            content.header_subtitle ||
+                            "Discover our most popular English learning courses designed to help you achieve fluency"
+                        }
+                        alignment="center"
+                    />
+                </div>
 
-                {/* Courses Grid */}
                 {displayedCourses.length > 0 ? (
                     <>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                            {displayedCourses.map((course) => (
-                                <CourseCard key={course.id} course={course} />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-12">
+                            {displayedCourses.map((course, index) => (
+                                <div
+                                    key={course.id}
+                                    className="section-card-animate"
+                                    style={
+                                        isVisible
+                                            ? {
+                                                  animationDelay: `${0.12 + index * 0.07}s`,
+                                              }
+                                            : undefined
+                                    }
+                                >
+                                    <CourseCard course={course} />
+                                </div>
                             ))}
                         </div>
-
-                        {/* View More Button */}
-                        <div className="text-center">
+                        <div className="section-animate section-animate-delay-2 text-center">
                             <Button
                                 href="/courses"
                                 variant="primary"
@@ -46,7 +78,7 @@ export default function CoursesSection({ courses = [] }) {
                         </div>
                     </>
                 ) : (
-                    <div className="text-center py-16">
+                    <div className="section-animate section-animate-delay-2 text-center py-16">
                         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary-100 dark:bg-primary-900/30 mb-6">
                             <svg
                                 className="w-10 h-10 text-primary-600 dark:text-primary-400"

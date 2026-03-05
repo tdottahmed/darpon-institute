@@ -6,32 +6,25 @@ export default function Footer() {
     const content = frontend_content?.footer || {};
     const currentYear = new Date().getFullYear();
 
-    const footerLinks = {
-        product: [
-            {
-                name: content.link_courses || "All Courses",
-                href: route("courses.index"),
-            },
-            { name: "Live Classes", href: "#" }, // Placeholder
-            { name: "One-on-One", href: "#" }, // Placeholder
-            {
-                name: content.link_books || "Books Store",
-                href: route("books.index"),
-            },
-        ],
-        company: [
-            { name: content.link_about || "About Us", href: route("about") },
-            { name: "Success Stories", href: route("home") + "#testimonials" }, // Anchor to home section
-            { name: "Become an Instructor", href: "#" },
-            { name: content.link_contact || "Contact", href: route("contact") },
-        ],
-        legal: [
-            { name: "Privacy Policy", href: "#privacypolicy" },
-            { name: "Terms of Service", href: "#terms" },
-            { name: "Cookie Policy", href: "#" },
-            { name: "Refund Policy", href: "#" },
-        ],
-    };
+    const exploreLinks = [
+        {
+            name: content.link_courses || "All Courses",
+            href: route("courses.index"),
+        },
+        {
+            name: content.link_books || "Books Store",
+            href: route("books.index"),
+        },
+        { name: content.link_about || "About Us", href: route("about") },
+        { name: content.link_contact || "Contact", href: route("contact") },
+        { name: "Success Stories", href: route("home") + "#testimonials" },
+    ];
+
+    const supportLinks = [
+        { name: "Privacy Policy", href: "#privacypolicy" },
+        { name: "Terms of Service", href: "#terms" },
+        { name: "Refund Policy", href: "#" },
+    ];
 
     const socialLinks = [
         {
@@ -53,7 +46,7 @@ export default function Footer() {
                 <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
                     <path
                         fillRule="evenodd"
-                        d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465C9.673 2.013 10.03 2 12.48 2h-.165zm-2.366 1.258c-2.269 0-2.551.01-3.44.05-.888.041-1.492.186-1.921.353-.519.202-.9.467-1.206.773-.306.307-.571.688-.773 1.206-.167.43-.312 1.033-.353 1.921-.04.89-.05 1.171-.05 3.441a16.635 16.635 0 00.05 3.44c.041.89.186 1.493.353 1.922.202.518.467.9.773 1.206.307.306.688.571 1.206.773.43.167 1.033.312 1.921.353.89.04 1.171.05 3.441.05 2.27 0 2.551-.01 3.44-.05.888-.041 1.492-.186 1.921-.353.519-.202.9-.467 1.206-.773.307-.306.571-.688.773-1.206.167-.43.312-1.033.353-1.921.04-.89.05-1.171.05-3.441 0-2.269-.01-2.551-.05-3.44-.041-.888-.186-1.492-.353-1.921-.202-.519-.467-.9-.773-1.206-.307-.306-.688-.571-1.206-.773-.43-.167-1.033-.312-1.921-.353-.889-.04-1.171-.05-3.441-.05zm5.787 5.485a3.896 3.896 0 11-7.792 0 3.896 3.896 0 017.792 0zm-1.87 0a2.026 2.026 0 10-4.053 0 2.026 2.026 0 004.053 0zm2.744-4.524a1.076 1.076 0 11-2.152 0 1.076 1.076 0 012.152 0z"
+                        d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465C9.673 2.013 10.03 2 12.48 2h-.165zm-2.366 1.258c-2.269 0-2.551.01-3.44.05-.888.041-1.492.186-1.921.353-.519.202-.9.467-1.206.773-.306.307-.571.688-.773 1.206-.167.43-.312 1.033-.353 1.921-.04.89-.05 1.171-.05 3.441a16.635 16.635 0 00.05 3.44c.041.89.186 1.493.353 1.922.202.518.467.9.773 1.206.307.306.688.571 1.206.773.43.167 1.033.312 1.921.353.89.04 1.171.05 3.441.05 2.27 0 2.551-.01 3.44-.05.888-.041 1.492-.186 1.921-.353.519-.202.9-.467 1.206-.773.307-.306.571-.688.773-1.206.167-.43.312-1.033.353-1.921.04-.89.05-1.171.05-3.441 0-2.269-.01-2.551-.05-3.44-.041-.888-.186-1.492-.353-1.921-.202-.519-.467-.9-.773-1.206-.307-.306-.688-.571-1.206-.773-.43-.167-1.033-.312-1.921-.353-.889-.04-1.171-.05-3.441-.05z"
                         clipRule="evenodd"
                     />
                 </svg>
@@ -82,48 +75,54 @@ export default function Footer() {
             ),
             href: settings?.social_youtube || "#",
         },
-    ].filter((link) => link.href !== "#"); // Only show links that have been configured
+    ].filter((link) => link.href !== "#");
 
     return (
-        <footer className="bg-[var(--header-footer-bg-light)] dark:bg-[var(--header-footer-bg-dark)] border-t border-gray-900/10 transition-colors duration-300">
-            <Container>
-                <div className="pt-16 pb-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
-                    {/* Brand Column */}
-                    <div className="lg:col-span-4 space-y-4">
+        <footer className="relative overflow-hidden bg-[var(--header-footer-bg-light)] dark:bg-[var(--header-footer-bg-dark)] border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
+            <Container className="relative z-10">
+                {/* 3 columns */}
+                <div className="pt-16 pb-12 grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+                    {/* Column 1: Brand */}
+                    <div className="space-y-5">
                         <Link href="/" className="inline-block">
-                            {/* Show light logo for light mode, dark logo for dark mode */}
                             <img
                                 src={settings?.logo_light || "/darponbdv.png"}
                                 alt="Darpon Logo"
-                                className={`h-16 w-auto ${settings?.logo_dark ? 'dark:hidden' : ''}`}
+                                className="h-14 w-auto dark:hidden max-w-[180px]"
                             />
-                            {settings?.logo_dark && (
+                            {settings?.logo_dark ? (
                                 <img
                                     src={settings.logo_dark}
                                     alt="Darpon Logo"
-                                    className="h-16 w-auto hidden dark:block"
+                                    className="h-14 w-auto hidden dark:block max-w-[180px]"
+                                />
+                            ) : (
+                                <img
+                                    src={
+                                        settings?.logo_light || "/darponbdv.png"
+                                    }
+                                    alt="Darpon Logo"
+                                    className="h-14 w-auto hidden dark:block max-w-[180px] invert opacity-90"
                                 />
                             )}
                         </Link>
-                        <p className="text-gray-900 text-sm leading-relaxed max-w-sm">
+                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed max-w-xs">
                             {content.description ||
                                 "Empowering students with accessible, high-quality English education. Join Darpon and start your learning journey today."}
                         </p>
-
-                        {/* Social Links */}
                         {socialLinks.length > 0 && (
-                            <div className="flex items-center gap-4 pt-4">
+                            <div className="flex items-center gap-3 pt-2">
                                 {socialLinks.map((item) => (
                                     <a
                                         key={item.name}
                                         href={item.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-gray-800 hover:text-white transition-colors"
+                                        className="flex items-center justify-center w-10 h-10 rounded-xl bg-gray-200/80 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-primary-100 hover:text-primary-700 dark:hover:bg-primary-500/20 dark:hover:text-white transition-all duration-300"
                                         aria-label={item.name}
                                     >
                                         <item.icon
-                                            className="h-6 w-6"
+                                            className="h-5 w-5"
                                             aria-hidden="true"
                                         />
                                     </a>
@@ -132,104 +131,79 @@ export default function Footer() {
                         )}
                     </div>
 
-                    {/* Links Columns */}
-                    <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-8">
-                        {/* Column 1: Products */}
-                        <div>
-                            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">
-                                {content.col_1_title || "Learn"}
-                            </h3>
-                            <ul className="space-y-3">
-                                {footerLinks.product.map((link) => (
-                                    <li key={link.name}>
-                                        <Link
-                                            href={link.href}
-                                            className="text-sm text-gray-800 hover:text-white transition-colors"
-                                        >
-                                            {link.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                    {/* Column 2: Explore */}
+                    <div>
+                        <h3 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6 text-center">
+                            {content.col_1_title || "Explore"}
+                        </h3>
+                        <ul className="space-y-3.5 text-center">
+                            {exploreLinks.map((link) => (
+                                <li key={link.name}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                        {/* Column 2: Company */}
-                        <div>
-                            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">
-                                {content.col_2_title || "Company"}
-                            </h3>
-                            <ul className="space-y-3">
-                                {footerLinks.company.map((link) => (
-                                    <li key={link.name}>
-                                        <Link
-                                            href={link.href}
-                                            className="text-sm text-gray-800 hover:text-white transition-colors"
-                                        >
-                                            {link.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        {/* Column 3: Legal/Support */}
-                        <div className="col-span-2 sm:col-span-1">
-                            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">
-                                {content.col_3_title || "Legal & Support"}
-                            </h3>
-                            <ul className="space-y-3">
-                                {footerLinks.legal.map((link) => (
-                                    <li key={link.name}>
-                                        <Link
-                                            href={link.href}
-                                            className="text-sm text-gray-800 hover:text-white transition-colors"
-                                        >
-                                            {link.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                                {settings?.rss_feed_url && (
-                                    <li>
-                                        <a
-                                            href={settings.rss_feed_url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-sm text-gray-800 hover:text-white transition-colors"
-                                        >
-                                            RSS Feed
-                                        </a>
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
+                    {/* Column 3: Support / Legal */}
+                    <div>
+                        <h3 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6 text-center">
+                            {content.col_3_title || "Support"}
+                        </h3>
+                        <ul className="space-y-3.5 text-center">
+                            {supportLinks.map((link) => (
+                                <li key={link.name}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                </li>
+                            ))}
+                            {settings?.rss_feed_url && (
+                                <li>
+                                    <a
+                                        href={settings.rss_feed_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                                    >
+                                        RSS Feed
+                                    </a>
+                                </li>
+                            )}
+                        </ul>
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
-                <div className="border-t border-gray-900/10 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-gray-800 text-sm">
+                {/* Bottom bar */}
+                <div className="border-t border-gray-200 dark:border-gray-800 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-gray-500 dark:text-gray-400 text-sm text-center sm:text-left">
                         &copy; {currentYear}{" "}
                         {import.meta.env.VITE_APP_NAME || "Darpon"}.{" "}
                         {content.copyright || "All rights reserved."}
                     </p>
-                    <div className="flex items-center gap-6">
-                        {/* Optional region/language selector or other bottom links could go here */}
-                        <span className="flex items-center gap-2 text-sm text-gray-800">
-                            <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                            System Operational
-                        </span>
+                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        System Operational
                     </div>
                 </div>
 
-                {/* Developer Credit */}
-                <div className="border-t border-gray-900/10 py-4 text-center">
-                    <p className="text-gray-800 text-sm">
+                {/* Developer credit */}
+                <div className="border-t border-gray-200 dark:border-gray-800 py-4 text-center">
+                    <p className="text-gray-500 dark:text-gray-400 text-xs">
                         Developed by{" "}
                         <a
                             href="https://nixsoftware.net/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-gray-900 hover:text-white font-medium transition-colors"
+                            className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white font-medium transition-colors"
                         >
                             nix software
                         </a>

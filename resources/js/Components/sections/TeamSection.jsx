@@ -1,32 +1,66 @@
+import { useEffect, useRef, useState } from "react";
 import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
+import SectionBackground from "../ui/SectionBackground";
 import TeacherCard from "../cards/TeacherCard";
-
 import { usePage } from "@inertiajs/react";
 
 export default function TeamSection({ teachers = [] }) {
-    if (!teachers || teachers.length === 0) return null;
-
     const { frontend_content } = usePage().props;
     const content = frontend_content?.team || {};
+    const sectionRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const el = sectionRef.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) setIsVisible(true);
+            },
+            { threshold: 0.08, rootMargin: "0px 0px -20px 0px" }
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
+
+    if (!teachers || teachers.length === 0) return null;
 
     return (
-        <section className="bg-white py-20 dark:bg-gray-900 sm:py-28">
-            <Container>
-                <SectionHeader
-                    badge={content.header_badge || "Our Team"}
-                    title={content.header_title || "Meet Our Expert Instructors"}
-                    subtitle={
-                        content.header_subtitle ||
-                        "Learn from the best educators dedicated to your success"
-                    }
-                    alignment="center"
-                    className="mb-16"
-                />
+        <section
+            ref={sectionRef}
+            className={`relative overflow-hidden py-16 sm:py-20 lg:py-28 ${isVisible ? "team-visible" : ""}`}
+        >
+            <SectionBackground variant="b" />
 
-                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {teachers.map((teacher) => (
-                        <TeacherCard key={teacher.id} teacher={teacher} />
+            <Container className="relative z-10">
+                <div className="section-animate section-animate-delay-1 mb-10 sm:mb-12 lg:mb-16">
+                    <SectionHeader
+                        badge={content.header_badge || "Our Team"}
+                        title={content.header_title || "Meet Our Expert Instructors"}
+                        subtitle={
+                            content.header_subtitle ||
+                            "Learn from the best educators dedicated to your success"
+                        }
+                        alignment="center"
+                    />
+                </div>
+
+                <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {teachers.map((teacher, index) => (
+                        <div
+                            key={teacher.id}
+                            className="section-card-animate"
+                            style={
+                                isVisible
+                                    ? {
+                                          animationDelay: `${0.12 + index * 0.07}s`,
+                                      }
+                                    : undefined
+                            }
+                        >
+                            <TeacherCard teacher={teacher} />
+                        </div>
                     ))}
                 </div>
             </Container>

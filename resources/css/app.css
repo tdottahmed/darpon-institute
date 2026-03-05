@@ -111,4 +111,89 @@
     .hero-visible .hero-stats-bar {
         animation: hero-stats-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
     }
+
+    /* Unified section entrance animations - same effect for all sections (text, cards, images) */
+    @keyframes section-reveal {
+        from {
+            opacity: 0;
+            transform: translateY(22px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .section-animate {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    .instructor-visible .section-animate,
+    .team-visible .section-animate,
+    .courses-visible .section-animate,
+    .book-visible .section-animate,
+    .gallery-visible .section-animate,
+    .testimonials-visible .section-animate,
+    .blog-visible .section-animate {
+        animation: section-reveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .instructor-visible .section-animate-delay-1,
+    .team-visible .section-animate-delay-1,
+    .courses-visible .section-animate-delay-1,
+    .book-visible .section-animate-delay-1,
+    .gallery-visible .section-animate-delay-1,
+    .testimonials-visible .section-animate-delay-1,
+    .blog-visible .section-animate-delay-1 { animation-delay: 0.08s; }
+    .instructor-visible .section-animate-delay-2,
+    .team-visible .section-animate-delay-2,
+    .courses-visible .section-animate-delay-2,
+    .book-visible .section-animate-delay-2,
+    .gallery-visible .section-animate-delay-2,
+    .testimonials-visible .section-animate-delay-2,
+    .blog-visible .section-animate-delay-2 { animation-delay: 0.16s; }
+    .instructor-visible .section-animate-delay-3,
+    .team-visible .section-animate-delay-3,
+    .courses-visible .section-animate-delay-3,
+    .book-visible .section-animate-delay-3,
+    .gallery-visible .section-animate-delay-3,
+    .testimonials-visible .section-animate-delay-3,
+    .blog-visible .section-animate-delay-3 { animation-delay: 0.24s; }
+    .instructor-visible .section-animate-delay-4,
+    .team-visible .section-animate-delay-4,
+    .courses-visible .section-animate-delay-4,
+    .book-visible .section-animate-delay-4,
+    .gallery-visible .section-animate-delay-4,
+    .testimonials-visible .section-animate-delay-4,
+    .blog-visible .section-animate-delay-4 { animation-delay: 0.32s; }
+    .instructor-visible .section-animate-delay-5,
+    .team-visible .section-animate-delay-5,
+    .courses-visible .section-animate-delay-5,
+    .book-visible .section-animate-delay-5,
+    .gallery-visible .section-animate-delay-5,
+    .testimonials-visible .section-animate-delay-5,
+    .blog-visible .section-animate-delay-5 { animation-delay: 0.4s; }
+    .instructor-visible .section-animate-delay-6,
+    .team-visible .section-animate-delay-6,
+    .courses-visible .section-animate-delay-6,
+    .book-visible .section-animate-delay-6,
+    .gallery-visible .section-animate-delay-6,
+    .testimonials-visible .section-animate-delay-6,
+    .blog-visible .section-animate-delay-6 { animation-delay: 0.48s; }
+
+    .section-card-animate {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    .instructor-visible .section-card-animate,
+    .team-visible .section-card-animate,
+    .courses-visible .section-card-animate,
+    .book-visible .section-card-animate,
+    .gallery-visible .section-card-animate,
+    .testimonials-visible .section-card-animate,
+    .blog-visible .section-card-animate {
+        animation: section-reveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
 }

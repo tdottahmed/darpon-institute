@@ -1,8 +1,11 @@
 import { Link, usePage } from "@inertiajs/react";
+import { useState, useEffect, useRef } from "react";
 import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
-import { useState, useEffect } from "react";
+import SectionBackground from "../ui/SectionBackground";
 import Button from "../ui/Button";
+
+const SECTION_PADDING = "py-16 sm:py-20 lg:py-28";
 
 export default function GallerySection({ galleries = [] }) {
     const { frontend_content } = usePage().props;
@@ -10,10 +13,25 @@ export default function GallerySection({ galleries = [] }) {
     const displayedGalleries = galleries.slice(0, 8);
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const sectionRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
 
     // Check if gallery section should be shown (CMS control)
     const showOnLanding =
         content.show_on_landing !== "0" && content.show_on_landing !== "false";
+
+    useEffect(() => {
+        const el = sectionRef.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) setIsVisible(true);
+            },
+            { threshold: 0.08, rootMargin: "0px 0px -20px 0px" }
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
 
     if (!showOnLanding || !galleries || galleries.length === 0) return null;
 
@@ -60,26 +78,36 @@ export default function GallerySection({ galleries = [] }) {
 
     return (
         <>
-            <section className="py-20 sm:py-28 bg-white dark:bg-gray-900">
-                <Container>
-                    {/* Section Header */}
-                    <SectionHeader
-                        badge={content.header_badge || "Gallery"}
-                        title={content.header_title || "Our Gallery"}
-                        subtitle={
-                            content.header_subtitle ||
-                            "Explore moments from our classes, events, and student achievements"
-                        }
-                        alignment="center"
-                        className="mb-16"
-                    />
+            <section
+                ref={sectionRef}
+                className={`relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "gallery-visible" : ""}`}
+            >
+                <SectionBackground variant="a" />
+                <Container className="relative z-10">
+                    <div className="section-animate section-animate-delay-1 mb-10 sm:mb-12 lg:mb-16">
+                        <SectionHeader
+                            badge={content.header_badge || "Gallery"}
+                            title={content.header_title || "Our Gallery"}
+                            subtitle={
+                                content.header_subtitle ||
+                                "Explore moments from our classes, events, and student achievements"
+                            }
+                            alignment="center"
+                        />
+                    </div>
 
-                    {/* Gallery Grid - Uniform Layout */}
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                         {displayedGalleries.map((gallery, index) => (
                             <div
                                 key={gallery.id}
-                                className="group relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
+                                className="section-card-animate group relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
+                                style={
+                                    isVisible
+                                        ? {
+                                              animationDelay: `${0.12 + index * 0.05}s`,
+                                          }
+                                        : undefined
+                                }
                                 onClick={() => openLightbox(gallery, index)}
                             >
                                 <div className="relative h-48 w-full">
@@ -116,8 +144,7 @@ export default function GallerySection({ galleries = [] }) {
                         ))}
                     </div>
 
-                    {/* View All Button - Centered */}
-                    <div className="text-center mt-12">
+                    <div className="section-animate section-animate-delay-2 text-center mt-10 sm:mt-12">
                         <div className="group inline-flex">
                             <Button
                                 href={route("galleries.index")}
