@@ -35,7 +35,7 @@ export default function BookSection({ books }) {
     return (
         <section
             ref={sectionRef}
-            className={`relative py-12 sm:py-8 lg:py-12 overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
+            className={`relative py-8 sm:py-4 lg:py-8 overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
         >
             <SectionBackground variant="b" />
             <Container className="relative z-10">

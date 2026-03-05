@@ -31,7 +31,7 @@ export default function CoursesSection({ courses = [] }) {
     return (
         <section
             ref={sectionRef}
-            className={`py-12 sm:py-8 lg:py-12 relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
+            className={`py-8 sm:py-4 lg:py-8 relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
         >
             <SectionBackground variant="a" />
             <Container className="relative z-10">

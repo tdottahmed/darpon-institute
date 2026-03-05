@@ -28,7 +28,7 @@ export default function TestimonialsSection({ testimonials }) {
             ([entry]) => {
                 if (entry.isIntersecting) setIsVisible(true);
             },
-            { threshold: 0.08, rootMargin: "0px 0px -20px 0px" }
+            { threshold: 0.08, rootMargin: "0px 0px -20px 0px" },
         );
         observer.observe(el);
         return () => observer.disconnect();
@@ -38,7 +38,7 @@ export default function TestimonialsSection({ testimonials }) {
 
     const toggleExpand = (id) => {
         setExpandedIds((prev) =>
-            prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+            prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
         );
     };
 
@@ -56,7 +56,7 @@ export default function TestimonialsSection({ testimonials }) {
         <section
             id="testimonials"
             ref={sectionRef}
-            className={`relative py-12 sm:py-8 lg:py-12 overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
+            className={`relative py-8 sm:py-4 lg:py-8 overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
         >
             <SectionBackground variant="b" />
             <Container className="relative z-10">
@@ -127,7 +127,7 @@ export default function TestimonialsSection({ testimonials }) {
                                                 ? testimonial.review
                                                 : truncateText(
                                                       testimonial.review,
-                                                      REVIEW_CHAR_LIMIT
+                                                      REVIEW_CHAR_LIMIT,
                                                   )}
                                             {testimonial.review &&
                                                 testimonial.review.length >
@@ -135,16 +135,16 @@ export default function TestimonialsSection({ testimonials }) {
                                                     <button
                                                         onClick={() =>
                                                             toggleExpand(
-                                                                testimonial.id
+                                                                testimonial.id,
                                                             )
                                                         }
                                                         className="ml-2 text-sm font-semibold text-primary-600 hover:text-primary-700 hover:underline dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
                                                         aria-expanded={isExpanded(
-                                                            testimonial.id
+                                                            testimonial.id,
                                                         )}
                                                     >
                                                         {isExpanded(
-                                                            testimonial.id
+                                                            testimonial.id,
                                                         )
                                                             ? "Read less"
                                                             : "Read more"}
@@ -162,7 +162,7 @@ export default function TestimonialsSection({ testimonials }) {
                                                 ) : (
                                                     <div className="flex h-full w-full items-center justify-center rounded-full bg-primary-100 text-primary-600 font-bold text-xl dark:bg-primary-900/30 dark:text-primary-400">
                                                         {testimonial.name.charAt(
-                                                            0
+                                                            0,
                                                         )}
                                                     </div>
                                                 )}
