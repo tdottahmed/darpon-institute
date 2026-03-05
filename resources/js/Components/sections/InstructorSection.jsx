@@ -35,7 +35,7 @@ export default function InstructorSection() {
     return (
         <section
             ref={sectionRef}
-            className={`relative overflow-hidden pt-24 sm:pt-28 pb-20 sm:pb-24 ${isVisible ? "section-visible" : ""}`}
+            className={`relative overflow-hidden pt-24 sm:pt-28 pb-12 sm:pb-8 ${isVisible ? "section-visible" : ""}`}
         >
             <SectionBackground variant="a" />
 

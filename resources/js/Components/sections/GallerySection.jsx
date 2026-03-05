@@ -80,7 +80,7 @@ export default function GallerySection({ galleries = [] }) {
         <>
             <section
                 ref={sectionRef}
-                className={`relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
+                className={`relative py-12 sm:py-8 lg:py-12 overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
             >
                 <SectionBackground variant="a" />
                 <Container className="relative z-10">

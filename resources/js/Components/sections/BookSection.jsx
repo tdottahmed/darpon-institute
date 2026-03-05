@@ -35,11 +35,11 @@ export default function BookSection({ books }) {
     return (
         <section
             ref={sectionRef}
-            className={`relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
+            className={`relative py-12 sm:py-8 lg:py-12 overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
         >
             <SectionBackground variant="b" />
             <Container className="relative z-10">
-                <div className="section-animate section-animate-delay-1 mb-10 sm:mb-12 lg:mb-16">
+                <div className="section-animate section-animate-delay-1 mb-10 sm:mb-8 lg:mb-12">
                     <SectionHeader
                         badge={content.header_badge || "Our Library"}
                         title={
@@ -104,7 +104,7 @@ export default function BookSection({ books }) {
                     </Swiper>
                 </div>
 
-                <div className="section-animate section-animate-delay-3 text-center mt-10 sm:mt-12">
+                <div className="section-animate section-animate-delay-3 text-center">
                     <Link
                         href={route("books.index")}
                         className="group inline-flex items-center gap-2 text-base font-semibold text-primary-600 transition-all duration-200 hover:text-primary-700 hover:gap-3 dark:text-primary-400 dark:hover:text-primary-300"

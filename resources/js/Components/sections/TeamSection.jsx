@@ -18,7 +18,7 @@ export default function TeamSection({ teachers = [] }) {
             ([entry]) => {
                 if (entry.isIntersecting) setIsVisible(true);
             },
-            { threshold: 0.08, rootMargin: "0px 0px -20px 0px" }
+            { threshold: 0.08, rootMargin: "0px 0px -20px 0px" },
         );
         observer.observe(el);
         return () => observer.disconnect();
@@ -29,7 +29,7 @@ export default function TeamSection({ teachers = [] }) {
     return (
         <section
             ref={sectionRef}
-            className={`relative overflow-hidden py-16 sm:py-20 lg:py-28 ${isVisible ? "section-visible" : ""}`}
+            className={`relative overflow-hidden py-12 sm:py-8 lg:py-12 ${isVisible ? "section-visible" : ""}`}
         >
             <SectionBackground variant="b" />
 
@@ -37,7 +37,10 @@ export default function TeamSection({ teachers = [] }) {
                 <div className="section-animate section-animate-delay-1 mb-10 sm:mb-12 lg:mb-16">
                     <SectionHeader
                         badge={content.header_badge || "Our Team"}
-                        title={content.header_title || "Meet Our Expert Instructors"}
+                        title={
+                            content.header_title ||
+                            "Meet Our Expert Instructors"
+                        }
                         subtitle={
                             content.header_subtitle ||
                             "Learn from the best educators dedicated to your success"

@@ -31,7 +31,7 @@ export default function CoursesSection({ courses = [] }) {
     return (
         <section
             ref={sectionRef}
-            className={`relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
+            className={`py-12 sm:py-8 lg:py-12 relative overflow-hidden ${SECTION_PADDING} ${isVisible ? "section-visible" : ""}`}
         >
             <SectionBackground variant="a" />
             <Container className="relative z-10">
@@ -78,7 +78,7 @@ export default function CoursesSection({ courses = [] }) {
                         </div>
                     </>
                 ) : (
-                    <div className="section-animate section-animate-delay-2 text-center py-16">
+                    <div className="section-animate section-animate-delay-2 text-center py-8 sm:py-8 md:py-12">
                         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary-100 dark:bg-primary-900/30 mb-6">
                             <svg
                                 className="w-10 h-10 text-primary-600 dark:text-primary-400"
