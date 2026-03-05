@@ -15,7 +15,7 @@
     }
 @endphp
 
-<section class="section-sm faq-section">
+<section class="faq-section">
     <div class="container-narrow">
         <div class="faq-header">
             <h2 class="bengali-text faq-title">
@@ -46,14 +46,14 @@
 
         .faq-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         .faq-title {
             color: white;
             font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .faq-divider {

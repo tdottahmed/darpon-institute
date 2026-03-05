@@ -12,7 +12,7 @@
     }
 @endphp
 
-<section class="section-sm pricing-section" style="background-color: #073050;">
+<section class="pricing-section" style="background-color: #073050; padding-top: 20px">
     <div class="container-narrow pricing-container">
 
         <div class="pricing-card">

@@ -38,7 +38,7 @@
             : route('landing-page.order.store', $landingPage->slug);
 @endphp
 
-<section id="orderFormSection" class="section-sm" style="background-color: #073050;">
+<section id="orderFormSection"style="background-color: #073050; padding-top: 20px">
     <div class="container-narrow">
         @if ($orderTitle)
             <h2 class="bengali-text" style="text-align: center; font-size: 1.8rem; font-weight: 700; color: white;">
@@ -48,7 +48,7 @@
                 style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
         @endif
 
-        <div style="margin-top: 40px;">
+        <div style="margin-top: 20px;">
             <form id="landingPageOrderForm" action="{{ $formAction }}" method="POST" enctype="multipart/form-data"
                 style="display: flex; flex-direction: column; gap: 30px;">
                 @csrf
@@ -62,7 +62,7 @@
                     style="background: white; padding: 30px; border-radius: 8px; border: 2px solid var(--accent-color);">
 
                     <!-- Top Section: Billing Details -->
-                    <div style="margin-bottom: 40px;">
+                    <div style="margin-bottom: 20px;">
                         <h3
                             style="font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; color: #333; text-align: center; position: relative;">
                             {{ $productType === 'course' ? 'Registration Details' : 'Billing details' }}
@@ -120,7 +120,7 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 40px;">
+                    <div style="margin-bottom: 20px;">
                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #333;">Country /
                             Region</label>
                         <div style="font-weight: 700; padding: 10px; background: #f9f9f9; border-radius: 4px;">

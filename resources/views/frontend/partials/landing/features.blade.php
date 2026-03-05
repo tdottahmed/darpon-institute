@@ -23,7 +23,7 @@
                 <div class="feature-column">
                     @if (!empty($featuresTitle))
                         <h2 class="bengali-text feature-heading"
-                            style="color: white; margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; padding-bottom: 10px; width: 100%; text-align: center; position: relative;">
+                            style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; width: 100%; text-align: center; position: relative;">
                             {{ $featuresTitle }}
                             <span
                                 style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
@@ -38,7 +38,7 @@
                         </div>
                     </div>
 
-                    <div style="text-align: center; margin-top: 40px;">
+                    <div style="text-align: center; margin-top: 20px;">
                         <x-cta-button :landingPage="$landingPage" />
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                 <div class="feature-column">
                     @if (!empty($targetAudienceTitle))
                         <h2 class="bengali-text feature-heading"
-                            style="color: white; margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; padding-bottom: 10px; width: 100%; text-align: center; position: relative;">
+                            style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; width: 100%; text-align: center; position: relative;">
                             {{ $targetAudienceTitle }}
                             <span
                                 style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
 
-                    <div style="text-align: center; margin-top: 40px;">
+                    <div style="text-align: center; margin-top: 20px;">
                         <x-cta-button :landingPage="$landingPage" />
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                 <div class="section-sm" style="grid-column: 1 / -1;">
                     @if (!empty($gameChangerTitle))
                         <h2 class="bengali-text feature-heading"
-                            style="color: white; margin: 0 0 30px; font-size: 1.8rem; font-weight: 700; padding-bottom: 10px; width: 100%; text-align: center; position: relative;">
+                            style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; width: 100%; text-align: center; position: relative;">
                             {{ $gameChangerTitle }}
                             <span
                                 style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
@@ -106,7 +106,7 @@
                         @endif
                     </div>
 
-                    <div style="text-align: center; margin-top: 40px;">
+                    <div style="text-align: center; margin-top: 20px;">
                         <x-cta-button :landingPage="$landingPage" />
                     </div>
                 </div>
@@ -120,7 +120,7 @@
     .features-grid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 20px;
         align-items: start;
     }
 
@@ -147,14 +147,14 @@
     @media (min-width: 768px) {
         .features-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
+            gap: 20px;
         }
     }
 
     /* Medium devices - adjust spacing */
     @media (max-width: 968px) and (min-width: 768px) {
         .features-grid {
-            gap: 30px;
+            gap: 20px;
         }
 
         .game-changer-section {
@@ -171,7 +171,7 @@
 
         .features-grid {
             grid-template-columns: 1fr;
-            gap: 30px;
+            gap: 20px;
         }
 
         .feature-column {

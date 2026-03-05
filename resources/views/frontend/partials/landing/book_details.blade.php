@@ -19,9 +19,9 @@
 
         <!-- Main Heading -->
         @if (!empty($title))
-            <div style="text-align: center; margin-bottom: 40px;">
+            <div style="text-align: center; margin-bottom: 20px;">
                 <h2 class="bengali-text"
-                    style="color: white; font-size: 1.8rem; font-weight: 700; margin-bottom: 20px;">
+                    style="color: white; font-size: 1.8rem; font-weight: 700; margin-bottom: 10px;">
                     {{ $title }}
                 </h2>
                 <span
@@ -36,7 +36,7 @@
         @endphp
         @if ($hasContent)
             <div class="description-block"
-                style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 40px; text-align: left; border: 2px solid var(--accent-color);">
+                style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; text-align: left; border: 2px solid var(--accent-color);">
                 <p class="bengali-text description-text"
                     style="color: #444; font-size: 1.2rem; line-height: 1.8; font-weight: 500;">
                     {!! $description !!}
@@ -54,7 +54,7 @@
             <div>
                 @if (!empty($specialtiesTitle))
                     <h2 class="bengali-text"
-                        style="color: white; margin: 0 0 25px; font-size: 1.8rem; text-align: center; font-weight: 700; padding-bottom: 10px; width: 100%; position: relative;">
+                        style="color: white; margin: 0 0 20px; font-size: 1.8rem; text-align: center; font-weight: 700;  width: 100%; position: relative;">
                         {{ $specialtiesTitle }}
                         <span
                             style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
@@ -72,14 +72,14 @@
         @endif
 
         @if ($hasSpecialtiesContent)
-            <div style="text-align: center; margin-top: 40px;">
+            <div style="text-align: center; margin-top: 20px;">
                 <x-cta-button :landingPage="$landingPage" />
             </div>
         @endif
 
         @if ($landingPage->product_type === 'book')
             <!-- Full Width Sections: Extraordinary & Students Love -->
-            <div style="margin-top: 40px;">
+            <div style="margin-top: 20px;">
 
                 <!-- Section 1: What makes it extraordinary -->
                 @php
@@ -88,10 +88,10 @@
                         !empty($extraordinaryDescription) && trim(strip_tags($extraordinaryDescription)) !== '';
                 @endphp
                 @if ($hasExtraordinaryContent)
-                    <div style="margin-bottom: 40px;">
+                    <div style="margin-bottom: 20px;">
                         @if (!empty($extraordinaryTitle))
                             <h2 class="bengali-text"
-                                style="color: white; margin: 0 0 25px; font-size: 1.8rem; font-weight: 700; text-align: center; width: 100%; padding-bottom: 10px; position: relative;">
+                                style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; text-align: center; width: 100%; position: relative;">
                                 {{ $extraordinaryTitle }}
                                 <span
                                     style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
@@ -105,7 +105,7 @@
                             </p>
                         </div>
 
-                        <div style="text-align: center; margin-top: 40px;">
+                        <div style="text-align: center; margin-top: 20px;">
                             <x-cta-button :landingPage="$landingPage" style="padding: 10px 25px; font-size: 0.9rem;" />
                         </div>
 
@@ -122,7 +122,7 @@
                     <div>
                         @if (!empty($studentsLoveTitle))
                             <h2 class="bengali-text"
-                                style="color: white; margin: 0 0 25px; font-size: 1.8rem; font-weight: 700; text-align: center; width: 100%; padding-bottom: 10px; position: relative;">
+                                style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; text-align: center; width: 100%; padding-bottom: 10px; position: relative;">
                                 {{ $studentsLoveTitle }}
                                 <span
                                     style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
@@ -134,7 +134,7 @@
                                 {!! $studentsLoveDescription !!}
                             </div>
                         </div>
-                        <div style="text-align: center; margin-top: 40px;">
+                        <div style="text-align: center; margin-top: 20px;">
                             <x-cta-button :landingPage="$landingPage" style="padding: 10px 25px; font-size: 0.9rem;" />
                         </div>
                     </div>

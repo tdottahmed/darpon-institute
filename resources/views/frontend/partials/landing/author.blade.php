@@ -60,7 +60,7 @@
 
         </div>
 
-        <div style="text-align: center; margin-top: 40px;">
+        <div style="text-align: center; margin-top: 20px;">
             <x-cta-button :landingPage="$landingPage" />
         </div>
 
