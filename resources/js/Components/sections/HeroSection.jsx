@@ -83,12 +83,12 @@ export default function HeroSection({ translations }) {
                             {content.title_line_1 || ""}
                         </span>
                         {content.title_line_2 && (
-                            <span className="inline-block mt-3 bg-[#FFC510] dark:bg-yellow-500 text-gray-900 px-4 py-1.5 rounded-xl font-bold text-3xl md:text-4xl xl:text-6xl">
+                            <span className="inline-block mt-3 bg-[#FFC510] dark:bg-yellow-500 text-gray-900 px-4 py-1.5 rounded-xl font-bold text-3xl md:text-4xl xl:text-6xl text-center md:text-left">
                                 {content.title_line_2}
                             </span>
                         )}
                     </h1>
-                    <p className="hero-item hero-item-2 mt-5 text-base sm:text-lg text-gray-200 dark:text-gray-300 max-w-3xl leading-relaxed">
+                    <p className="hero-item hero-item-2 mt-5 text-base sm:text-lg text-gray-200 dark:text-gray-300 max-w-3xl leading-relaxed text-center md:text-left">
                         {content.description || ""}
                     </p>
 
