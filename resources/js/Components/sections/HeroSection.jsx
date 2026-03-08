@@ -61,10 +61,7 @@ export default function HeroSection({ translations }) {
                 <img
                     src={heroImage}
                     alt=""
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.4s] ease-out"
-                    style={{
-                        transform: isVisible ? "scale(1.03)" : "scale(1.12)",
-                    }}
+                    className="absolute inset-0 w-full h-full object-cover"
                 />
                 {/* Dark overlay for readability (works in light & dark mode) */}
                 <div
@@ -82,11 +79,11 @@ export default function HeroSection({ translations }) {
             <div className="relative z-10 flex-1 flex items-left py-16 md:py-20">
                 <div className="container mx-auto max-w-6xl text-left px-4">
                     <h1 className="hero-item hero-item-1 text-[2.25rem] sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-bold text-white leading-[1.15] tracking-tight drop-shadow-sm">
-                        <span className="whitespace-pre-line block">
+                        <span className="whitespace-pre-line block text-center md:text-left">
                             {content.title_line_1 || ""}
                         </span>
                         {content.title_line_2 && (
-                            <span className="inline-block mt-3 bg-[#FFC510] dark:bg-yellow-500 text-gray-900 px-4 py-1.5 rounded-xl font-bold">
+                            <span className="inline-block mt-3 bg-[#FFC510] dark:bg-yellow-500 text-gray-900 px-4 py-1.5 rounded-xl font-bold text-3xl md:text-4xl xl:text-6xl">
                                 {content.title_line_2}
                             </span>
                         )}
