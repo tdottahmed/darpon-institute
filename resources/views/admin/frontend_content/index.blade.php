@@ -60,6 +60,7 @@
                       <p class="text-xs text-gray-500">{{ $item->key }}</p>
                     </div>
 
+                    @if ($section !== 'hero')
                     <button type="button" onclick="deleteContent({{ $item->id }}, '{{ $section }}')"
                             class="text-gray-400 transition-colors hover:text-red-600" title="Remove Content">
                       <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,6 +69,8 @@
                         </path>
                       </svg>
                     </button>
+                    @endif
+
                   </div>
 
                   <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
