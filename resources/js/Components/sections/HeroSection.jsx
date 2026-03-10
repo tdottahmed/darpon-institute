@@ -145,7 +145,7 @@ export default function HeroSection({ translations }) {
 
             {/* Stats bar - full width, overlaps next section */}
             {hasStats && (
-                <div className="relative z-20 hero-stats-bar border-t border-gray-200/80 dark:border-gray-700/80 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-[0_-8px_40px_rgba(0,0,0,0.1)] dark:shadow-none">
+                <div className="relative z-20 hero-stats-bar bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-[0_-8px_40px_rgba(0,0,0,0.1)] dark:shadow-none">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 py-6 lg:py-8">
                             {(content.stat_1_value || content.stat_1_label) && (
