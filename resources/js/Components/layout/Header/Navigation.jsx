@@ -6,8 +6,8 @@ export default function Navigation({ items, mobile = false }) {
         : "hidden lg:flex items-center space-x-1";
 
     const linkClasses = mobile
-        ? "flex items-center space-x-3 px-3 py-2 rounded-lg text-base font-medium text-gray-900 dark:text-white dark:hover:bg-gray-800 hover:bg-gray-100 transition-colors"
-        : "flex items-center space-x-2 px-3 py-1 rounded-lg text-sm font-medium text-gray-900 dark:text-white dark:hover:bg-gray-800 hover:bg-gray-100 transition-all duration-200";
+        ? "flex items-center space-x-3 px-3 py-2 rounded-lg text-base font-medium text-[var(--header-footer-text-light)] dark:text-[var(--header-footer-text-dark)] dark:hover:bg-gray-800 hover:bg-gray-100 transition-colors"
+        : "flex items-center space-x-2 px-3 py-1 rounded-lg text-sm font-medium text-[var(--header-footer-text-light)] dark:text-[var(--header-footer-text-dark)] dark:hover:bg-gray-800 hover:bg-gray-100 transition-all duration-200";
 
     return (
         <nav className={baseClasses}>
