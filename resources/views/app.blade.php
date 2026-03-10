@@ -66,6 +66,8 @@
     :root {
       --header-footer-bg-light: {{ \App\Models\Setting::get('header_footer_color_light', '#ffffff') }};
       --header-footer-bg-dark: {{ \App\Models\Setting::get('header_footer_color_dark', '#111827') }};
+      --header-footer-text-light: {{ \App\Models\Setting::get('header_footer_text_color_light', '#111827') }};
+      --header-footer-text-dark: {{ \App\Models\Setting::get('header_footer_text_color_dark', '#ffffff') }};
     }
   </style>
 </head>

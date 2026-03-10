@@ -78,7 +78,7 @@ export default function Footer() {
     ].filter((link) => link.href !== "#");
 
     return (
-        <footer className="relative overflow-hidden bg-[var(--header-footer-bg-light)] dark:bg-[var(--header-footer-bg-dark)] border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
+        <footer className="relative overflow-hidden bg-[var(--header-footer-bg-light)] dark:bg-[var(--header-footer-bg-dark)] text-[var(--header-footer-text-light)] dark:text-[var(--header-footer-text-dark)] border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
             <Container className="relative z-10">
                 {/* 3 columns */}
                 <div className="pt-16 pb-12 grid grid-cols-2 md:grid-cols-3 gap-12 lg:gap-16 text-center md:text-left">
@@ -106,7 +106,7 @@ export default function Footer() {
                                 />
                             )}
                         </Link>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed max-w-xs">
+                        <p className="opacity-80 text-sm leading-relaxed max-w-xs">
                             {content.description ||
                                 "Empowering students with accessible, high-quality English education. Join Darpon and start your learning journey today."}
                         </p>
@@ -133,7 +133,7 @@ export default function Footer() {
 
                     {/* Column 2: Explore */}
                     <div>
-                        <h3 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6 md:text-left text-center">
+                        <h3 className="text-xs font-bold uppercase tracking-widest mb-6 md:text-left text-center">
                             {content.col_1_title || "Explore"}
                         </h3>
                         <ul className="space-y-3.5 md:text-left text-center">
@@ -141,7 +141,7 @@ export default function Footer() {
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                                        className="text-sm opacity-80 hover:opacity-100 transition-colors duration-200"
                                     >
                                         {link.name}
                                     </Link>
@@ -152,7 +152,7 @@ export default function Footer() {
 
                     {/* Column 3: Support / Legal */}
                     <div>
-                        <h3 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6 md:text-left text-center">
+                        <h3 className="text-xs font-bold uppercase tracking-widest mb-6 md:text-left text-center">
                             {content.col_3_title || "Support"}
                         </h3>
                         <ul className="space-y-3.5 md:text-left text-center">
@@ -160,7 +160,7 @@ export default function Footer() {
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                                        className="text-sm opacity-80 hover:opacity-100 transition-colors duration-200"
                                     >
                                         {link.name}
                                     </Link>
@@ -172,7 +172,7 @@ export default function Footer() {
                                         href={settings.rss_feed_url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                                        className="text-sm opacity-80 hover:opacity-100 transition-colors duration-200"
                                     >
                                         RSS Feed
                                     </a>
@@ -184,12 +184,12 @@ export default function Footer() {
 
                 {/* Bottom bar */}
                 <div className="border-t border-gray-200 dark:border-gray-800 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-gray-500 dark:text-gray-400 text-sm text-center sm:text-left">
+                    <p className="opacity-70 text-sm text-center sm:text-left">
                         &copy; {currentYear}{" "}
                         {import.meta.env.VITE_APP_NAME || "Darpon"}.{" "}
                         {content.copyright || "All rights reserved."}
                     </p>
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center gap-2 text-sm opacity-70">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                         System Operational
                     </div>
@@ -197,7 +197,7 @@ export default function Footer() {
 
                 {/* Developer credit */}
                 <div className="border-t border-gray-200 dark:border-gray-800 py-4 text-center">
-                    <p className="text-gray-500 dark:text-gray-400 text-xs">
+                    <p className="opacity-70 text-xs">
                         Developed by{" "}
                         <a
                             href="https://nixsoftware.net/"

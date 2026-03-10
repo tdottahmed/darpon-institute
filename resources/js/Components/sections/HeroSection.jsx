@@ -76,23 +76,23 @@ export default function HeroSection({ translations }) {
             </div>
 
             {/* Main content - centered */}
-            <div className="relative z-10 flex-1 flex items-left py-16 md:py-20">
-                <div className="container mx-auto max-w-6xl text-left px-4">
+            <div className="relative z-10 flex-1 flex items-center py-16 md:py-20">
+                <div className="container mx-auto max-w-6xl text-center px-4">
                     <h1 className="hero-item hero-item-1 text-[2.25rem] sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-bold text-white leading-[1.15] tracking-tight drop-shadow-sm">
-                        <span className="whitespace-pre-line block text-center md:text-left">
+                        <span className="whitespace-pre-line block text-center">
                             {content.title_line_1 || ""}
                         </span>
                         {content.title_line_2 && (
-                            <span className="inline-block mt-3 bg-[#FFC510] dark:bg-yellow-500 text-gray-900 px-4 py-1.5 rounded-xl font-bold text-3xl md:text-4xl xl:text-6xl text-center md:text-left">
+                            <span className="inline-block mt-3 text-white font-bold text-3xl md:text-4xl xl:text-6xl">
                                 {content.title_line_2}
                             </span>
                         )}
                     </h1>
-                    <p className="hero-item hero-item-2 mt-5 text-base sm:text-lg text-gray-200 dark:text-gray-300 max-w-3xl leading-relaxed text-center md:text-left">
+                    <p className="hero-item hero-item-2 mt-5 text-base sm:text-lg text-gray-200 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
                         {content.description || ""}
                     </p>
 
-                    <div className="hero-item hero-item-3 flex flex-col sm:flex-row gap-4 justify-start mt-8">
+                    <div className="hero-item hero-item-3 flex flex-row flex-wrap gap-3 sm:gap-4 justify-center mt-8">
                         <Link
                             href={content.button_1_link || "/courses"}
                             className="group inline-flex items-center justify-center gap-3 bg-[#5A45FF] hover:bg-[#4a34e0] dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white rounded-full pl-6 pr-2 py-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02]"
@@ -145,9 +145,9 @@ export default function HeroSection({ translations }) {
 
             {/* Stats bar - full width, overlaps next section */}
             {hasStats && (
-                <div className="relative z-20 hero-stats-bar -mb-16 md:-mb-20">
-                    <div className="w-full px-4 sm:px-6 lg:px-8">
-                        <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 py-6 lg:py-8 px-6 lg:px-12 rounded-2xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-x border-gray-200/80 dark:border-gray-700/80 shadow-[0_-8px_40px_rgba(0,0,0,0.1)] dark:shadow-none">
+                <div className="relative z-20 hero-stats-bar border-t border-gray-200/80 dark:border-gray-700/80 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-[0_-8px_40px_rgba(0,0,0,0.1)] dark:shadow-none">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 py-6 lg:py-8">
                             {(content.stat_1_value || content.stat_1_label) && (
                                 <StatItem
                                     value={content.stat_1_value}
