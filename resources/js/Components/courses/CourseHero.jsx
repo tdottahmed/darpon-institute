@@ -4,17 +4,6 @@ import parse from "html-react-parser";
 export default function CourseHero({ course, tags }) {
     return (
         <div className="mb-8">
-            <div className="flex flex-wrap gap-2 mb-4">
-                {tags.map((tag, index) => (
-                    <Badge
-                        key={index}
-                        variant="secondary"
-                        className="bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300 border-none"
-                    >
-                        {tag}
-                    </Badge>
-                ))}
-            </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6 leading-tight">
                 {course.title}
             </h1>

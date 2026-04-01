@@ -1,6 +1,6 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Download, X, Loader2, CheckCircle2 } from "lucide-react";
+import { Download, X, Loader2, CheckCircle2, User, Mail, Phone, MapPin, Globe } from "lucide-react";
 import { formatPrice } from "@/Utils/currency";
 import { generatePDF } from "@/Utils/pdfGenerator";
 
@@ -112,21 +112,21 @@ export default function CourseEnrollmentInvoiceDialog({ isOpen, onClose, registr
                                                             day: "numeric",
                                                         })}</span>
                                                     </div>
-                                                    <div className="flex gap-4">
+                                                    <div className="flex items-center gap-4">
                                                         <span className="font-medium opacity-90">Status:</span>
-                                                        <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase">
+                                                        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold uppercase text-primary-700 shadow-sm">
                                                             {registration.status}
                                                         </span>
                                                     </div>
                                                     {registration.payment_status && (
-                                                        <div className="flex gap-4">
+                                                        <div className="flex items-center gap-4">
                                                             <span className="font-medium opacity-90">Payment Status:</span>
-                                                            <span className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                                                            <span className={`rounded-full px-3 py-1 text-xs font-bold uppercase shadow-sm ${
                                                                 registration.payment_status === 'verified' 
-                                                                    ? 'bg-green-500/30 text-green-100' 
+                                                                    ? 'bg-green-50 text-green-700' 
                                                                     : registration.payment_status === 'rejected'
-                                                                    ? 'bg-red-500/30 text-red-100'
-                                                                    : 'bg-yellow-500/30 text-yellow-100'
+                                                                    ? 'bg-red-50 text-red-700'
+                                                                    : 'bg-yellow-50 text-yellow-700'
                                                             }`}>
                                                                 {registration.payment_status}
                                                             </span>
@@ -142,31 +142,61 @@ export default function CourseEnrollmentInvoiceDialog({ isOpen, onClose, registr
                                     </div>
 
                                     {/* Student Information */}
-                                    <div className="mb-8">
-                                        <h2 className="mb-4 border-b-2 border-gray-200 pb-2 text-lg font-bold text-gray-900">
+                                    <div className="mb-8 p-6 rounded-2xl bg-gray-50 border border-gray-100">
+                                        <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-gray-900 border-b border-gray-200 pb-3">
+                                            <User className="h-5 w-5 text-primary-600" />
                                             Student Information
                                         </h2>
-                                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                            <div>
-                                                <span className="text-sm font-medium text-gray-500">Name:</span>
-                                                <p className="text-gray-900">{registration.name}</p>
+                                        <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-8">
+                                            <div className="flex items-start gap-3">
+                                                <div className="mt-1 p-2 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                                    <User className="h-4 w-4 text-gray-400" />
+                                                </div>
+                                                <div>
+                                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Full Name</span>
+                                                    <p className="text-sm font-semibold text-gray-900">{registration.name}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <span className="text-sm font-medium text-gray-500">Email:</span>
-                                                <p className="text-gray-900">{registration.email}</p>
+
+                                            <div className="flex items-start gap-3">
+                                                <div className="mt-1 p-2 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                                    <Mail className="h-4 w-4 text-gray-400" />
+                                                </div>
+                                                <div>
+                                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Email Address</span>
+                                                    <p className="text-sm font-semibold text-gray-900">{registration.email}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <span className="text-sm font-medium text-gray-500">Phone:</span>
-                                                <p className="text-gray-900">{registration.phone}</p>
+
+                                            <div className="flex items-start gap-3">
+                                                <div className="mt-1 p-2 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                                    <Phone className="h-4 w-4 text-gray-400" />
+                                                </div>
+                                                <div>
+                                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Phone Number</span>
+                                                    <p className="text-sm font-semibold text-gray-900">{registration.phone}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <span className="text-sm font-medium text-gray-500">Enrollment Type:</span>
-                                                <p className="text-gray-900 capitalize">{registration.enrollment_type || "Online"}</p>
+
+                                            <div className="flex items-start gap-3">
+                                                <div className="mt-1 p-2 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                                    <Globe className="h-4 w-4 text-gray-400" />
+                                                </div>
+                                                <div>
+                                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Enrollment Type</span>
+                                                    <p className="text-sm font-semibold text-gray-900 capitalize">{registration.enrollment_type || "Online"}</p>
+                                                </div>
                                             </div>
+
                                             {registration.address && (
-                                                <div className="sm:col-span-2">
-                                                    <span className="text-sm font-medium text-gray-500">Address:</span>
-                                                    <p className="whitespace-pre-wrap text-gray-900">{registration.address}</p>
+                                                <div className="sm:col-span-2 flex items-start gap-3">
+                                                    <div className="mt-1 p-2 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                                        <MapPin className="h-4 w-4 text-gray-400" />
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Physical Address</span>
+                                                        <p className="text-sm font-semibold text-gray-900 whitespace-pre-wrap">{registration.address}</p>
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>
