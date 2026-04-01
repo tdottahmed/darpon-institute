@@ -48,7 +48,7 @@ export default function CourseCard({ course }) {
 
         // Check if any variation has discount
         hasDiscount = variations.some(
-            (v) => Number(v.discount) > 0 && Number(v.price) > 0
+            (v) => Number(v.discount) > 0 && Number(v.price) > 0,
         );
     } else {
         // Calculate discount based on course type
@@ -61,7 +61,7 @@ export default function CourseCard({ course }) {
             if (discountType === "flat") {
                 discountedPrice = Math.max(
                     0,
-                    Number(course.price) - Number(course.discount)
+                    Number(course.price) - Number(course.discount),
                 );
                 discountDisplay = formatPrice(course.discount);
             } else {
@@ -156,19 +156,6 @@ export default function CourseCard({ course }) {
             {/* Content */}
             <div className="flex flex-1 flex-col p-6">
                 {/* Tags (in content area) */}
-                {tags.length > 0 && (
-                    <div className="mb-3 flex flex-wrap gap-2">
-                        {tags.slice(0, 2).map((tag, index) => (
-                            <Badge
-                                key={index}
-                                variant="secondary"
-                                className="bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 text-xs"
-                            >
-                                {tag}
-                            </Badge>
-                        ))}
-                    </div>
-                )}
 
                 {/* Title */}
                 <Link
@@ -202,7 +189,11 @@ export default function CourseCard({ course }) {
                                         </span>
                                         {hasVariations && (
                                             <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                {variations.length} duration{variations.length > 1 ? "s" : ""} available
+                                                {variations.length} duration
+                                                {variations.length > 1
+                                                    ? "s"
+                                                    : ""}{" "}
+                                                available
                                             </span>
                                         )}
                                     </>
