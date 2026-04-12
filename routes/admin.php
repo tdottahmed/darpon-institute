@@ -59,6 +59,7 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
     // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
+    Route::post('/settings/sitemap', [SettingController::class, 'regenerateSitemap'])->name('settings.sitemap');
 
     // Landing Pages
     Route::resource('landing-pages', LandingPageController::class);
