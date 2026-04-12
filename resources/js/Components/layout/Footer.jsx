@@ -1,5 +1,6 @@
 import Container from "../ui/Container";
 import { Link, usePage } from "@inertiajs/react";
+import FloatingWidgets from "../ui/FloatingWidgets";
 
 export default function Footer() {
     const { frontend_content, settings, custom_pages } = usePage().props;
@@ -275,6 +276,8 @@ export default function Footer() {
                     </p>
                 </div>
             </Container>
+            
+            <FloatingWidgets />
         </footer>
     );
 }

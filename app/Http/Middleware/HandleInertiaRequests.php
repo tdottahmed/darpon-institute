@@ -70,6 +70,7 @@ class HandleInertiaRequests extends Middleware
                             'company_address' => \App\Models\Setting::get('company_address'),
                             'company_phone' => \App\Models\Setting::get('company_phone'),
                             'company_email' => \App\Models\Setting::get('company_email'),
+                            'whatsapp_number' => \App\Models\Setting::get('whatsapp_number'),
                             'rss_feed_url' => \App\Models\Setting::get('rss_feed_url'),
                             'logo_light' => \App\Models\Setting::get('logo_light')
                                 ? \Illuminate\Support\Facades\Storage::url(\App\Models\Setting::get('logo_light'))
@@ -92,6 +93,7 @@ class HandleInertiaRequests extends Middleware
                     'company_address' => null,
                     'company_phone' => null,
                     'company_email' => null,
+                    'whatsapp_number' => null,
                     'rss_feed_url' => null,
                     'logo_light' => '/darponbdv.png',
                     'logo_dark' => null,

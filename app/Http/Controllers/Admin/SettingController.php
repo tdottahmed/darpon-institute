@@ -45,6 +45,7 @@ class SettingController extends Controller
             'company_address' => Setting::get('company_address'),
             'company_phone' => Setting::get('company_phone'),
             'company_email' => Setting::get('company_email'),
+            'whatsapp_number' => Setting::get('whatsapp_number'),
 
             // Logos
             'logo_light' => Setting::get('logo_light'),
@@ -101,9 +102,10 @@ class SettingController extends Controller
             'social_youtube' => 'nullable|url',
 
             // Company Info
-            'company_address' => 'nullable|string',
-            'company_phone' => 'nullable|string',
-            'company_email' => 'nullable|email',
+            'company_address' => 'nullable|string|max:500',
+            'company_phone' => 'nullable|string|max:50',
+            'company_email' => 'nullable|email|max:255',
+            'whatsapp_number' => 'nullable|string|max:50',
 
             // Logos
             'logo_light' => 'nullable|image|max:2048',

@@ -200,6 +200,9 @@
 
           <x-forms.input name="social_youtube" label="YouTube URL" type="url" :value="old('social_youtube', $settings['social_youtube'])" :error="$errors->first('social_youtube')"
                          placeholder="https://youtube.com/yourchannel" />
+
+          <x-forms.input name="whatsapp_number" label="WhatsApp Number" type="text" :value="old('whatsapp_number', $settings['whatsapp_number'] ?? '')" :error="$errors->first('whatsapp_number')"
+                         placeholder="+8801234567890" />
         </div>
       </x-card>
 
