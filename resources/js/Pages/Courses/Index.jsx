@@ -6,6 +6,7 @@ import CourseCard from "@/Components/courses/CourseCard";
 import Button from "@/Components/ui/Button";
 import SectionBackground from "@/Components/ui/SectionBackground";
 import { useState } from "react";
+import CTASection from "@/Components/sections/CTASection";
 
 export default function CoursesIndex({ courses, filters }) {
     const { translations } = usePage().props;
@@ -226,6 +227,7 @@ export default function CoursesIndex({ courses, filters }) {
                         </Container>
                     </section>
                 </main>
+                <CTASection />
                 <Footer />
             </div>
         </>
