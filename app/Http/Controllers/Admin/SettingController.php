@@ -41,6 +41,11 @@ class SettingController extends Controller
             'social_twitter' => Setting::get('social_twitter'),
             'social_youtube' => Setting::get('social_youtube'),
 
+            // Company Info
+            'company_address' => Setting::get('company_address'),
+            'company_phone' => Setting::get('company_phone'),
+            'company_email' => Setting::get('company_email'),
+
             // Logos
             'logo_light' => Setting::get('logo_light'),
             'logo_dark' => Setting::get('logo_dark'),
@@ -89,6 +94,11 @@ class SettingController extends Controller
             'social_instagram' => 'nullable|url',
             'social_twitter' => 'nullable|url',
             'social_youtube' => 'nullable|url',
+
+            // Company Info
+            'company_address' => 'nullable|string',
+            'company_phone' => 'nullable|string',
+            'company_email' => 'nullable|email',
 
             // Logos
             'logo_light' => 'nullable|image|max:2048',

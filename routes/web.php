@@ -10,6 +10,8 @@ use App\Http\Controllers\Frontend\LandingPageController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\Admin\CustomPageController;
+use App\Http\Controllers\Frontend\PageController;
 use Illuminate\Support\Facades\Route;
 
 // ============================================
@@ -35,6 +37,7 @@ Route::get('/galleries', [FrontendController::class, 'galleries'])->name('galler
 Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+Route::get('/page/{slug}', [PageController::class, 'show'])->name('page.show');
 
 // Language Switching
 Route::get('/language/{locale}', [LanguageController::class, 'switch'])
@@ -95,6 +98,9 @@ Route::middleware('auth')->group(function () {
 
     // Teachers Management
     Route::resource('admin/teachers', \App\Http\Controllers\Admin\TeacherController::class, ['as' => 'admin']);
+
+    // Custom Pages Management
+    Route::resource('admin/custom-pages', CustomPageController::class, ['as' => 'admin']);
 
     // About Page Management
     Route::group(['prefix' => 'admin/about', 'as' => 'admin.about.'], function () {

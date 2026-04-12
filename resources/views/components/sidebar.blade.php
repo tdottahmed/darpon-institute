@@ -52,6 +52,12 @@
               'icon' => 'academic-cap',
               'active' => request()->routeIs('admin.teachers.*'),
           ],
+          [
+              'name' => 'Custom Pages',
+              'href' => route('admin.custom-pages.index'),
+              'icon' => 'document-text',
+              'active' => request()->routeIs('admin.custom-pages.*'),
+          ],
       ],
       'Management' => [
           [

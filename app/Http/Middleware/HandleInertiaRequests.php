@@ -67,6 +67,9 @@ class HandleInertiaRequests extends Middleware
                             'social_instagram' => \App\Models\Setting::get('social_instagram'),
                             'social_twitter' => \App\Models\Setting::get('social_twitter'),
                             'social_youtube' => \App\Models\Setting::get('social_youtube'),
+                            'company_address' => \App\Models\Setting::get('company_address'),
+                            'company_phone' => \App\Models\Setting::get('company_phone'),
+                            'company_email' => \App\Models\Setting::get('company_email'),
                             'rss_feed_url' => \App\Models\Setting::get('rss_feed_url'),
                             'logo_light' => \App\Models\Setting::get('logo_light')
                                 ? \Illuminate\Support\Facades\Storage::url(\App\Models\Setting::get('logo_light'))
@@ -86,12 +89,27 @@ class HandleInertiaRequests extends Middleware
                     'social_instagram' => null,
                     'social_twitter' => null,
                     'social_youtube' => null,
+                    'company_address' => null,
+                    'company_phone' => null,
+                    'company_email' => null,
                     'rss_feed_url' => null,
                     'logo_light' => '/darponbdv.png',
                     'logo_dark' => null,
                     'header_footer_color_light' => '#ffffff',
                     'header_footer_color_dark' => '#111827',
                 ];
+            },
+            'custom_pages' => function () {
+                try {
+                    if (class_exists(\App\Models\CustomPage::class)) {
+                        return \Illuminate\Support\Facades\Cache::remember('active_custom_pages', 60 * 24, function () {
+                            return \App\Models\CustomPage::where('is_active', true)->select('id', 'title', 'slug')->get();
+                        });
+                    }
+                } catch (\Exception $e) {
+                    // Silently fail
+                }
+                return [];
             },
         ];
     }
