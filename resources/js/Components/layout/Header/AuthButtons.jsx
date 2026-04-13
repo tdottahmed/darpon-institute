@@ -1,23 +1,22 @@
-import Button from "../../ui/Button";
+import PrimaryButton from "../../ui/PrimaryButton";
+import SecondaryButton from "../../ui/SecondaryButton";
 
 export default function AuthButtons({ content = {} }) {
     return (
-        <>
-            <Button
+        <div className="flex items-center gap-3">
+            <SecondaryButton
                 href={route("login")}
-                variant="text"
-                size="sm"
-                className="hidden xl:inline-flex text-[var(--header-footer-text-light)] dark:text-[var(--header-footer-text-dark)] hover:opacity-80 hover:bg-black/5"
+                className="hidden xl:inline-flex bg-transparent border-none shadow-none text-[var(--header-footer-text-light)] dark:text-[var(--header-footer-text-dark)] hover:opacity-80 hover:bg-black/5 dark:hover:bg-white/5 pl-4 pr-4 py-2"
+                showIcon={false}
             >
                 {content.auth_login || "Log in"}
-            </Button>
-            <Button
+            </SecondaryButton>
+            <PrimaryButton
                 href={route("register")}
-                size="sm"
-                className="bg-gray-900 text-white hover:bg-gray-800 border-none"
+                className="pl-5 pr-1 py-2 sm:pl-6 sm:pr-2 sm:py-2.5"
             >
                 {content.auth_register || "Get Started"}
-            </Button>
-        </>
+            </PrimaryButton>
+        </div>
     );
 }

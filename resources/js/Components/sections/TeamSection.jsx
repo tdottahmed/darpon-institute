@@ -3,6 +3,7 @@ import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
 import SectionBackground from "../ui/SectionBackground";
 import TeacherCard from "../cards/TeacherCard";
+import SecondaryButton from "../ui/SecondaryButton";
 import { usePage } from "@inertiajs/react";
 
 export default function TeamSection({ teachers = [] }) {
@@ -65,6 +66,12 @@ export default function TeamSection({ teachers = [] }) {
                             <TeacherCard teacher={teacher} />
                         </div>
                     ))}
+                </div>
+
+                <div className="section-animate section-animate-delay-2 text-center mt-10 sm:mt-12">
+                    <SecondaryButton href={route("instructors.index")}>
+                        {content.view_all_link || "View All Instructors"}
+                    </SecondaryButton>
                 </div>
             </Container>
         </section>

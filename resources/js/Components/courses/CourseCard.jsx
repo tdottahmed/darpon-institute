@@ -1,5 +1,6 @@
 import { Link } from "@inertiajs/react";
 import Badge from "../ui/Badge";
+import PrimaryButton from "../ui/PrimaryButton";
 import { formatPrice } from "@/Utils/currency";
 
 export default function CourseCard({ course }) {
@@ -9,7 +10,6 @@ export default function CourseCard({ course }) {
             : `/storage/${course.thumbnail}`
         : null;
 
-    const tags = Array.isArray(course.tags) ? course.tags : [];
     const variations = course.variations || course.active_variations || [];
     const hasVariations = variations.length > 0;
 
@@ -48,7 +48,7 @@ export default function CourseCard({ course }) {
 
         // Check if any variation has discount
         hasDiscount = variations.some(
-            (v) => Number(v.discount) > 0 && Number(v.price) > 0
+            (v) => Number(v.discount) > 0 && Number(v.price) > 0,
         );
     } else {
         // Calculate discount based on course type
@@ -61,7 +61,7 @@ export default function CourseCard({ course }) {
             if (discountType === "flat") {
                 discountedPrice = Math.max(
                     0,
-                    Number(course.price) - Number(course.discount)
+                    Number(course.price) - Number(course.discount),
                 );
                 discountDisplay = formatPrice(course.discount);
             } else {
@@ -128,20 +128,6 @@ export default function CourseCard({ course }) {
                     )}
                 </div>
 
-                {/* Tags Overlay (Bottom) */}
-                {tags.length > 0 && (
-                    <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-wrap gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {tags.slice(0, 2).map((tag, index) => (
-                            <span
-                                key={index}
-                                className="inline-flex items-center rounded-md bg-white/95 backdrop-blur-sm px-2 py-1 text-xs font-medium text-primary-700 shadow-sm dark:bg-gray-900/95 dark:text-primary-300"
-                            >
-                                {tag}
-                            </span>
-                        ))}
-                    </div>
-                )}
-
                 {/* Hover Overlay with Quick Action */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <Link
@@ -155,20 +141,6 @@ export default function CourseCard({ course }) {
 
             {/* Content */}
             <div className="flex flex-1 flex-col p-6">
-                {/* Tags (in content area) */}
-                {tags.length > 0 && (
-                    <div className="mb-3 flex flex-wrap gap-2">
-                        {tags.slice(0, 2).map((tag, index) => (
-                            <Badge
-                                key={index}
-                                variant="secondary"
-                                className="bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 text-xs"
-                            >
-                                {tag}
-                            </Badge>
-                        ))}
-                    </div>
-                )}
 
                 {/* Title */}
                 <Link
@@ -202,7 +174,11 @@ export default function CourseCard({ course }) {
                                         </span>
                                         {hasVariations && (
                                             <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                {variations.length} duration{variations.length > 1 ? "s" : ""} available
+                                                {variations.length} duration
+                                                {variations.length > 1
+                                                    ? "s"
+                                                    : ""}{" "}
+                                                available
                                             </span>
                                         )}
                                     </>
@@ -229,25 +205,12 @@ export default function CourseCard({ course }) {
                     )}
 
                     {/* Action Button */}
-                    <Link
+                    <PrimaryButton
                         href={route("courses.show", course.slug)}
-                        className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-primary-700 hover:shadow-lg active:scale-95 dark:bg-primary-500 dark:hover:bg-primary-600"
+                        className="w-full"
                     >
-                        <span>View Details</span>
-                        <svg
-                            className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"
-                            />
-                        </svg>
-                    </Link>
+                        View Details
+                    </PrimaryButton>
                 </div>
             </div>
         </div>

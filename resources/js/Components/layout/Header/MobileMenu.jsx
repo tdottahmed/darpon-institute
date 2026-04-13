@@ -1,6 +1,7 @@
 import { Link, usePage } from "@inertiajs/react";
 import Avatar from "../../ui/Avatar";
-import Button from "../../ui/Button";
+import PrimaryButton from "../../ui/PrimaryButton";
+import SecondaryButton from "../../ui/SecondaryButton";
 import Navigation from "./Navigation";
 import LanguageSwitcher from "../../LanguageSwitcher";
 import DarkModeToggle from "../../DarkModeToggle";
@@ -84,25 +85,23 @@ export default function MobileMenu({
                         </div>
                     </>
                 ) : (
-                    <div className="flex flex-col space-y-2 px-3">
-                        <Button
+                    <div className="flex flex-col space-y-3 px-3">
+                        <SecondaryButton
                             href={route("login")}
-                            variant="text"
-                            size="sm"
-                            className="w-full justify-center"
+                            className="w-full justify-center bg-gray-100 dark:bg-gray-800 border-none hover:bg-gray-200 dark:hover:bg-gray-700"
                             onClick={onClose}
+                            showIcon={false}
                         >
                             {content.auth_login || "Log in"}
-                        </Button>
-                        <Button
+                        </SecondaryButton>
+                        <PrimaryButton
                             href={route("register")}
-                            variant="primary"
-                            size="sm"
                             className="w-full justify-center"
                             onClick={onClose}
+                            showIcon={false}
                         >
                             {content.auth_register || "Get Started"}
-                        </Button>
+                        </PrimaryButton>
                     </div>
                 )}
                 {/* Language & Dark Mode Toggle */}

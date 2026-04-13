@@ -1,6 +1,7 @@
 import { Link } from "@inertiajs/react";
 import { formatPrice } from "@/Utils/currency";
 import Badge from "../ui/Badge";
+import PrimaryButton from "../ui/PrimaryButton";
 
 export default function BookCard({ book }) {
     const hasDiscount = book.discount > 0;
@@ -109,25 +110,12 @@ export default function BookCard({ book }) {
                     </div>
 
                     {/* Action Button */}
-                    <Link
+                    <PrimaryButton
                         href={route("books.show", book.slug)}
-                        className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-primary-700 hover:shadow-lg active:scale-95 dark:bg-primary-500 dark:hover:bg-primary-600"
+                        className="w-full"
                     >
-                        <span>View Book</span>
-                        <svg
-                            className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"
-                            />
-                        </svg>
-                    </Link>
+                        View Book
+                    </PrimaryButton>
                 </div>
             </div>
         </div>

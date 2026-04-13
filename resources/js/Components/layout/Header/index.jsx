@@ -35,10 +35,6 @@ export default function Header() {
             href: route("galleries.index"),
         },
         {
-            name: content.menu_about || "About",
-            href: route("about"),
-        },
-        {
             name: content.menu_contact || "Contact",
             href: route("contact"),
         },

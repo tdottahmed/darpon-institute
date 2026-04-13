@@ -6,6 +6,7 @@ import BookCard from "@/Components/cards/BookCard";
 import PageBackground from "@/Components/ui/PageBackground";
 import SectionBackground from "@/Components/ui/SectionBackground";
 import Container from "@/Components/ui/Container";
+import CTASection from "@/Components/sections/CTASection";
 
 export default function Index({ books, filters, trans }) {
     const [search, setSearch] = useState(filters.search || "");
@@ -181,7 +182,7 @@ export default function Index({ books, filters, trans }) {
                         )}
                     </div>
                 </main>
-
+                <CTASection />
                 <Footer />
             </div>
         </>

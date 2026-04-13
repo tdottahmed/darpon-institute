@@ -1,6 +1,6 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Download, X, Loader2, CheckCircle2, CreditCard } from "lucide-react";
+import { Download, X, Loader2, CheckCircle2, CreditCard, User, Mail, Phone, MapPin, Truck } from "lucide-react";
 import { formatPrice } from "@/Utils/currency";
 import { generatePDF } from "@/Utils/pdfGenerator";
 
@@ -108,48 +108,78 @@ export default function InvoiceDialog({ isOpen, onClose, order, book }) {
                                                             day: "numeric",
                                                         })}</span>
                                                     </div>
-                                                    <div className="flex gap-4">
+                                                    <div className="flex items-center gap-4">
                                                         <span className="font-medium opacity-90">Status:</span>
-                                                        <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase">
+                                                        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold uppercase text-primary-700 shadow-sm">
                                                             {order.status}
                                                         </span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="mt-4 text-right sm:mt-0">
-                                                <div className="text-2xl font-bold">{import.meta.env.VITE_APP_NAME || "Darpon"}</div>
+                                                <div className="text-2xl font-bold">Darpon</div>
                                                 <div className="mt-1 text-sm opacity-90">Book Order Invoice</div>
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* Customer Information */}
-                                    <div className="mb-8">
-                                        <h2 className="mb-4 border-b-2 border-gray-200 pb-2 text-lg font-bold text-gray-900">
+                                    <div className="mb-8 p-6 rounded-2xl bg-gray-50 border border-gray-100">
+                                        <h2 className="mb-6 flex items-center gap-2 text-lg font-bold text-gray-900 border-b border-gray-200 pb-3">
+                                            <User className="h-5 w-5 text-primary-600" />
                                             Customer Information
                                         </h2>
-                                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                            <div>
-                                                <span className="text-sm font-medium text-gray-500">Name:</span>
-                                                <p className="text-gray-900">{order.name}</p>
+                                        <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-8">
+                                            <div className="flex items-start gap-3">
+                                                <div className="mt-1 p-2 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                                    <User className="h-4 w-4 text-gray-400" />
+                                                </div>
+                                                <div>
+                                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Full Name</span>
+                                                    <p className="text-sm font-semibold text-gray-900">{order.name}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <span className="text-sm font-medium text-gray-500">Email:</span>
-                                                <p className="text-gray-900">{order.email}</p>
+
+                                            <div className="flex items-start gap-3">
+                                                <div className="mt-1 p-2 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                                    <Mail className="h-4 w-4 text-gray-400" />
+                                                </div>
+                                                <div>
+                                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Email Address</span>
+                                                    <p className="text-sm font-semibold text-gray-900">{order.email}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <span className="text-sm font-medium text-gray-500">Phone:</span>
-                                                <p className="text-gray-900">{order.phone}</p>
+
+                                            <div className="flex items-start gap-3">
+                                                <div className="mt-1 p-2 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                                    <Phone className="h-4 w-4 text-gray-400" />
+                                                </div>
+                                                <div>
+                                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Phone Number</span>
+                                                    <p className="text-sm font-semibold text-gray-900">{order.phone}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <span className="text-sm font-medium text-gray-500">Shipping Method:</span>
-                                                <p className="text-gray-900">
-                                                    {order.shipping_method === "inside_dhaka" ? "Inside Dhaka" : "Outside Dhaka"}
-                                                </p>
+
+                                            <div className="flex items-start gap-3">
+                                                <div className="mt-1 p-2 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                                    <Truck className="h-4 w-4 text-gray-400" />
+                                                </div>
+                                                <div>
+                                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Shipping Method</span>
+                                                    <p className="text-sm font-semibold text-gray-900">
+                                                        {order.shipping_method === "inside_dhaka" ? "Inside Dhaka" : "Outside Dhaka"}
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div className="sm:col-span-2">
-                                                <span className="text-sm font-medium text-gray-500">Address:</span>
-                                                <p className="whitespace-pre-wrap text-gray-900">{order.address}</p>
+
+                                            <div className="sm:col-span-2 flex items-start gap-3">
+                                                <div className="mt-1 p-2 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                                    <MapPin className="h-4 w-4 text-gray-400" />
+                                                </div>
+                                                <div>
+                                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Shipping Address</span>
+                                                    <p className="text-sm font-semibold text-gray-900 whitespace-pre-wrap">{order.address}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

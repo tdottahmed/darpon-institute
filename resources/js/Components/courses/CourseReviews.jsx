@@ -1,6 +1,7 @@
 import { useForm } from "@inertiajs/react";
-import Button from "@/Components/ui/Button";
+import PrimaryButton from "@/Components/ui/PrimaryButton";
 import Avatar from "@/Components/ui/Avatar";
+import SecondaryButton from "@/Components/ui/SecondaryButton";
 
 export default function CourseReviews({
     course,
@@ -43,9 +44,9 @@ export default function CourseReviews({
                 </div>
 
                 {isEnrolled && (
-                    <a
+                    <SecondaryButton
                         href="#write-review"
-                        className="inline-flex items-center text-primary-600 hover:text-primary-700 dark:text-primary-400 font-medium transition-colors"
+                        showIcon={false}
                     >
                         <svg
                             className="w-5 h-5 mr-2"
@@ -61,7 +62,7 @@ export default function CourseReviews({
                             />
                         </svg>
                         {userReview ? "Update your review" : "Write a review"}
-                    </a>
+                    </SecondaryButton>
                 )}
             </div>
 
@@ -215,11 +216,10 @@ export default function CourseReviews({
                             )}
                         </div>
 
-                        <Button
-                            variant="primary"
-                            size="lg"
-                            className="px-10 h-14 rounded-2xl font-bold shadow-lg shadow-primary-500/20 active:scale-95 transition-all"
+                        <PrimaryButton
+                            className="px-10 h-14"
                             disabled={processing}
+                            showIcon={true}
                         >
                             {processing ? (
                                 <span className="flex items-center gap-2">
@@ -249,7 +249,7 @@ export default function CourseReviews({
                             ) : (
                                 "Submit Review"
                             )}
-                        </Button>
+                        </PrimaryButton>
                     </form>
                 </div>
             )}

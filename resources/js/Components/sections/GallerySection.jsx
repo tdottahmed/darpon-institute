@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
 import SectionBackground from "../ui/SectionBackground";
-import Button from "../ui/Button";
+import SecondaryButton from "../ui/SecondaryButton";
 
 const SECTION_PADDING = "py-16 sm:py-20 lg:py-28";
 
@@ -146,29 +146,9 @@ export default function GallerySection({ galleries = [] }) {
 
                     <div className="section-animate section-animate-delay-2 text-center mt-10 sm:mt-12">
                         <div className="group inline-flex">
-                            <Button
-                                href={route("galleries.index")}
-                                variant="primary"
-                                size="lg"
-                                className="inline-flex items-center gap-2"
-                            >
-                                <span>
-                                    {content.view_all_link || "View All Images"}
-                                </span>
-                                <svg
-                                    className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                    />
-                                </svg>
-                            </Button>
+                            <SecondaryButton href={route("galleries.index")}>
+                                {content.view_all_link || "View All Images"}
+                            </SecondaryButton>
                         </div>
                     </div>
                 </Container>

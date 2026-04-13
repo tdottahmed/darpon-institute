@@ -41,6 +41,12 @@ class SettingController extends Controller
             'social_twitter' => Setting::get('social_twitter'),
             'social_youtube' => Setting::get('social_youtube'),
 
+            // Company Info
+            'company_address' => Setting::get('company_address'),
+            'company_phone' => Setting::get('company_phone'),
+            'company_email' => Setting::get('company_email'),
+            'whatsapp_number' => Setting::get('whatsapp_number'),
+
             // Logos
             'logo_light' => Setting::get('logo_light'),
             'logo_dark' => Setting::get('logo_dark'),
@@ -49,6 +55,11 @@ class SettingController extends Controller
             'sitemap_url' => Setting::get('sitemap_url'),
             'rss_feed_url' => Setting::get('rss_feed_url'),
             'google_analytics_id' => Setting::get('google_analytics_id'),
+            'seo_meta_title' => Setting::get('seo_meta_title'),
+            'seo_meta_description' => Setting::get('seo_meta_description'),
+            'seo_meta_keywords' => Setting::get('seo_meta_keywords'),
+            'seo_meta_author' => Setting::get('seo_meta_author'),
+            'seo_og_image' => Setting::get('seo_og_image'),
             'header_footer_color_light' => Setting::get('header_footer_color_light', '#ffffff'),
             'header_footer_color_dark' => Setting::get('header_footer_color_dark', '#111827'),
             'header_footer_text_color_light' => Setting::get('header_footer_text_color_light', '#111827'),
@@ -90,6 +101,12 @@ class SettingController extends Controller
             'social_twitter' => 'nullable|url',
             'social_youtube' => 'nullable|url',
 
+            // Company Info
+            'company_address' => 'nullable|string|max:500',
+            'company_phone' => 'nullable|string|max:50',
+            'company_email' => 'nullable|email|max:255',
+            'whatsapp_number' => 'nullable|string|max:50',
+
             // Logos
             'logo_light' => 'nullable|image|max:2048',
             'logo_dark' => 'nullable|image|max:2048',
@@ -100,6 +117,12 @@ class SettingController extends Controller
             'sitemap_url' => 'nullable|url|max:255',
             'rss_feed_url' => 'nullable|url|max:255',
             'google_analytics_id' => 'nullable|string|max:255',
+            'seo_meta_title' => 'nullable|string|max:255',
+            'seo_meta_description' => 'nullable|string|max:500',
+            'seo_meta_keywords' => 'nullable|string|max:500',
+            'seo_meta_author' => 'nullable|string|max:255',
+            'seo_og_image' => 'nullable|image|max:2048',
+            'seo_og_image_existing' => 'nullable|string',
             'header_footer_color_light' => ['nullable', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
             'header_footer_color_dark' => ['nullable', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
             'header_footer_text_color_light' => ['nullable', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
@@ -156,8 +179,26 @@ class SettingController extends Controller
         }
         // If logo_dark fields are not present in request at all, logo_dark remains unchanged
 
+        // OG Image - Only update if explicitly provided
+        if ($request->hasFile('seo_og_image')) {
+            $oldOgImage = Setting::get('seo_og_image');
+            if ($oldOgImage && Storage::disk('public')->exists($oldOgImage)) {
+                Storage::disk('public')->delete($oldOgImage);
+            }
+            $ogPath = $request->file('seo_og_image')->store('seo', 'public');
+            Setting::set('seo_og_image', $ogPath);
+        } elseif ($request->has('seo_og_image_existing') && $request->filled('seo_og_image_existing')) {
+            $existingValue = $request->input('seo_og_image_existing');
+            if (!empty(trim($existingValue))) {
+                $storagePath = $this->extractStoragePath($existingValue);
+                if ($storagePath && !empty(trim($storagePath))) {
+                    Setting::set('seo_og_image', $storagePath);
+                }
+            }
+        }
+
         // Remove logo fields from validated array as they're already handled
-        unset($validated['logo_light'], $validated['logo_dark'], $validated['logo_light_existing'], $validated['logo_dark_existing']);
+        unset($validated['logo_light'], $validated['logo_dark'], $validated['logo_light_existing'], $validated['logo_dark_existing'], $validated['seo_og_image'], $validated['seo_og_image_existing']);
 
         foreach ($validated as $key => $value) {
             // Handle boolean values
@@ -219,5 +260,65 @@ class SettingController extends Controller
 
         // Return the cleaned path
         return $path ?: null;
+    }
+
+    /**
+     * Regenerate the XML Sitemap utilizing manual model ingestion 
+     * (Provides significantly better compatibility for Inertia.js apps than generic crawlers)
+     */
+    public function regenerateSitemap()
+    {
+        try {
+            $sitemap = \Spatie\Sitemap\Sitemap::create()
+                ->add(\Spatie\Sitemap\Tags\Url::create('/')->setPriority(1.0)->setChangeFrequency('daily'))
+                ->add(\Spatie\Sitemap\Tags\Url::create('/courses')->setPriority(0.9)->setChangeFrequency('daily'))
+                ->add(\Spatie\Sitemap\Tags\Url::create('/books')->setPriority(0.9)->setChangeFrequency('daily'))
+                ->add(\Spatie\Sitemap\Tags\Url::create('/about')->setPriority(0.7)->setChangeFrequency('monthly'))
+                ->add(\Spatie\Sitemap\Tags\Url::create('/contact')->setPriority(0.7)->setChangeFrequency('monthly'));
+
+            // Include dynamic Custom Pages
+            if (class_exists(\App\Models\CustomPage::class)) {
+                $customPages = \App\Models\CustomPage::where('is_active', true)->get();
+                foreach ($customPages as $page) {
+                    $sitemap->add(\Spatie\Sitemap\Tags\Url::create("/page/{$page->slug}")->setPriority(0.6)->setChangeFrequency('monthly'));
+                }
+            }
+
+            // Include Courses
+            if (class_exists(\App\Models\Course::class)) {
+                // Assuming is_published, status, or is_active fields, if unsure map all
+                $courses = \App\Models\Course::all(); 
+                foreach ($courses as $course) {
+                    $sitemap->add(\Spatie\Sitemap\Tags\Url::create("/courses/{$course->slug}")->setPriority(0.8)->setChangeFrequency('weekly'));
+                }
+            }
+
+            // Include Books
+            if (class_exists(\App\Models\Book::class)) {
+                $books = \App\Models\Book::all();
+                foreach ($books as $book) {
+                    $sitemap->add(\Spatie\Sitemap\Tags\Url::create("/books/{$book->slug}")->setPriority(0.8)->setChangeFrequency('weekly'));
+                }
+            }
+
+            // Include Landing Pages
+            if (class_exists(\App\Models\LandingPage::class)) {
+                $landingPages = \App\Models\LandingPage::all();
+                foreach ($landingPages as $lp) {
+                    $sitemap->add(\Spatie\Sitemap\Tags\Url::create("/lp/{$lp->slug}")->setPriority(0.9)->setChangeFrequency('weekly'));
+                }
+            }
+
+            $sitemap->writeToFile(public_path('sitemap.xml'));
+
+            // Optionally auto-update the setting link to point to this sitemap
+            Setting::set('sitemap_url', url('/sitemap.xml'));
+
+            return redirect()->route('admin.settings.index')
+                ->with('status', 'Sitemap generated successfully! It has been natively populated and saved to /sitemap.xml');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.settings.index')
+                ->with('error', 'Error generating sitemap: ' . $e->getMessage());
+        }
     }
 }

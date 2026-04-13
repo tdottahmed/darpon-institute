@@ -2,12 +2,13 @@ import { Head, useForm, usePage } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
-import Button from "@/Components/ui/Button";
+import PrimaryButton from "@/Components/ui/PrimaryButton";
 import { useState } from "react";
 import SectionBackground from "@/Components/ui/SectionBackground";
+import CTASection from "@/Components/sections/CTASection";
 
 export default function ContactIndex() {
-    const { frontend_content } = usePage().props;
+    const { frontend_content, settings } = usePage().props;
     const content = frontend_content?.contact || {};
     const { data, setData, post, processing, errors, recentlySuccessful } =
         useForm({
@@ -38,7 +39,8 @@ export default function ContactIndex() {
                                     {content.page_title || "Contact Us"}
                                 </h1>
                                 <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
-                                    {content.page_subtitle || "Get in touch with us. We'd love to hear from you!"}
+                                    {content.page_subtitle ||
+                                        "Get in touch with us. We'd love to hear from you!"}
                                 </p>
                             </div>
                         </Container>
@@ -83,7 +85,8 @@ export default function ContactIndex() {
                                                     Email
                                                 </h3>
                                                 <p className="text-gray-600 dark:text-gray-300">
-                                                    {content.email ||
+                                                    {settings?.company_email ||
+                                                        content.email ||
                                                         "info@darpon.com"}
                                                 </p>
                                             </div>
@@ -111,7 +114,8 @@ export default function ContactIndex() {
                                                     Phone
                                                 </h3>
                                                 <p className="text-gray-600 dark:text-gray-300">
-                                                    {content.phone ||
+                                                    {settings?.company_phone ||
+                                                        content.phone ||
                                                         "+880 1234 567890"}
                                                 </p>
                                             </div>
@@ -144,8 +148,14 @@ export default function ContactIndex() {
                                                 <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
                                                     Address
                                                 </h3>
-                                                <p className="text-gray-600 dark:text-gray-300">
-                                                    {content.address ||
+                                                <p
+                                                    className="text-gray-600 dark:text-gray-300"
+                                                    style={{
+                                                        whiteSpace: "pre-line",
+                                                    }}
+                                                >
+                                                    {settings?.company_address ||
+                                                        content.address ||
                                                         "Dhaka, Bangladesh"}
                                                 </p>
                                             </div>
@@ -309,24 +319,24 @@ export default function ContactIndex() {
                                             )}
                                         </div>
 
-                                        <Button
+                                        <PrimaryButton
                                             type="submit"
-                                            variant="primary"
-                                            size="lg"
-                                            className="w-full"
+                                            className="w-full justify-center"
                                             disabled={processing}
+                                            showIcon={true}
                                         >
                                             {processing
                                                 ? "Sending..."
                                                 : content.submit_button ||
                                                   "Send Message"}
-                                        </Button>
+                                        </PrimaryButton>
                                     </form>
                                 </div>
                             </div>
                         </Container>
                     </section>
                 </main>
+                <CTASection />
                 <Footer />
             </div>
         </>

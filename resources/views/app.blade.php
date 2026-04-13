@@ -11,6 +11,26 @@
   <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png" />
   <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/png" />
 
+  <!-- Global Meta Configuration -->
+  @php
+    $seoTitle = \App\Models\Setting::get('seo_meta_title') ?: config('app.name', 'Laravel');
+    $seoDesc = \App\Models\Setting::get('seo_meta_description');
+    $seoKeywords = \App\Models\Setting::get('seo_meta_keywords');
+    $seoAuthor = \App\Models\Setting::get('seo_meta_author');
+    $seoOgImage = \App\Models\Setting::get('seo_og_image');
+  @endphp
+
+  @if($seoDesc) <meta name="description" content="{{ $seoDesc }}"> @endif
+  @if($seoKeywords) <meta name="keywords" content="{{ $seoKeywords }}"> @endif
+  @if($seoAuthor) <meta name="author" content="{{ $seoAuthor }}"> @endif
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ $seoTitle }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ url()->current() }}">
+  @if($seoDesc) <meta property="og:description" content="{{ $seoDesc }}"> @endif
+  @if($seoOgImage) <meta property="og:image" content="{{ \Illuminate\Support\Facades\Storage::url($seoOgImage) }}"> @endif
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />

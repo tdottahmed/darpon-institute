@@ -36,6 +36,7 @@ export async function generatePDF(element, filename, options = {}) {
             useCORS: true,
             logging: false,
             backgroundColor: "#ffffff",
+            windowWidth: 1200, // Ensure desktop layout for PDF
             ...options.canvasOptions,
         };
 

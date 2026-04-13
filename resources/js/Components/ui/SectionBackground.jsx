@@ -51,16 +51,7 @@ export default function SectionBackground({ variant = "a" }) {
                 }`}
             />
 
-            {/* Premium Fade-out Cartesian Grid */}
-            <div
-                className="absolute inset-0 opacity-[0.15] dark:opacity-[0.05] pointer-events-none"
-                style={{
-                    backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
-                    backgroundSize: isA ? "64px 64px" : "48px 48px",
-                    WebkitMaskImage: "radial-gradient(circle at center, black, transparent 80%)",
-                    maskImage: "radial-gradient(circle at center, black, transparent 80%)"
-                }}
-            />
+
 
             {/* Subtle Diagonal Light Streaks (replaces dated waves) */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -76,21 +67,18 @@ export default function SectionBackground({ variant = "a" }) {
                 />
             </div>
 
-            {/* Floating vector shapes - abstract "cards" / "pages" (course vibe) */}
+            {/* Decorative floating rings */}
             <div
-                className={`absolute top-[15%] ${isA ? "right-[12%]" : "left-[12%]"}`}
+                className={`absolute ${isA ? "top-[12%] right-[10%]" : "top-[12%] left-[10%]"}`}
             >
-                <div className="w-24 h-32 rounded-2xl border-2 border-primary-200/50 dark:border-primary-600/30 rotate-12 opacity-60 dark:opacity-30" />
+                <div className="w-28 h-28 rounded-full border border-primary-300/30 dark:border-primary-500/20 opacity-70 dark:opacity-40" />
+                <div className="absolute inset-3 rounded-full border border-primary-200/20 dark:border-primary-400/10" />
             </div>
             <div
-                className={`absolute top-[25%] ${isA ? "right-[22%]" : "left-[22%]"}`}
+                className={`absolute ${isA ? "bottom-[18%] left-[8%]" : "bottom-[18%] right-[8%]"}`}
             >
-                <div className="w-16 h-20 rounded-xl border-2 border-primary-300/40 dark:border-primary-500/25 -rotate-6 opacity-50 dark:opacity-25" />
-            </div>
-            <div
-                className={`absolute bottom-[20%] ${isA ? "left-[15%]" : "right-[15%]"}`}
-            >
-                <div className="w-20 h-28 rounded-2xl border-2 border-secondary-200/50 dark:border-secondary-600/25 -rotate-12 opacity-50 dark:opacity-25" />
+                <div className="w-20 h-20 rounded-full border border-secondary-300/25 dark:border-secondary-500/15 opacity-60 dark:opacity-30" />
+                <div className="absolute inset-2 rounded-full border border-secondary-200/15 dark:border-secondary-400/10" />
             </div>
 
             {/* Decorative circle clusters */}

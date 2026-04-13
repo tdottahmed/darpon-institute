@@ -1,8 +1,19 @@
+import { useState } from "react";
 import Card from "@/Components/ui/Card";
 import { Link } from "@inertiajs/react";
 import { formatPrice } from "@/Utils/currency";
+import { Eye, FileText } from "lucide-react";
+import InvoiceDialog from "@/Components/InvoiceDialog";
 
 export default function PurchaseHistory({ bookOrders }) {
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
+
+    const handleViewInvoice = (order) => {
+        setSelectedOrder(order);
+        setIsInvoiceOpen(true);
+    };
+
     function formatDate(dateString) {
         if (!dateString) return "N/A";
         const date = new Date(dateString);
@@ -114,6 +125,24 @@ export default function PurchaseHistory({ bookOrders }) {
                                             </span>
                                         </div>
                                     </div>
+
+                                    {/* Action Buttons */}
+                                    <div className="mt-4 flex items-center justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-700/50">
+                                        <button
+                                            onClick={() => handleViewInvoice(order)}
+                                            className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                                        >
+                                            <Eye className="h-3.5 w-3.5" />
+                                            Details
+                                        </button>
+                                        <button
+                                            onClick={() => handleViewInvoice(order)}
+                                            className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-900/30 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors"
+                                        >
+                                            <FileText className="h-3.5 w-3.5" />
+                                            Invoice
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         );
@@ -147,6 +176,16 @@ export default function PurchaseHistory({ bookOrders }) {
                     </div>
                 )}
             </div>
+
+            {/* Invoice Modal */}
+            {selectedOrder && (
+                <InvoiceDialog
+                    isOpen={isInvoiceOpen}
+                    onClose={() => setIsInvoiceOpen(false)}
+                    order={selectedOrder}
+                    book={selectedOrder.book}
+                />
+            )}
         </Card>
     );
 }

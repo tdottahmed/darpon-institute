@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\VideoBlog;
 use App\Models\Testimonial;
 use App\Models\Gallery;
+use App\Models\Teacher;
 use App\Models\BookOrder;
 use App\Models\CourseRegistration;
 use Illuminate\Http\RedirectResponse;
@@ -336,6 +337,48 @@ class FrontendController extends Controller
 
         return Inertia::render('Galleries/Index', [
             'galleries' => $galleries,
+        ]);
+    }
+
+    /**
+     * Show all instructors.
+     */
+    public function instructors(Request $request): Response
+    {
+        $query = Teacher::where('is_active', true);
+
+        // Search functionality
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('designation', 'like', "%{$search}%")
+                  ->orWhere('department', 'like', "%{$search}%");
+            });
+        }
+
+        $instructors = $query->orderBy('order')->paginate(12)->withQueryString();
+
+        return Inertia::render('Instructors/Index', [
+            'instructors' => $instructors,
+            'filters' => [
+                'search' => $request->search,
+            ],
+        ]);
+    }
+
+    /**
+     * Show a single instructor detail.
+     */
+    public function showInstructor(Teacher $instructor): Response|RedirectResponse
+    {
+        // Only show active instructors
+        if (!$instructor->is_active) {
+            abort(404);
+        }
+
+        return Inertia::render('Instructors/Show', [
+            'instructor' => $instructor,
         ]);
     }
 

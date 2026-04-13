@@ -4,6 +4,7 @@ import VideoBlogCard from "@/Components/cards/VideoBlogCard";
 import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
 import SectionBackground from "../ui/SectionBackground";
+import SecondaryButton from "../ui/SecondaryButton";
 
 const SECTION_PADDING = "py-16 sm:py-20 lg:py-28";
 
@@ -71,27 +72,9 @@ export default function BlogSection({ videoBlogs }) {
                 </div>
 
                 <div className="section-animate section-animate-delay-2 text-center mt-10 sm:mt-12">
-                    <Link
-                        href={route("video_blogs.index")}
-                        className="group inline-flex items-center gap-2 text-base font-semibold text-primary-600 transition-all duration-200 hover:text-primary-700 hover:gap-3 dark:text-primary-400 dark:hover:text-primary-300"
-                    >
-                        <span>
-                            {content.view_all_link || "View all videos"}
-                        </span>
-                        <svg
-                            className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"
-                            />
-                        </svg>
-                    </Link>
+                    <SecondaryButton href={route("video_blogs.index")}>
+                        {content.view_all_link || "View all videos"}
+                    </SecondaryButton>
                 </div>
             </Container>
         </section>

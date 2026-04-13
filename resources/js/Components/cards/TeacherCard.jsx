@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 
 export default function TeacherCard({ teacher }) {
     return (
@@ -5,14 +6,16 @@ export default function TeacherCard({ teacher }) {
             {/* Image Container */}
             <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
                 {teacher.image_path ? (
-                    <img
-                        src={`/storage/${teacher.image_path}`}
-                        alt={teacher.name}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        loading="lazy"
-                    />
+                    <Link href={route("instructors.show", teacher.id)} className="block w-full h-full">
+                        <img
+                            src={`/storage/${teacher.image_path}`}
+                            alt={teacher.name}
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            loading="lazy"
+                        />
+                    </Link>
                 ) : (
-                    <div className="flex h-full w-full items-center justify-center text-gray-400">
+                    <Link href={route("instructors.show", teacher.id)} className="flex h-full w-full items-center justify-center text-gray-400 transition-colors duration-300 group-hover:bg-gray-200 dark:group-hover:bg-gray-700">
                         <svg
                             className="h-24 w-24 opacity-50"
                             fill="currentColor"
@@ -20,7 +23,7 @@ export default function TeacherCard({ teacher }) {
                         >
                             <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
-                    </div>
+                    </Link>
                 )}
 
                 {/* Overlay Gradient */}
@@ -38,9 +41,11 @@ export default function TeacherCard({ teacher }) {
                 <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-primary-500" />
                 
                 {/* Name */}
-                <h3 className="mb-1 text-xl font-bold text-gray-900 dark:text-white transition-colors duration-200 group-hover:text-primary-600 dark:group-hover:text-primary-400">
-                    {teacher.name}
-                </h3>
+                <Link href={route("instructors.show", teacher.id)} className="inline-block">
+                    <h3 className="mb-1 text-xl font-bold text-gray-900 dark:text-white transition-colors duration-200 group-hover:text-primary-600 dark:group-hover:text-primary-400">
+                        {teacher.name}
+                    </h3>
+                </Link>
 
                 {/* Designation */}
                 <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">

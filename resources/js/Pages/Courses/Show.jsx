@@ -87,9 +87,6 @@ export default function CourseShow({
                             </Container>
                         </div>
                     )}
-
-                    {/* Breadcrumb Section */}
-                    {/* ... kept for layout simplicity or could be extracted too ... */}
                     {/* Hero / Main Layout */}
                     <Container className="mt-8 lg:mt-12">
                         <div className="grid lg:grid-cols-3 gap-12">
