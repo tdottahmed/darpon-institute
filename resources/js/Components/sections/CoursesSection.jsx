@@ -3,7 +3,7 @@ import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
 import SectionBackground from "../ui/SectionBackground";
 import CourseCard from "../courses/CourseCard";
-import Button from "../ui/Button";
+import SecondaryButton from "../ui/SecondaryButton";
 import { usePage } from "@inertiajs/react";
 
 const SECTION_PADDING = "py-16 sm:py-20 lg:py-28";
@@ -67,14 +67,9 @@ export default function CoursesSection({ courses = [] }) {
                             ))}
                         </div>
                         <div className="section-animate section-animate-delay-2 text-center">
-                            <Button
-                                href="/courses"
-                                variant="primary"
-                                size="lg"
-                                className="px-8 py-3"
-                            >
+                            <SecondaryButton href="/courses">
                                 {content.view_all_btn || "View All Courses"}
-                            </Button>
+                            </SecondaryButton>
                         </div>
                     </>
                 ) : (

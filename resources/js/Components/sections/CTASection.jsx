@@ -1,5 +1,6 @@
 import Container from "../ui/Container";
-import Button from "../ui/Button";
+import PrimaryButton from "../ui/PrimaryButton";
+import SecondaryButton from "../ui/SecondaryButton";
 import { usePage } from "@inertiajs/react";
 
 export default function CTASection({ translations }) {
@@ -34,24 +35,19 @@ export default function CTASection({ translations }) {
                             "Join thousands of students already learning with us. Get started today and transform your English skills!"}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                        <Button
+                        <PrimaryButton
                             href={route("courses.index")}
-                            variant="outline"
-                            size="lg"
-                            className="bg-white text-primary-600 hover:bg-gray-50 border-white px-8 py-4 text-base font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                         >
                             {content.btn_primary ||
                                 t.register ||
                                 "Get Started Free"}
-                        </Button>
-                        <Button
+                        </PrimaryButton>
+                        <SecondaryButton
                             href={route("login")}
-                            variant="outline"
-                            size="lg"
-                            className="border-2 border-white/90 text-white hover:bg-white/10 px-8 py-4 text-base font-semibold backdrop-blur-sm transition-all duration-200 dark:border-gray-300 dark:text-gray-100"
+                            showIcon={true}
                         >
                             {content.btn_outline || t.login || "Log In"}
-                        </Button>
+                        </SecondaryButton>
                     </div>
                 </div>
             </Container>

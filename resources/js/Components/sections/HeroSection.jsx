@@ -1,6 +1,8 @@
 import { usePage, Link } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
 import { useCountUp } from "@/hooks/useCountUp";
+import PrimaryButton from "@/Components/ui/PrimaryButton";
+import SecondaryButton from "@/Components/ui/SecondaryButton";
 
 function StatItem({ value, label, fallbackLabel, isVisible }) {
     const displayValue = useCountUp(value, isVisible, 1800);
@@ -93,52 +95,12 @@ export default function HeroSection({ translations }) {
                     </p>
 
                     <div className="hero-item hero-item-3 flex flex-row flex-wrap gap-3 sm:gap-4 justify-center mt-8">
-                        <Link
-                            href={content.button_1_link || "/courses"}
-                            className="group inline-flex items-center justify-center gap-3 bg-[#5A45FF] hover:bg-[#4a34e0] dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white rounded-full pl-6 pr-2 py-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02]"
-                        >
-                            <span className="font-semibold text-sm sm:text-base">
-                                {content.button_1_text || "Find Courses"}
-                            </span>
-                            <span className="bg-white/20 rounded-full p-2 group-hover:bg-white/30 transition-colors">
-                                <svg
-                                    className="w-4 h-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2.5"
-                                        d="M5 12h14M12 5l7 7-7 7"
-                                    />
-                                </svg>
-                            </span>
-                        </Link>
-                        <Link
-                            href={content.button_2_link || "/books"}
-                            className="group inline-flex items-center justify-center gap-3 bg-[#FFC510] hover:bg-[#eab308] dark:bg-yellow-500 dark:hover:bg-yellow-600 text-gray-900 rounded-full pl-6 pr-2 py-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02]"
-                        >
-                            <span className="font-semibold text-sm sm:text-base">
-                                {content.button_2_text || "Find Books"}
-                            </span>
-                            <span className="bg-gray-900/10 rounded-full p-2 group-hover:bg-gray-900/20 transition-colors">
-                                <svg
-                                    className="w-4 h-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2.5"
-                                        d="M5 12h14M12 5l7 7-7 7"
-                                    />
-                                </svg>
-                            </span>
-                        </Link>
+                        <PrimaryButton href={content.button_1_link || "/courses"}>
+                            {content.button_1_text || "Find Courses"}
+                        </PrimaryButton>
+                        <SecondaryButton href={content.button_2_link || "/books"}>
+                            {content.button_2_text || "Find Books"}
+                        </SecondaryButton>
                     </div>
                 </div>
             </div>

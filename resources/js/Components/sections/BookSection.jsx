@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import SecondaryButton from "../ui/SecondaryButton";
 
 const SECTION_PADDING = "py-16 sm:py-20 lg:py-28";
 
@@ -105,25 +106,10 @@ export default function BookSection({ books }) {
                 </div>
 
                 <div className="section-animate section-animate-delay-3 text-center">
-                    <Link
-                        href={route("books.index")}
-                        className="group inline-flex items-center gap-2 text-base font-semibold text-primary-600 transition-all duration-200 hover:text-primary-700 hover:gap-3 dark:text-primary-400 dark:hover:text-primary-300"
-                    >
-                        <span>{content.view_all_link || "View all books"}</span>
-                        <svg
-                            className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"
-                            />
-                        </svg>
-                    </Link>
+                   
+                    <SecondaryButton href={route("books.index")}>
+                        {content.view_all_link || "View all books"}
+                    </SecondaryButton>
                 </div>
             </Container>
         </section>
