@@ -3,6 +3,7 @@ import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import BlogSection from "@/Components/sections/BlogSection";
 import parse from "html-react-parser";
+import CTASection from "@/Components/sections/CTASection";
 
 function stripHtml(html) {
     if (html == null || typeof html !== "string") return "";
@@ -183,6 +184,7 @@ export default function Show({ videoBlog, relatedVideoBlogs }) {
                         <BlogSection videoBlogs={relatedVideoBlogs} />
                     </section>
                 )}
+                <CTASection />
 
                 <Footer />
             </div>

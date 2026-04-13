@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import VideoBlogCard from "@/Components/cards/VideoBlogCard";
+import CTASection from "@/Components/sections/CTASection";
 
 export default function Index({ videoBlogs, filters }) {
     const [search, setSearch] = useState(filters.search || "");
@@ -126,7 +127,7 @@ export default function Index({ videoBlogs, filters }) {
                         )}
                     </div>
                 </main>
-                
+                <CTASection />
                 <Footer />
             </div>
         </>

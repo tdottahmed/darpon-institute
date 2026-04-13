@@ -5,6 +5,7 @@ import Container from "@/Components/ui/Container";
 import SectionHeader from "@/Components/ui/SectionHeader";
 import { useState, useEffect } from "react";
 import SectionBackground from "@/Components/ui/SectionBackground";
+import CTASection from "@/Components/sections/CTASection";
 
 export default function GalleryIndex({ galleries }) {
     const { frontend_content } = usePage().props;
@@ -172,6 +173,7 @@ export default function GalleryIndex({ galleries }) {
                         </Container>
                     </section>
                 </main>
+                <CTASection />
                 <Footer />
 
                 {/* Enhanced Lightbox Modal */}
