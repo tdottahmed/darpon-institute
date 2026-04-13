@@ -64,6 +64,16 @@ class SettingController extends Controller
             'header_footer_color_dark' => Setting::get('header_footer_color_dark', '#111827'),
             'header_footer_text_color_light' => Setting::get('header_footer_text_color_light', '#111827'),
             'header_footer_text_color_dark' => Setting::get('header_footer_text_color_dark', '#ffffff'),
+
+            // SMTP Settings
+            'smtp_mailer' => env('MAIL_MAILER'),
+            'smtp_host' => env('MAIL_HOST'),
+            'smtp_port' => env('MAIL_PORT'),
+            'smtp_username' => env('MAIL_USERNAME'),
+            'smtp_password' => env('MAIL_PASSWORD'),
+            'smtp_encryption' => env('MAIL_ENCRYPTION'),
+            'smtp_from_address' => env('MAIL_FROM_ADDRESS'),
+            'smtp_from_name' => env('MAIL_FROM_NAME'),
         ];
 
         return view('admin.settings.index', compact('settings'));
@@ -127,6 +137,16 @@ class SettingController extends Controller
             'header_footer_color_dark' => ['nullable', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
             'header_footer_text_color_light' => ['nullable', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
             'header_footer_text_color_dark' => ['nullable', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
+
+            // SMTP
+            'smtp_mailer' => 'nullable|string|max:50',
+            'smtp_host' => 'nullable|string|max:255',
+            'smtp_port' => 'nullable|string|max:10',
+            'smtp_username' => 'nullable|string|max:255',
+            'smtp_password' => 'nullable|string|max:255',
+            'smtp_encryption' => 'nullable|string|max:10',
+            'smtp_from_address' => 'nullable|string|email|max:255',
+            'smtp_from_name' => 'nullable|string|max:255',
         ]);
 
         // Handle logo uploads - Process both logos independently
@@ -200,6 +220,26 @@ class SettingController extends Controller
         // Remove logo fields from validated array as they're already handled
         unset($validated['logo_light'], $validated['logo_dark'], $validated['logo_light_existing'], $validated['logo_dark_existing'], $validated['seo_og_image'], $validated['seo_og_image_existing']);
 
+        // Process SMTP
+        $smtpData = [
+            'MAIL_MAILER' => $request->input('smtp_mailer'),
+            'MAIL_HOST' => $request->input('smtp_host'),
+            'MAIL_PORT' => $request->input('smtp_port'),
+            'MAIL_USERNAME' => $request->input('smtp_username'),
+            'MAIL_PASSWORD' => $request->input('smtp_password'),
+            'MAIL_ENCRYPTION' => $request->input('smtp_encryption'),
+            'MAIL_FROM_ADDRESS' => $request->input('smtp_from_address'),
+            'MAIL_FROM_NAME' => '"' . trim(str_replace('"', '', $request->input('smtp_from_name'))) . '"',
+        ];
+
+        $this->updateEnvironmentFile($smtpData);
+
+        unset(
+            $validated['smtp_mailer'], $validated['smtp_host'], $validated['smtp_port'],
+            $validated['smtp_username'], $validated['smtp_password'], $validated['smtp_encryption'],
+            $validated['smtp_from_address'], $validated['smtp_from_name']
+        );
+
         foreach ($validated as $key => $value) {
             // Handle boolean values
             if ($key === 'meta_pixel_enabled') {
@@ -260,6 +300,35 @@ class SettingController extends Controller
 
         // Return the cleaned path
         return $path ?: null;
+    }
+
+    /**
+     * Update environment file securely
+     */
+    private function updateEnvironmentFile(array $data)
+    {
+        $envPath = base_path('.env');
+
+        if (!file_exists($envPath)) {
+            return false;
+        }
+
+        $envContent = file_get_contents($envPath);
+
+        foreach ($data as $key => $value) {
+            // Null or explicitly empty should still empty the property if it exists
+            $value = $value ?? '';
+            
+            // Check if key exists
+            $pattern = "/^{$key}=.*/m";
+            if (preg_match($pattern, $envContent)) {
+                $envContent = preg_replace($pattern, "{$key}={$value}", $envContent);
+            } else {
+                $envContent .= "\n{$key}={$value}";
+            }
+        }
+
+        return file_put_contents($envPath, $envContent);
     }
 
     /**
