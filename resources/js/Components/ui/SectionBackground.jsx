@@ -51,16 +51,7 @@ export default function SectionBackground({ variant = "a" }) {
                 }`}
             />
 
-            {/* Premium Fade-out Cartesian Grid */}
-            <div
-                className="absolute inset-0 opacity-[0.15] dark:opacity-[0.05] pointer-events-none"
-                style={{
-                    backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
-                    backgroundSize: isA ? "64px 64px" : "48px 48px",
-                    WebkitMaskImage: "radial-gradient(circle at center, black, transparent 80%)",
-                    maskImage: "radial-gradient(circle at center, black, transparent 80%)"
-                }}
-            />
+
 
             {/* Subtle Diagonal Light Streaks (replaces dated waves) */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
