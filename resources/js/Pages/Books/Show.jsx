@@ -121,28 +121,6 @@ export default function Show({ book, relatedBooks }) {
                                     </div>
                                 </div>
 
-                                {/* Tags */}
-                                {book.tags && book.tags.length > 0 && (
-                                    <div className="mt-8 border-t border-gray-200 pt-8 dark:border-gray-700">
-                                        <h3 className="text-sm font-medium text-gray-900 dark:text-white">
-                                            Tags
-                                        </h3>
-                                        <div className="mt-4 flex flex-wrap gap-2">
-                                            {book.tags.map((tag, i) => (
-                                                <Link
-                                                    key={i}
-                                                    href={route("books.index", {
-                                                        tag: tag,
-                                                    })}
-                                                    className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 transition-colors"
-                                                >
-                                                    #{tag}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
                                 {/* Sticky Mobile Buy / Desktop Action */}
                                 <div className="mt-10 flex gap-4">
                                     {/* Add to Cart or Enroll logic would go here. For now, a placeholder button */}
@@ -184,7 +162,6 @@ export default function Show({ book, relatedBooks }) {
                         <BookSection books={relatedBooks} />
                     </div>
                 )}
-
                 <Footer />
             </div>
         </>

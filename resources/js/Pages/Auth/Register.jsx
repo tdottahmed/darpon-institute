@@ -1,7 +1,7 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
+import PrimaryButton from "@/Components/ui/PrimaryButton";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 
@@ -114,7 +114,10 @@ export default function Register() {
                 </div>
 
                 <div className="mt-6">
-                    <PrimaryButton className="w-full" disabled={processing}>
+                    <PrimaryButton 
+                        className="w-full justify-center" 
+                        disabled={processing}
+                    >
                         {t.register || "Register"}
                     </PrimaryButton>
                 </div>
