@@ -93,8 +93,14 @@
                                accept="image/*">
                         <p class="mt-1 text-xs text-gray-400">Leave empty to keep current image</p>
                       @elseif($item->type === 'textarea')
-                        <textarea name="fields[{{ $item->key }}][en]" rows="6"
-                                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">{{ $valEn }}</textarea>
+                        @if(str_contains(strtolower($item->key), 'description') || str_contains(strtolower($item->key), 'content') || str_contains(strtolower($item->key), 'answer'))
+                          <div class="mb-12">
+                            <x-forms.rich-text name="fields[{{ $item->key }}][en]" :value="$valEn" height="200px" />
+                          </div>
+                        @else
+                          <textarea name="fields[{{ $item->key }}][en]" rows="6"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">{{ $valEn }}</textarea>
+                        @endif
                       @else
                         <input type="text" name="fields[{{ $item->key }}][en]" value="{{ $valEn }}"
                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
@@ -120,8 +126,14 @@
                                accept="image/*">
                         <p class="mt-1 text-xs text-gray-400">Leave empty to keep current image</p>
                       @elseif($item->type === 'textarea')
-                        <textarea name="fields[{{ $item->key }}][bn]" rows="6"
-                                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">{{ $valBn }}</textarea>
+                        @if(str_contains(strtolower($item->key), 'description') || str_contains(strtolower($item->key), 'content') || str_contains(strtolower($item->key), 'answer'))
+                          <div class="mb-12">
+                            <x-forms.rich-text name="fields[{{ $item->key }}][bn]" :value="$valBn" height="200px" />
+                          </div>
+                        @else
+                          <textarea name="fields[{{ $item->key }}][bn]" rows="6"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">{{ $valBn }}</textarea>
+                        @endif
                       @else
                         <input type="text" name="fields[{{ $item->key }}][bn]" value="{{ $valBn }}"
                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
