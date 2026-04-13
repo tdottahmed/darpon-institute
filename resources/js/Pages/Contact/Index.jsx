@@ -2,7 +2,7 @@ import { Head, useForm, usePage } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
-import Button from "@/Components/ui/Button";
+import PrimaryButton from "@/Components/ui/PrimaryButton";
 import { useState } from "react";
 import SectionBackground from "@/Components/ui/SectionBackground";
 import CTASection from "@/Components/sections/CTASection";
@@ -319,18 +319,17 @@ export default function ContactIndex() {
                                             )}
                                         </div>
 
-                                        <Button
+                                        <PrimaryButton
                                             type="submit"
-                                            variant="primary"
-                                            size="lg"
-                                            className="w-full"
+                                            className="w-full justify-center"
                                             disabled={processing}
+                                            showIcon={true}
                                         >
                                             {processing
                                                 ? "Sending..."
                                                 : content.submit_button ||
                                                   "Send Message"}
-                                        </Button>
+                                        </PrimaryButton>
                                     </form>
                                 </div>
                             </div>

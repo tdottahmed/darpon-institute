@@ -33,6 +33,8 @@ Route::get('/books/{book:slug}', [FrontendController::class, 'showBook'])->name(
 Route::get('/video-blogs', [FrontendController::class, 'videoBlogs'])->name('video_blogs.index');
 Route::get('/video-blogs/{videoBlog:slug}', [FrontendController::class, 'showVideoBlog'])->name('video_blogs.show');
 Route::get('/galleries', [FrontendController::class, 'galleries'])->name('galleries.index');
+Route::get('/instructors', [FrontendController::class, 'instructors'])->name('instructors.index');
+Route::get('/instructors/{instructor}', [FrontendController::class, 'showInstructor'])->name('instructors.show');
 
 // Static Pages
 Route::get('/about', [FrontendController::class, 'about'])->name('about');

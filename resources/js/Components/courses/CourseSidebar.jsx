@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button from "@/Components/ui/Button";
 import { formatPrice } from "@/Utils/currency";
+import PrimaryButton from "@/Components/ui/PrimaryButton";
 
 export default function CourseSidebar({
     course,
@@ -200,44 +201,29 @@ export default function CourseSidebar({
                         <p className="text-sm text-green-700 dark:text-green-300">
                             Access your course materials from your dashboard.
                         </p>
-                        <Button
-                            variant="primary"
-                            size="md"
+                        <PrimaryButton
                             href={route("dashboard")}
-                            className="w-full mt-3"
+                            className="w-full mt-3 justify-center"
+                            showIcon={false}
                         >
                             Go to Dashboard
-                        </Button>
+                        </PrimaryButton>
                     </div>
                 ) : (
                     <>
                         {/* Actions */}
                         <div className="space-y-3">
-                            <Button
-                                variant="primary"
-                                size="lg"
+                            <PrimaryButton
                                 href={
                                     selectedVariationId
                                         ? `${route("courses.enroll", course.slug)}?variation=${selectedVariationId}`
                                         : route("courses.enroll", course.slug)
                                 }
                                 className="w-full justify-center text-lg font-bold shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 hover:-translate-y-0.5 transition-all"
+                                showIcon={true}
                             >
-                                <svg
-                                    className="w-5 h-5 mr-2"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M12 4v16m8-8H4"
-                                    />
-                                </svg>
                                 Enroll Now
-                            </Button>
+                            </PrimaryButton>
                             {hasVariations && !selectedVariationId && (
                                 <p className="text-xs text-center text-gray-500 dark:text-gray-400">
                                     Please select a duration above

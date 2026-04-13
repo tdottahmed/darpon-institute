@@ -3,7 +3,7 @@ import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import BookSection from "@/Components/sections/BookSection";
 import BookPreviewGallery from "@/Components/books/BookPreviewGallery";
-import Button from "@/Components/ui/Button";
+import PrimaryButton from "@/Components/ui/PrimaryButton";
 import parse from "html-react-parser";
 import { formatPrice } from "@/Utils/currency";
 
@@ -147,17 +147,16 @@ export default function Show({ book, relatedBooks }) {
                                 <div className="mt-10 flex gap-4">
                                     {/* Add to Cart or Enroll logic would go here. For now, a placeholder button */}
                                     {book.stock_quantity > 0 ? (
-                                        <Button
-                                            variant="primary"
-                                            size="lg"
+                                        <PrimaryButton
                                             href={route(
                                                 "books.checkout",
                                                 book.slug
                                             )}
-                                            className="flex-1 justify-center shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 hover:-translate-y-0.5 transition-all"
+                                            className="w-full"
+                                            showIcon={true}
                                         >
                                             Buy Now
-                                        </Button>
+                                        </PrimaryButton>
                                     ) : (
                                         <button
                                             disabled

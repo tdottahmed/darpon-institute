@@ -2,7 +2,7 @@ import { Head, useForm, usePage, Link } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
-import Button from "@/Components/ui/Button";
+import PrimaryButton from "@/Components/ui/PrimaryButton";
 import Card from "@/Components/ui/Card";
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
@@ -504,14 +504,13 @@ export default function Checkout({ book, order = null, isNewUser = false }) {
                                             </p>
                                         </div>
 
-                                        <Button
-                                            variant="primary"
-                                            size="lg"
+                                        <PrimaryButton
                                             className="w-full mt-6 justify-center"
                                             disabled={processing}
+                                            showIcon={false}
                                         >
                                             {processing ? "Placing Order..." : "Confirm Order"}
-                                        </Button>
+                                        </PrimaryButton>
                                     </Card>
                                 </div>
                             </div>

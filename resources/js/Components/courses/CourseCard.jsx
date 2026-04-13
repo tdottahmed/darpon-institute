@@ -10,7 +10,6 @@ export default function CourseCard({ course }) {
             : `/storage/${course.thumbnail}`
         : null;
 
-    const tags = Array.isArray(course.tags) ? course.tags : [];
     const variations = course.variations || course.active_variations || [];
     const hasVariations = variations.length > 0;
 
@@ -128,20 +127,6 @@ export default function CourseCard({ course }) {
                         </Badge>
                     )}
                 </div>
-
-                {/* Tags Overlay (Bottom) */}
-                {tags.length > 0 && (
-                    <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-wrap gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {tags.slice(0, 2).map((tag, index) => (
-                            <span
-                                key={index}
-                                className="inline-flex items-center rounded-md bg-white/95 backdrop-blur-sm px-2 py-1 text-xs font-medium text-primary-700 shadow-sm dark:bg-gray-900/95 dark:text-primary-300"
-                            >
-                                {tag}
-                            </span>
-                        ))}
-                    </div>
-                )}
 
                 {/* Hover Overlay with Quick Action */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
