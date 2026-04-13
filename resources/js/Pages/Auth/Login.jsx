@@ -37,9 +37,6 @@ export default function Login({ status, canResetPassword }) {
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                     {t.login || "Welcome Back"}
                 </h2>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                    {t.login || "Sign in to your account"}
-                </p>
             </div>
 
             <form onSubmit={submit}>

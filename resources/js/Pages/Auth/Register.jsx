@@ -31,9 +31,6 @@ export default function Register() {
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                     {t.register || "Create Account"}
                 </h2>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                    {t.register || "Sign up to get started"}
-                </p>
             </div>
 
             <form onSubmit={submit}>
