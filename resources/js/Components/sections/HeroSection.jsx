@@ -85,7 +85,7 @@ export default function HeroSection({ translations }) {
                             {content.title_line_1 || ""}
                         </span>
                         {content.title_line_2 && (
-                            <span className="inline-block mt-3 text-white font-bold text-3xl md:text-4xl xl:text-6xl">
+                            <span className="inline-block mt-3 text-white font-bold text-2xl md:text-3xl xl:text-4xl">
                                 {content.title_line_2}
                             </span>
                         )}

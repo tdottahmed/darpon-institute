@@ -15,100 +15,96 @@
     $authorImage = $landingPage->author_image ? Storage::url($landingPage->author_image) : $defaultAuthorImage;
 @endphp
 
-<section class="section-sm" style="background-color: #073050;">
+<section class="section-sm" style="background-color: #ffffff;">
     <div class="container-narrow">
 
-        <div
-            style="background: #ffffff; border-radius: 15px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; flex-direction: row; gap: 40px; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 2px solid var(--accent-color);">
+        <div class="author-card">
 
-            <!-- Decorative Background Text -->
-            <div
-                style="position: absolute; top: -20px; right: -20px; font-size: 150px; font-weight: 900; color: rgba(13, 71, 161, 0.03); z-index: 0; pointer-events: none; font-family: 'Times New Roman', serif;">
-                AUTHOR
-            </div>
+            <div class="author-top-section">
+                <!-- Author Image Wrapper -->
+                <div class="author-image-wrapper">
+                    <img decoding="async" src="{{ $authorImage }}" alt="{{ $authorName }}">
+                </div>
 
-            <!-- Author Image Wrapper -->
-            <div style="flex: 0 0 350px; position: relative; z-index: 1;">
-                <div style="position: relative; border-radius: 50%; overflow: visible;">
-                    <img decoding="async" src="{{ $authorImage }}" alt="{{ $authorName }}"
-                        style="width: 100%; height: auto; display: block; filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.2)); transform: scale(1.05);">
+                <!-- Author Header -->
+                <div class="author-header">
+                    <h2 class="bengali-text author-name">
+                        {!! $authorName !!}
+                    </h2>
+                    <h3 class="bengali-text author-title">
+                        {!! $authorTitle !!}
+                    </h3>
                 </div>
             </div>
 
-            <!-- Author Content -->
-            <div class="author-content">
-
-                <div class="author-badge">
-                    <span class="author-badge-text">
-                        {{ $authorBadge }}
-                    </span>
-                </div>
-
-                <h2 class="bengali-text author-name">
-                    {!! $authorName !!}
-                </h2>
-
-                <h3 class="bengali-text author-title">
-                    {!! $authorTitle !!}
-                </h3>
-
-                <div class="bengali-text author-description">
+            <!-- Author Description -->
+            <div class="bengali-text author-description js-author-desc-container">
+                <div class="js-author-desc-short" style="display: none;"></div>
+                <div class="js-author-desc-full" style="display: none;">
                     {!! $authorDescription !!}
                 </div>
-
             </div>
 
         </div>
 
-        <div style="text-align: center; margin-top: 20px;">
+        <div style="text-align: center; margin-top: 30px;">
             <x-cta-button :landingPage="$landingPage" />
         </div>
 
     </div>
 
     <style>
-        .author-content {
-            flex: 1;
-            z-index: 1;
-            text-align: left;
+        .author-card {
+            background: #ffffff;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            border: 1px solid #000;
         }
 
-        .author-badge {
-            margin-bottom: 20px;
+        .author-top-section {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 30px;
         }
 
-        .author-badge-text {
-            background-color: #e3f2fd;
-            color: #0d47a1;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .author-image-wrapper {
+            flex: 0 0 250px;
+            border-radius: 50%;
+            overflow: hidden;
+            width: 250px;
+            height: 250px;
+        }
+
+        .author-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .author-name {
-            color: #0d47a1;
-            margin: 0 0 5px;
-            font-size: 2.2rem;
-            font-weight: 700;
+            color: #000;
+            margin: 0 0 10px;
+            font-size: 2.5rem;
+            font-weight: 800;
             line-height: 1.2;
         }
 
         .author-title {
-            color: #555;
-            margin: 0 0 25px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-left: 4px solid #ff9800;
-            padding-left: 15px;
+            color: #000;
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+            line-height: 1.4;
         }
 
         .author-description {
-            color: #444;
-            line-height: 1.8;
-            font-size: 1.05rem;
+            color: #000;
+            line-height: 1.6;
+            font-size: 1.15rem;
             text-align: left;
         }
 
@@ -120,53 +116,75 @@
             text-align: left !important;
             margin-left: 0 !important;
             margin-right: 0 !important;
+            color: #000 !important;
         }
 
         @media (max-width: 900px) {
+            .author-card {
+                padding: 20px;
+            }
+
+            .author-top-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .author-image-wrapper {
+                flex: 0 0 180px;
+                width: 180px;
+                height: 180px;
+                margin: 0 auto;
+            }
 
             .author-name {
-                font-size: 1.5rem;
-            }
-
-            .author-description {
-                font-size: 0.9rem;
-            }
-
-            div[style*="flex-direction: row"] {
-                flex-direction: column !important;
+                font-size: 1.8rem;
                 text-align: center !important;
-                padding: 30px 20px !important;
-            }
-
-            div[style*="flex: 0 0 350px"] {
-                flex: 0 0 auto !important;
-                width: 80% !important;
-                margin: 0 auto 20px !important;
             }
 
             .author-title {
-                border-left: none !important;
-                border-bottom: 3px solid #ff9800 !important;
-                padding-left: 0 !important;
-                padding-bottom: 10px !important;
-                display: inline-block !important;
-            }
-
-            .author-content {
+                font-size: 1.1rem;
                 text-align: center !important;
-                /* Force center on mobile for container */
             }
 
             .author-description {
+                font-size: 1.05rem;
                 text-align: left !important;
-                font-size: 1rem !important;
-                text-align-last: left !important;
-            }
-
-            div[style*="position: absolute; top: -20px"] {
-                display: none;
-                /* Hide decorative text on mobile */
             }
         }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var containers = document.querySelectorAll('.js-author-desc-container');
+            
+            containers.forEach(function(container) {
+                var fullDescContainer = container.querySelector('.js-author-desc-full');
+                var shortDescContainer = container.querySelector('.js-author-desc-short');
+                
+                var textContent = fullDescContainer.textContent || fullDescContainer.innerText;
+                var words = textContent.trim().split(/\s+/);
+                
+                if (words.length > 70) {
+                    var shortText = words.slice(0, 70).join(' ');
+                    shortDescContainer.textContent = shortText + ' ';
+                    
+                    var readMoreSpan = document.createElement('span');
+                    readMoreSpan.textContent = 'Read more......';
+                    readMoreSpan.style.fontWeight = 'bold';
+                    readMoreSpan.style.cursor = 'pointer';
+                    readMoreSpan.style.color = '#000';
+                    readMoreSpan.onclick = function() {
+                        shortDescContainer.style.display = 'none';
+                        fullDescContainer.style.display = 'block';
+                    };
+                    
+                    shortDescContainer.appendChild(readMoreSpan);
+                    shortDescContainer.style.display = 'block';
+                } else {
+                    fullDescContainer.style.display = 'block';
+                }
+            });
+        });
+    </script>
 </section>

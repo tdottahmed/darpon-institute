@@ -1,5 +1,5 @@
-<footer class="section-sm" style="background-color: #073050; color: var(--light-text);">
-  <div class="container" style="text-align: center;">
+<footer class="section-sm" style="background-color: #073050; color: var(--light-text); padding: 20px 0;">
+  <!-- <div class="container" style="text-align: center;">
     <p style="margin: 0 0 15px; font-size: 0.9rem;">
       © 2024 bookdarponbd | Powered by Nix Software
     </p>
@@ -25,5 +25,5 @@
       <p style="margin: 5px 0;">Phone: 0123456789</p>
       <p style="margin: 5px 0;">Email: <a href="mailto:info@darpon.com" style="color: var(--light-text);">info@darpon.com</a></p>
     </div>
-  </div>
+  </div> -->
 </footer>
