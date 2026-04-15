@@ -33,14 +33,27 @@ export default function Index({ books, filters, trans }) {
                 <Header />
                 <main className="relative z-10 pb-20">
                     {/* Hero Section (matches home section background) */}
-                    <section className="relative overflow-hidden py-12 sm:py-8 lg:py-12">
-                        <SectionBackground variant="a" />
+                    <section className="relative overflow-hidden py-12 sm:py-8 lg:py-12 bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 dark:from-primary-800 dark:via-primary-900 dark:to-secondary-800">
+                        {/* Background Pattern */}
+                        <div className="absolute inset-0 opacity-10">
+                            <div
+                                className="absolute inset-0"
+                                style={{
+                                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                                }}
+                            ></div>
+                        </div>
+
+                        {/* Decorative Elements */}
+                        <div className="absolute top-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
+                        <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+
                         <Container className="relative z-10">
-                            <div className="mx-auto max-w-2xl text-center">
-                                <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
+                            <div className="mx-auto max-w-2xl text-center text-white">
+                                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
                                     Books
                                 </h1>
-                                <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                                <p className="mt-6 text-lg leading-8 text-white/90">
                                     Explore our comprehensive collection of
                                     English learning books
                                 </p>

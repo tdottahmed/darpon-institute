@@ -15,7 +15,7 @@ export default function LanguageSwitcher() {
     return (
         <Dropdown>
             <Dropdown.Trigger>
-                <button className="flex items-center space-x-2 rounded-md px-3 py-2 text-sm font-medium transition-colors text-gray-900 hover:bg-black/5">
+                <button className="flex items-center space-x-2 rounded-md px-3 py-2 text-sm font-medium transition-colors text-gray-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10">
                     <FlagIcon country={current.code} className="w-4 h-4 flex-shrink-0" />
                     <span className="hidden sm:inline">{current.name}</span>
                 </button>
