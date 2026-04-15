@@ -65,19 +65,43 @@ export default function InstructorSection() {
                             </p>
                         </div>
 
+                        {/* center: Image */}
+                        <div className="order-1 lg:order-2 flex justify-center">
+                            <div className="section-animate section-animate-delay-6 relative w-full max-w-4xl">
+                                {/* Decorative frame */}
+                                <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50 dark:shadow-black/40 ring-4 ring-white dark:ring-gray-800 ring-offset-4 ring-offset-gray-50 dark:ring-offset-gray-900">
+                                    <img
+                                        src={
+                                            content.image ||
+                                            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"
+                                        }
+                                        alt={content.name || "Instructor"}
+                                        className="w-full h-[500px] object-cover transition-transform duration-500 hover:scale-105"
+                                        loading="lazy"
+                                    />
+                                </div>
+                                {/* Optional corner accent */}
+                                <div
+                                    className="absolute -z-10 -bottom-4 -right-4 w-full h-full rounded-2xl bg-gradient-to-br from-primary-200/60 to-primary-100/40 dark:from-primary-900/30 dark:to-primary-950/40"
+                                    aria-hidden="true"
+                                />
+                            </div>
+                        </div>
+
                         <div className="section-animate section-animate-delay-3 text-gray-700 dark:text-gray-300 leading-relaxed text-base sm:text-lg max-w-4xl mx-auto">
                             <p className="text-justify whitespace-pre-line">
                                 {(() => {
-                                    const desc = content.description || "With years of dedicated experience in English language education, I'm passionate about helping students achieve fluency and confidence in their English communication skills.";
+                                    const rawDesc = content.description || "With years of dedicated experience in English language education, I'm passionate about helping students achieve fluency and confidence in their English communication skills.";
+                                    const desc = rawDesc.replace(/<\/p>/gi, '\n\n').replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>?/gm, '').trim();
                                     const words = desc.split(/\s+/);
                                     const isLongText = words.length > 150;
-                                    
+
                                     if (!isLongText) return desc;
-                                    
+
                                     return (
                                         <>
                                             {isExpanded ? desc : words.slice(0, 150).join(" ") + "... "}
-                                            <button 
+                                            <button
                                                 onClick={() => setIsExpanded(!isExpanded)}
                                                 className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-semibold hover:underline ml-1 inline"
                                             >
