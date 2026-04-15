@@ -65,35 +65,28 @@ export default function InstructorSection() {
                             </p>
                         </div>
 
-                        <div className="section-animate section-animate-delay-3 text-gray-700 dark:text-gray-300 leading-relaxed text-base sm:text-lg max-w-5xl mx-auto relative">
-                            {(() => {
-                                const desc = content.description || "<p>With years of dedicated experience in English language education, I'm passionate about helping students achieve fluency and confidence in their English communication skills.</p>";
-                                const isLongText = desc.length > 500;
-                                
-                                return (
-                                    <>
-                                        <div 
-                                            className={`prose prose-lg dark:prose-invert max-w-none text-justify transition-all duration-700 overflow-hidden ${isLongText && !isExpanded ? 'max-h-[320px] relative' : 'max-h-[5000px]'}`}
-                                        >
-                                            <div dangerouslySetInnerHTML={{ __html: desc }} />
-                                            {isLongText && !isExpanded && (
-                                                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-50 dark:from-gray-900 to-transparent pointer-events-none" />
-                                            )}
-                                        </div>
-                                        
-                                        {isLongText && (
-                                            <div className="mt-8 flex justify-center text-center">
-                                                <button 
-                                                    onClick={() => setIsExpanded(!isExpanded)}
-                                                    className="inline-flex items-center text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-semibold hover:underline bg-white/60 dark:bg-gray-800/60 backdrop-blur-md px-6 py-2 rounded-full shadow-sm ring-1 ring-primary-500/20 transition-all active:scale-95"
-                                                >
-                                                    {isExpanded ? "Show Less" : "Read More..."}
-                                                </button>
-                                            </div>
-                                        )}
-                                    </>
-                                );
-                            })()}
+                        <div className="section-animate section-animate-delay-3 text-gray-700 dark:text-gray-300 leading-relaxed text-base sm:text-lg max-w-4xl mx-auto">
+                            <p className="text-justify whitespace-pre-line">
+                                {(() => {
+                                    const desc = content.description || "With years of dedicated experience in English language education, I'm passionate about helping students achieve fluency and confidence in their English communication skills.";
+                                    const words = desc.split(/\s+/);
+                                    const isLongText = words.length > 150;
+                                    
+                                    if (!isLongText) return desc;
+                                    
+                                    return (
+                                        <>
+                                            {isExpanded ? desc : words.slice(0, 150).join(" ") + "... "}
+                                            <button 
+                                                onClick={() => setIsExpanded(!isExpanded)}
+                                                className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-semibold hover:underline ml-1 inline"
+                                            >
+                                                {isExpanded ? "Show Less" : "Read More..."}
+                                            </button>
+                                        </>
+                                    );
+                                })()}
+                            </p>
                         </div>
                     </div>
                 </div>
