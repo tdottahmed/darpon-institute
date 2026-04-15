@@ -90,9 +90,10 @@ export default function HeroSection({ translations }) {
                             </span>
                         )}
                     </h1>
-                    <p className="hero-item hero-item-2 mt-5 text-base sm:text-lg text-gray-200 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                        {content.description || ""}
-                    </p>
+                    <div
+                        className="hero-item hero-item-2 mt-5 text-base sm:text-lg text-gray-200 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: content.description || "" }}
+                    />
 
                     <div className="hero-item hero-item-3 flex flex-row flex-wrap gap-3 sm:gap-4 justify-center mt-8">
                         <PrimaryButton href={content.button_1_link || "/courses"}>
