@@ -1,7 +1,24 @@
-import { User, Mail, Phone, Info } from "lucide-react";
+import { useState } from "react";
+import { User, Mail, Info } from "lucide-react";
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
+
+// Formats digits-only string as 01X XXXX XXXX
+function formatBDPhone(digits) {
+    const d = digits.replace(/\D/g, "").slice(0, 11);
+    if (d.length <= 3) return d;
+    if (d.length <= 7) return `${d.slice(0, 3)} ${d.slice(3)}`;
+    return `${d.slice(0, 3)} ${d.slice(3, 7)} ${d.slice(7)}`;
+}
+
+function validateBDPhone(digits) {
+    const d = digits.replace(/\D/g, "");
+    if (!d) return "Phone number is required";
+    if (d.length !== 11) return "Must be 11 digits (e.g. 017XX XXXXXX)";
+    if (!/^01[3-9]\d{8}$/.test(d)) return "Enter a valid BD mobile number";
+    return "";
+}
 
 export default function PersonalInformationSection({
     data,
@@ -11,6 +28,28 @@ export default function PersonalInformationSection({
     validateEmail,
     auth,
 }) {
+    const [phoneDisplay, setPhoneDisplay] = useState(
+        data.phone ? formatBDPhone(data.phone.replace(/^\+880/, "0")) : ""
+    );
+    const [phoneError, setPhoneError] = useState("");
+
+    const handlePhoneChange = (e) => {
+        const raw = e.target.value.replace(/\D/g, "").slice(0, 11);
+        const formatted = formatBDPhone(raw);
+        setPhoneDisplay(formatted);
+        // Store full international number in form data
+        const intl = raw.length >= 2 && raw.startsWith("0")
+            ? "+880" + raw.slice(1)
+            : raw ? "+880" + raw : "";
+        setData("phone", intl || raw);
+        if (phoneError) setPhoneError(validateBDPhone(raw));
+    };
+
+    const handlePhoneBlur = () => {
+        const raw = phoneDisplay.replace(/\D/g, "");
+        setPhoneError(validateBDPhone(raw));
+    };
+
     return (
         <div className="space-y-6 border-b border-gray-200 dark:border-gray-700 pb-6">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -38,7 +77,7 @@ export default function PersonalInformationSection({
                 <InputError message={errors.name} className="mt-2" />
             </div>
 
-            {/* Email Field - Mandatory */}
+            {/* Email Field */}
             <div>
                 <InputLabel
                     htmlFor="email"
@@ -84,29 +123,41 @@ export default function PersonalInformationSection({
                 )}
             </div>
 
-            {/* Phone Field */}
+            {/* Phone + Address */}
             <div className="grid gap-6 sm:grid-cols-2">
+                {/* Phone with BD prefix */}
                 <div>
                     <InputLabel
                         htmlFor="phone"
                         value="Phone Number *"
                         className="text-base font-semibold mb-2"
                     />
-                    <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <Phone className="h-5 w-5 text-gray-400" />
+                    <div className="mt-2 flex rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700 focus-within:ring-2 focus-within:ring-primary-500 focus-within:border-primary-500 transition-all">
+                        {/* Country prefix */}
+                        <div className="flex items-center gap-1.5 px-3 bg-gray-100 dark:bg-gray-700 border-r border-gray-200 dark:border-gray-600 shrink-0 select-none">
+                            <span className="text-base leading-none">🇧🇩</span>
+                            <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">+880</span>
                         </div>
-                        <TextInput
+                        <input
                             id="phone"
                             type="tel"
-                            className="mt-2 block w-full py-3 pl-10 pr-4 bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
-                            value={data.phone}
-                            onChange={(e) => setData("phone", e.target.value)}
+                            inputMode="numeric"
+                            className="flex-1 py-3 px-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none text-sm"
+                            value={phoneDisplay}
+                            onChange={handlePhoneChange}
+                            onBlur={handlePhoneBlur}
                             required
-                            placeholder="+880 1XXX XXXXXX"
+                            placeholder="01X XXXX XXXX"
+                            maxLength={14}
                         />
                     </div>
-                    <InputError message={errors.phone} className="mt-2" />
+                    {(errors.phone || phoneError) ? (
+                        <InputError message={errors.phone || phoneError} className="mt-2" />
+                    ) : (
+                        <p className="mt-1.5 text-xs text-gray-400 dark:text-gray-500">
+                            Enter your 11-digit Bangladeshi number
+                        </p>
+                    )}
                 </div>
 
                 <div>

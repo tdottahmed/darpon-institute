@@ -1,4 +1,4 @@
-import { Head, useForm, usePage, router, Link } from "@inertiajs/react";
+import { Head, useForm, usePage, Link } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
@@ -14,7 +14,7 @@ import PaymentGatewaySection from "@/Components/courses/enroll/PaymentGatewaySec
 import NewUserInfoBox from "@/Components/courses/enroll/NewUserInfoBox";
 import CourseInfoSidebar from "@/Components/courses/enroll/CourseInfoSidebar";
 import SubmitButton from "@/Components/courses/enroll/SubmitButton";
-import { Download, CheckCircle2, ArrowRight, Home } from "lucide-react";
+import { Download, CheckCircle2, ArrowRight, Home, Loader2, User, Mail, Phone, MapPin, Globe } from "lucide-react";
 import { formatPrice } from "@/Utils/currency";
 import { generatePDF } from "@/Utils/pdfGenerator";
 
@@ -25,7 +25,7 @@ export default function Enroll({
     totalPrice: registrationTotalPrice = 0,
     isNewUser = false,
 }) {
-    const { auth } = usePage().props;
+    const { auth, settings } = usePage().props;
     const variations = course.variations || [];
     const hasVariations = variations.length > 0;
 
@@ -136,465 +136,232 @@ export default function Enroll({
 
     // If registration exists, show invoice instead of form
     if (registration) {
+        const invoiceNumber = `ENR-${String(registration.id).padStart(6, "0")}`;
+        const isVerified = isFreeCourse || registration.payment_status === "verified";
+
         return (
             <>
                 <Head title={`Enrollment Confirmation - ${course.title}`} />
-                <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 flex flex-col">
+                <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 font-sans flex flex-col">
                     <Header />
 
-                    <main className="flex-grow pt-24 pb-16 relative">
+                    <main className="flex-grow pt-20 pb-12">
                         <Container>
-                            <div className="max-w-4xl mx-auto">
-                                {/* Success Header */}
-                                <div className="mb-6 text-center">
-                                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 mb-4">
-                                        <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
-                                    </div>
-                                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                                        Enrollment Confirmed!
-                                    </h1>
-                                    <p className="text-gray-600 dark:text-gray-400">
-                                        Your enrollment has been successfully
-                                        submitted
-                                    </p>
+                            <div className="max-w-2xl mx-auto">
+
+                                {/* Top status bar */}
+                                <div className={`mb-4 flex items-center justify-center gap-2.5 rounded-2xl px-5 py-3 text-sm font-semibold shadow-sm ${
+                                    isVerified
+                                        ? "bg-green-500 text-white"
+                                        : "bg-blue-500 text-white"
+                                }`}>
+                                    <CheckCircle2 className="h-5 w-5 shrink-0" />
+                                    {isFreeCourse
+                                        ? "You're enrolled! Check your email for access details."
+                                        : registration.payment_status === "verified"
+                                        ? "Payment verified — you're all set!"
+                                        : "Registration received — we'll verify your payment soon."}
                                 </div>
 
-                                {/* Invoice Card */}
-                                <Card
-                                    variant="elevated"
-                                    className="p-6 sm:p-8 md:p-12"
-                                >
-                                    <div
-                                        ref={invoiceContentRef}
-                                        className="invoice-content"
-                                    >
-                                        {/* Action Buttons */}
-                                        <div className="mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 pdf-exclude">
-                                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                                                Enrollment Invoice
-                                            </h2>
-                                            <div className="flex gap-3">
-                                                <button
-                                                    onClick={handleDownloadPDF}
-                                                    disabled={isGeneratingPDF}
-                                                    className="flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-lg transition-all hover:bg-primary-700 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                                                >
-                                                    {isGeneratingPDF ? (
-                                                        <>
-                                                            <span className="animate-spin">
-                                                                ⏳
-                                                            </span>
-                                                            Generating...
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <Download className="h-4 w-4" />
-                                                            Download PDF
-                                                        </>
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </div>
+                                {/* Invoice document — outer shell is decorative only, ref is on the inner printable area */}
+                                <div className="rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5 dark:ring-white/5">
+                                <div ref={invoiceContentRef} className="invoice-content bg-white dark:bg-gray-800">
 
-                                        {/* Invoice Header */}
-                                        <div className="mb-8 rounded-xl bg-gradient-to-r from-primary-600 via-primary-700 to-secondary-600 p-6 text-white">
-                                            <div className="flex flex-col justify-between sm:flex-row">
-                                                <div>
-                                                    <h1 className="mb-4 text-3xl font-bold">
-                                                        INVOICE
-                                                    </h1>
-                                                    <div className="space-y-2 text-sm">
-                                                        <div className="flex gap-4">
-                                                            <span className="font-medium opacity-90">
-                                                                Invoice #:
-                                                            </span>
-                                                            <span className="font-mono font-semibold">
-                                                                ENR-
-                                                                {String(
-                                                                    registration.id
-                                                                ).padStart(
-                                                                    6,
-                                                                    "0"
-                                                                )}
-                                                            </span>
-                                                        </div>
-                                                        <div className="flex gap-4">
-                                                            <span className="font-medium opacity-90">
-                                                                Date:
-                                                            </span>
-                                                            <span>
-                                                                {new Date(
-                                                                    registration.created_at
-                                                                ).toLocaleDateString(
-                                                                    "en-US",
-                                                                    {
-                                                                        year: "numeric",
-                                                                        month: "long",
-                                                                        day: "numeric",
-                                                                    }
-                                                                )}
-                                                            </span>
-                                                        </div>
-                                                        <div className="flex gap-4">
-                                                            <span className="font-medium opacity-90">
-                                                                Status:
-                                                            </span>
-                                                            <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase">
-                                                                {
-                                                                    registration.status
-                                                                }
-                                                            </span>
-                                                        </div>
-                                                        {registration.payment_status && (
-                                                            <div className="flex gap-4">
-                                                                <span className="font-medium opacity-90">
-                                                                    Payment
-                                                                    Status:
-                                                                </span>
-                                                                <span
-                                                                    className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                                                                        registration.payment_status ===
-                                                                        "verified"
-                                                                            ? "bg-green-500/30 text-green-100"
-                                                                            : registration.payment_status ===
-                                                                              "rejected"
-                                                                            ? "bg-red-500/30 text-red-100"
-                                                                            : "bg-yellow-500/30 text-yellow-100"
-                                                                    }`}
-                                                                >
-                                                                    {
-                                                                        registration.payment_status
-                                                                    }
-                                                                </span>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                <div className="mt-4 text-right sm:mt-0">
-                                                    <div className="text-2xl font-bold">
-                                                        {import.meta.env
-                                                            .VITE_APP_NAME ||
-                                                            "Darpon"}
-                                                    </div>
-                                                    <div className="mt-1 text-sm opacity-90">
-                                                        Course Enrollment
-                                                        Invoice
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    {/* ── Header band ── */}
+                                    <div className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 overflow-hidden">
+                                        {/* subtle dot pattern */}
+                                        <div className="absolute inset-0 opacity-10"
+                                            style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "18px 18px" }} />
 
-                                        {/* Student Information */}
-                                        <div className="mb-8">
-                                            <h2 className="mb-4 border-b-2 border-gray-200 dark:border-gray-700 pb-2 text-lg font-bold text-gray-900 dark:text-white">
-                                                Student Information
-                                            </h2>
-                                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                        <div className="relative px-5 pt-6 pb-5 sm:px-8 sm:pt-7 sm:pb-6">
+                                            {/* logo + label row */}
+                                            <div className="flex items-start justify-between gap-4 mb-5">
                                                 <div>
-                                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                        Name:
-                                                    </span>
-                                                    <p className="text-gray-900 dark:text-white">
-                                                        {registration.name}
-                                                    </p>
+                                                    <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-1">Course Enrollment</p>
+                                                    <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">INVOICE</h1>
                                                 </div>
-                                                <div>
-                                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                        Email:
+                                                <img
+                                                    src={settings?.logo_light || "/darponbdv.png"}
+                                                    alt="Logo"
+                                                    className="h-10 sm:h-12 w-auto object-contain brightness-0 invert mt-1"
+                                                    onError={(e) => { e.target.style.display = "none"; }}
+                                                />
+                                            </div>
+
+                                            {/* meta chips */}
+                                            <div className="flex flex-wrap gap-2">
+                                                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-sm px-3 py-1 text-xs font-mono font-bold text-white">
+                                                    {invoiceNumber}
+                                                </span>
+                                                <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs text-white/80">
+                                                    {new Date(registration.created_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                                                </span>
+                                                <span className="inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase text-white">
+                                                    {registration.status}
+                                                </span>
+                                                {registration.payment_status && (
+                                                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase ${
+                                                        registration.payment_status === "verified"
+                                                            ? "bg-green-400/30 text-green-100"
+                                                            : registration.payment_status === "rejected"
+                                                            ? "bg-red-400/30 text-red-100"
+                                                            : "bg-yellow-400/30 text-yellow-100"
+                                                    }`}>
+                                                        {registration.payment_status}
                                                     </span>
-                                                    <p className="text-gray-900 dark:text-white">
-                                                        {registration.email}
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                        Phone:
-                                                    </span>
-                                                    <p className="text-gray-900 dark:text-white">
-                                                        {registration.phone ||
-                                                            "N/A"}
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                        Enrollment Type:
-                                                    </span>
-                                                    <p className="text-gray-900 dark:text-white capitalize">
-                                                        {registration.enrollment_type ||
-                                                            "Online"}
-                                                    </p>
-                                                </div>
-                                                {registration.address && (
-                                                    <div className="sm:col-span-2">
-                                                        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                            Address:
-                                                        </span>
-                                                        <p className="whitespace-pre-wrap text-gray-900 dark:text-white">
-                                                            {
-                                                                registration.address
-                                                            }
-                                                        </p>
-                                                    </div>
                                                 )}
                                             </div>
                                         </div>
+                                    </div>
 
-                                        {/* Course Details */}
-                                        <div className="mb-8">
-                                            <h2 className="mb-4 border-b-2 border-gray-200 dark:border-gray-700 pb-2 text-lg font-bold text-gray-900 dark:text-white">
-                                                Course Details
-                                            </h2>
-                                            <div className="overflow-x-auto">
-                                                <table className="w-full">
-                                                    <thead>
-                                                        <tr className="border-b-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-                                                            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                                                                Course
-                                                            </th>
-                                                            {registration.course_variation && (
-                                                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                                                                    Variation
-                                                                </th>
-                                                            )}
-                                                            <th className="px-4 py-3 text-right text-sm font-semibold text-gray-900 dark:text-white">
-                                                                Amount
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr className="border-b border-gray-100 dark:border-gray-700">
-                                                            <td className="px-4 py-4">
-                                                                <div className="font-semibold text-gray-900 dark:text-white">
-                                                                    {course?.title ||
-                                                                        "Unknown Course"}
-                                                                </div>
-                                                                {course?.duration && (
-                                                                    <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                                                        Duration:{" "}
-                                                                        {
-                                                                            course.duration
-                                                                        }
-                                                                    </div>
-                                                                )}
-                                                            </td>
-                                                            {registration.course_variation && (
-                                                                <td className="px-4 py-4">
-                                                                    <div className="font-medium text-gray-900 dark:text-white">
-                                                                        {
-                                                                            registration
-                                                                                .course_variation
-                                                                                .name
-                                                                        }
-                                                                    </div>
-                                                                    {registration
-                                                                        .course_variation
-                                                                        .duration && (
-                                                                        <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                                                            {
-                                                                                registration
-                                                                                    .course_variation
-                                                                                    .duration
-                                                                            }
-                                                                        </div>
-                                                                    )}
-                                                                </td>
-                                                            )}
-                                                            <td className="px-4 py-4 text-right font-semibold text-gray-900 dark:text-white">
-                                                                {isFreeCourse ? (
-                                                                    <span className="text-green-600 dark:text-green-400">
-                                                                        Free
-                                                                    </span>
-                                                                ) : (
-                                                                    formatPrice(
-                                                                        registrationTotalPrice
-                                                                    )
-                                                                )}
-                                                            </td>
-                                                        </tr>
-                                                        {isPaidCourse && (
-                                                            <tr className="bg-primary-50 dark:bg-primary-900/20">
-                                                                <td
-                                                                    colSpan={
-                                                                        registration.course_variation
-                                                                            ? 2
-                                                                            : 1
-                                                                    }
-                                                                    className="px-4 py-4 text-lg font-bold text-gray-900 dark:text-white"
-                                                                >
-                                                                    Total Amount
-                                                                </td>
-                                                                <td className="px-4 py-4 text-right text-lg font-bold text-primary-600 dark:text-primary-400">
-                                                                    {formatPrice(
-                                                                        registrationTotalPrice
-                                                                    )}
-                                                                </td>
-                                                            </tr>
-                                                        )}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                    {/* ── Body ── */}
+                                    <div className="px-5 py-6 sm:px-8 sm:py-7 space-y-6">
 
-                                        {/* Payment Information */}
-                                        {isPaidCourse &&
-                                            registration.payment_gateway && (
-                                                <div className="mb-8 rounded-lg border-l-4 border-primary-500 bg-primary-50 dark:bg-primary-900/20 p-4">
-                                                    <h3 className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
-                                                        Payment Information
-                                                    </h3>
-                                                    <div className="space-y-2 text-sm">
-                                                        <div>
-                                                            <span className="font-medium text-gray-700 dark:text-gray-300">
-                                                                Payment Method:
-                                                            </span>
-                                                            <span className="ml-2 text-gray-900 dark:text-white">
-                                                                {
-                                                                    registration
-                                                                        .payment_gateway
-                                                                        .name
-                                                                }
-                                                            </span>
+                                        {/* Student info — 2-col grid */}
+                                        <section>
+                                            <h2 className="mb-3 text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Student Information</h2>
+                                            <div className="grid grid-cols-2 gap-3">
+                                                {[
+                                                    { icon: <User className="h-3.5 w-3.5" />, label: "Full Name", value: registration.name },
+                                                    { icon: <Mail className="h-3.5 w-3.5" />, label: "Email", value: registration.email, mono: false, truncate: true },
+                                                    { icon: <Phone className="h-3.5 w-3.5" />, label: "Phone", value: registration.phone || "—" },
+                                                    { icon: <Globe className="h-3.5 w-3.5" />, label: "Type", value: registration.enrollment_type || "Online", capitalize: true },
+                                                ].map(({ icon, label, value, truncate, capitalize }) => (
+                                                    <div key={label} className="rounded-xl bg-gray-50 dark:bg-gray-700/50 px-3.5 py-3">
+                                                        <div className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500 mb-1">
+                                                            {icon}
+                                                            <span className="text-[10px] font-bold uppercase tracking-wider">{label}</span>
                                                         </div>
-                                                        {registration
-                                                            .payment_gateway
-                                                            .account_number && (
-                                                            <div>
-                                                                <span className="font-medium text-gray-700 dark:text-gray-300">
-                                                                    Account:
-                                                                </span>
-                                                                <span className="ml-2 font-mono text-gray-900 dark:text-white">
-                                                                    {
-                                                                        registration
-                                                                            .payment_gateway
-                                                                            .account_number
-                                                                    }
-                                                                </span>
-                                                            </div>
+                                                        <p className={`text-sm font-semibold text-gray-900 dark:text-white ${truncate ? "truncate" : ""} ${capitalize ? "capitalize" : ""}`}>
+                                                            {value}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                                {registration.address && (
+                                                    <div className="col-span-2 rounded-xl bg-gray-50 dark:bg-gray-700/50 px-3.5 py-3">
+                                                        <div className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500 mb-1">
+                                                            <MapPin className="h-3.5 w-3.5" />
+                                                            <span className="text-[10px] font-bold uppercase tracking-wider">Address</span>
+                                                        </div>
+                                                        <p className="text-sm font-semibold text-gray-900 dark:text-white whitespace-pre-wrap">{registration.address}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </section>
+
+                                        {/* Divider */}
+                                        <div className="border-t border-dashed border-gray-200 dark:border-gray-700" />
+
+                                        {/* Course */}
+                                        <section>
+                                            <h2 className="mb-3 text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Course Details</h2>
+                                            <div className="rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+                                                <div className="flex items-start justify-between gap-4 px-4 py-4 bg-gray-50 dark:bg-gray-700/40">
+                                                    <div className="min-w-0">
+                                                        <p className="font-bold text-gray-900 dark:text-white leading-snug">{course?.title || "Unknown Course"}</p>
+                                                        {course?.duration && (
+                                                            <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">Duration: {course.duration}</p>
                                                         )}
-                                                        {registration.transaction_id && (
-                                                            <div>
-                                                                <span className="font-medium text-gray-700 dark:text-gray-300">
-                                                                    Transaction
-                                                                    ID:
+                                                        {registration.course_variation && (
+                                                            <div className="mt-2 flex flex-wrap items-center gap-2">
+                                                                <span className="rounded-full bg-primary-100 dark:bg-primary-900/40 px-2.5 py-0.5 text-xs font-semibold text-primary-700 dark:text-primary-300">
+                                                                    {registration.course_variation.name}
                                                                 </span>
-                                                                <span className="ml-2 font-mono text-gray-900 dark:text-white">
-                                                                    {
-                                                                        registration.transaction_id
-                                                                    }
-                                                                </span>
+                                                                {registration.course_variation.duration && (
+                                                                    <span className="text-xs text-gray-500">{registration.course_variation.duration}</span>
+                                                                )}
                                                             </div>
                                                         )}
                                                     </div>
+                                                    <div className="shrink-0 text-right">
+                                                        {isFreeCourse ? (
+                                                            <span className="text-base font-bold text-green-600 dark:text-green-400">FREE</span>
+                                                        ) : (
+                                                            <span className="text-base font-bold text-gray-900 dark:text-white">{formatPrice(registrationTotalPrice)}</span>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            )}
+                                                {isPaidCourse && (
+                                                    <div className="flex items-center justify-between px-4 py-3 bg-primary-600 dark:bg-primary-700">
+                                                        <span className="text-sm font-bold text-white/80">Total Amount</span>
+                                                        <span className="text-xl font-black text-white">{formatPrice(registrationTotalPrice)}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </section>
 
-                                        {/* Success Message */}
-                                        <div
-                                            className={`mb-6 rounded-lg border-l-4 p-4 ${
-                                                isFreeCourse
-                                                    ? "border-green-500 bg-green-50 dark:bg-green-900/20"
-                                                    : registration.payment_status ===
-                                                      "verified"
-                                                    ? "border-green-500 bg-green-50 dark:bg-green-900/20"
-                                                    : "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                                            }`}
-                                        >
-                                            <div className="flex items-start gap-3">
-                                                <CheckCircle2
-                                                    className={`h-6 w-6 flex-shrink-0 ${
-                                                        isFreeCourse ||
-                                                        registration.payment_status ===
-                                                            "verified"
-                                                            ? "text-green-600 dark:text-green-400"
-                                                            : "text-blue-600 dark:text-blue-400"
-                                                    }`}
-                                                />
-                                                <div>
-                                                    <h3
-                                                        className={`font-semibold ${
-                                                            isFreeCourse ||
-                                                            registration.payment_status ===
-                                                                "verified"
-                                                                ? "text-green-900 dark:text-green-100"
-                                                                : "text-blue-900 dark:text-blue-100"
-                                                        }`}
-                                                    >
-                                                        {isFreeCourse
-                                                            ? "Enrollment Completed Successfully!"
-                                                            : registration.payment_status ===
-                                                              "verified"
-                                                            ? "Payment Verified - Enrollment Confirmed!"
-                                                            : "Registration Submitted Successfully!"}
-                                                    </h3>
-                                                    <p
-                                                        className={`mt-1 text-sm ${
-                                                            isFreeCourse ||
-                                                            registration.payment_status ===
-                                                                "verified"
-                                                                ? "text-green-700 dark:text-green-300"
-                                                                : "text-blue-700 dark:text-blue-300"
-                                                        }`}
-                                                    >
-                                                        {isFreeCourse
-                                                            ? "You have been successfully enrolled in this course. Check your email for course access details."
-                                                            : registration.payment_status ===
-                                                              "verified"
-                                                            ? "Your payment has been verified and your enrollment is confirmed. Check your email for course access details."
-                                                            : "Your registration has been submitted. We will verify your payment and contact you soon. An invoice has been sent to your email address."}
-                                                    </p>
-                                                    {isNewUser && (
-                                                        <p
-                                                            className={`mt-2 text-sm font-medium ${
-                                                                isFreeCourse ||
-                                                                registration.payment_status ===
-                                                                    "verified"
-                                                                    ? "text-green-800 dark:text-green-200"
-                                                                    : "text-blue-800 dark:text-blue-200"
-                                                            }`}
-                                                        >
-                                                            ✓ An account has
-                                                            been created for
-                                                            you. Check your
-                                                            email for login
-                                                            credentials.
-                                                        </p>
+                                        {/* Payment info */}
+                                        {isPaidCourse && registration.payment_gateway && (
+                                            <section>
+                                                <h2 className="mb-3 text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Payment Details</h2>
+                                                <div className="rounded-xl border border-gray-100 dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-700 overflow-hidden">
+                                                    <div className="flex justify-between items-center px-4 py-3">
+                                                        <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Method</span>
+                                                        <span className="text-sm font-bold text-gray-900 dark:text-white">{registration.payment_gateway.name}</span>
+                                                    </div>
+                                                    {registration.payment_gateway.account_number && (
+                                                        <div className="flex justify-between items-center px-4 py-3">
+                                                            <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Account</span>
+                                                            <span className="text-sm font-mono font-bold text-gray-900 dark:text-white">{registration.payment_gateway.account_number}</span>
+                                                        </div>
+                                                    )}
+                                                    {registration.transaction_id && (
+                                                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 px-4 py-3">
+                                                            <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Transaction ID</span>
+                                                            <span className="text-sm font-mono font-bold text-gray-900 dark:text-white break-all">{registration.transaction_id}</span>
+                                                        </div>
                                                     )}
                                                 </div>
+                                            </section>
+                                        )}
+
+                                        {/* New user notice */}
+                                        {isNewUser && (
+                                            <div className="flex items-start gap-3 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 px-4 py-3">
+                                                <CheckCircle2 className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
+                                                <p className="text-xs font-semibold text-amber-800 dark:text-amber-200">
+                                                    Account created for you — check your email for login credentials.
+                                                </p>
                                             </div>
-                                        </div>
+                                        )}
 
                                         {/* Footer */}
-                                        <div className="border-t border-gray-200 dark:border-gray-700 pt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                                            <p>
-                                                This is a computer-generated
-                                                invoice. No signature required.
-                                            </p>
-                                        </div>
+                                        <p className="text-center text-[11px] text-gray-400 dark:text-gray-600 pt-1">
+                                            Computer-generated invoice · No signature required
+                                        </p>
                                     </div>
+                                </div>{/* /invoiceContentRef */}
+                                </div>{/* /decorative rounded wrapper */}
 
-                                    {/* Action Buttons */}
-                                    <div className="mt-8 flex flex-col sm:flex-row gap-4 pdf-exclude">
-                                        <Link
-                                            href={route("dashboard", {
-                                                section: "courses",
-                                            })}
-                                            className="flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:bg-primary-700 hover:shadow-xl"
-                                        >
-                                            <Home className="h-4 w-4" />
-                                            Go to Dashboard
-                                        </Link>
-                                        <Link
-                                            href={route(
-                                                "courses.show",
-                                                course.slug
-                                            )}
-                                            className="flex items-center justify-center gap-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 px-6 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 transition-all hover:bg-gray-50 dark:hover:bg-gray-800"
-                                        >
-                                            View Course
-                                            <ArrowRight className="h-4 w-4" />
-                                        </Link>
-                                    </div>
-                                </Card>
+                                {/* Action buttons — outside invoice, not in PDF */}
+                                <div className="mt-4 grid grid-cols-2 gap-3 pdf-exclude">
+                                    <button
+                                        onClick={handleDownloadPDF}
+                                        disabled={isGeneratingPDF}
+                                        className="flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 shadow-sm transition-all hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        {isGeneratingPDF ? (
+                                            <><Loader2 className="h-4 w-4 animate-spin" /> Generating…</>
+                                        ) : (
+                                            <><Download className="h-4 w-4" /> Download PDF</>
+                                        )}
+                                    </button>
+                                    <Link
+                                        href={route("dashboard", { section: "courses" })}
+                                        className="flex items-center justify-center gap-2 rounded-xl bg-primary-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:bg-primary-700"
+                                    >
+                                        <Home className="h-4 w-4" />
+                                        Dashboard
+                                    </Link>
+                                    <Link
+                                        href={route("courses.show", course.slug)}
+                                        className="col-span-2 flex items-center justify-center gap-2 rounded-xl border-2 border-primary-200 dark:border-primary-800 text-primary-600 dark:text-primary-400 px-4 py-3 text-sm font-semibold transition-all hover:bg-primary-50 dark:hover:bg-primary-900/20"
+                                    >
+                                        View Course Page
+                                        <ArrowRight className="h-4 w-4" />
+                                    </Link>
+                                </div>
+
                             </div>
                         </Container>
                     </main>
