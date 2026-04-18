@@ -1,25 +1,59 @@
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
 import CourseCard from "@/Components/courses/CourseCard";
 import Button from "@/Components/ui/Button";
 import SectionBackground from "@/Components/ui/SectionBackground";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import CTASection from "@/Components/sections/CTASection";
 
 export default function CoursesIndex({ courses, filters }) {
     const { translations } = usePage().props;
     const [searchQuery, setSearchQuery] = useState(filters?.search || "");
     const [showFilters, setShowFilters] = useState(false);
+    const [isSearching, setIsSearching] = useState(false);
+    const debounceTimer = useRef(null);
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        // Inertia will handle the search via URL params
-        window.location.href = `/courses${
-            searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : ""
-        }`;
+    const doSearch = useCallback((query, tag) => {
+        const params = {};
+        if (query) params.search = query;
+        if (tag) params.tag = tag;
+
+        setIsSearching(true);
+        router.get("/courses", params, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true,
+            onFinish: () => setIsSearching(false),
+        });
+    }, []);
+
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearchQuery(value);
+
+        clearTimeout(debounceTimer.current);
+        debounceTimer.current = setTimeout(() => {
+            doSearch(value, filters?.tag);
+        }, 350);
     };
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        clearTimeout(debounceTimer.current);
+        doSearch(searchQuery, filters?.tag);
+    };
+
+    const handleClear = () => {
+        setSearchQuery("");
+        clearTimeout(debounceTimer.current);
+        doSearch("", "");
+    };
+
+    useEffect(() => {
+        return () => clearTimeout(debounceTimer.current);
+    }, []);
 
     // Get all unique tags from courses
     const allTags = [];
@@ -73,28 +107,44 @@ export default function CoursesIndex({ courses, filters }) {
                         <Container>
                             <div className="flex flex-col gap-4">
                                 <form
-                                    onSubmit={handleSearch}
+                                    onSubmit={handleSearchSubmit}
                                     className="flex flex-col sm:flex-row gap-4 w-full"
                                 >
                                     <div className="flex-1 relative">
                                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                            <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                            </svg>
+                                            {isSearching ? (
+                                                <svg className="h-5 w-5 text-primary-500 animate-spin" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                                </svg>
+                                            ) : (
+                                                <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                                </svg>
+                                            )}
                                         </div>
                                         <input
                                             type="text"
                                             value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            onChange={handleSearchChange}
                                             placeholder="Search courses..."
-                                            className="w-full rounded-xl border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 pl-11 pr-4 py-3 transition-colors"
+                                            autoComplete="off"
+                                            className="w-full rounded-xl border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 pl-11 pr-10 py-3 transition-colors"
                                         />
+                                        {searchQuery && (
+                                            <button
+                                                type="button"
+                                                onClick={handleClear}
+                                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                                                aria-label="Clear search"
+                                            >
+                                                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+                                        )}
                                     </div>
                                     <div className="flex gap-3">
-                                        <Button type="submit" variant="primary" className="py-3 px-6 shadow-md hover:shadow-lg transition-all">
-                                            Search
-                                        </Button>
-                                        
                                         {allTags.length > 0 && (
                                             <button
                                                 type="button"
@@ -106,7 +156,7 @@ export default function CoursesIndex({ courses, filters }) {
                                                 }`}
                                             >
                                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z" />
                                                 </svg>
                                                 Filters
                                                 {filters?.tag && (
@@ -117,15 +167,19 @@ export default function CoursesIndex({ courses, filters }) {
                                                 )}
                                             </button>
                                         )}
-                                        
-                                        {(filters?.search || filters?.tag) && (
-                                            <Link
-                                                href="/courses"
-                                                className="flex items-center justify-center px-5 py-3 rounded-xl border-2 border-gray-200 text-gray-600 hover:text-red-600 hover:border-red-200 hover:bg-red-50 dark:border-gray-700 dark:text-gray-400 dark:hover:text-red-400 dark:hover:border-red-900/30 dark:hover:bg-red-900/20 transition-all font-medium"
-                                                title="Clear filters"
+
+                                        {(searchQuery || filters?.tag) && (
+                                            <button
+                                                type="button"
+                                                onClick={handleClear}
+                                                className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl border-2 border-gray-200 text-gray-600 hover:text-red-600 hover:border-red-200 hover:bg-red-50 dark:border-gray-700 dark:text-gray-400 dark:hover:text-red-400 dark:hover:border-red-900/30 dark:hover:bg-red-900/20 transition-all font-medium"
+                                                title="Clear all filters"
                                             >
+                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
                                                 Clear
-                                            </Link>
+                                            </button>
                                         )}
                                     </div>
                                 </form>
@@ -144,9 +198,10 @@ export default function CoursesIndex({ courses, filters }) {
                                             </div>
                                             <div className="flex flex-wrap gap-2.5">
                                                 {allTags.map((tag) => (
-                                                    <Link
+                                                    <button
                                                         key={tag}
-                                                        href={`/courses?tag=${encodeURIComponent(tag)}${filters?.search ? `&search=${encodeURIComponent(filters.search)}` : ''}`}
+                                                        type="button"
+                                                        onClick={() => doSearch(searchQuery, filters?.tag === tag ? "" : tag)}
                                                         className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                                                             filters?.tag === tag
                                                                 ? "bg-primary-500 text-white shadow-md shadow-primary-500/20 scale-105"
@@ -154,7 +209,7 @@ export default function CoursesIndex({ courses, filters }) {
                                                         }`}
                                                     >
                                                         {tag}
-                                                    </Link>
+                                                    </button>
                                                 ))}
                                             </div>
                                         </div>

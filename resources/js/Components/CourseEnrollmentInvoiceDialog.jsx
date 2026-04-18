@@ -3,10 +3,13 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Download, X, Loader2, CheckCircle2, User, Mail, Phone, MapPin, Globe } from "lucide-react";
 import { formatPrice } from "@/Utils/currency";
 import { generatePDF } from "@/Utils/pdfGenerator";
+import { usePage } from "@inertiajs/react";
 
 export default function CourseEnrollmentInvoiceDialog({ isOpen, onClose, registration, course, totalPrice = 0 }) {
     const invoiceContentRef = useRef(null);
     const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+    const { settings } = usePage().props;
+    const logoSrc = settings?.logo_light || "/darponbdv.png";
 
     if (!registration) return null;
 
@@ -134,8 +137,17 @@ export default function CourseEnrollmentInvoiceDialog({ isOpen, onClose, registr
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className="mt-4 text-right sm:mt-0">
-                                                <div className="text-2xl font-bold">{import.meta.env.VITE_APP_NAME || "Darpon"}</div>
+                                            <div className="mt-4 flex flex-col items-end sm:mt-0">
+                                                <img
+                                                    src={logoSrc}
+                                                    alt="Darpon Logo"
+                                                    className="h-12 w-auto object-contain brightness-0 invert"
+                                                    onError={(e) => {
+                                                        e.target.style.display = "none";
+                                                        e.target.nextSibling.style.display = "block";
+                                                    }}
+                                                />
+                                                <div className="hidden text-2xl font-bold">{import.meta.env.VITE_APP_NAME || "Darpon"}</div>
                                                 <div className="mt-1 text-sm opacity-90">Course Enrollment Invoice</div>
                                             </div>
                                         </div>

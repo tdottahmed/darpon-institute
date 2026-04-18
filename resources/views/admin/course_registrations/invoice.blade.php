@@ -131,6 +131,23 @@
       font-weight: 600;
     }
 
+    .invoice-brand-logo {
+      height: 44px;
+      width: auto;
+      max-width: 200px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      display: inline-block;
+      filter: brightness(0) invert(1);
+    }
+
+    @media print {
+      .invoice-brand-logo {
+        height: 32px;
+        max-width: 160px;
+      }
+    }
+
     .invoice-section {
       margin-bottom: 18px;
     }
@@ -316,7 +333,14 @@
           </div>
         </div>
         <div style="text-align: right;">
-          <div style="font-weight: 700; color: white; margin-bottom: 5px; font-size: 20px;">{{ config('app.name', 'Darpon') }}</div>
+          @php
+            $invoiceLogoPath = \App\Models\Setting::get('logo_light');
+            $invoiceLogoUrl = $invoiceLogoPath
+                ? url(\Illuminate\Support\Facades\Storage::url($invoiceLogoPath))
+                : asset('darponbdv.png');
+          @endphp
+          <img src="{{ $invoiceLogoUrl }}" alt="{{ config('app.name', 'Darpon') }}" class="invoice-brand-logo"
+               onerror="this.style.display='none'" />
           <div style="color: rgba(255, 255, 255, 0.9); font-size: 14px;">Course Enrollment Invoice</div>
         </div>
       </div>

@@ -67,7 +67,7 @@ export default function InstructorSection() {
 
                         {/* center: Image */}
                         <div className="order-1 lg:order-2 flex justify-center">
-                            <div className="section-animate section-animate-delay-6 relative w-full max-w-4xl">
+                            <div className="section-animate section-animate-delay-6 relative w-full max-w-8xl">
                                 {/* Decorative frame */}
                                 <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-300/50 dark:shadow-black/40 ring-4 ring-white dark:ring-gray-800 ring-offset-4 ring-offset-gray-50 dark:ring-offset-gray-900">
                                     <img
@@ -88,7 +88,7 @@ export default function InstructorSection() {
                             </div>
                         </div>
 
-                        <div className="section-animate section-animate-delay-3 text-gray-700 dark:text-gray-300 leading-relaxed text-base sm:text-lg max-w-4xl mx-auto">
+                        <div className="section-animate section-animate-delay-3 text-gray-700 dark:text-gray-300 leading-relaxed text-base sm:text-lg max-w-8xl mx-auto">
                             <p className="text-justify whitespace-pre-line">
                                 {(() => {
                                     const rawDesc = content.description || "With years of dedicated experience in English language education, I'm passionate about helping students achieve fluency and confidence in their English communication skills.";
