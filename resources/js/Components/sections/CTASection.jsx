@@ -1,3 +1,4 @@
+import Badge from "../ui/Badge";
 import Container from "../ui/Container";
 import PrimaryButton from "../ui/PrimaryButton";
 import SecondaryButton from "../ui/SecondaryButton";
@@ -27,12 +28,20 @@ export default function CTASection({ translations }) {
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
 
             <Container className="relative z-10">
-                <div className="text-center space-y-8 max-w-4xl mx-auto">
+                <div className="mb-4 text-center">
+                    <Badge
+                        variant="secondary"
+                        className="text-xs font-semibold uppercase tracking-wide px-3 py-1"
+                    >
+                        Call To Action
+                    </Badge>
+                </div>
+                <div className="text-center space-y-8 max-w-8xl mx-auto">
                     <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
                         {content.title ||
                             "Ready to Start Your English Journey?"}
                     </h2>
-                    <p className="text-xl sm:text-2xl text-white/90 leading-relaxed max-w-2xl mx-auto">
+                    <p className="text-xl sm:text-2xl text-white/90 leading-relaxed max-w-8xl mx-auto text-start">
                         {content.subtitle ||
                             "Join thousands of students already learning with us. Get started today and transform your English skills!"}
                     </p>
