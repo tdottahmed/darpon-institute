@@ -81,19 +81,17 @@ export default function Show({ book, relatedBooks }) {
 
                             {/* Product Info */}
                             <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-                                <span className="inline-flex items-center rounded-full bg-primary-100 px-3 py-1 text-sm font-medium text-primary-600 dark:bg-primary-900/30 dark:text-primary-400 mb-4">
-                                    {book.author}
-                                </span>
-
                                 <h1 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-2xl lg:text-3xl xl:text-4xl">
                                     {book.title}
                                 </h1>
-
+                                <span className="inline-flex items-center  px-1 py-1 text-sm font-medium text-primary-600 dark:bg-primary-900/30 dark:text-primary-400 mb-4">
+                                    {book.author}
+                                </span>
                                 <div className="mt-6">
                                     <h2 className="sr-only">
                                         Product information
                                     </h2>
-                                    <div className="flex items-baseline gap-4">
+                                    <div className="flex items-center gap-4">
                                         {hasDiscount && (
                                             <p className="text-xl text-gray-500 line-through dark:text-gray-400">
                                                 {formatPrice(book.price)}
@@ -103,7 +101,7 @@ export default function Show({ book, relatedBooks }) {
                                             {formatPrice(discountedPrice)}
                                         </p>
                                         {hasDiscount && (
-                                            <span className="inline-flex items-center rounded-md bg-red-100 px-2.5 py-0.5 text-sm font-medium text-red-800 dark:bg-red-900/30 dark:text-red-300">
+                                            <span className="inline-flex items-center rounded-md bg-red-100 px-2.5 py-0.5 text-xs text-red-800 dark:bg-red-900/30 dark:text-red-300">
                                                 Save {Math.round(book.discount)}
                                                 %
                                             </span>
@@ -128,7 +126,7 @@ export default function Show({ book, relatedBooks }) {
                                         <PrimaryButton
                                             href={route(
                                                 "books.checkout",
-                                                book.slug
+                                                book.slug,
                                             )}
                                             className="w-full"
                                             showIcon={true}

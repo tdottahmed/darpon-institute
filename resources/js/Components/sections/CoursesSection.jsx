@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, A11y } from "swiper/modules";
+import { Autoplay, Pagination, A11y } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import Container from "../ui/Container";
@@ -12,23 +12,6 @@ import { usePage } from "@inertiajs/react";
 
 const SECTION_PADDING = "py-16 sm:py-20 lg:py-28";
 
-function ChevronIcon({ direction }) {
-    return (
-        <svg
-            className="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2.5}
-        >
-            <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d={direction === "left" ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
-            />
-        </svg>
-    );
-}
 
 export default function CoursesSection({ courses = [] }) {
     const { frontend_content } = usePage().props;
@@ -36,9 +19,6 @@ export default function CoursesSection({ courses = [] }) {
     const displayedCourses = courses.slice(0, 9);
     const sectionRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
-    const [swiper, setSwiper] = useState(null);
-    const [isBeginning, setIsBeginning] = useState(true);
-    const [isEnd, setIsEnd] = useState(false);
 
     useEffect(() => {
         const el = sectionRef.current;
@@ -53,10 +33,6 @@ export default function CoursesSection({ courses = [] }) {
         return () => observer.disconnect();
     }, []);
 
-    const handleSlideChange = (sw) => {
-        setIsBeginning(sw.isBeginning);
-        setIsEnd(sw.isEnd);
-    };
 
     return (
         <section
@@ -79,33 +55,13 @@ export default function CoursesSection({ courses = [] }) {
 
                 {displayedCourses.length > 0 ? (
                     <>
-                        {/* Slider controls header */}
-                        <div className="section-animate section-animate-delay-2 flex items-center justify-end mb-4 gap-2">
-                            <button
-                                onClick={() => swiper?.slidePrev()}
-                                disabled={isBeginning}
-                                aria-label="Previous courses"
-                                className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 shadow-sm transition-all duration-200 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 dark:hover:bg-primary-900/30 dark:hover:border-primary-600 dark:hover:text-primary-400 disabled:opacity-35 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800"
-                            >
-                                <ChevronIcon direction="left" />
-                            </button>
-                            <button
-                                onClick={() => swiper?.slideNext()}
-                                disabled={isEnd}
-                                aria-label="Next courses"
-                                className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 shadow-sm transition-all duration-200 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 dark:hover:bg-primary-900/30 dark:hover:border-primary-600 dark:hover:text-primary-400 disabled:opacity-35 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800"
-                            >
-                                <ChevronIcon direction="right" />
-                            </button>
-                        </div>
-
                         <div className="section-animate section-animate-delay-2">
                             <Swiper
-                                modules={[Navigation, Pagination, A11y]}
-                                onSwiper={setSwiper}
-                                onSlideChange={handleSlideChange}
+                                modules={[Autoplay, Pagination, A11y]}
                                 spaceBetween={24}
                                 slidesPerView={1}
+                                loop={true}
+                                autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
                                 breakpoints={{
                                     640: { slidesPerView: 2, spaceBetween: 24 },
                                     1024: { slidesPerView: 3, spaceBetween: 32 },

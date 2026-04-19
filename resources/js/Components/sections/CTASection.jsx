@@ -1,16 +1,47 @@
+import { useEffect, useMemo, useState } from "react";
 import Badge from "../ui/Badge";
 import Container from "../ui/Container";
 import PrimaryButton from "../ui/PrimaryButton";
 import SecondaryButton from "../ui/SecondaryButton";
 import { usePage } from "@inertiajs/react";
 
+const SUBTITLE_WORD_LIMITS = { sm: 20, md: 40, full: Infinity };
+
+function getWordLimit(width) {
+    if (width < 640) return SUBTITLE_WORD_LIMITS.sm;
+    if (width < 1024) return SUBTITLE_WORD_LIMITS.md;
+    return SUBTITLE_WORD_LIMITS.full;
+}
+
 export default function CTASection({ translations }) {
     const { frontend_content } = usePage().props;
     const content = frontend_content?.cta || {};
     const t = translations?.common || {};
 
+    const [viewportWidth, setViewportWidth] = useState(() =>
+        typeof window !== "undefined" ? window.innerWidth : 1024,
+    );
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    useEffect(() => {
+        const onResize = () => setViewportWidth(window.innerWidth);
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+    }, []);
+
+    const rawSubtitle =
+        content.subtitle ||
+        "Join thousands of students already learning with us. Get started today and transform your English skills!";
+
+    const { truncated, isTruncated } = useMemo(() => {
+        const limit = getWordLimit(viewportWidth);
+        const words = rawSubtitle.split(/\s+/).filter(Boolean);
+        if (words.length <= limit) return { truncated: rawSubtitle, isTruncated: false };
+        return { truncated: words.slice(0, limit).join(" "), isTruncated: true };
+    }, [rawSubtitle, viewportWidth]);
+
     return (
-        <section className="relative py-20 sm:py-20 overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 dark:from-primary-800 dark:via-primary-900 dark:to-secondary-800">
+        <section className="relative py-16 sm:py-20 overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 dark:from-primary-800 dark:via-primary-900 dark:to-secondary-800">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
                 <div
@@ -20,12 +51,12 @@ export default function CTASection({ translations }) {
                         backgroundRepeat: "repeat",
                         backgroundSize: "60px 60px",
                     }}
-                ></div>
+                />
             </div>
 
-            {/* Decorative Elements */}
-            <div className="absolute top-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+            {/* Decorative blobs */}
+            <div className="absolute top-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
 
             <Container className="relative z-10">
                 <div className="mb-4 text-center">
@@ -33,23 +64,46 @@ export default function CTASection({ translations }) {
                         variant="secondary"
                         className="text-xs font-semibold uppercase tracking-wide px-3 py-1"
                     >
-                        Call To Action
+                        {content.badge || "Call To Action"}
                     </Badge>
                 </div>
-                <div className="text-center space-y-8 max-w-8xl mx-auto">
-                    <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                        {content.title ||
-                            "Ready to Start Your English Journey?"}
+
+                <div className="text-center space-y-6 sm:space-y-8 max-w-4xl mx-auto">
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight text-balance">
+                        {content.title || "Ready to Start Your English Journey?"}
                     </h2>
-                    <p className="text-xl sm:text-2xl text-white/90 leading-relaxed max-w-8xl mx-auto text-start">
-                        {content.subtitle ||
-                            "Join thousands of students already learning with us. Get started today and transform your English skills!"}
+
+                    <p className="text-base sm:text-lg lg:text-xl text-white/90 leading-relaxed">
+                        {isTruncated && !isExpanded ? (
+                            <>
+                                {truncated}{"… "}
+                                <button
+                                    type="button"
+                                    onClick={() => setIsExpanded(true)}
+                                    className="inline font-semibold underline underline-offset-2 text-white hover:text-white/80 transition-colors"
+                                >
+                                    Read more
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                {rawSubtitle}
+                                {isTruncated && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsExpanded(false)}
+                                        className="ml-1 inline font-semibold underline underline-offset-2 text-white hover:text-white/80 transition-colors"
+                                    >
+                                        Show less
+                                    </button>
+                                )}
+                            </>
+                        )}
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-2">
                         <PrimaryButton href={route("courses.index")}>
-                            {content.btn_primary ||
-                                t.register ||
-                                "Get Started Free"}
+                            {content.btn_primary || t.register || "Get Started Free"}
                         </PrimaryButton>
                         <SecondaryButton href={route("login")} showIcon={true}>
                             {content.btn_outline || t.login || "Log In"}
