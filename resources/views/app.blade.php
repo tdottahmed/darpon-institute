@@ -31,10 +31,7 @@
   @if($seoDesc) <meta property="og:description" content="{{ $seoDesc }}"> @endif
   @if($seoOgImage) <meta property="og:image" content="{{ \Illuminate\Support\Facades\Storage::url($seoOgImage) }}"> @endif
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.bunny.net">
-  <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&display=swap" rel="stylesheet">
+  <!-- Fonts: Times New Roman + SutonnyMJ via vite resources/css/app.css -->
 
   <!-- SEO: Sitemap & RSS Feed -->
   @php
@@ -51,7 +48,7 @@
   <!-- Scripts -->
   @routes
   @viteReactRefresh
-  @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
+  @vite(['resources/css/app.css', 'resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
   @inertiaHead
 
   <!-- Meta Pixel Code -->

@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Something went wrong (500) - {{ config('app.name') }}</title>
     <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css'])
 </head>
 <body class="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans antialiased">

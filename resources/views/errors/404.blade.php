@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Page Not Found (404) - {{ config('app.name') }}</title>
     <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css'])
     <style>
         @keyframes float {
@@ -68,7 +66,7 @@
                     {{-- Mouth --}}
                     <path d="M50 84 Q60 92 70 84" stroke="#6b7280" stroke-width="2" fill="none" stroke-linecap="round"/>
                     {{-- 404 on ghost --}}
-                    <text x="60" y="105" text-anchor="middle" font-family="figtree, sans-serif" font-size="11"
+                    <text x="60" y="105" text-anchor="middle" font-family="'Times New Roman', Times, serif" font-size="11"
                           font-weight="600" class="fill-gray-400 dark:fill-gray-500">404</text>
                 </svg>
             </div>

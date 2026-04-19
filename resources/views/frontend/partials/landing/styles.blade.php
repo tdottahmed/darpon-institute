@@ -1,7 +1,3 @@
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.bunny.net">
-<link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
 <style>
   :root {
     --primary-color: #1a237e;
@@ -13,7 +9,7 @@
     --section-bg: #e3f2fd;
   }
 
-  /* Override Tailwind preflight: html gets theme font-sans (Figtree); set both for English default */
+  /* Match theme font-sans (Times New Roman); Bengali uses .bengali-text / font-bengali */
   html,
   body {
     font-family: 'Times New Roman', Times, serif;
