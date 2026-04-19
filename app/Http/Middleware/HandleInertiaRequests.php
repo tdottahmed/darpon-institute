@@ -80,6 +80,7 @@ class HandleInertiaRequests extends Middleware
                                 : null,
                             'header_footer_color_light' => \App\Models\Setting::get('header_footer_color_light', '#ffffff'),
                             'header_footer_color_dark' => \App\Models\Setting::get('header_footer_color_dark', '#111827'),
+                            'map_embed_url' => \App\Models\Setting::get('map_embed_url'),
                         ];
                     }
                 } catch (\Exception $e) {
@@ -99,6 +100,7 @@ class HandleInertiaRequests extends Middleware
                     'logo_dark' => null,
                     'header_footer_color_light' => '#ffffff',
                     'header_footer_color_dark' => '#111827',
+                    'map_embed_url' => null,
                 ];
             },
             'custom_pages' => function () {

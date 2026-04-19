@@ -3,36 +3,75 @@ import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
 import PrimaryButton from "@/Components/ui/PrimaryButton";
-import { useState } from "react";
-import SectionBackground from "@/Components/ui/SectionBackground";
 import CTASection from "@/Components/sections/CTASection";
+
+const INPUT_CLASS =
+    "w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700/60 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow text-sm";
+
+function Field({ label, error, children }) {
+    return (
+        <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                {label}
+            </label>
+            {children}
+            {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+        </div>
+    );
+}
+
+function InfoCard({ icon, label, value, href, preWrap }) {
+    const inner = (
+        <div className="flex items-start gap-4 p-5 rounded-2xl bg-white/10 hover:bg-white/20 transition-colors duration-200">
+            <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center">
+                {icon}
+            </div>
+            <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-0.5">
+                    {label}
+                </p>
+                <p
+                    className="text-sm font-medium text-white leading-relaxed break-words"
+                    style={preWrap ? { whiteSpace: "pre-line" } : undefined}
+                >
+                    {value}
+                </p>
+            </div>
+        </div>
+    );
+    if (href) {
+        return (
+            <a href={href} className="block">
+                {inner}
+            </a>
+        );
+    }
+    return inner;
+}
 
 export default function ContactIndex() {
     const { frontend_content, settings } = usePage().props;
     const content = frontend_content?.contact || {};
     const { data, setData, post, processing, errors, recentlySuccessful } =
-        useForm({
-            name: "",
-            email: "",
-            phone: "",
-            subject: "",
-            message: "",
-        });
+        useForm({ name: "", email: "", phone: "", subject: "", message: "" });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route("contact.submit"));
     };
 
+    const hasWhatsapp = !!settings?.whatsapp_number;
+
     return (
         <>
-            <Head title="Contact Us - English Learning Platform" />
+            <Head title={`Contact Us - ${import.meta.env.VITE_APP_NAME}`} />
             <Header />
-            <div className="min-h-screen bg-white dark:bg-gray-900">
+
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
                 <main>
-                    {/* Hero Section (matches home section background) */}
-                    <section className="relative overflow-hidden py-12 sm:py-8 lg:py-12 bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 dark:from-primary-800 dark:via-primary-900 dark:to-secondary-800">
-                        {/* Background Pattern */}
+                    {/* ── Hero ── */}
+                    <section className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-700 dark:from-primary-900 dark:via-primary-800 dark:to-secondary-900 py-16 sm:py-20 lg:py-24">
+                        {/* Subtle grid pattern */}
                         <div className="absolute inset-0 opacity-10">
                             <div
                                 className="absolute inset-0"
@@ -42,313 +81,357 @@ export default function ContactIndex() {
                             ></div>
                         </div>
 
-                        {/* Decorative Elements */}
-                        <div className="absolute top-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
-                        <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+                        <Container className="relative z-10 text-center text-white">
+                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+                                {content.page_title || "Contact Us"}
+                            </h1>
+                            <p className="text-base sm:text-lg text-white/80 max-w-xl mx-auto leading-relaxed">
+                                {content.page_subtitle ||
+                                    "Have a question or want to work together? We'd love to hear from you."}
+                            </p>
+                        </Container>
+                    </section>
 
-                        <Container className="relative z-10">
-                            <div className="mx-auto max-w-2xl text-center text-white">
-                                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                                    {content.page_title || "Contact Us"}
-                                </h1>
-                                <p className="mt-6 text-lg leading-8 text-white/90">
-                                    {content.page_subtitle ||
-                                        "Get in touch with us. We'd love to hear from you!"}
-                                </p>
+                    {/* ── Main Content ── */}
+                    <section className="py-14 sm:py-16 lg:py-20">
+                        <Container>
+                            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10 max-w-6xl mx-auto items-start">
+                                {/* Left Panel — Info */}
+                                <div className="lg:col-span-2">
+                                    <div className="rounded-3xl bg-gradient-to-br from-primary-600 to-secondary-700 dark:from-primary-800 dark:to-secondary-900 p-7 sm:p-8 h-full">
+                                        <h2 className="text-xl font-bold text-white mb-2">
+                                            {content.info_title ||
+                                                "Contact Information"}
+                                        </h2>
+                                        <p className="text-sm text-white/70 mb-8 leading-relaxed">
+                                            {content.info_description ||
+                                                "Reach out through any of the channels below and we'll get back to you as soon as possible."}
+                                        </p>
+
+                                        <div className="space-y-3">
+                                            {(settings?.company_email ||
+                                                content.email) && (
+                                                <InfoCard
+                                                    label="Email"
+                                                    value={
+                                                        settings?.company_email ||
+                                                        content.email
+                                                    }
+                                                    href={`mailto:${settings?.company_email || content.email}`}
+                                                    icon={
+                                                        <svg
+                                                            className="w-5 h-5 text-white"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth={2}
+                                                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                                            />
+                                                        </svg>
+                                                    }
+                                                />
+                                            )}
+
+                                            {(settings?.company_phone ||
+                                                content.phone) && (
+                                                <InfoCard
+                                                    label="Phone"
+                                                    value={
+                                                        settings?.company_phone ||
+                                                        content.phone
+                                                    }
+                                                    href={`tel:${settings?.company_phone || content.phone}`}
+                                                    icon={
+                                                        <svg
+                                                            className="w-5 h-5 text-white"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth={2}
+                                                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                                                            />
+                                                        </svg>
+                                                    }
+                                                />
+                                            )}
+
+                                            {hasWhatsapp && (
+                                                <InfoCard
+                                                    label="WhatsApp"
+                                                    value={
+                                                        settings.whatsapp_number
+                                                    }
+                                                    href={`https://wa.me/${settings.whatsapp_number.replace(/\D/g, "")}`}
+                                                    icon={
+                                                        <svg
+                                                            className="w-5 h-5 text-white"
+                                                            fill="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                                                        </svg>
+                                                    }
+                                                />
+                                            )}
+
+                                            {(settings?.company_address ||
+                                                content.address) && (
+                                                <InfoCard
+                                                    label="Address"
+                                                    value={
+                                                        settings?.company_address ||
+                                                        content.address
+                                                    }
+                                                    preWrap={true}
+                                                    icon={
+                                                        <svg
+                                                            className="w-5 h-5 text-white"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth={2}
+                                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                                            />
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth={2}
+                                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                                            />
+                                                        </svg>
+                                                    }
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Right Panel — Form */}
+                                <div className="lg:col-span-3">
+                                    <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 p-7 sm:p-10">
+                                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                                            {content.form_title ||
+                                                "Send us a Message"}
+                                        </h2>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-8">
+                                            {content.form_subtitle ||
+                                                "Fill in the form below and we'll get back to you within 24 hours."}
+                                        </p>
+
+                                        {recentlySuccessful && (
+                                            <div className="mb-6 flex items-start gap-3 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
+                                                <svg
+                                                    className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                    />
+                                                </svg>
+                                                <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                                                    Thank you! Your message has
+                                                    been sent successfully.
+                                                    We'll be in touch soon.
+                                                </p>
+                                            </div>
+                                        )}
+
+                                        <form
+                                            onSubmit={handleSubmit}
+                                            className="space-y-5"
+                                        >
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                                <Field
+                                                    label="Full Name *"
+                                                    error={errors.name}
+                                                >
+                                                    <input
+                                                        type="text"
+                                                        id="name"
+                                                        value={data.name}
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                "name",
+                                                                e.target.value,
+                                                            )
+                                                        }
+                                                        className={INPUT_CLASS}
+                                                        placeholder="John Doe"
+                                                        required
+                                                    />
+                                                </Field>
+
+                                                <Field
+                                                    label="Email Address *"
+                                                    error={errors.email}
+                                                >
+                                                    <input
+                                                        type="email"
+                                                        id="email"
+                                                        value={data.email}
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                "email",
+                                                                e.target.value,
+                                                            )
+                                                        }
+                                                        className={INPUT_CLASS}
+                                                        placeholder="john@example.com"
+                                                        required
+                                                    />
+                                                </Field>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                                <Field
+                                                    label="Phone Number"
+                                                    error={errors.phone}
+                                                >
+                                                    <input
+                                                        type="tel"
+                                                        id="phone"
+                                                        value={data.phone}
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                "phone",
+                                                                e.target.value,
+                                                            )
+                                                        }
+                                                        className={INPUT_CLASS}
+                                                        placeholder="+880 1234 567890"
+                                                    />
+                                                </Field>
+
+                                                <Field
+                                                    label="Subject *"
+                                                    error={errors.subject}
+                                                >
+                                                    <input
+                                                        type="text"
+                                                        id="subject"
+                                                        value={data.subject}
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                "subject",
+                                                                e.target.value,
+                                                            )
+                                                        }
+                                                        className={INPUT_CLASS}
+                                                        placeholder="How can we help?"
+                                                        required
+                                                    />
+                                                </Field>
+                                            </div>
+
+                                            <Field
+                                                label="Message *"
+                                                error={errors.message}
+                                            >
+                                                <textarea
+                                                    id="message"
+                                                    rows={5}
+                                                    value={data.message}
+                                                    onChange={(e) =>
+                                                        setData(
+                                                            "message",
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    className={`${INPUT_CLASS} resize-none`}
+                                                    placeholder="Tell us more about your inquiry..."
+                                                    required
+                                                />
+                                            </Field>
+
+                                            <PrimaryButton
+                                                type="submit"
+                                                className="w-full justify-center gap-2"
+                                                disabled={processing}
+                                                showIcon={!processing}
+                                            >
+                                                {processing ? (
+                                                    <>
+                                                        <svg
+                                                            className="w-4 h-4 animate-spin"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <circle
+                                                                className="opacity-25"
+                                                                cx="12"
+                                                                cy="12"
+                                                                r="10"
+                                                                stroke="currentColor"
+                                                                strokeWidth="4"
+                                                            />
+                                                            <path
+                                                                className="opacity-75"
+                                                                fill="currentColor"
+                                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                            />
+                                                        </svg>
+                                                        Sending...
+                                                    </>
+                                                ) : (
+                                                    content.submit_button ||
+                                                    "Send Message"
+                                                )}
+                                            </PrimaryButton>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </Container>
                     </section>
-                    {/* Contact Section */}
-                    <section className="py-12 sm:py-8 lg:py-12">
-                        <Container>
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-                                {/* Contact Information */}
-                                <div className="space-y-8">
-                                    <div>
-                                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                                            {content.info_title ||
-                                                "Get in Touch"}
+
+                    {/* ── Map Section ── */}
+                    {settings?.map_embed_url && (
+                        <section className="pb-14 sm:pb-16 lg:pb-20">
+                            <Container>
+                                <div className="max-w-6xl mx-auto">
+                                    <div className="mb-6 text-center">
+                                        <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                                            {content.map_title ||
+                                                "Find Us Here"}
                                         </h2>
-                                        <p className="text-gray-600 dark:text-gray-300 mb-8">
-                                            {content.info_description ||
-                                                "Have questions or need assistance? We're here to help. Reach out to us through any of the following channels."}
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                            {content.map_subtitle ||
+                                                "Visit us at our office location"}
                                         </p>
                                     </div>
-
-                                    <div className="space-y-6">
-                                        {/* Email */}
-                                        <div className="flex items-start gap-4">
-                                            <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
-                                                <svg
-                                                    className="h-6 w-6 text-primary-600 dark:text-primary-400"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                                    />
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                                                    Email
-                                                </h3>
-                                                <p className="text-gray-600 dark:text-gray-300">
-                                                    {settings?.company_email ||
-                                                        content.email ||
-                                                        "info@darpon.com"}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        {/* Phone */}
-                                        <div className="flex items-start gap-4">
-                                            <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
-                                                <svg
-                                                    className="h-6 w-6 text-primary-600 dark:text-primary-400"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                                                    />
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                                                    Phone
-                                                </h3>
-                                                <p className="text-gray-600 dark:text-gray-300">
-                                                    {settings?.company_phone ||
-                                                        content.phone ||
-                                                        "+880 1234 567890"}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        {/* Address */}
-                                        <div className="flex items-start gap-4">
-                                            <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
-                                                <svg
-                                                    className="h-6 w-6 text-primary-600 dark:text-primary-400"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                                    />
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                                                    />
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                                                    Address
-                                                </h3>
-                                                <p
-                                                    className="text-gray-600 dark:text-gray-300"
-                                                    style={{
-                                                        whiteSpace: "pre-line",
-                                                    }}
-                                                >
-                                                    {settings?.company_address ||
-                                                        content.address ||
-                                                        "Dhaka, Bangladesh"}
-                                                </p>
-                                            </div>
-                                        </div>
+                                    <div className="overflow-hidden rounded-3xl shadow-md border border-gray-100 dark:border-gray-700 h-[320px] sm:h-[420px] lg:h-[480px]">
+                                        <iframe
+                                            src={settings.map_embed_url}
+                                            className="w-full h-full border-0"
+                                            allowFullScreen=""
+                                            loading="lazy"
+                                            referrerPolicy="no-referrer-when-downgrade"
+                                            title="Our Location"
+                                        />
                                     </div>
                                 </div>
-
-                                {/* Contact Form */}
-                                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
-                                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                                        {content.form_title ||
-                                            "Send us a Message"}
-                                    </h2>
-
-                                    {recentlySuccessful && (
-                                        <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg">
-                                            <p className="text-green-800 dark:text-green-200 text-sm font-medium">
-                                                Thank you! Your message has been
-                                                sent successfully.
-                                            </p>
-                                        </div>
-                                    )}
-
-                                    <form
-                                        onSubmit={handleSubmit}
-                                        className="space-y-6"
-                                    >
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                            <div>
-                                                <label
-                                                    htmlFor="name"
-                                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                                >
-                                                    Name *
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="name"
-                                                    value={data.name}
-                                                    onChange={(e) =>
-                                                        setData(
-                                                            "name",
-                                                            e.target.value,
-                                                        )
-                                                    }
-                                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                                    required
-                                                />
-                                                {errors.name && (
-                                                    <p className="mt-1 text-sm text-red-600">
-                                                        {errors.name}
-                                                    </p>
-                                                )}
-                                            </div>
-
-                                            <div>
-                                                <label
-                                                    htmlFor="email"
-                                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                                >
-                                                    Email *
-                                                </label>
-                                                <input
-                                                    type="email"
-                                                    id="email"
-                                                    value={data.email}
-                                                    onChange={(e) =>
-                                                        setData(
-                                                            "email",
-                                                            e.target.value,
-                                                        )
-                                                    }
-                                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                                    required
-                                                />
-                                                {errors.email && (
-                                                    <p className="mt-1 text-sm text-red-600">
-                                                        {errors.email}
-                                                    </p>
-                                                )}
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <label
-                                                htmlFor="phone"
-                                                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                            >
-                                                Phone
-                                            </label>
-                                            <input
-                                                type="tel"
-                                                id="phone"
-                                                value={data.phone}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "phone",
-                                                        e.target.value,
-                                                    )
-                                                }
-                                                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                            />
-                                            {errors.phone && (
-                                                <p className="mt-1 text-sm text-red-600">
-                                                    {errors.phone}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        <div>
-                                            <label
-                                                htmlFor="subject"
-                                                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                            >
-                                                Subject *
-                                            </label>
-                                            <input
-                                                type="text"
-                                                id="subject"
-                                                value={data.subject}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "subject",
-                                                        e.target.value,
-                                                    )
-                                                }
-                                                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                                required
-                                            />
-                                            {errors.subject && (
-                                                <p className="mt-1 text-sm text-red-600">
-                                                    {errors.subject}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        <div>
-                                            <label
-                                                htmlFor="message"
-                                                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                                            >
-                                                Message *
-                                            </label>
-                                            <textarea
-                                                id="message"
-                                                rows={6}
-                                                value={data.message}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "message",
-                                                        e.target.value,
-                                                    )
-                                                }
-                                                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
-                                                required
-                                            />
-                                            {errors.message && (
-                                                <p className="mt-1 text-sm text-red-600">
-                                                    {errors.message}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        <PrimaryButton
-                                            type="submit"
-                                            className="w-full justify-center"
-                                            disabled={processing}
-                                            showIcon={true}
-                                        >
-                                            {processing
-                                                ? "Sending..."
-                                                : content.submit_button ||
-                                                  "Send Message"}
-                                        </PrimaryButton>
-                                    </form>
-                                </div>
-                            </div>
-                        </Container>
-                    </section>
+                            </Container>
+                        </section>
+                    )}
                 </main>
+
                 <CTASection />
                 <Footer />
             </div>
