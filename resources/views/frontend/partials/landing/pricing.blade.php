@@ -20,7 +20,7 @@
             <h2 class="bengali-text pricing-title">
                 {{ $landingPage->pricing_book_label ?? ($landingPage->book ? 'Book Price' : 'Course Fee') }}
             </h2>
-            <span class="pricing-divider"></span>
+            {{-- <span class="pricing-divider"></span> --}}
 
             <!-- Price Display -->
             <div class="pricing-content-wrapper">
@@ -48,6 +48,7 @@
                             {{ $regularLabel }}: Tk. {{ number_format($originalPrice, 0) }}
                         </span>
                     @endif
+                    <br>
                     <span class="offer-price">
                         {{ $offerLabel }}: Tk. {{ number_format($offerPrice, 0) }}
                     </span>

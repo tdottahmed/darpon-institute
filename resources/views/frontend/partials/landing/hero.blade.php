@@ -23,28 +23,31 @@
             </div>
         @endif
 
-        <!-- English Heading -->
-        @if ($heroEnglishTitle)
-            <div style="margin-bottom: 15px;">
-                <h2
-                    style="margin: 0; color: #ffffff; font-family: 'Times New Roman', serif; font-weight: 700; font-size: 2rem; text-transform: uppercase;">
-                    {{ strtoupper($heroEnglishTitle) }}
-                </h2>
-            </div>
-        @endif
+        <div class="hero-content-card"
+            style="width: 100%; background: #ffffff; padding: 30px; padding-bottom: 10px; border-radius: 8px; border: 2px solid var(--accent-color); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06); text-align: center;">
+            <!-- English Heading -->
+            @if ($heroEnglishTitle)
+                <div style="margin-bottom: 15px;">
+                    <h2
+                        style="margin: 0; color: var(--primary-color); font-family: 'Times New Roman', serif; font-weight: 700; font-size: 2rem; text-transform: uppercase;">
+                        {{ strtoupper($heroEnglishTitle) }}
+                    </h2>
+                </div>
+            @endif
 
-        <!-- Bengali Heading -->
-        @if ($heroBengaliTitle)
-            <div>
-                <h2 class="bengali-text"
-                    style="margin: 0; color: #ffffff; font-weight: 600; font-size: 1.5rem; line-height: 1.4;">
-                    {!! nl2br(e($heroBengaliTitle)) !!}
-                </h2>
-            </div>
-        @endif
+            <!-- Bengali Heading -->
+            @if ($heroBengaliTitle)
+                <div>
+                    <h2 class="bengali-text"
+                        style="margin: 0; color: var(--dark-text); font-weight: 600; font-size: 1.5rem; line-height: 1.4;">
+                        {!! nl2br(e($heroBengaliTitle)) !!}
+                    </h2>
+                </div>
+            @endif
 
-        <div style="text-align: center; margin-top: 20px;">
-            <x-cta-button :landingPage="$landingPage" />
+            <div style="text-align: center; margin-top: 20px;">
+                <x-cta-button :landingPage="$landingPage" />
+            </div>
         </div>
 
         <!-- Book Preview Slider -->
@@ -204,6 +207,10 @@
         }
 
         @media (max-width: 768px) {
+            .hero-content-card {
+                padding: 20px !important;
+            }
+
             .hero-section h2 {
                 font-size: 1.2rem !important;
             }

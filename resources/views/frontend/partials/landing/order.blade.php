@@ -38,17 +38,9 @@
             : route('landing-page.order.store', $landingPage->slug);
 @endphp
 
-<section id="orderFormSection"style="background-color: #073050; padding-top: 20px">
+<section id="orderFormSection"style="background-color: #073050; padding-top: 15px">
     <div class="container-narrow">
-        @if ($orderTitle)
-            <h2 class="bengali-text" style="text-align: center; font-size: 1.8rem; font-weight: 700; color: white;">
-                {{ $orderTitle }}
-            </h2>
-            <span
-                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
-        @endif
-
-        <div style="margin-top: 20px;">
+        <div style="margin-top: 10px;">
             <form id="landingPageOrderForm" action="{{ $formAction }}" method="POST" enctype="multipart/form-data"
                 style="display: flex; flex-direction: column; gap: 30px;">
                 @csrf
@@ -57,17 +49,28 @@
                     <input type="hidden" name="book_id" value="{{ $product->id }}">
                 @endif
 
-                <!-- Full Width White Background Container -->
+                <!-- Box 1: Billing & shipping address -->
                 <div
-                    style="background: white; padding: 30px; border-radius: 8px; border: 2px solid var(--accent-color);">
+                    style="background: white; padding: 30px; border-radius: 8px; border: 2px solid var(--accent-color); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);">
+
+                    @if ($orderTitle)
+                        <div style="text-align: left; margin-bottom: 24px;">
+                            <h2 class="bengali-text"
+                                style="color: var(--primary-color); font-size: 1.8rem; font-weight: 700; margin: 0 0 10px; text-align: left;">
+                                {{ $orderTitle }}
+                            </h2>
+                            {{-- <span
+                                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px 0 0;"></span> --}}
+                        </div>
+                    @endif
 
                     <!-- Top Section: Billing Details -->
                     <div style="margin-bottom: 20px;">
                         <h3
-                            style="font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; color: #333; text-align: center; position: relative;">
+                            style="font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; color: #333; text-align: left; position: relative;">
                             {{ $productType === 'course' ? 'Registration Details' : 'Billing details' }}
-                            <span
-                                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
+                            {{-- <span
+                                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px 0 0;"></span> --}}
                         </h3>
 
                         <div style="margin-bottom: 15px;">
@@ -120,26 +123,26 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 20px;">
+                    <div>
                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #333;">Country /
                             Region</label>
                         <div style="font-weight: 700; padding: 10px; background: #f9f9f9; border-radius: 4px;">
                             Bangladesh</div>
                     </div>
 
-                    <!-- Divider between sections -->
-                    <div style="text-align: center; margin: 60px 0;">
-                        <span
-                            style="display: block; width: 100%; height: 2px; background: var(--accent-color); margin: 0 auto;"></span>
-                    </div>
+                </div>
+
+                <!-- Box 2: Product, order summary & payment -->
+                <div
+                    style="background: white; padding: 30px; border-radius: 8px; border: 2px solid var(--accent-color); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);">
 
                     <!-- Bottom Section: Your Products -->
-                    <div >
+                    <div>
                         <h3
-                            style="font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; color: #333; text-align: center; position: relative;">
+                            style="font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; color: #333; text-align: left; position: relative;">
                             Your {{ $productType === 'course' ? 'Course' : 'Products' }}
-                            <span
-                                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
+                            {{-- <span
+                                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px 0 0;"></span> --}}
                         </h3>
                         <div
                             style="display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
@@ -344,6 +347,7 @@
                         </button>
 
                     </div>
+
                 </div>
 
             </form>

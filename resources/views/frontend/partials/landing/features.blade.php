@@ -19,27 +19,30 @@
                 // Check if features description has actual content (not just empty HTML tags)
                 $hasFeaturesContent = !empty($featuresDescription) && trim(strip_tags($featuresDescription)) !== '';
             @endphp
-            @if ($hasFeaturesContent)
+            @if ($hasFeaturesContent || !empty($featuresTitle))
                 <div class="feature-column">
-                    @if (!empty($featuresTitle))
-                        <h2 class="bengali-text feature-heading"
-                            style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; width: 100%; text-align: center; position: relative;">
-                            {{ $featuresTitle }}
-                            <span
-                                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
-                        </h2>
-                    @endif
-
                     <div
                         style="background: white; padding: 25px; padding-bottom: 10px; border-radius: 8px; border: 2px solid var(--accent-color);">
-                        <div class="bengali-text"
-                            style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
-                            {!! $featuresDescription !!}
-                        </div>
+                        @if (!empty($featuresTitle))
+                            <div style="text-align: left; margin-bottom: 20px;">
+                                <h2 class="bengali-text feature-heading"
+                                    style="color: var(--primary-color); margin: 0 0 10px; font-size: 1.8rem; font-weight: 700; width: 100%; text-align: left;">
+                                    {{ $featuresTitle }}
+                                </h2>
+                                {{-- <span
+                                    style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px 0 0;"></span> --}}
+                            </div>
+                        @endif
+                        @if ($hasFeaturesContent)
+                            <div class="bengali-text"
+                                style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
+                                {!! $featuresDescription !!}
+                            </div>
 
-                        <div style="text-align: center; margin-top: 20px;">
-                            <x-cta-button :landingPage="$landingPage" />
-                        </div>
+                            <div style="text-align: center; margin-top: 20px;">
+                                <x-cta-button :landingPage="$landingPage" />
+                            </div>
+                        @endif
                     </div>
 
 
@@ -52,32 +55,33 @@
                 $hasTargetAudienceContent =
                     !empty($targetAudienceDescription) && trim(strip_tags($targetAudienceDescription)) !== '';
             @endphp
-            @if ($hasTargetAudienceContent)
+            @if ($hasTargetAudienceContent || !empty($targetAudienceTitle))
                 <div class="feature-column">
-                    @if (!empty($targetAudienceTitle))
-                        <h2 class="bengali-text feature-heading"
-                            style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; width: 100%; text-align: center; position: relative;">
-                            {{ $targetAudienceTitle }}
-                            <span
-                                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
-                        </h2>
-                    @endif
-
                     <div class="target-audience-card"
                         style="background: white; padding: 25px; padding-bottom: 10px; border-radius: 8px; border: 2px solid var(--accent-color);">
-                        <div class="bengali-text target-audience-text"
-                            style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
-                            {!! $targetAudienceDescription !!}
-                        </div>
+                        @if (!empty($targetAudienceTitle))
+                            <div style="text-align: left; margin-bottom: 20px;">
+                                <h2 class="bengali-text feature-heading"
+                                    style="color: var(--primary-color); margin: 0 0 10px; font-size: 1.8rem; font-weight: 700; width: 100%; text-align: left;">
+                                    {{ $targetAudienceTitle }}
+                                </h2>
+                                {{-- <span
+                                    style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px 0 0;"></span> --}}
+                            </div>
+                        @endif
+                        @if ($hasTargetAudienceContent)
+                            <div class="bengali-text target-audience-text"
+                                style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
+                                {!! $targetAudienceDescription !!}
+                            </div>
 
-                        <div style="text-align: center; margin-top: 20px;">
-                            <x-cta-button :landingPage="$landingPage" />
-                        </div>
+                            <div style="text-align: center; margin-top: 20px;">
+                                <x-cta-button :landingPage="$landingPage" />
+                            </div>
+                        @endif
                     </div>
                 </div>
 
-
-        </div>
         @endif
 
         <!-- Why a Game Changer Column (Full Width below) -->
@@ -86,33 +90,37 @@
             $hasGameChangerContent =
                 !empty($gameChangerDescription) && trim(strip_tags($gameChangerDescription)) !== '';
         @endphp
-        @if ($hasGameChangerContent)
-            <div class="section-sm" style="grid-column: 1 / -1;">
-                @if (!empty($gameChangerTitle))
-                    <h2 class="bengali-text feature-heading"
-                        style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; width: 100%; text-align: center; position: relative;">
-                        {{ $gameChangerTitle }}
-                        <span
-                            style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
-                    </h2>
-                @endif
-
+        @if ($hasGameChangerContent || !empty($gameChangerTitle))
+            <div>
                 <div class="game-changer-card"
                     style="padding: 30px; padding-bottom: 10px; margin: 0; background-color: white; border-radius: 10px; border: 2px solid var(--accent-color);">
-                    <div class="bengali-text game-changer-text"
-                        style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text);">
-                        {!! $gameChangerDescription !!}
-                    </div>
-                    @if ($gameChangerConclusion)
-                        <div class="bengali-text game-changer-text"
-                            style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text); font-weight: 600; margin-top: 15px;">
-                            {{ $gameChangerConclusion }}
+
+                    @if (!empty($gameChangerTitle))
+                        <div style="text-align: left; margin-bottom: 20px;">
+                            <h2 class="bengali-text feature-heading"
+                                style="color: var(--primary-color); margin: 0 0 10px; font-size: 1.8rem; font-weight: 700; width: 100%; text-align: left;">
+                                {{ $gameChangerTitle }}
+                            </h2>
+                            {{-- <span
+                                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px 0 0;"></span> --}}
                         </div>
                     @endif
+                    @if ($hasGameChangerContent)
+                        <div class="bengali-text game-changer-text"
+                            style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text);">
+                            {!! $gameChangerDescription !!}
+                        </div>
+                        @if ($gameChangerConclusion)
+                            <div class="bengali-text game-changer-text"
+                                style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text); font-weight: 600; margin-top: 15px;">
+                                {{ $gameChangerConclusion }}
+                            </div>
+                        @endif
 
-                    <div style="text-align: center; margin-top: 20px;">
-                        <x-cta-button :landingPage="$landingPage" />
-                    </div>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <x-cta-button :landingPage="$landingPage" />
+                        </div>
+                    @endif
                 </div>
 
                 
