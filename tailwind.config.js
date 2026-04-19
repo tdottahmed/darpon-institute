@@ -1,4 +1,3 @@
-import defaultTheme from "tailwindcss/defaultTheme";
 import forms from "@tailwindcss/forms";
 
 /** @type {import('tailwindcss').Config} */
@@ -15,7 +14,18 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Figtree", "Tiro Bangla", ...defaultTheme.fontFamily.sans],
+                sans: [
+                    '"Times New Roman"',
+                    "Times",
+                    "Georgia",
+                    "serif",
+                ],
+                bengali: [
+                    "SutonnyMJ",
+                    "SolaimanLipi",
+                    "Kalpurush",
+                    "sans-serif",
+                ],
             },
             colors: {
                 primary: {
