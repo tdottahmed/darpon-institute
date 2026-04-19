@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useCountUp } from "@/hooks/useCountUp";
 import PrimaryButton from "@/Components/ui/PrimaryButton";
 import SecondaryButton from "@/Components/ui/SecondaryButton";
+import SectionHeader from "../ui/SectionHeader";
+import Badge from "../ui/Badge";
 
 function StatItem({ value, label, fallbackLabel, isVisible }) {
     const displayValue = useCountUp(value, isVisible, 1800);
@@ -22,6 +24,7 @@ function StatItem({ value, label, fallbackLabel, isVisible }) {
 export default function HeroSection({ translations }) {
     const { frontend_content } = usePage().props;
     const content = frontend_content?.hero || {};
+    console.log(content);
     const sectionRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -80,6 +83,14 @@ export default function HeroSection({ translations }) {
             {/* Main content - centered */}
             <div className="relative z-10 flex-1 flex items-center py-16 md:py-20">
                 <div className="container mx-auto max-w-6xl text-center px-4">
+                    <div className="mb-4">
+                        <Badge
+                            variant="secondary"
+                            className="text-xs font-semibold uppercase tracking-wide px-3 py-1"
+                        >
+                            {content.badge}
+                        </Badge>
+                    </div>
                     <h1 className="hero-item hero-item-1 text-[2.25rem] sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-bold text-white leading-[1.15] tracking-tight drop-shadow-sm">
                         <span className="whitespace-pre-line block text-center">
                             {content.title_line_1 || ""}
@@ -92,14 +103,20 @@ export default function HeroSection({ translations }) {
                     </h1>
                     <div
                         className="hero-item hero-item-2 mt-5 text-base sm:text-lg text-gray-200 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: content.description || "" }}
+                        dangerouslySetInnerHTML={{
+                            __html: content.description || "",
+                        }}
                     />
 
                     <div className="hero-item hero-item-3 flex flex-row flex-wrap gap-3 sm:gap-4 justify-center mt-8">
-                        <PrimaryButton href={content.button_1_link || "/courses"}>
+                        <PrimaryButton
+                            href={content.button_1_link || "/courses"}
+                        >
                             {content.button_1_text || "Find Courses"}
                         </PrimaryButton>
-                        <SecondaryButton href={content.button_2_link || "/books"}>
+                        <SecondaryButton
+                            href={content.button_2_link || "/books"}
+                        >
                             {content.button_2_text || "Find Books"}
                         </SecondaryButton>
                     </div>

@@ -22,7 +22,7 @@ export default function CoursesSection({ courses = [] }) {
             ([entry]) => {
                 if (entry.isIntersecting) setIsVisible(true);
             },
-            { threshold: 0.08, rootMargin: "0px 0px -20px 0px" }
+            { threshold: 0.08, rootMargin: "0px 0px -20px 0px" },
         );
         observer.observe(el);
         return () => observer.disconnect();
