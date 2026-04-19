@@ -181,30 +181,21 @@ export default function InstructorSection() {
                                 {/* Description with Read More */}
                                 <div className="mb-6">
                                     {hasHtml && isExpanded ? (
-                                        <div
-                                            className={HTML_PROSE}
-                                            dangerouslySetInnerHTML={{
-                                                __html: rawDescription,
-                                            }}
-                                        />
-                                    ) : (
-                                        <p className="text-pretty text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:text-base">
-                                            {isLong && !isExpanded
-                                                ? `${truncatedPlain}…`
-                                                : plainFull}
-                                        </p>
-                                    )}
-
-                                    {isLong && (
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                setIsExpanded(!isExpanded)
-                                            }
-                                            className="mt-3 inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-semibold text-primary-600 underline-offset-4 transition-colors hover:text-primary-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 dark:text-primary-400 dark:hover:text-primary-300"
-                                        >
-                                            {isExpanded ? (
-                                                <>
+                                        <>
+                                            <div
+                                                className={HTML_PROSE}
+                                                dangerouslySetInnerHTML={{
+                                                    __html: rawDescription,
+                                                }}
+                                            />
+                                            {isLong && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        setIsExpanded(false)
+                                                    }
+                                                    className="mt-1 inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-semibold text-primary-600 underline-offset-4 transition-colors hover:text-primary-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 dark:text-primary-400 dark:hover:text-primary-300"
+                                                >
                                                     Show less
                                                     <svg
                                                         className="h-4 w-4"
@@ -219,9 +210,22 @@ export default function InstructorSection() {
                                                             d="M5 15l7-7 7 7"
                                                         />
                                                     </svg>
-                                                </>
-                                            ) : (
-                                                <>
+                                                </button>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <p className="text-pretty text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:text-base">
+                                            {isLong && !isExpanded
+                                                ? `${truncatedPlain}… `
+                                                : plainFull}
+                                            {isLong && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        setIsExpanded(true)
+                                                    }
+                                                    className="inline-flex items-center gap-1 rounded-lg px-1 py-0.5 text-sm font-semibold text-primary-600 underline-offset-4 transition-colors hover:text-primary-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 dark:text-primary-400 dark:hover:text-primary-300"
+                                                >
                                                     Read more
                                                     <svg
                                                         className="h-4 w-4"
@@ -236,14 +240,14 @@ export default function InstructorSection() {
                                                             d="M19 9l-7 7-7-7"
                                                         />
                                                     </svg>
-                                                </>
+                                                </button>
                                             )}
-                                        </button>
+                                        </p>
                                     )}
                                 </div>
 
                                 {/* CTA Button */}
-                                <div className="mt-4">
+                                <div className="mt-4 text-center">
                                     <PrimaryButton
                                         href={route("contact")}
                                         showIcon={true}
