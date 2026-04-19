@@ -20,7 +20,7 @@ export default function CourseHero({ course, tags }) {
 
             {/* Meta Bar */}
             <div className="flex items-center gap-6 mt-6 pt-6 border-t border-gray-100 dark:border-gray-800">
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                     <div className="p-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
                         <svg
                             className="w-5 h-5"
@@ -44,9 +44,9 @@ export default function CourseHero({ course, tags }) {
                             {course.duration || "Self-paced"}
                         </p>
                     </div>
-                </div>
+                </div> */}
 
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                     <div className="p-2 rounded-full bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400">
                         <svg
                             className="w-5 h-5"
@@ -70,7 +70,7 @@ export default function CourseHero({ course, tags }) {
                             Beginner Friendly
                         </p>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

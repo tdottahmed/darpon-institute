@@ -1,5 +1,4 @@
 import { Link } from "@inertiajs/react";
-import Badge from "../ui/Badge";
 import PrimaryButton from "../ui/PrimaryButton";
 import { formatPrice } from "@/Utils/currency";
 
@@ -167,44 +166,38 @@ export default function CourseCard({ course }) {
                 <div className="mt-auto space-y-3 pt-4 border-t border-gray-100 dark:border-gray-700">
                     {/* Price Section */}
                     {minPrice !== null && minPrice > 0 ? (
-                        <div className="flex items-baseline justify-between">
-                            <div className="flex flex-col">
-                                {hasVariations ? (
-                                    <>
-                                        <span className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-                                            Starting from
-                                        </span>
-                                        <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                                            {priceRange}
-                                        </span>
-                                        {hasVariations && (
-                                            <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                {variations.length} duration
-                                                {variations.length > 1
-                                                    ? "s"
-                                                    : ""}{" "}
-                                                available
-                                            </span>
-                                        )}
-                                    </>
-                                ) : (
-                                    <>
-                                        {hasDiscount && (
-                                            <span className="text-xs text-gray-500 line-through dark:text-gray-400">
-                                                {formatPrice(course.price)}
-                                            </span>
-                                        )}
-                                        <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                                            {priceRange}
-                                        </span>
-                                    </>
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-baseline gap-2 flex-wrap">
+                                <span className="text-xl font-bold text-primary-600 dark:text-primary-400 leading-none">
+                                    {priceRange}
+                                </span>
+                                {!hasVariations && hasDiscount && (
+                                    <span className="text-sm text-gray-400 line-through leading-none">
+                                        {formatPrice(course.price)}
+                                    </span>
+                                )}
+                                {hasVariations && (
+                                    <span className="text-xs text-gray-400 dark:text-gray-500">
+                                        · {variations.length} plan{variations.length > 1 ? "s" : ""}
+                                    </span>
                                 )}
                             </div>
+                            {!hasVariations && hasDiscount && discountDisplay && (
+                                <span className="flex-shrink-0 inline-flex items-center rounded-md bg-red-100 dark:bg-red-900/30 px-2 py-0.5 text-xs font-bold text-red-600 dark:text-red-400">
+                                    -{discountDisplay}
+                                </span>
+                            )}
                         </div>
                     ) : (
-                        <div className="flex items-center justify-between">
-                            <span className="text-lg font-semibold text-green-600 dark:text-green-400">
-                                Free Course
+                        <div className="flex items-center gap-2">
+                            <span className="inline-flex items-center gap-1 text-sm font-semibold text-green-600 dark:text-green-400">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Free
+                            </span>
+                            <span className="inline-flex items-center rounded-md bg-green-100 dark:bg-green-900/30 px-2 py-0.5 text-xs font-semibold text-green-700 dark:text-green-400">
+                                No cost
                             </span>
                         </div>
                     )}
