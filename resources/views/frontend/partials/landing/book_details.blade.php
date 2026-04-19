@@ -17,30 +17,30 @@
 <section class="book-details-section section-sm" style="background-color: #073050;">
     <div class="container-narrow">
 
-        <!-- Main Heading -->
-        @if (!empty($title))
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2 class="bengali-text"
-                    style="color: white; font-size: 1.8rem; font-weight: 700; margin-bottom: 10px;">
-                    {{ $title }}
-                </h2>
-                <span
-                    style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
-            </div>
-        @endif
-
         <!-- Description Block -->
         @php
             // Check if description has actual content (not just empty HTML tags)
             $hasContent = !empty($description) && trim(strip_tags($description)) !== '';
         @endphp
-        @if ($hasContent)
+        @if ($hasContent || !empty($title))
             <div class="description-block"
                 style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; text-align: left; border: 2px solid var(--accent-color);">
+                @if (!empty($title))
+                    <div style="text-align: left; margin-bottom: 20px;">
+                        <h2 class="bengali-text"
+                            style="color: var(--primary-color); font-size: 1.8rem; font-weight: 700; margin: 0 0 10px;">
+                            {{ $title }}
+                        </h2>
+                        {{-- <span
+                            style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px 0 0;"></span> --}}
+                    </div>
+                @endif
+                @if ($hasContent)
                 <p class="bengali-text description-text"
                     style="color: #444; font-size: 1.2rem; line-height: 1.8; font-weight: 500;">
                     {!! $description !!}
                 </p>
+                @endif
             </div>
         @endif
 
@@ -50,30 +50,33 @@
                 !empty($specialtiesDescription) && trim(strip_tags($specialtiesDescription)) !== '';
         @endphp
         <!-- Specialties Description -->
-        @if ($hasSpecialtiesContent)
+        @if ($hasSpecialtiesContent || !empty($specialtiesTitle))
             <div>
-                @if (!empty($specialtiesTitle))
-                    <h2 class="bengali-text"
-                        style="color: white; margin: 0 0 20px; font-size: 1.8rem; text-align: center; font-weight: 700;  width: 100%; position: relative;">
-                        {{ $specialtiesTitle }}
-                        <span
-                            style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
-                    </h2>
-                @endif
-
                 <div
-                    style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
-                    <p class="bengali-text description-text"
-                        style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
-                        {!! $specialtiesDescription !!}
-                    </p>
-                </div>
-            </div>
-        @endif
+                    style="background: white; padding: 25px; padding-bottom: 10px; border-radius: 8px; border: 2px solid var(--accent-color);">
 
-        @if ($hasSpecialtiesContent)
-            <div style="text-align: center; margin-top: 20px;">
-                <x-cta-button :landingPage="$landingPage" />
+                    @if (!empty($specialtiesTitle))
+                        <div style="text-align: left; margin-bottom: 20px;">
+                            <h2 class="bengali-text"
+                                style="color: var(--primary-color); margin: 0 0 10px; font-size: 1.8rem; text-align: left; font-weight: 700;">
+                                {{ $specialtiesTitle }}
+                            </h2>
+                            {{-- <span
+                                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px 0 0;"></span> --}}
+                        </div>
+                    @endif
+
+                    @if ($hasSpecialtiesContent)
+                        <p class="bengali-text description-text"
+                            style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
+                            {!! $specialtiesDescription !!}
+                        </p>
+
+                        <div style="text-align: center; margin-top: 20px;">
+                            <x-cta-button :landingPage="$landingPage" />
+                        </div>
+                    @endif
+                </div>
             </div>
         @endif
 
@@ -87,26 +90,30 @@
                     $hasExtraordinaryContent =
                         !empty($extraordinaryDescription) && trim(strip_tags($extraordinaryDescription)) !== '';
                 @endphp
-                @if ($hasExtraordinaryContent)
+                @if ($hasExtraordinaryContent || !empty($extraordinaryTitle))
                     <div style="margin-bottom: 20px;">
-                        @if (!empty($extraordinaryTitle))
-                            <h2 class="bengali-text"
-                                style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; text-align: center; width: 100%; position: relative;">
-                                {{ $extraordinaryTitle }}
-                                <span
-                                    style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
-                            </h2>
-                        @endif
                         <div
-                            style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
-                            <p class="bengali-text description-text"
-                                style="color: var(--dark-text); line-height: 1.8; ">
-                                {!! $extraordinaryDescription !!}
-                            </p>
-                        </div>
+                            style="background: white; padding: 25px; padding-bottom: 10px; border-radius: 8px; border: 2px solid var(--accent-color);">
+                            @if (!empty($extraordinaryTitle))
+                                <div style="text-align: left; margin-bottom: 20px;">
+                                    <h2 class="bengali-text"
+                                        style="color: var(--primary-color); margin: 0 0 10px; font-size: 1.8rem; font-weight: 700; text-align: left;">
+                                        {{ $extraordinaryTitle }}
+                                    </h2>
+                                    {{-- <span
+                                        style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px 0 0;"></span> --}}
+                                </div>
+                            @endif
+                            @if ($hasExtraordinaryContent)
+                                <p class="bengali-text description-text"
+                                    style="color: var(--dark-text); line-height: 1.8; ">
+                                    {!! $extraordinaryDescription !!}
+                                </p>
 
-                        <div style="text-align: center; margin-top: 20px;">
-                            <x-cta-button :landingPage="$landingPage" style="padding: 10px 25px; font-size: 0.9rem;" />
+                                <div style="text-align: center; margin-top: 20px;">
+                                    <x-cta-button :landingPage="$landingPage" style="padding: 10px 25px; font-size: 0.9rem;" />
+                                </div>
+                            @endif
                         </div>
 
                     </div>
@@ -118,24 +125,29 @@
                     $hasStudentsLoveContent =
                         !empty($studentsLoveDescription) && trim(strip_tags($studentsLoveDescription)) !== '';
                 @endphp
-                @if ($hasStudentsLoveContent)
+                @if ($hasStudentsLoveContent || !empty($studentsLoveTitle))
                     <div>
-                        @if (!empty($studentsLoveTitle))
-                            <h2 class="bengali-text"
-                                style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; text-align: center; width: 100%; padding-bottom: 10px; position: relative;">
-                                {{ $studentsLoveTitle }}
-                                <span
-                                    style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
-                            </h2>
-                        @endif
                         <div
-                            style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
-                            <div class="bengali-text" style="color: #444; font-size: 1.05rem; line-height: 1.8;">
-                                {!! $studentsLoveDescription !!}
-                            </div>
-                        </div>
-                        <div style="text-align: center; margin-top: 20px;">
-                            <x-cta-button :landingPage="$landingPage" style="padding: 10px 25px; font-size: 0.9rem;" />
+                            style="background: white; padding: 25px; padding-bottom: 10px; border-radius: 8px; border: 2px solid var(--accent-color);">
+                            @if (!empty($studentsLoveTitle))
+                                <div style="text-align: left; margin-bottom: 20px;">
+                                    <h2 class="bengali-text"
+                                        style="color: var(--primary-color); margin: 0 0 10px; font-size: 1.8rem; font-weight: 700; text-align: left; padding-bottom: 0;">
+                                        {{ $studentsLoveTitle }}
+                                    </h2>
+                                    {{-- <span
+                                        style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px 0 0;"></span> --}}
+                                </div>
+                            @endif
+                            @if ($hasStudentsLoveContent)
+                                <div class="bengali-text" style="color: #444; font-size: 1.05rem; line-height: 1.8;">
+                                    {!! $studentsLoveDescription !!}
+                                </div>
+
+                                <div style="text-align: center; margin-top: 20px;">
+                                    <x-cta-button :landingPage="$landingPage" style="padding: 10px 25px; font-size: 0.9rem;" />
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @endif

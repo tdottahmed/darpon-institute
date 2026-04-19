@@ -16,15 +16,14 @@
 @endphp
 
 <section class="faq-section">
-    <div class="container-narrow">
-        <div class="faq-header">
-            <h2 class="bengali-text faq-title">
-                {{ $faqSectionTitle }}
-            </h2>
-            <span class="faq-divider"></span>
-        </div>
-
+    <div class="container-narrow" style="padding-top: 15px;">
         <div class="faq-container">
+            <div class="faq-inline-title">
+                <h2 class="bengali-text faq-title">
+                    {{ $faqSectionTitle }}
+                </h2>
+                {{-- <span class="faq-divider"></span> --}}
+            </div>
             <!-- FAQ Accordion -->
             <div class="faq-accordion">
                 @foreach ($faqList as $faq)
@@ -44,16 +43,17 @@
             background-color: #073050;
         }
 
-        .faq-header {
-            text-align: center;
+        .faq-inline-title {
+            text-align: left;
             margin-bottom: 20px;
         }
 
         .faq-title {
-            color: white;
+            color: var(--primary-color);
             font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin: 0 0 10px;
+            text-align: left;
         }
 
         .faq-divider {
@@ -61,7 +61,7 @@
             width: 30%;
             height: 2px;
             background: var(--accent-color);
-            margin: 10px auto 0;
+            margin: 10px 0 0;
         }
 
         .faq-container {
