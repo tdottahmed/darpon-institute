@@ -43,7 +43,7 @@ export default function CourseShow({
 
     return (
         <>
-            <Head title={`${course.title} - English Learning Platform`} />
+            <Head title={`${course.title} - ${import.meta.env.VITE_APP_NAME}`} />
             <div className="min-h-screen bg-white dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 transition-colors duration-300">
                 <Header />
 

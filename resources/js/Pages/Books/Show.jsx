@@ -17,7 +17,7 @@ export default function Show({ book, relatedBooks }) {
 
     return (
         <>
-            <Head title={`${book.title} - English Learning Platform`} />
+            <Head title={`${book.title} - ${import.meta.env.VITE_APP_NAME}`} />
             <div className="min-h-screen bg-white dark:bg-gray-900">
                 <Header />
 
@@ -85,7 +85,7 @@ export default function Show({ book, relatedBooks }) {
                                     {book.author}
                                 </span>
 
-                                <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+                                <h1 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-2xl lg:text-3xl xl:text-4xl">
                                     {book.title}
                                 </h1>
 

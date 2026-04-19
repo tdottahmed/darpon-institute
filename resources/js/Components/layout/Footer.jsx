@@ -7,18 +7,17 @@ export default function Footer() {
     const content = frontend_content?.footer || {};
     const currentYear = new Date().getFullYear();
 
-    const exploreLinks = [
+    const quickLinks = [
+        { name: content.link_about || "About Us", href: route("about") },
+        { name: content.link_books || "Books", href: route("books.index") },
         {
-            name: content.link_courses || "All Courses",
+            name: content.link_courses || "Courses",
             href: route("courses.index"),
         },
-        {
-            name: content.link_books || "Books Store",
-            href: route("books.index"),
-        },
-        { name: content.link_about || "About Us", href: route("about") },
-        { name: content.link_contact || "Contact", href: route("contact") },
+        { name: content.link_contact || "Contact Us", href: route("contact") },
         { name: "Success Stories", href: route("home") + "#testimonials" },
+        { name: "Blog", href: route("video_blogs.index") },
+        { name: "Gallery", href: route("galleries.index") },
     ];
 
     const supportLinks = (custom_pages || []).map((page) => ({
@@ -97,20 +96,20 @@ export default function Footer() {
         <footer className="relative overflow-hidden bg-[var(--header-footer-bg-light)] dark:bg-[var(--header-footer-bg-dark)] text-[var(--header-footer-text-light)] dark:text-[var(--header-footer-text-dark)] border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
             <Container className="relative z-10">
                 {/* 4 columns */}
-                <div className="pt-16 pb-12 grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 text-center md:text-left">
+                <div className="pt-12 pb-10 grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
                     {/* Column 1: Brand */}
-                    <div className="col-span-2 lg:col-span-1 space-y-5 flex flex-col items-center md:items-start">
+                    <div className="col-span-2 md:col-span-1 space-y-4 flex flex-col items-start">
                         <Link href="/" className="inline-block">
                             <img
                                 src={settings?.logo_light || "/darponbdv.png"}
                                 alt="Darpon Logo"
-                                className="h-14 w-auto dark:hidden max-w-[180px]"
+                                className="h-12 w-auto dark:hidden max-w-[160px]"
                             />
                             {settings?.logo_dark ? (
                                 <img
                                     src={settings.logo_dark}
                                     alt="Darpon Logo"
-                                    className="h-14 w-auto hidden dark:block max-w-[180px]"
+                                    className="h-12 w-auto hidden dark:block max-w-[160px]"
                                 />
                             ) : (
                                 <img
@@ -118,28 +117,32 @@ export default function Footer() {
                                         settings?.logo_light || "/darponbdv.png"
                                     }
                                     alt="Darpon Logo"
-                                    className="h-14 w-auto hidden dark:block max-w-[180px] invert opacity-90"
+                                    className="h-12 w-auto hidden dark:block max-w-[160px] invert opacity-90"
                                 />
                             )}
                         </Link>
-                        <p className="opacity-80 text-sm leading-relaxed max-w-xs">
-                            {content.description ||
-                                "Empowering students with accessible, high-quality English education. Join Darpon and start your learning journey today."}
-                        </p>
+                        <p
+                            className="opacity-75 text-sm leading-relaxed max-w-[240px] mt-2"
+                            dangerouslySetInnerHTML={{
+                                __html:
+                                    content.description ||
+                                    "Empowering English learners worldwide with expert guidance, engaging courses, and a supportive community.",
+                            }}
+                        ></p>
                         {socialLinks.length > 0 && (
-                            <div className="flex items-center gap-3 pt-2">
+                            <div className="flex items-center gap-2.5 pt-1">
                                 {socialLinks.map((item) => (
                                     <a
                                         key={item.name}
                                         href={item.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center justify-center w-10 h-10 rounded-xl bg-gray-200/80 dark:bg-white/5 transition-all duration-300 hover:scale-110"
+                                        className="flex items-center justify-center w-9 h-9 rounded-xl bg-gray-200/80 dark:bg-white/5 transition-all duration-300 hover:scale-110"
                                         style={{ color: item.color }}
                                         aria-label={item.name}
                                     >
                                         <item.icon
-                                            className="h-5 w-5"
+                                            className="h-4 w-4"
                                             aria-hidden="true"
                                         />
                                     </a>
@@ -148,17 +151,17 @@ export default function Footer() {
                         )}
                     </div>
 
-                    {/* Column 2: Explore */}
+                    {/* Column 2: Quick Links */}
                     <div>
-                        <h3 className="text-xs font-bold uppercase tracking-widest mb-6 md:text-left text-center">
-                            {content.col_1_title || "Explore"}
+                        <h3 className="text-xs font-bold uppercase tracking-widest mb-5">
+                            {content.col_1_title || "Quick Links"}
                         </h3>
-                        <ul className="space-y-3.5 md:text-left text-center">
-                            {exploreLinks.map((link) => (
+                        <ul className="space-y-3">
+                            {quickLinks.map((link) => (
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm opacity-80 hover:opacity-100 transition-colors duration-200"
+                                        className="text-sm opacity-75 hover:opacity-100 transition-opacity duration-200"
                                     >
                                         {link.name}
                                     </Link>
@@ -167,35 +170,39 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Column 3: Support / Legal */}
-                    <div>
-                        <h3 className="text-xs font-bold uppercase tracking-widest mb-6 md:text-left text-center">
-                            {content.col_3_title || "Support"}
-                        </h3>
-                        <ul className="space-y-3.5 md:text-left text-center">
-                            {supportLinks.map((link) => (
-                                <li key={link.name}>
-                                    <Link
-                                        href={link.href}
-                                        className="text-sm opacity-80 hover:opacity-100 transition-colors duration-200"
-                                    >
-                                        {link.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    {/* Column 3: Legal / Custom Pages */}
+                    {supportLinks.length > 0 && (
+                        <div>
+                            <h3 className="text-xs font-bold uppercase tracking-widest mb-5">
+                                {content.col_3_title || "Legal"}
+                            </h3>
+                            <ul className="space-y-3">
+                                {supportLinks.map((link) => (
+                                    <li key={link.name}>
+                                        <Link
+                                            href={link.href}
+                                            className="text-sm opacity-75 hover:opacity-100 transition-opacity duration-200"
+                                        >
+                                            {link.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
 
                     {/* Column 4: Contact Info */}
-                    <div className="col-span-2 md:col-span-1">
-                        <h3 className="text-xs font-bold uppercase tracking-widest mb-6 md:text-left text-center">
-                            Contact Info
+                    <div
+                        className={`col-span-2 md:col-span-1 ${supportLinks.length === 0 ? "md:col-start-4" : ""}`}
+                    >
+                        <h3 className="text-xs font-bold uppercase tracking-widest mb-5">
+                            {content.col_4_title || "Contact"}
                         </h3>
-                        <ul className="space-y-4 md:text-left text-center text-sm opacity-80">
+                        <ul className="space-y-3.5 text-sm opacity-75">
                             {settings?.company_address && (
-                                <li className="flex flex-col md:flex-row gap-2 items-center md:items-start justify-center md:justify-start">
+                                <li className="flex gap-2.5 items-start">
                                     <svg
-                                        className="w-5 h-5 flex-shrink-0 mt-0.5"
+                                        className="w-4 h-4 flex-shrink-0 mt-0.5"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -219,9 +226,9 @@ export default function Footer() {
                                 </li>
                             )}
                             {settings?.company_phone && (
-                                <li className="flex flex-col md:flex-row gap-2 items-center justify-center md:justify-start">
+                                <li className="flex gap-2.5 items-center">
                                     <svg
-                                        className="w-5 h-5 flex-shrink-0"
+                                        className="w-4 h-4 flex-shrink-0"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -242,9 +249,9 @@ export default function Footer() {
                                 </li>
                             )}
                             {settings?.company_email && (
-                                <li className="flex flex-col md:flex-row gap-2 items-center justify-center md:justify-start">
+                                <li className="flex gap-2.5 items-center">
                                     <svg
-                                        className="w-5 h-5 flex-shrink-0"
+                                        className="w-4 h-4 flex-shrink-0"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -258,7 +265,7 @@ export default function Footer() {
                                     </svg>
                                     <a
                                         href={`mailto:${settings.company_email}`}
-                                        className="hover:opacity-100 transition-opacity"
+                                        className="hover:opacity-100 transition-opacity break-all"
                                     >
                                         {settings.company_email}
                                     </a>
@@ -267,7 +274,9 @@ export default function Footer() {
                             {!settings?.company_address &&
                                 !settings?.company_phone &&
                                 !settings?.company_email && (
-                                    <li>Update info in Admin settings.</li>
+                                    <li className="opacity-60">
+                                        Update info in Admin settings.
+                                    </li>
                                 )}
                         </ul>
                     </div>

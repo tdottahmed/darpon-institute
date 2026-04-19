@@ -114,7 +114,7 @@ export default function CourseCard({ course }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 
                 {/* Badges Overlay */}
-                <div className="absolute left-4 top-4 z-10 flex flex-col gap-2">
+                {/* <div className="absolute left-4 top-4 z-10 flex flex-col gap-2">
                     <span className="inline-flex items-center rounded-lg bg-white/95 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-gray-800 shadow-sm dark:bg-gray-900/95 dark:text-gray-200">
                         Course
                     </span>
@@ -126,7 +126,7 @@ export default function CourseCard({ course }) {
                             -{discountDisplay}
                         </Badge>
                     )}
-                </div>
+                </div> */}
 
                 {/* Hover Overlay with Quick Action */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -141,7 +141,6 @@ export default function CourseCard({ course }) {
 
             {/* Content */}
             <div className="flex flex-1 flex-col p-6">
-
                 {/* Title */}
                 <Link
                     href={route("courses.show", course.slug)}
@@ -153,10 +152,16 @@ export default function CourseCard({ course }) {
                 </Link>
 
                 {/* Description */}
-                <p className="mb-4 line-clamp-2 text-sm text-gray-600 dark:text-gray-400 flex-1 leading-relaxed">
-                    {course.short_description?.replace(/<[^>]*>/g, "") ||
-                        "No description available."}
-                </p>
+                <div
+                    className="mb-4 flex-1 overflow-hidden max-h-20 text-sm text-gray-600 dark:text-gray-400 leading-relaxed
+                        [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4
+                        [&_li]:my-0.5 [&_p]:mb-1"
+                    dangerouslySetInnerHTML={{
+                        __html:
+                            course.short_description ||
+                            "No description available.",
+                    }}
+                />
 
                 {/* Footer */}
                 <div className="mt-auto space-y-3 pt-4 border-t border-gray-100 dark:border-gray-700">

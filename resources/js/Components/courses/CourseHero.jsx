@@ -4,13 +4,13 @@ import parse from "html-react-parser";
 export default function CourseHero({ course, tags }) {
     return (
         <div className="mb-8">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6 leading-tight">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6 leading-tight">
                 {course.title}
             </h1>
 
             {/* Short Description */}
             {course.short_description && (
-                <div className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-3xl">
+                <div className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-3xl">
                     {typeof course.short_description === "string" &&
                     course.short_description.includes("<")
                         ? parse(course.short_description)
