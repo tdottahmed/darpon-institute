@@ -32,7 +32,13 @@ class FrontendContentController extends Controller
         $section = $request->input('section');
         $fields = $request->input('fields', []);
 
-        foreach ($fields as $key => $fieldData) {
+        // Include keys from file-only uploads (no corresponding text input)
+        $uploadedFiles = $request->file('fields', []);
+        $allKeys = array_unique(array_merge(array_keys($fields), array_keys($uploadedFiles)));
+
+        foreach ($allKeys as $key) {
+            $fieldData = $fields[$key] ?? [];
+
             $content = FrontendContent::firstOrNew([
                 'section' => $section,
                 'key' => $key
@@ -54,20 +60,22 @@ class FrontendContentController extends Controller
                 } elseif (isset($fieldData["{$lang}_existing"])) {
                     // Preserve existing image if no new file uploaded
                     $currentValue[$lang] = $fieldData["{$lang}_existing"];
-                    // Ensure type is set to image if we have an existing image
                     if (!$content->type && !empty($fieldData["{$lang}_existing"])) {
                         $content->type = 'image';
                     }
                 } elseif (array_key_exists($lang, $fieldData)) {
-                    // Handle text/textarea values (including explicit null to clear)
                     $value = $fieldData[$lang];
                     $currentValue[$lang] = $value === null ? '' : $value;
                 }
             }
 
+            // For image fields: sync bn from en when bn is empty (language-agnostic images)
+            if ($content->type === 'image' && !empty($currentValue['en']) && empty($currentValue['bn'])) {
+                $currentValue['bn'] = $currentValue['en'];
+            }
+
             // Preserve type if it exists, otherwise determine from field data
             if (!$content->exists && !$content->type) {
-                // Try to get type from existing content or default to text
                 $existing = FrontendContent::where('section', $section)->where('key', $key)->first();
                 $content->type = $existing ? $existing->type : 'text';
             }

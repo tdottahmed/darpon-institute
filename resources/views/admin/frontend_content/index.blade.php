@@ -44,6 +44,10 @@
         @foreach ($contents as $section => $items)
           <div x-show="activeSection === '{{ $section }}'" class="absolute inset-0 overflow-y-auto"
                style="display: {{ $section === $activeSection ? 'block' : 'none' }};">
+
+            @if ($section === 'hero')
+              @include('admin.frontend_content.partials.hero_section', ['items' => $items, 'section' => $section])
+            @else
             <!-- Single Form for All Fields in Section -->
             <form action="{{ route('admin.frontend-content.update') }}" method="POST" enctype="multipart/form-data"
                   class="space-y-6 pb-6">
@@ -92,6 +96,13 @@
                                class="block w-full text-sm text-slate-500 file:mr-4 file:rounded-full file:border-0 file:bg-primary-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100"
                                accept="image/*">
                         <p class="mt-1 text-xs text-gray-400">Leave empty to keep current image</p>
+                      @elseif($item->key === 'hero_mode')
+                        <select name="fields[{{ $item->key }}][en]"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
+                          <option value="image" {{ $valEn === 'image' ? 'selected' : '' }}>Background Image</option>
+                          <option value="slider" {{ $valEn === 'slider' ? 'selected' : '' }}>Image Slider</option>
+                        </select>
+                        <p class="mt-1 text-xs text-gray-400">Choose "Image Slider" to rotate through slider images</p>
                       @elseif($item->type === 'textarea')
                         @if(str_contains(strtolower($item->key), 'description') || str_contains(strtolower($item->key), 'content') || str_contains(strtolower($item->key), 'answer'))
                           <div class="mb-12">
@@ -125,6 +136,13 @@
                                class="block w-full text-sm text-slate-500 file:mr-4 file:rounded-full file:border-0 file:bg-primary-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100"
                                accept="image/*">
                         <p class="mt-1 text-xs text-gray-400">Leave empty to keep current image</p>
+                      @elseif($item->key === 'hero_mode')
+                        <select name="fields[{{ $item->key }}][bn]"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
+                          <option value="image" {{ $valBn === 'image' ? 'selected' : '' }}>Background Image</option>
+                          <option value="slider" {{ $valBn === 'slider' ? 'selected' : '' }}>Image Slider</option>
+                        </select>
+                        <p class="mt-1 text-xs text-gray-400">Choose "Image Slider" to rotate through slider images</p>
                       @elseif($item->type === 'textarea')
                         @if(str_contains(strtolower($item->key), 'description') || str_contains(strtolower($item->key), 'content') || str_contains(strtolower($item->key), 'answer'))
                           <div class="mb-12">
@@ -159,6 +177,7 @@
                 </div>
               </div>
             </form>
+            @endif
           </div>
         @endforeach
       </div>

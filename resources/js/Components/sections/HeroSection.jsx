@@ -1,10 +1,12 @@
-import { usePage, Link } from "@inertiajs/react";
-import { useEffect, useRef, useState } from "react";
+import { usePage } from "@inertiajs/react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useCountUp } from "@/hooks/useCountUp";
 import PrimaryButton from "@/Components/ui/PrimaryButton";
 import SecondaryButton from "@/Components/ui/SecondaryButton";
-import SectionHeader from "../ui/SectionHeader";
 import Badge from "../ui/Badge";
+
+const DEFAULT_IMAGE =
+    "https://res.cloudinary.com/dztksqwip/image/upload/v1727787355/student-reading-book-PNG_vsw91r.png";
 
 function StatItem({ value, label, fallbackLabel, isVisible }) {
     const displayValue = useCountUp(value, isVisible, 1800);
@@ -24,14 +26,51 @@ function StatItem({ value, label, fallbackLabel, isVisible }) {
 export default function HeroSection({ translations }) {
     const { frontend_content } = usePage().props;
     const content = frontend_content?.hero || {};
-    console.log(content);
     const sectionRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
+    const [currentSlide, setCurrentSlide] = useState(0);
 
-    const heroImage =
-        content.bg_image ||
-        content.hero_image ||
-        "https://res.cloudinary.com/dztksqwip/image/upload/v1727787355/student-reading-book-PNG_vsw91r.png";
+    const heroMode = content.hero_mode || "image";
+    const sliderImages = [
+        content.slider_image_1,
+        content.slider_image_2,
+        content.slider_image_3,
+        content.slider_image_4,
+        content.slider_image_5,
+    ].filter(Boolean);
+
+    const staticImage = content.bg_image || content.hero_image || DEFAULT_IMAGE;
+    const isSlider = heroMode === "slider" && sliderImages.length > 0;
+    const bgImages = isSlider ? sliderImages : [staticImage];
+
+    const goNext = useCallback(
+        () => setCurrentSlide((p) => (p + 1) % bgImages.length),
+        [bgImages.length],
+    );
+    const goPrev = useCallback(
+        () =>
+            setCurrentSlide((p) => (p - 1 + bgImages.length) % bgImages.length),
+        [bgImages.length],
+    );
+
+    useEffect(() => {
+        if (!isSlider || bgImages.length <= 1) return;
+        const timer = setInterval(goNext, 5000);
+        return () => clearInterval(timer);
+    }, [isSlider, bgImages.length, goNext]);
+
+    useEffect(() => {
+        const el = sectionRef.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) setIsVisible(true);
+            },
+            { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
 
     const hasStats =
         content.stat_1_value ||
@@ -39,49 +78,77 @@ export default function HeroSection({ translations }) {
         content.stat_3_value ||
         content.stat_4_value;
 
-    useEffect(() => {
-        const el = sectionRef.current;
-        if (!el) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
-        );
-
-        observer.observe(el);
-        return () => observer.disconnect();
-    }, []);
-
     return (
         <section
             ref={sectionRef}
             className={`relative z-10 min-h-[70vh] flex flex-col overflow-visible ${isVisible ? "hero-visible" : ""}`}
         >
-            {/* Background image */}
+            {/* Background images (crossfade) */}
             <div className="absolute inset-0">
-                <img
-                    src={heroImage}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover"
-                />
-                {/* Dark overlay for readability (works in light & dark mode) */}
+                {bgImages.map((src, i) => (
+                    <img
+                        key={i}
+                        src={src}
+                        alt=""
+                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${i === currentSlide ? "opacity-100" : "opacity-0"}`}
+                    />
+                ))}
                 <div
                     className="absolute inset-0 bg-black/45 dark:bg-black/60"
                     aria-hidden="true"
                 />
-                {/* Gradient to keep content area brighter */}
                 <div
                     className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30 dark:to-black/50"
                     aria-hidden="true"
                 />
             </div>
 
-            {/* Main content - centered */}
+            {/* Main content */}
             <div className="relative z-10 flex-1 flex items-center py-16 md:py-20">
+                {/* Slider arrows */}
+                {isSlider && bgImages.length > 1 && (
+                    <>
+                        <button
+                            onClick={goPrev}
+                            className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-10 rounded-full bg-black/30 p-2 text-white backdrop-blur-sm transition hover:bg-black/55"
+                            aria-label="Previous slide"
+                        >
+                            <svg
+                                className="h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M15 19l-7-7 7-7"
+                                />
+                            </svg>
+                        </button>
+                        <button
+                            onClick={goNext}
+                            className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-10 rounded-full bg-black/30 p-2 text-white backdrop-blur-sm transition hover:bg-black/55"
+                            aria-label="Next slide"
+                        >
+                            <svg
+                                className="h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M9 5l7 7-7 7"
+                                />
+                            </svg>
+                        </button>
+                    </>
+                )}
+
                 <div className="container mx-auto max-w-6xl text-center px-4">
                     <div className="mb-4">
                         <Badge
@@ -107,23 +174,36 @@ export default function HeroSection({ translations }) {
                             __html: content.description || "",
                         }}
                     />
-
                     <div className="hero-item hero-item-3 flex flex-row flex-wrap gap-3 sm:gap-4 justify-center mt-8">
-                        <PrimaryButton
-                            href={content.button_1_link || "/courses"}
-                        >
+                        <PrimaryButton href={content.button_1_link || "/courses"}>
                             {content.button_1_text || "Find Courses"}
                         </PrimaryButton>
-                        <SecondaryButton
-                            href={content.button_2_link || "/books"}
-                        >
+                        <SecondaryButton href={content.button_2_link || "/books"}>
                             {content.button_2_text || "Find Books"}
                         </SecondaryButton>
                     </div>
                 </div>
             </div>
 
-            {/* Stats bar - full width, overlaps next section */}
+            {/* Slider dots */}
+            {isSlider && bgImages.length > 1 && (
+                <div className="relative z-10 flex justify-center gap-2 py-3">
+                    {bgImages.map((_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => setCurrentSlide(i)}
+                            className={`h-2 rounded-full transition-all duration-300 ${
+                                i === currentSlide
+                                    ? "w-6 bg-white"
+                                    : "w-2 bg-white/50 hover:bg-white/75"
+                            }`}
+                            aria-label={`Go to slide ${i + 1}`}
+                        />
+                    ))}
+                </div>
+            )}
+
+            {/* Stats bar */}
             {hasStats && (
                 <div className="relative z-20 hero-stats-bar bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-[0_-8px_40px_rgba(0,0,0,0.1)] dark:shadow-none">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
