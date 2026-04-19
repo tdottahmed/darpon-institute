@@ -7,6 +7,7 @@ import CourseMainContent from "@/Components/courses/CourseMainContent";
 import CourseSidebar from "@/Components/courses/CourseSidebar";
 import CourseReviews from "@/Components/courses/CourseReviews";
 import RelatedCourses from "@/Components/courses/RelatedCourses";
+import PrimaryButton from "@/Components/ui/PrimaryButton";
 
 export default function CourseShow({
     course,
@@ -94,6 +95,11 @@ export default function CourseShow({
                             <div className="lg:col-span-2">
                                 <CourseHero course={course} tags={tags} />
                                 <CourseMainContent course={course} />
+                                <div className="flex justify-center my-8 lg:my-10">
+                                    <PrimaryButton href={route("contact")}>
+                                        Contact Us
+                                    </PrimaryButton>
+                                </div>
                                 <CourseReviews
                                     course={course}
                                     isEnrolled={isEnrolled}
