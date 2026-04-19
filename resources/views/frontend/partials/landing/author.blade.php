@@ -15,7 +15,7 @@
     $authorImage = $landingPage->author_image ? Storage::url($landingPage->author_image) : $defaultAuthorImage;
 @endphp
 
-<section class="section-sm" style="background-color: #133050; padding-top: 50px; padding-bottom: 50px;">
+<section class="section-sm" style="background-color: #133050; padding-top: 15px; padding-bottom: 15px;">
     <div class="container-narrow">
 
         <div class="author-card">

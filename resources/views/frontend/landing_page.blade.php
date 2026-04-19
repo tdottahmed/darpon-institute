@@ -26,7 +26,20 @@
   @vite(['resources/css/app.css'])
   <script src="{{ asset('js/alpine.min.js') }}" defer></script>
 
+  @if ($landingPage->slug === 'darpon-english-teaching-zone')
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet">
+  @endif
+
   @include('frontend.partials.landing.styles')
+
+  @if ($landingPage->slug === 'darpon-english-teaching-zone')
+    <style>
+      .bengali-text {
+        font-family: 'Noto Sans Bengali', 'SutonnyMJ', 'SolaimanLipi', 'Kalpurush', sans-serif;
+      }
+    </style>
+  @endif
 
   <!-- Google Analytics -->
   <x-google-analytics />
