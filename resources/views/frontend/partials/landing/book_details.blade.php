@@ -20,8 +20,7 @@
         <!-- Main Heading -->
         @if (!empty($title))
             <div style="text-align: center; margin-bottom: 20px;">
-                <h2 class="bengali-text"
-                    style="color: white; font-size: 1.8rem; font-weight: 700; margin-bottom: 10px;">
+                <h2 class="bengali-text" style="color: white; font-size: 1.8rem; font-weight: 700; margin-bottom: 10px;">
                     {{ $title }}
                 </h2>
                 <span
@@ -62,18 +61,18 @@
                 @endif
 
                 <div
-                    style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
+                    style="background: white; padding: 25px; padding-bottom: 10px; border-radius: 8px; border: 2px solid var(--accent-color);">
                     <p class="bengali-text description-text"
                         style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
                         {!! $specialtiesDescription !!}
                     </p>
-                </div>
-            </div>
-        @endif
 
-        @if ($hasSpecialtiesContent)
-            <div style="text-align: center; margin-top: 20px;">
-                <x-cta-button :landingPage="$landingPage" />
+                    @if ($hasSpecialtiesContent)
+                        <div style="text-align: center; margin-top: 20px;">
+                            <x-cta-button :landingPage="$landingPage" />
+                        </div>
+                    @endif
+                </div>
             </div>
         @endif
 
@@ -98,15 +97,15 @@
                             </h2>
                         @endif
                         <div
-                            style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
+                            style="background: white; padding: 25px; padding-bottom: 10px; border-radius: 8px; border: 2px solid var(--accent-color);">
                             <p class="bengali-text description-text"
                                 style="color: var(--dark-text); line-height: 1.8; ">
                                 {!! $extraordinaryDescription !!}
                             </p>
-                        </div>
 
-                        <div style="text-align: center; margin-top: 20px;">
-                            <x-cta-button :landingPage="$landingPage" style="padding: 10px 25px; font-size: 0.9rem;" />
+                            <div style="text-align: center; margin-top: 20px;">
+                                <x-cta-button :landingPage="$landingPage" style="padding: 10px 25px; font-size: 0.9rem;" />
+                            </div>
                         </div>
 
                     </div>
@@ -129,13 +128,14 @@
                             </h2>
                         @endif
                         <div
-                            style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
+                            style="background: white; padding: 25px; padding-bottom: 10px; border-radius: 8px; border: 2px solid var(--accent-color);">
                             <div class="bengali-text" style="color: #444; font-size: 1.05rem; line-height: 1.8;">
                                 {!! $studentsLoveDescription !!}
                             </div>
-                        </div>
-                        <div style="text-align: center; margin-top: 20px;">
-                            <x-cta-button :landingPage="$landingPage" style="padding: 10px 25px; font-size: 0.9rem;" />
+
+                            <div style="text-align: center; margin-top: 20px;">
+                                <x-cta-button :landingPage="$landingPage" style="padding: 10px 25px; font-size: 0.9rem;" />
+                            </div>
                         </div>
                     </div>
                 @endif

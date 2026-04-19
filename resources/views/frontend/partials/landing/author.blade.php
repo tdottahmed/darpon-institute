@@ -45,10 +45,10 @@
                 </div>
             </div>
 
-        </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <x-cta-button :landingPage="$landingPage" />
+            </div>
 
-        <div style="text-align: center; margin-top: 30px;">
-            <x-cta-button :landingPage="$landingPage" />
         </div>
 
     </div>
@@ -61,6 +61,7 @@
             margin: 0 auto;
             border: 2px solid #f59e0b;
             border-radius: 12px;
+            padding-bottom: 10px;
         }
 
         .author-top-section {

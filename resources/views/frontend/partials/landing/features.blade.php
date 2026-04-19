@@ -31,16 +31,18 @@
                     @endif
 
                     <div
-                        style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
+                        style="background: white; padding: 25px; padding-bottom: 10px; border-radius: 8px; border: 2px solid var(--accent-color);">
                         <div class="bengali-text"
                             style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
                             {!! $featuresDescription !!}
                         </div>
+
+                        <div style="text-align: center; margin-top: 20px;">
+                            <x-cta-button :landingPage="$landingPage" />
+                        </div>
                     </div>
 
-                    <div style="text-align: center; margin-top: 20px;">
-                        <x-cta-button :landingPage="$landingPage" />
-                    </div>
+
                 </div>
             @endif
 
@@ -62,57 +64,62 @@
                     @endif
 
                     <div class="target-audience-card"
-                        style="background: white; padding: 25px; border-radius: 8px; border: 2px solid var(--accent-color);">
+                        style="background: white; padding: 25px; padding-bottom: 10px; border-radius: 8px; border: 2px solid var(--accent-color);">
                         <div class="bengali-text target-audience-text"
                             style="color: var(--dark-text); line-height: 1.8; font-size: 1.05rem;">
                             {!! $targetAudienceDescription !!}
                         </div>
-                    </div>
 
-                    <div style="text-align: center; margin-top: 20px;">
-                        <x-cta-button :landingPage="$landingPage" />
-                    </div>
-                </div>
-            @endif
-
-            <!-- Why a Game Changer Column (Full Width below) -->
-            @php
-                // Check if game changer description has actual content (not just empty HTML tags)
-                $hasGameChangerContent =
-                    !empty($gameChangerDescription) && trim(strip_tags($gameChangerDescription)) !== '';
-            @endphp
-            @if ($hasGameChangerContent)
-                <div class="section-sm" style="grid-column: 1 / -1;">
-                    @if (!empty($gameChangerTitle))
-                        <h2 class="bengali-text feature-heading"
-                            style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; width: 100%; text-align: center; position: relative;">
-                            {{ $gameChangerTitle }}
-                            <span
-                                style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
-                        </h2>
-                    @endif
-
-                    <div class="game-changer-card"
-                        style="padding: 30px; margin: 0; background-color: white; border-radius: 10px; border: 2px solid var(--accent-color);">
-                        <div class="bengali-text game-changer-text"
-                            style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text);">
-                            {!! $gameChangerDescription !!}
+                        <div style="text-align: center; margin-top: 20px;">
+                            <x-cta-button :landingPage="$landingPage" />
                         </div>
-                        @if ($gameChangerConclusion)
-                            <div class="bengali-text game-changer-text"
-                                style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text); font-weight: 600; margin-top: 15px;">
-                                {{ $gameChangerConclusion }}
-                            </div>
-                        @endif
-                    </div>
-
-                    <div style="text-align: center; margin-top: 20px;">
-                        <x-cta-button :landingPage="$landingPage" />
                     </div>
                 </div>
-            @endif
+
 
         </div>
+        @endif
+
+        <!-- Why a Game Changer Column (Full Width below) -->
+        @php
+            // Check if game changer description has actual content (not just empty HTML tags)
+            $hasGameChangerContent =
+                !empty($gameChangerDescription) && trim(strip_tags($gameChangerDescription)) !== '';
+        @endphp
+        @if ($hasGameChangerContent)
+            <div class="section-sm" style="grid-column: 1 / -1;">
+                @if (!empty($gameChangerTitle))
+                    <h2 class="bengali-text feature-heading"
+                        style="color: white; margin: 0 0 20px; font-size: 1.8rem; font-weight: 700; width: 100%; text-align: center; position: relative;">
+                        {{ $gameChangerTitle }}
+                        <span
+                            style="display: block; width: 30%; height: 2px; background: var(--accent-color); margin: 10px auto 0;"></span>
+                    </h2>
+                @endif
+
+                <div class="game-changer-card"
+                    style="padding: 30px; padding-bottom: 10px; margin: 0; background-color: white; border-radius: 10px; border: 2px solid var(--accent-color);">
+                    <div class="bengali-text game-changer-text"
+                        style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text);">
+                        {!! $gameChangerDescription !!}
+                    </div>
+                    @if ($gameChangerConclusion)
+                        <div class="bengali-text game-changer-text"
+                            style="font-size: 1.1rem; line-height: 1.8; color: var(--dark-text); font-weight: 600; margin-top: 15px;">
+                            {{ $gameChangerConclusion }}
+                        </div>
+                    @endif
+
+                    <div style="text-align: center; margin-top: 20px;">
+                        <x-cta-button :landingPage="$landingPage" />
+                    </div>
+                </div>
+
+                
+            </div>
+        @endif
+
+    </div>
     </div>
 </section>
 

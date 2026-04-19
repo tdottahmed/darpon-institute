@@ -15,7 +15,7 @@
 <section class="pricing-section" style="background-color: #073050; padding-top: 20px">
     <div class="container-narrow pricing-container">
 
-        <div class="pricing-card">
+        <div class="pricing-card" style="padding-bottom: 10px;">
 
             <h2 class="bengali-text pricing-title">
                 {{ $landingPage->pricing_book_label ?? ($landingPage->book ? 'Book Price' : 'Course Fee') }}
@@ -95,6 +95,7 @@
         color: var(--primary-color);
         font-size: 1.8rem;
         font-weight: 700;
+        text-align: left;
     }
 
     .pricing-divider {
@@ -102,12 +103,13 @@
         width: 30%;
         height: 2px;
         background: var(--accent-color);
-        margin: 10px auto 0;
+        margin: 10px 0 0;
     }
 
     .pricing-content-wrapper {
         margin-bottom: 30px;
         margin-top: 20px;
+        text-align: left;
     }
 
     .pricing-duration-wrapper {
@@ -129,6 +131,7 @@
         color: var(--dark-text);
         font-weight: 600;
         line-height: 1.8;
+        text-align: left;
     }
 
     .regular-price {
