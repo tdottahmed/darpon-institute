@@ -1,7 +1,6 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -14,15 +13,20 @@
     --section-bg: #e3f2fd;
   }
 
+  /* Override Tailwind preflight: html gets theme font-sans (Figtree); set both for English default */
+  html,
   body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+  body {
     color: var(--dark-text);
     margin: 0;
     padding: 0;
   }
 
   .bengali-text {
-    font-family: 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', sans-serif;
+    font-family: 'SutonnyMJ', 'SolaimanLipi', 'Kalpurush', sans-serif;
   }
 
   h1 { font-size: 2.5rem; }
