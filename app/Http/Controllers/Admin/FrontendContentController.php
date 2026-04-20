@@ -84,9 +84,7 @@ class FrontendContentController extends Controller
             $content->save();
         }
 
-        // Clear cache for all supported locales
-        \Illuminate\Support\Facades\Cache::forget('frontend_content_en');
-        \Illuminate\Support\Facades\Cache::forget('frontend_content_bn');
+        $this->forgetFrontendContentCache();
 
         return redirect()->route('admin.frontend-content.index', ['section' => $section])
             ->with('success', 'Content updated successfully.');
@@ -111,11 +109,17 @@ class FrontendContentController extends Controller
         $section = $content->section;
         $content->delete();
 
-        // Clear cache
-        \Illuminate\Support\Facades\Cache::forget('frontend_content_en');
-        \Illuminate\Support\Facades\Cache::forget('frontend_content_bn');
+        $this->forgetFrontendContentCache();
 
         return redirect()->route('admin.frontend-content.index', ['section' => $section])
             ->with('success', 'Content item removed successfully.');
+    }
+
+    private function forgetFrontendContentCache(): void
+    {
+        $locales = config('app.available_locales', ['en', 'bn']);
+        foreach ($locales as $locale) {
+            \Illuminate\Support\Facades\Cache::forget("frontend_content_{$locale}");
+        }
     }
 }

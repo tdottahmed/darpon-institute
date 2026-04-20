@@ -73,8 +73,9 @@ class AboutController extends Controller
         }
 
         // Clear cache
-        Cache::forget('frontend_content_en');
-        Cache::forget('frontend_content_bn');
+        foreach (config('app.available_locales', ['en', 'bn']) as $loc) {
+            Cache::forget("frontend_content_{$loc}");
+        }
 
         return redirect()->route('admin.about.index')
             ->with('success', 'About page content updated successfully.');

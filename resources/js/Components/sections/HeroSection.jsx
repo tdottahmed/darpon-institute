@@ -8,6 +8,31 @@ import Badge from "../ui/Badge";
 const DEFAULT_IMAGE =
     "https://res.cloudinary.com/dztksqwip/image/upload/v1727787355/student-reading-book-PNG_vsw91r.png";
 
+/**
+ * Resolve image URL (backend may send a string or { en, bn }).
+ * Empty string for current locale must not block fallback to `en` (common for hero_image).
+ */
+function resolveImageUrl(value, locale = "en") {
+    if (value == null) return "";
+    if (typeof value === "string") return value.trim();
+    if (typeof value === "object") {
+        for (const key of [locale, "en", "bn"]) {
+            const v = value[key];
+            if (typeof v === "string" && v.trim()) return v.trim();
+        }
+        for (const v of Object.values(value)) {
+            if (typeof v === "string" && v.trim()) return v.trim();
+        }
+        return "";
+    }
+    return String(value).trim();
+}
+
+function normalizeHeroMode(raw) {
+    const s = String(raw ?? "image").trim().toLowerCase();
+    return s === "slider" ? "slider" : "image";
+}
+
 function StatItem({ value, label, fallbackLabel, isVisible }) {
     const displayValue = useCountUp(value, isVisible, 1800);
     if (!value && !label) return null;
@@ -24,22 +49,31 @@ function StatItem({ value, label, fallbackLabel, isVisible }) {
 }
 
 export default function HeroSection({ translations }) {
-    const { frontend_content } = usePage().props;
+    const { frontend_content, locale } = usePage().props;
     const content = frontend_content?.hero || {};
+    const loc = locale || "en";
     const sectionRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(0);
 
-    const heroMode = content.hero_mode || "image";
+    const heroMode = normalizeHeroMode(content.hero_mode);
+
     const sliderImages = [
         content.slider_image_1,
         content.slider_image_2,
         content.slider_image_3,
         content.slider_image_4,
         content.slider_image_5,
-    ].filter(Boolean);
+    ]
+        .map((u) => resolveImageUrl(u, loc))
+        .filter(Boolean);
 
-    const staticImage = content.bg_image || content.hero_image || DEFAULT_IMAGE;
+    const staticImage =
+        resolveImageUrl(content.hero_image, loc) ||
+        resolveImageUrl(content.bg_image, loc) ||
+        DEFAULT_IMAGE;
+
+    /** Static background must ignore slider URLs whenever mode is not slider */
     const isSlider = heroMode === "slider" && sliderImages.length > 0;
     const bgImages = isSlider ? sliderImages : [staticImage];
 
@@ -58,6 +92,10 @@ export default function HeroSection({ translations }) {
         const timer = setInterval(goNext, 5000);
         return () => clearInterval(timer);
     }, [isSlider, bgImages.length, goNext]);
+
+    useEffect(() => {
+        setCurrentSlide(0);
+    }, [heroMode, staticImage, sliderImages.join("|")]);
 
     useEffect(() => {
         const el = sectionRef.current;
@@ -87,7 +125,7 @@ export default function HeroSection({ translations }) {
             <div className="absolute inset-0">
                 {bgImages.map((src, i) => (
                     <img
-                        key={i}
+                        key={`${src}-${i}`}
                         src={src}
                         alt=""
                         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${i === currentSlide ? "opacity-100" : "opacity-0"}`}
