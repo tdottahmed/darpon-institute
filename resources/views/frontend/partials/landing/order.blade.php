@@ -77,7 +77,7 @@
                             <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #333;">আপনার নাম
                                 লিখুন <span style="color: red;">*</span></label>
                             <input type="text" name="name" id="orderName" placeholder="আপনার নাম লিখুন *"
-                                value="{{ old('name') }}"
+                                value="{{ old('name') }}" autocomplete="name"
                                 style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"
                                 required>
                             @error('name')
@@ -90,7 +90,7 @@
                                 ঠিকানা
                                 <span style="color: red;">*</span></label>
                             <input type="email" name="email" id="orderEmail" placeholder="your@email.com *"
-                                value="{{ old('email') }}"
+                                value="{{ old('email') }}" autocomplete="email"
                                 style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"
                                 required>
                             @error('email')
@@ -103,7 +103,7 @@
                                 মোবাইল
                                 নাম্বার <span style="color: red;">*</span></label>
                             <input type="tel" name="phone" id="orderPhone" placeholder="আপনার মোবাইল নাম্বার *"
-                                value="{{ old('phone') }}"
+                                value="{{ old('phone') }}" autocomplete="tel"
                                 style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"
                                 required>
                             @error('phone')
@@ -116,6 +116,7 @@
                                 সম্পূর্ণ
                                 ঠিকানা <span style="color: red;">*</span></label>
                             <textarea name="address" id="orderAddress" rows="3" placeholder="আপনার সম্পূর্ণ ঠিকানা *"
+                                autocomplete="street-address"
                                 style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; resize: vertical;" required>{{ old('address') }}</textarea>
                             @error('address')
                                 <span style="color: red; font-size: 0.85rem;">{{ $message }}</span>
@@ -382,10 +383,10 @@
                 const total = subtotal + shippingCharge;
 
                 if (qtyDisplay) qtyDisplay.textContent = quantity;
-                productSubtotal.textContent = subtotal.toLocaleString('en-US') + 'Tk.';
-                orderSubtotal.textContent = subtotal.toLocaleString('en-US') + 'Tk.';
-                orderTotal.textContent = total.toLocaleString('en-US') + 'Tk.';
-                submitTotal.textContent = total.toLocaleString('en-US');
+                productSubtotal.textContent = 'Tk. ' + subtotal.toLocaleString('en-US');
+                orderSubtotal.textContent = 'Tk. ' + subtotal.toLocaleString('en-US');
+                orderTotal.textContent = 'Tk. ' + total.toLocaleString('en-US');
+                submitTotal.textContent = 'Tk. ' + total.toLocaleString('en-US');
             }
 
             if (qtyDecrease) {

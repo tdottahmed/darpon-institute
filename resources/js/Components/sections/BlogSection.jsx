@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, usePage } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, A11y } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 import VideoBlogCard from "@/Components/cards/VideoBlogCard";
 import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
@@ -53,25 +58,45 @@ export default function BlogSection({ videoBlogs }) {
                     />
                 </div>
 
-                <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    {videoBlogs.map((video, index) => (
-                        <div
-                            key={video.id}
-                            className="section-card-animate h-full"
-                            style={
-                                isVisible
-                                    ? {
-                                          animationDelay: `${0.12 + index * 0.07}s`,
-                                      }
-                                    : undefined
-                            }
-                        >
-                            <VideoBlogCard video={video} />
-                        </div>
-                    ))}
+                <div className="section-animate section-animate-delay-2">
+                    <Swiper
+                        modules={[Autoplay, Pagination, A11y]}
+                        spaceBetween={24}
+                        slidesPerView={1}
+                        loop={true}
+                        autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                        breakpoints={{
+                            640: { slidesPerView: 2, spaceBetween: 24 },
+                            1024: { slidesPerView: 3, spaceBetween: 32 },
+                        }}
+                        pagination={{
+                            clickable: true,
+                            bulletClass:
+                                "swiper-pagination-bullet !w-2 !h-2 !bg-gray-300 dark:!bg-gray-600 !opacity-100 !mx-1 transition-all duration-200",
+                            bulletActiveClass:
+                                "!w-6 !bg-primary-500 dark:!bg-primary-400 !rounded-full",
+                        }}
+                        className="!pb-10"
+                    >
+                        {videoBlogs.map((video, index) => (
+                            <SwiperSlide
+                                key={video.id}
+                                className="h-auto"
+                                style={
+                                    isVisible
+                                        ? { animationDelay: `${0.12 + index * 0.07}s` }
+                                        : undefined
+                                }
+                            >
+                                <div className="h-full section-card-animate">
+                                    <VideoBlogCard video={video} />
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </div>
 
-                <div className="section-animate section-animate-delay-2 text-center mt-10 sm:mt-12">
+                <div className="section-animate section-animate-delay-3 text-center mt-4">
                     <SecondaryButton href={route("video_blogs.index")}>
                         {content.view_all_link || "View all videos"}
                     </SecondaryButton>

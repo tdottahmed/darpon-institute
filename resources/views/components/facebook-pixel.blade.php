@@ -1,10 +1,9 @@
 @php
-    // Get Facebook Pixel ID from admin settings (database)
     $pixelId = \App\Models\Setting::get('meta_pixel_id');
-    $pixelEnabled = \App\Models\Setting::get('meta_pixel_enabled', false);
+    $pixelEnabled = \App\Models\Setting::get('meta_pixel_enabled', '0');
 @endphp
 
-@if($pixelId && $pixelEnabled)
+@if($pixelId && ($pixelEnabled == '1' || $pixelEnabled === true))
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s)
