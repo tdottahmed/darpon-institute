@@ -87,6 +87,33 @@
         animation: hero-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
     }
 
+    /* Hero slider: Ken Burns subtle zoom on the active slide image */
+    @keyframes hero-kenburns {
+        from { transform: scale(1)    translateZ(0); }
+        to   { transform: scale(1.06) translateZ(0); }
+    }
+
+    /* Hero slider: text exit when slide is about to change */
+    @keyframes hero-text-out {
+        from { opacity: 1; transform: translateY(0)    translateZ(0); }
+        to   { opacity: 0; transform: translateY(-20px) translateZ(0); }
+    }
+
+    /* Hero slider: text enter after the new slide has loaded */
+    @keyframes hero-text-in {
+        from { opacity: 0; transform: translateY(24px) translateZ(0); }
+        to   { opacity: 1; transform: translateY(0)    translateZ(0); }
+    }
+
+    .hero-text-exiting {
+        animation: hero-text-out 0.25s ease-in forwards;
+        pointer-events: none;
+    }
+
+    .hero-text-entering {
+        animation: hero-text-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
     /* Sections: single scroll-triggered reveal (add .section-visible when in view) */
     @keyframes section-reveal {
         from { opacity: 0; transform: translateY(22px); }
