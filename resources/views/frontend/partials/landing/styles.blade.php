@@ -9,10 +9,10 @@
     --section-bg: #e3f2fd;
   }
 
-  /* Match theme font-sans (Times New Roman); Bengali uses .bengali-text / font-bengali */
+  /* Unified font stack for Bengali + English */
   html,
   body {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Inter', 'Segoe UI', Arial, sans-serif;
   }
 
   body {
@@ -22,7 +22,10 @@
   }
 
   .bengali-text {
-    font-family: 'SutonnyMJ', 'SolaimanLipi', 'Kalpurush', sans-serif;
+    font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Inter', 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
 
   h1 { font-size: 2.5rem; }

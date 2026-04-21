@@ -26,7 +26,7 @@
             <div class="description-block"
                 style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; text-align: left; border: 2px solid var(--accent-color);">
                 @if (!empty($title))
-                    <div style="text-align: left; margin-bottom: 20px;">
+                    <div style="text-align: left;">
                         <h2 class="bengali-text"
                             style="color: var(--primary-color); font-size: 1.8rem; font-weight: 700; margin: 0 0 10px;">
                             {{ $title }}
