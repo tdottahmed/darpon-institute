@@ -19,7 +19,7 @@ export default function CourseHero({ course, tags }) {
             )}
 
             {/* Meta Bar */}
-            <div className="flex items-center gap-6 mt-6 pt-6 border-t border-gray-100 dark:border-gray-800">
+            {/* <div className="flex items-center gap-6 mt-6 pt-6 border-t border-gray-100 dark:border-gray-800"> */}
                 {/* <div className="flex items-center gap-2">
                     <div className="p-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
                         <svg
@@ -71,7 +71,7 @@ export default function CourseHero({ course, tags }) {
                         </p>
                     </div>
                 </div> */}
-            </div>
+            {/* </div> */}
         </div>
     );
 }
