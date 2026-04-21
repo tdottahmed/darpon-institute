@@ -13,13 +13,25 @@ function getWordLimitForWidth(width) {
 
 function stripHtmlToText(html) {
     return html
-        .replace(/<\/p>/gi, "\n\n")
+        // Keep visual structure from rich text (paragraphs/headings/lists).
+        .replace(/<\/?(p|div|h1|h2|h3|h4|h5|h6)[^>]*>/gi, "\n\n")
+        .replace(/<\/?(ul|ol)[^>]*>/gi, "\n")
+        .replace(/<li[^>]*>/gi, "\n")
+        .replace(/<\/li>/gi, "")
         .replace(/<br\s*\/?>/gi, "\n")
-        .replace(/<[^>]*>/gm, "")
+        // Preserve word boundaries when removing rich-text tags.
+        .replace(/<[^>]*>/gm, " ")
         .replace(/&nbsp;/g, " ")
         .replace(/&amp;/g, "&")
         .replace(/&lt;/g, "<")
         .replace(/&gt;/g, ">")
+        // Add missing spacing after punctuation and merged sentence boundaries.
+        .replace(/([.,!?;:])([A-Za-z\u00C0-\u024F])/g, "$1 $2")
+        .replace(/([a-z\u00DF-\u024F])([A-Z])/g, "$1 $2")
+        .replace(/\s+([.,!?;:])/g, "$1")
+        .replace(/[ \t]*\n[ \t]*/g, "\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .replace(/ {2,}/g, " ")
         .trim();
 }
 
@@ -28,7 +40,7 @@ function isHtml(str) {
 }
 
 const HTML_PROSE =
-    "text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed " +
+    "text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-7 break-words " +
     "[&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-3 " +
     "[&_li]:mb-1 [&_strong]:font-semibold [&_em]:italic [&_a]:text-primary-600 [&_a]:underline " +
     "[&_h1]:text-xl [&_h1]:font-bold [&_h1]:mb-2 [&_h2]:text-lg [&_h2]:font-bold [&_h2]:mb-2 " +
@@ -91,6 +103,7 @@ export default function InstructorSection() {
             truncatedPlain: words.slice(0, wordLimit).join(" "),
         };
     }, [plainFull, wordLimit]);
+    const shouldShowToggle = isLong;
 
     const imageUrl =
         content.image ||
@@ -180,23 +193,34 @@ export default function InstructorSection() {
 
                                 {/* Description with Read More */}
                                 <div className="mb-6">
-                                    {hasHtml && isExpanded ? (
+                                    {hasHtml ? (
                                         <>
                                             <div
-                                                className={HTML_PROSE}
-                                                dangerouslySetInnerHTML={{
-                                                    __html: rawDescription,
-                                                }}
-                                            />
-                                            {isLong && (
+                                                className={`relative ${!isExpanded && isLong ? "max-h-56 overflow-hidden" : ""}`}
+                                            >
+                                                <div
+                                                    className={HTML_PROSE}
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: rawDescription,
+                                                    }}
+                                                />
+                                                {!isExpanded && isLong && (
+                                                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-white to-transparent dark:from-gray-900/95" />
+                                                )}
+                                            </div>
+                                            {shouldShowToggle && (
                                                 <button
                                                     type="button"
                                                     onClick={() =>
-                                                        setIsExpanded(false)
+                                                        setIsExpanded(
+                                                            (prev) => !prev,
+                                                        )
                                                     }
-                                                    className="mt-1 inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-semibold text-primary-600 underline-offset-4 transition-colors hover:text-primary-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 dark:text-primary-400 dark:hover:text-primary-300"
+                                                    className="mt-2 inline-flex items-center gap-1 rounded-lg px-1 py-0.5 text-sm font-semibold text-primary-600 underline-offset-4 transition-colors hover:text-primary-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 dark:text-primary-400 dark:hover:text-primary-300"
                                                 >
-                                                    Show less
+                                                    {isExpanded
+                                                        ? "Show less"
+                                                        : "Read more"}
                                                     <svg
                                                         className="h-4 w-4"
                                                         fill="none"
@@ -207,26 +231,34 @@ export default function InstructorSection() {
                                                         <path
                                                             strokeLinecap="round"
                                                             strokeLinejoin="round"
-                                                            d="M5 15l7-7 7 7"
+                                                            d={
+                                                                isExpanded
+                                                                    ? "M5 15l7-7 7 7"
+                                                                    : "M19 9l-7 7-7-7"
+                                                            }
                                                         />
                                                     </svg>
                                                 </button>
                                             )}
                                         </>
                                     ) : (
-                                        <p className="text-pretty text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:text-base">
+                                        <p className="text-sm leading-7 tracking-normal break-words whitespace-pre-line text-gray-600 dark:text-gray-300 sm:text-base">
                                             {isLong && !isExpanded
                                                 ? `${truncatedPlain}… `
                                                 : plainFull}
-                                            {isLong && (
+                                            {shouldShowToggle && (
                                                 <button
                                                     type="button"
                                                     onClick={() =>
-                                                        setIsExpanded(true)
+                                                        setIsExpanded(
+                                                            (prev) => !prev,
+                                                        )
                                                     }
                                                     className="inline-flex items-center gap-1 rounded-lg px-1 py-0.5 text-sm font-semibold text-primary-600 underline-offset-4 transition-colors hover:text-primary-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 dark:text-primary-400 dark:hover:text-primary-300"
                                                 >
-                                                    Read more
+                                                    {isExpanded
+                                                        ? "Show less"
+                                                        : "Read more"}
                                                     <svg
                                                         className="h-4 w-4"
                                                         fill="none"
@@ -237,7 +269,11 @@ export default function InstructorSection() {
                                                         <path
                                                             strokeLinecap="round"
                                                             strokeLinejoin="round"
-                                                            d="M19 9l-7 7-7-7"
+                                                            d={
+                                                                isExpanded
+                                                                    ? "M5 15l7-7 7 7"
+                                                                    : "M19 9l-7 7-7-7"
+                                                            }
                                                         />
                                                     </svg>
                                                 </button>
@@ -247,8 +283,8 @@ export default function InstructorSection() {
                                 </div>
 
                                 {/* CTA Button */}
-                                <div className="mt-4 text-center">
-                                    <PrimaryButton
+                                <div className="section-animate section-animate-delay-3 text-center mt-4">
+                                    <PrimaryButton className="pl-[40px] pr-[40px]"
                                         href={route("contact")}
                                         showIcon={true}
                                     >

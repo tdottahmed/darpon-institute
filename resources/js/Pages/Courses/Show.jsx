@@ -95,7 +95,7 @@ export default function CourseShow({
                             <div className="lg:col-span-2">
                                 <CourseHero course={course} tags={tags} />
                                 <CourseMainContent course={course} />
-                                <div className="flex justify-center my-8 lg:my-10">
+                                <div className="flex my-8 lg:my-10">
                                     <PrimaryButton href={route("contact")}>
                                         Contact Us
                                     </PrimaryButton>

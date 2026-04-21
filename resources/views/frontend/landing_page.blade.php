@@ -1,57 +1,6 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.landing')
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-  @if($landingPage->meta_description ?? null)
-    <meta name="description" content="{{ $landingPage->meta_description }}">
-  @endif
-
-  <title>{{ $landingPage->meta_title ?? ($landingPage->book->title ?? $landingPage->course->title ?? config('app.name', 'Darpon')) }}</title>
-
-  <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png" />
-
-  <!-- SEO: Sitemap & RSS Feed -->
-  @php
-    $sitemapUrl = \App\Models\Setting::get('sitemap_url');
-    $rssFeedUrl = \App\Models\Setting::get('rss_feed_url');
-  @endphp
-  @if($sitemapUrl)
-    <link rel="sitemap" type="application/xml" href="{{ $sitemapUrl }}">
-  @endif
-  @if($rssFeedUrl)
-    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ $rssFeedUrl }}">
-  @endif
-
-  <!-- Scripts -->
-  @vite(['resources/css/app.css'])
-  <script src="{{ asset('js/alpine.min.js') }}" defer></script>
-
-  @if ($landingPage->slug === 'darpon-english-teaching-zone')
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet">
-  @endif
-
-  @include('frontend.partials.landing.styles')
-
-  @if ($landingPage->slug === 'darpon-english-teaching-zone')
-    <style>
-      .bengali-text {
-        font-family: 'Noto Sans Bengali', 'SutonnyMJ', 'SolaimanLipi', 'Kalpurush', sans-serif;
-      }
-    </style>
-  @endif
-
-  <!-- Google Analytics -->
-  <x-google-analytics />
-
-  <!-- Facebook Pixel -->
-  <x-facebook-pixel />
-</head>
-
-<body>
+@section('landing_content')
   {{-- Success modal — covers both book orders (order_success) and course enrollments (registration_success) --}}
   @php
     $isEnrollment    = (bool) session('registration_success');
@@ -217,6 +166,4 @@
 
   <!-- Scripts -->
   @include('frontend.partials.landing.scripts')
-</body>
-
-</html>
+@endsection
