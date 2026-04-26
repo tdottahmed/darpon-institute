@@ -134,6 +134,10 @@ Route::group(['prefix' => '', 'as' => ''], function () {
         Artisan::call('db:seed --class=FrontendContentSeeder');
         return redirect()->back()->with('success', 'Seeded successfully');
     })->name('seed');
+    Route::get('/seed-whychose', function () {
+        Artisan::call('db:seed --class=WhyChooseUsSeeder');
+        return redirect()->back()->with('success', 'Seeded successfully');
+    })->name('seed-whychose');
     Route::get('optimize', function () {
         Artisan::call('optimize');
         return redirect()->back()->with('success', 'Optimized successfully');
