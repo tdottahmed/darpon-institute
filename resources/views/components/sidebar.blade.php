@@ -87,6 +87,12 @@
               'icon' => 'calendar',
               'active' => request()->routeIs('admin.course-registrations.installments'),
           ],
+          [
+              'name' => 'Free Class Leads',
+              'href' => route('admin.free-class-leads.index'),
+              'icon' => 'user-group',
+              'active' => request()->routeIs('admin.free-class-leads.*'),
+          ],
       ],
       'Settings' => [
           [

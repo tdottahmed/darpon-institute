@@ -50,6 +50,11 @@
                   'items' => $items,
                   'section' => $section,
               ])
+            @elseif ($section === 'why_choose_us')
+              @include('admin.frontend_content.partials.why_choose_us_section', [
+                  'items' => $items,
+                  'section' => $section,
+              ])
             @else
               <!-- Single Form for All Fields in Section -->
               <form action="{{ route('admin.frontend-content.update') }}" method="POST" enctype="multipart/form-data"

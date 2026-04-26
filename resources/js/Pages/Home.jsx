@@ -9,6 +9,7 @@ import HeroSection from "@/Components/sections/HeroSection";
 import InstructorSection from "@/Components/sections/InstructorSection";
 import TeamSection from "@/Components/sections/TeamSection";
 import TestimonialsSection from "@/Components/sections/TestimonialsSection";
+import WhyChooseUsSection from "@/Components/sections/WhyChooseUsSection";
 import { Head, usePage } from "@inertiajs/react";
 
 
@@ -30,6 +31,7 @@ export default function Welcome({
                 <main>
                     <HeroSection translations={translations} />
                     <InstructorSection />
+                    <WhyChooseUsSection />
                     <TeamSection teachers={teachers || []} />
                     <CoursesSection courses={courses || []} />
                     <BookSection books={books || []} />

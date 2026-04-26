@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\FrontendContentController;
+use App\Http\Controllers\Admin\FreeClassLeadController as AdminFreeClassLeadController;
 use App\Http\Controllers\Frontend\BookOrderController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\CourseRegistrationController;
 use App\Http\Controllers\Frontend\CourseReviewController;
+use App\Http\Controllers\Frontend\FreeClassLeadController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\LandingPageController;
 use App\Http\Controllers\LanguageController;
@@ -41,6 +43,9 @@ Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 Route::get('/page/{slug}', [PageController::class, 'show'])->name('page.show');
+
+// Free Class Lead
+Route::post('/free-class-leads', [FreeClassLeadController::class, 'store'])->name('free-class-leads.store');
 
 // Language Switching
 Route::get('/language/{locale}', [LanguageController::class, 'switch'])
@@ -110,6 +115,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [\App\Http\Controllers\Admin\AboutController::class, 'index'])->name('index');
         Route::post('/update', [\App\Http\Controllers\Admin\AboutController::class, 'update'])->name('update');
     });
+
+    // Free Class Leads
+    Route::get('/admin/free-class-leads', [AdminFreeClassLeadController::class, 'index'])->name('admin.free-class-leads.index');
+    Route::patch('/admin/free-class-leads/{lead}/status', [AdminFreeClassLeadController::class, 'updateStatus'])->name('admin.free-class-leads.status');
+    Route::patch('/admin/free-class-leads/{lead}/notes', [AdminFreeClassLeadController::class, 'updateNotes'])->name('admin.free-class-leads.notes');
+    Route::delete('/admin/free-class-leads/{lead}', [AdminFreeClassLeadController::class, 'destroy'])->name('admin.free-class-leads.destroy');
 });
 
 // We need here route for artisan migrtae and seed
