@@ -410,6 +410,14 @@ class FrontendController extends Controller
     }
 
     /**
+     * Show Why Choose Us page.
+     */
+    public function whyChooseUs(): Response
+    {
+        return Inertia::render('WhyChooseUs/Index');
+    }
+
+    /**
      * Show Contact page.
      */
     public function contact(): Response

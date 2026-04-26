@@ -39,6 +39,7 @@ Route::get('/instructors', [FrontendController::class, 'instructors'])->name('in
 Route::get('/instructors/{instructor}', [FrontendController::class, 'showInstructor'])->name('instructors.show');
 
 // Static Pages
+Route::get('/why-choose-us', [FrontendController::class, 'whyChooseUs'])->name('why-choose-us');
 Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');

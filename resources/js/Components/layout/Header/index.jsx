@@ -35,6 +35,10 @@ export default function Header() {
             href: route("galleries.index"),
         },
         {
+            name: content.menu_why_choose_us || "Why Choose Us",
+            href: route("why-choose-us"),
+        },
+        {
             name: content.menu_contact || "Contact",
             href: route("contact"),
         },
