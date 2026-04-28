@@ -87,29 +87,28 @@ export default function Show({ book, relatedBooks }) {
                                 <span className="inline-flex items-center  px-1 py-1 text-sm font-medium text-primary-600 dark:bg-primary-900/30 dark:text-primary-400 mb-4">
                                     {book.author}
                                 </span>
-                                <div className="mt-6">
+                                <div className="mt-0">
                                     <h2 className="sr-only">
                                         Product information
                                     </h2>
-                                    <div className="flex items-center gap-4">
-                                        {hasDiscount && (
-                                            <p className="text-xl text-gray-500 line-through dark:text-gray-400">
-                                                {formatPrice(book.price)}
-                                            </p>
-                                        )}
-                                        <p className="text-3xl font-bold tracking-tight text-primary-600 dark:text-primary-400">
+                                    <div className="flex flex-wrap items-center gap-2.5 sm:gap-4">
+                                        <p className="text-2xl sm:text-3xl font-bold tracking-tight text-primary-600 dark:text-primary-400">
                                             {formatPrice(discountedPrice)}
                                         </p>
                                         {hasDiscount && (
-                                            <span className="inline-flex items-center rounded-md bg-red-100 px-2.5 py-0.5 text-xs text-red-800 dark:bg-red-900/30 dark:text-red-300">
-                                                Save {Math.round(book.discount)}
-                                                %
+                                            <p className="text-lg sm:text-xl text-gray-500 line-through dark:text-gray-400">
+                                                {formatPrice(book.price)}
+                                            </p>
+                                        )}
+                                        {hasDiscount && (
+                                            <span className="inline-flex items-center rounded-md bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900/30 dark:text-red-300">
+                                                Save {Math.round(book.discount)}%
                                             </span>
                                         )}
                                     </div>
                                 </div>
 
-                                <div className="mt-8">
+                                <div className="mt-4">
                                     <h3 className="sr-only">Description</h3>
                                     <div className="prose prose-sm xl:prose-base text-gray-600 dark:text-gray-300 dark:prose-invert max-w-none">
                                         {/* Render HTML content safely */}
