@@ -98,26 +98,33 @@ export default function InstructorShow({ instructor }) {
                                                     </svg>
                                                     About
                                                 </h2>
-                                                <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm sm:text-base">
-                                                    <span className="font-semibold text-gray-800 dark:text-gray-200">
-                                                        {instructor.name}
-                                                    </span>{" "}
-                                                    is a dedicated{" "}
-                                                    {instructor.designation && (
-                                                        <span>{instructor.designation.toLowerCase()}</span>
-                                                    )}
-                                                    {instructor.department && (
-                                                        <>
-                                                            {" "}in the{" "}
-                                                            <span className="font-medium text-gray-700 dark:text-gray-300">
-                                                                {instructor.department}
-                                                            </span>{" "}
-                                                            department
-                                                        </>
-                                                    )}
-                                                    . They are passionate about teaching and committed to
-                                                    helping students achieve their educational goals.
-                                                </p>
+                                                {instructor.description ? (
+                                                    <div
+                                                        className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm sm:text-base whitespace-pre-wrap"
+                                                        dangerouslySetInnerHTML={{ __html: instructor.description }}
+                                                    />
+                                                ) : (
+                                                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm sm:text-base">
+                                                        <span className="font-semibold text-gray-800 dark:text-gray-200">
+                                                            {instructor.name}
+                                                        </span>{" "}
+                                                        is a dedicated{" "}
+                                                        {instructor.designation && (
+                                                            <span>{instructor.designation.toLowerCase()}</span>
+                                                        )}
+                                                        {instructor.department && (
+                                                            <>
+                                                                {" "}in the{" "}
+                                                                <span className="font-medium text-gray-700 dark:text-gray-300">
+                                                                    {instructor.department}
+                                                                </span>{" "}
+                                                                department
+                                                            </>
+                                                        )}
+                                                        . They are passionate about teaching and committed to
+                                                        helping students achieve their educational goals.
+                                                    </p>
+                                                )}
                                             </div>
 
                                             {/* Back */}

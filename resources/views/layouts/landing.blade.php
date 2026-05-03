@@ -27,14 +27,15 @@
   @vite(['resources/css/app.css'])
   <script src="{{ asset('js/alpine.min.js') }}" defer></script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
+  <link href="https://fonts.maateen.me/nikosh/font.css" rel="stylesheet">
 
   @include('frontend.partials.landing.styles')
 
   <style>
     .bengali-text {
-      font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Inter', 'Segoe UI', Arial, sans-serif;
+      font-family: 'Nikosh', 'Noto Sans Bengali', 'Inter', 'Segoe UI', Arial, sans-serif;
       letter-spacing: 0;
       word-spacing: 0.02em;
       text-rendering: optimizeLegibility;

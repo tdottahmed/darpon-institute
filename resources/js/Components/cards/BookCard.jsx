@@ -17,9 +17,9 @@ export default function BookCard({ book }) {
         : Number(book.price);
 
     return (
-        <div className="group relative flex h-full flex-col min-h-[520px] overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+        <div className="group relative flex h-full flex-col min-h-[480px] overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
             {/* Image / Cover */}
-            <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
+            <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
                 <img
                     src={
                         book.cover_image
@@ -67,13 +67,20 @@ export default function BookCard({ book }) {
                 {/* Footer */}
                 <div className="mt-auto space-y-3 pt-4 border-t border-gray-100 dark:border-gray-700">
                     {/* Price */}
-                    <div className="flex items-baseline gap-2">
-                        <span className="text-xl font-bold text-primary-600 dark:text-primary-400 leading-none">
-                            {formatPrice(discountedPrice)}
-                        </span>
+                    <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-baseline gap-2">
+                            <span className="text-xl font-bold text-primary-600 dark:text-primary-400 leading-none">
+                                {formatPrice(discountedPrice)}
+                            </span>
+                            {hasDiscount && (
+                                <span className="text-sm text-gray-400 line-through leading-none">
+                                    {formatPrice(book.price)}
+                                </span>
+                            )}
+                        </div>
                         {hasDiscount && (
-                            <span className="text-sm text-gray-400 line-through leading-none">
-                                {formatPrice(book.price)}
+                            <span className="inline-flex items-center rounded-lg bg-red-50 px-2.5 py-1 text-sm font-bold text-red-600 dark:bg-red-900/20 dark:text-red-400">
+                                -{Math.round(book.discount)}%
                             </span>
                         )}
                     </div>

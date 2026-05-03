@@ -10,6 +10,7 @@ class Teacher extends Model
         'name',
         'designation',
         'department',
+        'description',
         'image_path',
         'order',
         'is_active',
