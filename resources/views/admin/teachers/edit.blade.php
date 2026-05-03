@@ -39,6 +39,11 @@
           </div>
         </div>
 
+        <!-- Description -->
+        <div>
+          <x-forms.rich-text label="Description" name="description" id="description" :value="old('description', $teacher->description)" :error="$errors->first('description')" height="200px" />
+        </div>
+
         <!-- Image -->
         <div>
           <x-forms.label for="image">Profile Image</x-forms.label>
