@@ -58,14 +58,14 @@ export default function BookCard({ book }) {
                 </p>
 
                 {/* Short Description */}
-                {book.short_description && (
+                {/* {book.short_description && (
                     <p className="mb-4 flex-1 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                         {truncateWords(book.short_description, 20)}
                     </p>
-                )}
+                )} */}
 
                 {/* Footer */}
-                <div className="mt-auto space-y-3 pt-4 border-t border-gray-100 dark:border-gray-700">
+                <div className="mt-auto space-y-3">
                     {/* Price */}
                     <div className="flex items-center justify-between gap-2">
                         <div className="flex items-baseline gap-2">
