@@ -1,5 +1,6 @@
 import DarkModeToggle from "@/Components/DarkModeToggle";
 import LanguageSwitcher from "@/Components/LanguageSwitcher";
+import SeoHead from "@/Components/SeoHead";
 import { Link } from "@inertiajs/react";
 import ToastListener from "@/Components/ToastListener";
 import Logo from "@/Components/layout/Header/Logo";
@@ -8,6 +9,7 @@ import SectionBackground from "@/Components/ui/SectionBackground";
 export default function GuestLayout({ children }) {
     return (
         <div className="relative flex min-h-screen flex-col items-center justify-center bg-slate-50 pt-6 dark:bg-slate-900 sm:pt-0 overflow-hidden">
+            <SeoHead />
             <SectionBackground variant="a" />
             <ToastListener />
             

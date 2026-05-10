@@ -1,4 +1,4 @@
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
@@ -21,7 +21,6 @@ export default function InstructorIndex({ instructors, filters }) {
 
     return (
         <>
-            <Head title="Instructors" />
             <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
                 <Header />
                 <main className="flex-grow">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Teacher;
+use App\Support\FocusKeyphraseNormalizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -51,18 +52,22 @@ class TeacherController extends Controller
             'designation' => 'required|string|max:255',
             'department' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'focus_keyphrase_options' => 'nullable|string',
+            'seo_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:500',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'order' => 'integer|min:0',
             'is_active' => 'boolean',
         ]);
 
         $data = $validated;
-        
+        $data['focus_keyphrase_options'] = FocusKeyphraseNormalizer::toArray($request->input('focus_keyphrase_options', ''));
+
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('teachers', 'public');
             $data['image_path'] = $path;
         }
-        
+
         // Handle boolean checkbox which might not be present if unchecked
         $data['is_active'] = $request->has('is_active');
         unset($data['image']);
@@ -91,12 +96,16 @@ class TeacherController extends Controller
             'designation' => 'required|string|max:255',
             'department' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'focus_keyphrase_options' => 'nullable|string',
+            'seo_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:500',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'order' => 'integer|min:0',
             'is_active' => 'boolean',
         ]);
 
         $data = $validated;
+        $data['focus_keyphrase_options'] = FocusKeyphraseNormalizer::toArray($request->input('focus_keyphrase_options', ''));
 
         if ($request->hasFile('image')) {
             // Delete old image if exists

@@ -1,4 +1,4 @@
-import { Head, Link, router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
@@ -28,7 +28,6 @@ export default function Index({ books, filters, trans }) {
 
     return (
         <>
-            <Head title="Library - English Learning Platform" />
             <div className="relative min-h-screen bg-white dark:bg-gray-900 overflow-hidden">
                 <Header />
                 <main className="relative z-10 pb-20">

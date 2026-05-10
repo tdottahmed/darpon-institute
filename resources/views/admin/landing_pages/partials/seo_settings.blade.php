@@ -20,18 +20,29 @@
       <input type="hidden" name="tab" value="seo">
 
       <div class="space-y-6">
-      <x-forms.input name="meta_title" label="Meta Title" 
-                     :value="old('meta_title', isset($landingPage) ? $landingPage->meta_title : '')" 
-                     :error="$errors->first('meta_title')"
-                     placeholder="SEO title (50-60 characters recommended)" 
-                     help="Title for search engines and browser tabs. Should be descriptive and include keywords." />
-      
-      <x-forms.textarea name="meta_description" label="Meta Description" 
-                        :value="old('meta_description', isset($landingPage) ? $landingPage->meta_description : '')" 
-                        rows="3"
-                        :error="$errors->first('meta_description')"
-                        placeholder="SEO description (150-160 characters recommended)"
-                        help="Brief description that appears in search engine results. Should be compelling and include key information." />
+      <div class="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">SEO copy</h3>
+          <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Target phrases and snippets for search results.</p>
+        </div>
+        <x-forms.textarea name="focus_keyphrase_options" label="Focus keyphrase" rows="2" :value="old(
+            'focus_keyphrase_options',
+            isset($landingPage) && is_array($landingPage->focus_keyphrase_options) && count($landingPage->focus_keyphrase_options) ? implode(', ', $landingPage->focus_keyphrase_options) : '',
+        )" :error="$errors->first('focus_keyphrase_options')"
+                          help="Optional. One phrase or several—separate with commas or new lines." />
+        <x-forms.input name="meta_title" label="SEO title"
+                       :value="old('meta_title', isset($landingPage) ? $landingPage->meta_title : '')"
+                       :error="$errors->first('meta_title')"
+                       placeholder="SEO title (50-60 characters recommended)"
+                       help="Title for search engines and browser tabs. Should be descriptive and include keywords." />
+
+        <x-forms.textarea name="meta_description" label="Meta description"
+                          :value="old('meta_description', isset($landingPage) ? $landingPage->meta_description : '')"
+                          rows="3"
+                          :error="$errors->first('meta_description')"
+                          placeholder="SEO description (150-160 characters recommended)"
+                          help="Brief description that appears in search engine results. Should be compelling and include key information." />
+      </div>
       
       <x-forms.image-uploader name="meta_image" label="Meta Image (OG Image)" 
                               :value="old('meta_image', isset($landingPage) && $landingPage->meta_image ? Storage::url($landingPage->meta_image) : '')"
@@ -58,9 +69,9 @@
             <h3 class="text-sm font-medium text-blue-800">SEO Best Practices</h3>
             <div class="mt-2 text-sm text-blue-700">
               <ul class="list-disc space-y-1 pl-5">
-                <li><strong>Meta Title:</strong> Keep it between 50-60 characters. Include the book name and key benefit.</li>
-                <li><strong>Meta Description:</strong> Keep it between 150-160 characters. Write a compelling summary that encourages clicks.</li>
-                <li><strong>Meta Image:</strong> Use high-quality images (1200x630px) that represent your book well. Images with text should be readable at small sizes.</li>
+                <li><strong>SEO title:</strong> Keep it between 50–60 characters. Include the product name and a clear benefit.</li>
+                <li><strong>Meta description:</strong> Keep it around 150–160 characters. Write a compelling summary that encourages clicks.</li>
+                <li><strong>Meta image:</strong> Use high-quality images (1200×630px). Text on images should stay readable when scaled down.</li>
               </ul>
             </div>
           </div>
@@ -79,6 +90,7 @@
             {{ isset($landingPage) ? 'Update SEO Settings' : 'Save SEO Settings' }}
           </x-button>
         </div>
+      </div>
       </div>
     </form>
   </x-card>

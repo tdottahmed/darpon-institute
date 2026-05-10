@@ -1,4 +1,4 @@
-import { Head, useForm, usePage, Link } from "@inertiajs/react";
+import { useForm, usePage, Link } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
@@ -129,7 +129,6 @@ export default function Checkout({ book, order = null, isNewUser = false }) {
 
         return (
             <>
-                <Head title={`Order Confirmation - ${book.title}`} />
                 <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 font-sans flex flex-col">
                     <Header />
 
@@ -465,7 +464,6 @@ export default function Checkout({ book, order = null, isNewUser = false }) {
     // ── Checkout form ────────────────────────────────────────────────────────
     return (
         <>
-            <Head title={`Checkout - ${book.title}`} />
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100">
                 <Header />
 

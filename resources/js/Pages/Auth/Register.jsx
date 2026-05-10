@@ -3,7 +3,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/ui/PrimaryButton";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head, Link, useForm, usePage } from "@inertiajs/react";
+import { Link, useForm, usePage } from "@inertiajs/react";
 
 export default function Register() {
     const { translations } = usePage().props;
@@ -25,8 +25,6 @@ export default function Register() {
 
     return (
         <GuestLayout>
-            <Head title={t.register || "Register"} />
-
             <div className="mb-4 text-center">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                     {t.register || "Create Account"}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
@@ -267,7 +267,6 @@ export default function WhyChooseUsIndex() {
 
     return (
         <>
-            <Head title={`${c.page_hero_title || "Why Choose Us"} — Darpon English`} />
             <div className="min-h-screen bg-white dark:bg-gray-900">
                 <Header />
                 <main>

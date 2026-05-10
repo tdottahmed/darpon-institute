@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseVariation;
+use App\Support\FocusKeyphraseNormalizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -62,6 +63,9 @@ class CourseController extends Controller
             'short_description' => 'nullable|string',
             'tags' => 'nullable|string', // Comma separated
             'long_description' => 'nullable|string',
+            'focus_keyphrase_options' => 'nullable|string',
+            'seo_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:500',
             'duration' => 'nullable|string',
             'price' => 'nullable|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',
@@ -105,6 +109,8 @@ class CourseController extends Controller
         } else {
             $validated['tags'] = [];
         }
+
+        $validated['focus_keyphrase_options'] = FocusKeyphraseNormalizer::toArray($request->input('focus_keyphrase_options', ''));
 
         // Set default discount_type if not provided
         if (!isset($validated['discount_type']) || empty($validated['discount_type'])) {
@@ -165,6 +171,9 @@ class CourseController extends Controller
             'short_description' => 'nullable|string',
             'tags' => 'nullable|string',
             'long_description' => 'nullable|string',
+            'focus_keyphrase_options' => 'nullable|string',
+            'seo_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:500',
             'duration' => 'nullable|string',
             'price' => 'nullable|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',
@@ -215,6 +224,8 @@ class CourseController extends Controller
         } else {
             $validated['tags'] = [];
         }
+
+        $validated['focus_keyphrase_options'] = FocusKeyphraseNormalizer::toArray($request->input('focus_keyphrase_options', ''));
 
         // Set default discount_type if not provided
         if (!isset($validated['discount_type']) || empty($validated['discount_type'])) {

@@ -28,17 +28,25 @@
             <x-forms.rich-text name="content" label="Content" :value="old('content', $customPage->content)" :error="$errors->first('content')" required />
           </div>
 
-          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <!-- SEO -->
+          <div class="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
             <div>
-              <x-forms.input label="Meta Title" type="text" id="meta_title" name="meta_title"
-                             value="{{ old('meta_title', $customPage->meta_title) }}" placeholder="SEO Meta Title"
-                             :error="$errors->first('meta_title')" />
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">SEO</h3>
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Optional fields for search snippets and on-page
+                relevance.</p>
             </div>
-            <div>
-              <x-forms.input label="Meta Description" type="text" id="meta_description" name="meta_description"
-                             value="{{ old('meta_description', $customPage->meta_description) }}"
-                             placeholder="SEO Meta Description" :error="$errors->first('meta_description')" />
-            </div>
+            <x-forms.textarea name="focus_keyphrase_options" label="Focus keyphrase" rows="2" :value="old(
+                'focus_keyphrase_options',
+                is_array($customPage->focus_keyphrase_options) && count($customPage->focus_keyphrase_options) ? implode(', ', $customPage->focus_keyphrase_options) : '',
+            )" :error="$errors->first('focus_keyphrase_options')"
+                              help="Optional. One phrase or several—separate with commas or new lines." />
+            <x-forms.input label="SEO title" type="text" id="meta_title" name="meta_title"
+                           value="{{ old('meta_title', $customPage->meta_title) }}" placeholder="Shown in search results and browser tab"
+                           :error="$errors->first('meta_title')"
+                           help="Leave blank to fall back to the page title. Often 50–60 characters." />
+            <x-forms.textarea name="meta_description" label="Meta description" :value="old('meta_description', $customPage->meta_description)" rows="3"
+                              :error="$errors->first('meta_description')"
+                              help="Brief summary for search results. Aim for roughly 150–160 characters." />
           </div>
 
           <div class="flex items-center gap-2">

@@ -1,4 +1,4 @@
-import { Head, Link, router, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
@@ -55,7 +55,6 @@ export default function GalleryIndex({ galleries }) {
 
     return (
         <>
-            <Head title="Gallery - Image Gallery" />
             <div className="min-h-screen bg-white dark:bg-gray-900">
                 <Header />
                 <main>
