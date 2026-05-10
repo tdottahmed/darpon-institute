@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\LandingPage;
 use App\Models\Book;
+use App\Support\FocusKeyphraseNormalizer;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -57,6 +58,7 @@ class LandingPageController extends Controller
     public function store(Request $request)
     {
         $validated = $this->validateRequest($request);
+        $validated['focus_keyphrase_options'] = $this->normalizeFocusKeyphraseOptions($request);
 
         // Verify book exists
         $book = Book::find($validated['product_id']);
@@ -121,6 +123,7 @@ class LandingPageController extends Controller
     public function update(Request $request, LandingPage $landingPage)
     {
         $validated = $this->validateRequest($request, $landingPage);
+        $validated['focus_keyphrase_options'] = $this->normalizeFocusKeyphraseOptions($request);
 
         // Verify book exists
         $book = Book::find($validated['product_id']);
@@ -256,6 +259,9 @@ class LandingPageController extends Controller
                 break;
             case 'author':
                 $this->handleAuthorInfo($request, $validated, $landing_page);
+                break;
+            case 'seo':
+                $this->handleSeoTab($request, $validated, $landing_page);
                 break;
             default:
                 $this->handleJsonFields($request, $validated, $landing_page);
@@ -393,6 +399,7 @@ class LandingPageController extends Controller
 
             case 'seo':
                 $rules = [
+                    'focus_keyphrase_options' => 'nullable|string',
                     'meta_title' => 'nullable|string|max:255',
                     'meta_description' => 'nullable|string|max:500',
                     'meta_image' => 'nullable|image|max:2048',
@@ -489,6 +496,7 @@ class LandingPageController extends Controller
             'show_features' => 'boolean',
             'show_pricing' => 'boolean',
             'show_order' => 'boolean',
+            'focus_keyphrase_options' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
             'meta_image' => 'nullable|image|max:2048',
@@ -903,6 +911,36 @@ class LandingPageController extends Controller
             if (is_null($landingPage->$key) || $landingPage->$key === '') {
                 $landingPage->$key = $value;
             }
+        }
+    }
+
+    /**
+     * @return list<string>
+     */
+    protected function normalizeFocusKeyphraseOptions(Request $request): array
+    {
+        return FocusKeyphraseNormalizer::toArray($request->input('focus_keyphrase_options', ''));
+    }
+
+    /**
+     * SEO tab: focus keyphrases + meta image upload/remove (without touching hero files).
+     */
+    protected function handleSeoTab(Request $request, array &$validated, LandingPage $landingPage): void
+    {
+        $validated['focus_keyphrase_options'] = $this->normalizeFocusKeyphraseOptions($request);
+
+        if ($request->hasFile('meta_image')) {
+            if ($landingPage->meta_image) {
+                Storage::disk('public')->delete($landingPage->meta_image);
+            }
+            $validated['meta_image'] = $request->file('meta_image')->store('landing_pages/meta', 'public');
+        } elseif ($request->has('meta_image_remove')) {
+            if ($landingPage->meta_image) {
+                Storage::disk('public')->delete($landingPage->meta_image);
+            }
+            $validated['meta_image'] = null;
+        } else {
+            unset($validated['meta_image']);
         }
     }
 

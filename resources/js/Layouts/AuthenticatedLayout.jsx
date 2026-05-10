@@ -1,4 +1,5 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
+import SeoHead from "@/Components/SeoHead";
 import AuthenticatedFooter from "@/Components/layout/AuthenticatedFooter";
 import Avatar from "@/Components/ui/Avatar";
 import DarkModeToggle from "@/Components/DarkModeToggle";
@@ -21,6 +22,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+            <SeoHead />
             <ToastListener />
 
             {/* Top Navigation Bar - Fixed at top */}

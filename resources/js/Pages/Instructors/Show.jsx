@@ -1,4 +1,4 @@
-import { Head, Link } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
@@ -7,7 +7,6 @@ import CTASection from "@/Components/sections/CTASection";
 export default function InstructorShow({ instructor }) {
     return (
         <>
-            <Head title={`${instructor.name} - Instructor`} />
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
                 <Header />
                 <main className="flex-grow">

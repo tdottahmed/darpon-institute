@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage, router } from "@inertiajs/react";
+import { usePage, router } from "@inertiajs/react";
 import { useEffect } from "react";
 import WelcomeSection from "@/Components/dashboard/WelcomeSection";
 import PurchaseHistory from "@/Components/dashboard/PurchaseHistory";
@@ -65,8 +65,6 @@ export default function Dashboard({ bookOrders, courseRegistrations }) {
 
     return (
         <AuthenticatedLayout>
-            <Head title={t.dashboard || "Dashboard"} />
-
             <div className="space-y-6">{renderContent()}</div>
         </AuthenticatedLayout>
     );

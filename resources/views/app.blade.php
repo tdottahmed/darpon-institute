@@ -5,31 +5,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title inertia>{{ config('app.name', 'Laravel') }}</title>
+  @php
+    $pageSeo = app(\App\Services\Seo\FrontendSeoResolver::class)->resolve(request());
+  @endphp
+  <title inertia>{{ $pageSeo['title'] ?? config('app.name', 'Laravel') }}</title>
 
   <!-- Favicon -->
   <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png" />
   <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/png" />
 
-  <!-- Global Meta Configuration -->
-  @php
-    $seoTitle = \App\Models\Setting::get('seo_meta_title') ?: config('app.name', 'Laravel');
-    $seoDesc = \App\Models\Setting::get('seo_meta_description');
-    $seoKeywords = \App\Models\Setting::get('seo_meta_keywords');
-    $seoAuthor = \App\Models\Setting::get('seo_meta_author');
-    $seoOgImage = \App\Models\Setting::get('seo_og_image');
-  @endphp
-
-  @if($seoDesc) <meta name="description" content="{{ $seoDesc }}"> @endif
-  @if($seoKeywords) <meta name="keywords" content="{{ $seoKeywords }}"> @endif
-  @if($seoAuthor) <meta name="author" content="{{ $seoAuthor }}"> @endif
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="{{ $seoTitle }}">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ url()->current() }}">
-  @if($seoDesc) <meta property="og:description" content="{{ $seoDesc }}"> @endif
-  @if($seoOgImage) <meta property="og:image" content="{{ \Illuminate\Support\Facades\Storage::url($seoOgImage) }}"> @endif
+  <x-seo.head :seo="$pageSeo" />
 
   <!-- Fonts: Times New Roman + SutonnyMJ via vite resources/css/app.css -->
 
@@ -38,6 +23,7 @@
     $sitemapUrl = \App\Models\Setting::get('sitemap_url');
     $rssFeedUrl = \App\Models\Setting::get('rss_feed_url');
   @endphp
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ route('sitemap.index', absolute: true) }}">
   @if($sitemapUrl)
     <link rel="sitemap" type="application/xml" href="{{ $sitemapUrl }}">
   @endif

@@ -1,18 +1,10 @@
 import Footer from "@/Components/layout/Footer";
 import Header from "@/Components/layout/Header";
 import CTASection from "@/Components/sections/CTASection";
-import { Head } from "@inertiajs/react";
 
 export default function CustomPage({ page }) {
     return (
         <>
-            <Head>
-                <title>{page.meta_title ? page.meta_title : page.title}</title>
-                {page.meta_description && (
-                    <meta name="description" content={page.meta_description} />
-                )}
-            </Head>
-            
             <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
                 <Header />
                 <main className="flex-1 bg-gray-50 pt-24 pb-16 dark:bg-gray-900">

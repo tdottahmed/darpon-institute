@@ -1,4 +1,4 @@
-import { Head, Link } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import BlogSection from "@/Components/sections/BlogSection";
@@ -31,7 +31,6 @@ export default function Show({ videoBlog, relatedVideoBlogs }) {
 
     return (
         <>
-            <Head title={`${stripHtml(videoBlog.title)} - Video Blogs`} />
             <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
                 <Header />
 

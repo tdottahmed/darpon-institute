@@ -12,10 +12,12 @@ class CustomPage extends Model
         'content',
         'meta_title',
         'meta_description',
+        'focus_keyphrase_options',
         'is_active',
     ];
 
     protected $casts = [
+        'focus_keyphrase_options' => 'array',
         'is_active' => 'boolean',
     ];
 }

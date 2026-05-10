@@ -1,11 +1,10 @@
-import { Head, Link } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 
 export default function ServerError() {
     return (
         <>
-            <Head title="Something went wrong (500)" />
             <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
                 <Header />
                 <main className="flex flex-col items-center justify-center px-4 py-16 sm:py-24">

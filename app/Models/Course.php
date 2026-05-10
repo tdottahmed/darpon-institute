@@ -14,6 +14,9 @@ class Course extends Model implements Feedable
         'short_description',
         'tags',
         'long_description',
+        'focus_keyphrase_options',
+        'seo_title',
+        'meta_description',
         'duration',
         'price',
         'discount',
@@ -26,6 +29,7 @@ class Course extends Model implements Feedable
     ];
 
     protected $casts = [
+        'focus_keyphrase_options' => 'array',
         'tags' => 'array',
         'status' => 'boolean',
         'price' => 'decimal:2',

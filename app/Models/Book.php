@@ -14,6 +14,9 @@ class Book extends Model implements Feedable
         'author',
         'short_description',
         'long_description',
+        'focus_keyphrase_options',
+        'seo_title',
+        'meta_description',
         'tags',
         'cover_image',
         'preview_images',
@@ -24,6 +27,7 @@ class Book extends Model implements Feedable
     ];
 
     protected $casts = [
+        'focus_keyphrase_options' => 'array',
         'tags' => 'array',
         'preview_images' => 'array',
         'status' => 'boolean',

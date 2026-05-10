@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Support\FocusKeyphraseNormalizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -49,6 +50,9 @@ class BookController extends Controller
             'author' => 'required|string|max:255',
             'short_description' => 'nullable|string',
             'long_description' => 'nullable|string',
+            'focus_keyphrase_options' => 'nullable|string',
+            'seo_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:500',
             'tags' => 'nullable|string', // Comma separated
             'cover_image' => 'nullable|image|max:2048', // 2MB
             'preview_images' => 'nullable|array',
@@ -79,6 +83,8 @@ class BookController extends Controller
         } else {
             $validated['tags'] = [];
         }
+
+        $validated['focus_keyphrase_options'] = FocusKeyphraseNormalizer::toArray($request->input('focus_keyphrase_options', ''));
 
         Book::create($validated);
 
@@ -126,6 +132,9 @@ class BookController extends Controller
             'author' => 'required|string|max:255',
             'short_description' => 'nullable|string',
             'long_description' => 'nullable|string',
+            'focus_keyphrase_options' => 'nullable|string',
+            'seo_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:500',
             'tags' => 'nullable|string',
             'cover_image' => 'nullable|image|max:2048',
             'preview_images' => 'nullable|array',
@@ -183,6 +192,8 @@ class BookController extends Controller
         } else {
             $validated['tags'] = [];
         }
+
+        $validated['focus_keyphrase_options'] = FocusKeyphraseNormalizer::toArray($request->input('focus_keyphrase_options', ''));
 
         $book->update($validated);
 

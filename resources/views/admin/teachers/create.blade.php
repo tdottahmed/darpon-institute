@@ -44,6 +44,23 @@
           <x-forms.rich-text label="Description" name="description" id="description" :value="old('description')" :error="$errors->first('description')" height="200px" />
         </div>
 
+        <!-- SEO -->
+        <div class="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/50">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">SEO</h3>
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Optional fields for the public instructor profile and search.</p>
+          </div>
+          <x-forms.textarea name="focus_keyphrase_options" label="Focus keyphrase" rows="2" :value="old('focus_keyphrase_options')"
+                            :error="$errors->first('focus_keyphrase_options')"
+                            help="Optional. One phrase or several—separate with commas or new lines." />
+          <x-forms.input name="seo_title" label="SEO title" :value="old('seo_title')" :error="$errors->first('seo_title')"
+                         help="Shown in search results; leave blank to use the instructor name. Often 50–60 characters."
+                         maxlength="255" />
+          <x-forms.textarea name="meta_description" label="Meta description" :value="old('meta_description')" rows="3"
+                            :error="$errors->first('meta_description')"
+                            help="Brief summary for search results. Aim for roughly 150–160 characters." />
+        </div>
+
         <!-- Image -->
         <div>
           <x-forms.label for="image">Profile Image</x-forms.label>

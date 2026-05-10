@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\LandingPage;
+use App\Services\Seo\FrontendSeoResolver;
 use App\Models\PaymentGateway;
 use Illuminate\Http\Request;
 
@@ -32,6 +33,8 @@ class LandingPageController extends Controller
             }
         }
 
-        return view('frontend.landing_page', compact('landingPage', 'paymentGateways'));
+        $seo = app(FrontendSeoResolver::class)->forLandingPage($landingPage, request());
+
+        return view('frontend.landing_page', compact('landingPage', 'paymentGateways', 'seo'));
     }
 }

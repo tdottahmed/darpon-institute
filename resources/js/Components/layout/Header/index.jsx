@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { usePage } from "@inertiajs/react";
+import SeoHead from "@/Components/SeoHead";
 import ToastListener from "../../ToastListener";
 import LanguageSwitcher from "../../LanguageSwitcher";
 import DarkModeToggle from "../../DarkModeToggle";
@@ -49,6 +50,7 @@ export default function Header() {
 
     return (
         <header className="sticky top-0 left-0 right-0 z-50 bg-[var(--header-footer-bg-light)] dark:bg-[var(--header-footer-bg-dark)] text-[var(--header-footer-text-light)] dark:text-[var(--header-footer-text-dark)] backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors duration-300">
+            <SeoHead />
             <ToastListener />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">

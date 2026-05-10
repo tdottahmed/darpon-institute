@@ -25,6 +25,7 @@ class LandingPage extends Model
         'status',
         'meta_title',
         'meta_description',
+        'focus_keyphrase_options',
         'meta_image',
         // Hero Section
         'hero_main_image',
@@ -89,6 +90,7 @@ class LandingPage extends Model
     ];
 
     protected $casts = [
+        'focus_keyphrase_options' => 'array',
         'custom_images' => 'array',
         'custom_videos' => 'array',
         'hero_preview_images' => 'array',

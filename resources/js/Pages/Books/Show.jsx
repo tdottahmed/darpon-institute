@@ -1,4 +1,4 @@
-import { Head, Link } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import BookSection from "@/Components/sections/BookSection";
@@ -17,7 +17,6 @@ export default function Show({ book, relatedBooks }) {
 
     return (
         <>
-            <Head title={`${book.title} - ${import.meta.env.VITE_APP_NAME}`} />
             <div className="min-h-screen bg-white dark:bg-gray-900">
                 <Header />
 

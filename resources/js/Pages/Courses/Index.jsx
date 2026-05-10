@@ -1,4 +1,4 @@
-import { Head, Link, router, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
@@ -69,7 +69,6 @@ export default function CoursesIndex({ courses, filters }) {
 
     return (
         <>
-            <Head title="All Courses - English Learning Platform" />
             <div className="min-h-screen bg-white dark:bg-gray-900">
                 <Header />
                 <main>

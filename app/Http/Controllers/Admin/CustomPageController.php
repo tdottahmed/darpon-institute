@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\CustomPage;
+use App\Support\FocusKeyphraseNormalizer;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Support\Str;
 
 class CustomPageController extends Controller
@@ -27,13 +27,15 @@ class CustomPageController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string',
+            'meta_description' => 'nullable|string|max:500',
+            'focus_keyphrase_options' => 'nullable|string',
         ]);
 
-        $data = $request->all();
+        $data = $request->only(['title', 'content', 'meta_title', 'meta_description']);
+        $data['focus_keyphrase_options'] = FocusKeyphraseNormalizer::toArray($request->input('focus_keyphrase_options', ''));
         $data['slug'] = Str::slug($request->title);
         $data['is_active'] = $request->has('is_active');
-        
+
         // Ensure slug is unique
         $originalSlug = $data['slug'];
         $count = 1;
@@ -58,10 +60,12 @@ class CustomPageController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string',
+            'meta_description' => 'nullable|string|max:500',
+            'focus_keyphrase_options' => 'nullable|string',
         ]);
 
-        $data = $request->all();
+        $data = $request->only(['title', 'content', 'meta_title', 'meta_description']);
+        $data['focus_keyphrase_options'] = FocusKeyphraseNormalizer::toArray($request->input('focus_keyphrase_options', ''));
         $data['slug'] = Str::slug($request->title);
         $data['is_active'] = $request->has('is_active');
 

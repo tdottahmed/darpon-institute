@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\Seo\FrontendSeoResolver;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -59,6 +60,9 @@ class HandleInertiaRequests extends Middleware
     {
         $props = [
             ...parent::share($request),
+            'seo' => function () use ($request) {
+                return app(FrontendSeoResolver::class)->resolve($request);
+            },
             'auth' => [
                 'user' => $request->user(),
             ],

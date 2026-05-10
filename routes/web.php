@@ -9,6 +9,8 @@ use App\Http\Controllers\Frontend\CourseReviewController;
 use App\Http\Controllers\Frontend\FreeClassLeadController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\LandingPageController;
+use App\Http\Controllers\Frontend\RobotsController;
+use App\Http\Controllers\Frontend\SitemapController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
@@ -26,6 +28,13 @@ Route::get('/api/search', [SearchController::class, 'search'])->name('search.api
 
 // Home Page
 Route::get('/', [FrontendController::class, 'index'])->name('home');
+
+Route::get('/robots.txt', RobotsController::class);
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
+Route::get('/sitemap-books.xml', [SitemapController::class, 'books'])->name('sitemap.books');
+Route::get('/sitemap-courses.xml', [SitemapController::class, 'courses'])->name('sitemap.courses');
+Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages'])->name('sitemap.pages');
+Route::get('/sitemap-teachers.xml', [SitemapController::class, 'teachers'])->name('sitemap.teachers');
 
 // Content Pages
 Route::get('/courses', [FrontendController::class, 'courses'])->name('courses.index');

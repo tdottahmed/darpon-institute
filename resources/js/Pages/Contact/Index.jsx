@@ -1,4 +1,4 @@
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
@@ -64,7 +64,6 @@ export default function ContactIndex() {
 
     return (
         <>
-            <Head title={`Contact Us - ${import.meta.env.VITE_APP_NAME}`} />
             <Header />
 
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900">

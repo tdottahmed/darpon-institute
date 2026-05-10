@@ -10,7 +10,7 @@ import InstructorSection from "@/Components/sections/InstructorSection";
 import TeamSection from "@/Components/sections/TeamSection";
 import TestimonialsSection from "@/Components/sections/TestimonialsSection";
 import WhyChooseUsSection from "@/Components/sections/WhyChooseUsSection";
-import { Head, usePage } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 
 
 export default function Welcome({
@@ -25,7 +25,6 @@ export default function Welcome({
 
     return (
         <>
-            <Head title="English Learning Platform" />
             <div className="min-h-screen bg-white dark:bg-gray-900">
                 <Header />
                 <main>
