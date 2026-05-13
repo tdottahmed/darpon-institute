@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
+  @if(filled($gtmHead ?? null))
+    {!! $gtmHead !!}
+  @endif
+
   @php
     $pageSeo = $seo ?? [];
   @endphp
@@ -59,6 +63,9 @@
 </head>
 
 <body>
+  @if(filled($gtmBody ?? null))
+    {!! $gtmBody !!}
+  @endif
   @yield('landing_content')
 </body>
 

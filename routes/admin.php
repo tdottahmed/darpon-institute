@@ -39,7 +39,7 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
     Route::resource('testimonials', TestimonialController::class);
 
     // Gallery Management
-    Route::resource('galleries', GalleryController::class)->except(['show', 'edit']);
+    Route::resource('galleries', GalleryController::class)->except(['show']);
 
     Route::resource('book-orders', BookOrderController::class)->only(['index', 'show', 'update', 'destroy']);
     Route::get('book-orders/{bookOrder}/invoice', [BookOrderController::class, 'invoice'])->name('book-orders.invoice');

@@ -97,7 +97,10 @@ export default function GallerySection({ galleries = [] }) {
                     </div>
 
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {displayedGalleries.map((gallery, index) => (
+                        {displayedGalleries.map((gallery, index) => {
+                            const altText =
+                                gallery.title?.trim() || "Gallery image";
+                            return (
                             <div
                                 key={gallery.id}
                                 className="section-card-animate group relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
@@ -117,7 +120,7 @@ export default function GallerySection({ galleries = [] }) {
                                                 ? `/storage/${gallery.image}`
                                                 : "/assets/images/placeholder.png"
                                         }
-                                        alt="Gallery Image"
+                                        alt={altText}
                                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                                         loading="lazy"
                                     />
@@ -141,7 +144,8 @@ export default function GallerySection({ galleries = [] }) {
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        );
+                        })}
                     </div>
 
                     <div className="section-animate section-animate-delay-2 text-center mt-10 sm:mt-12">
@@ -221,7 +225,10 @@ export default function GallerySection({ galleries = [] }) {
                                         ? `/storage/${selectedImage.image}`
                                         : "/assets/images/placeholder.png"
                                 }
-                                alt="Gallery Image"
+                                alt={
+                                    selectedImage.title?.trim() ||
+                                    "Gallery image"
+                                }
                                 className="max-w-full max-h-[90vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
                             />
                         </div>
@@ -283,7 +290,10 @@ export default function GallerySection({ galleries = [] }) {
                                                 ? `/storage/${gallery.image}`
                                                 : "/assets/images/placeholder.png"
                                         }
-                                        alt={`Thumbnail ${index + 1}`}
+                                        alt={
+                                            gallery.title?.trim() ||
+                                            `Thumbnail ${index + 1}`
+                                        }
                                         className="h-full w-full object-cover"
                                     />
                                 </button>

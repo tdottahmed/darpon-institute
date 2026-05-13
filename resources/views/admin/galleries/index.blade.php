@@ -25,7 +25,7 @@
                  class="group relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800">
               <!-- Image -->
               <div class="relative aspect-square overflow-hidden bg-gray-100 dark:bg-gray-900">
-                <img src="{{ Storage::url($gallery->image) }}" alt="Gallery Image"
+                <img src="{{ Storage::url($gallery->image) }}" alt="{{ $gallery->title ?: 'Gallery image' }}"
                      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110">
                 <!-- Status Badge -->
                 <div class="absolute right-2 top-2">
@@ -44,8 +44,17 @@
                 @endif
               </div>
 
+              @if ($gallery->title)
+                <div class="border-t border-gray-100 px-3 py-2 dark:border-gray-700">
+                  <p class="truncate text-xs font-medium text-gray-700 dark:text-gray-300" title="{{ $gallery->title }}">{{ $gallery->title }}</p>
+                </div>
+              @endif
               <!-- Actions -->
-              <div class="p-3">
+              <div class="space-y-2 p-3">
+                <x-ui.link href="{{ route('admin.galleries.edit', $gallery) }}" variant="outline" size="md"
+                           class="w-full justify-center !py-2 text-sm">
+                  Edit
+                </x-ui.link>
                 <form action="{{ route('admin.galleries.destroy', $gallery) }}" method="POST" class="delete-form">
                   @csrf
                   @method('DELETE')

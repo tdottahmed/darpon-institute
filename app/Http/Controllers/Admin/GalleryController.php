@@ -28,42 +28,46 @@ class GalleryController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Gallery $gallery)
+    {
+        return view('admin.galleries.edit', compact('gallery'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'images' => 'required|array|min:1',
-            'images.*' => 'required|image|max:5120', // 5MB per image
+            'images.*.title' => 'required|string|max:255',
+            'images.*.image' => 'required|image|mimes:jpeg,jpg,png,gif|max:5120',
             'order' => 'nullable|integer|min:0',
             'status' => 'boolean',
         ]);
 
-        // Handle multiple image uploads
         $uploadedImages = [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('galleries', 'public');
+        $maxOrder = Gallery::max('order') ?? 0;
+        $order = isset($validated['order']) ? (int) $validated['order'] : $maxOrder + 1;
 
-                // Get max order if not provided
-                $maxOrder = Gallery::max('order') ?? 0;
-                $order = isset($validated['order']) ? $validated['order'] : $maxOrder + 1;
+        foreach ($validated['images'] as $index => $row) {
+            $file = $request->file("images.{$index}.image");
+            $path = $file->store('galleries', 'public');
 
-                $gallery = Gallery::create([
-                    'image' => $path,
-                    'order' => $order,
-                    'status' => $validated['status'] ?? true,
-                ]);
+            $uploadedImages[] = Gallery::create([
+                'image' => $path,
+                'title' => $row['title'],
+                'order' => $order,
+                'status' => $validated['status'] ?? true,
+            ]);
 
-                $uploadedImages[] = $gallery;
-
-                // Increment order for next image
-                $order++;
-            }
+            $order++;
         }
 
         return redirect()->route('admin.galleries.index')
-            ->with('status', count($uploadedImages) . ' image(s) uploaded successfully.');
+            ->with('status', count($uploadedImages).' image(s) uploaded successfully.');
     }
 
     /**
@@ -72,11 +76,26 @@ class GalleryController extends Controller
     public function update(Request $request, Gallery $gallery)
     {
         $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:5120',
             'order' => 'nullable|integer|min:0',
             'status' => 'boolean',
         ]);
 
-        $gallery->update($validated);
+        $data = [
+            'title' => $validated['title'],
+            'order' => $validated['order'] ?? $gallery->order,
+            'status' => $validated['status'] ?? $gallery->status,
+        ];
+
+        if ($request->hasFile('image')) {
+            if ($gallery->image) {
+                Storage::disk('public')->delete($gallery->image);
+            }
+            $data['image'] = $request->file('image')->store('galleries', 'public');
+        }
+
+        $gallery->update($data);
 
         return redirect()->route('admin.galleries.index')
             ->with('status', 'Gallery image updated successfully.');

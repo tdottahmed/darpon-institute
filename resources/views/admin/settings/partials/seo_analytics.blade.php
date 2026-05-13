@@ -86,6 +86,24 @@
           This will be used to track website traffic and user behavior.
         </p>
       </div>
+
+      <div class="space-y-4 border-t border-gray-200 pt-6">
+        <h4 class="text-sm font-semibold text-gray-900">Google Tag Manager</h4>
+        <p class="text-xs text-gray-500">
+          Paste the full snippets from your GTM container. The HEAD snippet is injected inside <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">&lt;head&gt;</code>;
+          the BODY snippet (often the <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">&lt;noscript&gt;</code> fallback) is injected immediately after <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">&lt;body&gt;</code>.
+        </p>
+        <div class="space-y-1">
+          <x-forms.label for="gtm_head">Google Tag Manager — HEAD script</x-forms.label>
+          <textarea id="gtm_head" name="gtm_head" rows="6" spellcheck="false" class="block w-full rounded-md border-gray-300 font-mono text-xs shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm" placeholder="&lt;script&gt;...&lt;/script&gt;">{{ old('gtm_head', $settings['gtm_head'] ?? '') }}</textarea>
+          <x-forms.error :message="$errors->first('gtm_head')" />
+        </div>
+        <div class="space-y-1">
+          <x-forms.label for="gtm_body">Google Tag Manager — BODY script</x-forms.label>
+          <textarea id="gtm_body" name="gtm_body" rows="6" spellcheck="false" class="block w-full rounded-md border-gray-300 font-mono text-xs shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm" placeholder="&lt;noscript&gt;...&lt;/noscript&gt;">{{ old('gtm_body', $settings['gtm_body'] ?? '') }}</textarea>
+          <x-forms.error :message="$errors->first('gtm_body')" />
+        </div>
+      </div>
     </div>
   </div>
 </div>
