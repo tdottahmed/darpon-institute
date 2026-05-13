@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Setting;
+use App\View\Composers\GoogleTagManagerComposer;
 use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
+
+        View::composer(['app', 'layouts.landing'], GoogleTagManagerComposer::class);
 
         // Update fraud checker config from database settings
         try {

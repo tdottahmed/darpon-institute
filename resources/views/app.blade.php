@@ -5,6 +5,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  @if(filled($gtmHead ?? null))
+    {!! $gtmHead !!}
+  @endif
+
   @php
     $pageSeo = app(\App\Services\Seo\FrontendSeoResolver::class)->resolve(request());
   @endphp
@@ -55,6 +59,9 @@
 </head>
 
 <body class="font-sans antialiased">
+  @if(filled($gtmBody ?? null))
+    {!! $gtmBody !!}
+  @endif
   @inertia
 </body>
 
