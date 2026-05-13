@@ -34,36 +34,32 @@ class GalleryController extends Controller
     {
         $validated = $request->validate([
             'images' => 'required|array|min:1',
-            'images.*' => 'required|image|max:5120', // 5MB per image
+            'images.*.title' => 'required|string|max:255',
+            'images.*.image' => 'required|image|mimes:jpeg,jpg,png,gif|max:5120',
             'order' => 'nullable|integer|min:0',
             'status' => 'boolean',
         ]);
 
-        // Handle multiple image uploads
         $uploadedImages = [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('galleries', 'public');
+        $maxOrder = Gallery::max('order') ?? 0;
+        $order = isset($validated['order']) ? (int) $validated['order'] : $maxOrder + 1;
 
-                // Get max order if not provided
-                $maxOrder = Gallery::max('order') ?? 0;
-                $order = isset($validated['order']) ? $validated['order'] : $maxOrder + 1;
+        foreach ($validated['images'] as $index => $row) {
+            $file = $request->file("images.{$index}.image");
+            $path = $file->store('galleries', 'public');
 
-                $gallery = Gallery::create([
-                    'image' => $path,
-                    'order' => $order,
-                    'status' => $validated['status'] ?? true,
-                ]);
+            $uploadedImages[] = Gallery::create([
+                'image' => $path,
+                'title' => $row['title'],
+                'order' => $order,
+                'status' => $validated['status'] ?? true,
+            ]);
 
-                $uploadedImages[] = $gallery;
-
-                // Increment order for next image
-                $order++;
-            }
+            $order++;
         }
 
         return redirect()->route('admin.galleries.index')
-            ->with('status', count($uploadedImages) . ' image(s) uploaded successfully.');
+            ->with('status', count($uploadedImages).' image(s) uploaded successfully.');
     }
 
     /**
