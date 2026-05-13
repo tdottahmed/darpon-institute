@@ -50,7 +50,11 @@
                 </div>
               @endif
               <!-- Actions -->
-              <div class="p-3">
+              <div class="space-y-2 p-3">
+                <x-ui.link href="{{ route('admin.galleries.edit', $gallery) }}" variant="outline" size="md"
+                           class="w-full justify-center !py-2 text-sm">
+                  Edit
+                </x-ui.link>
                 <form action="{{ route('admin.galleries.destroy', $gallery) }}" method="POST" class="delete-form">
                   @csrf
                   @method('DELETE')

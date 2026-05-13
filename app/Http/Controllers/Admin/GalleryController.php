@@ -28,6 +28,14 @@ class GalleryController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Gallery $gallery)
+    {
+        return view('admin.galleries.edit', compact('gallery'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -68,11 +76,26 @@ class GalleryController extends Controller
     public function update(Request $request, Gallery $gallery)
     {
         $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:5120',
             'order' => 'nullable|integer|min:0',
             'status' => 'boolean',
         ]);
 
-        $gallery->update($validated);
+        $data = [
+            'title' => $validated['title'],
+            'order' => $validated['order'] ?? $gallery->order,
+            'status' => $validated['status'] ?? $gallery->status,
+        ];
+
+        if ($request->hasFile('image')) {
+            if ($gallery->image) {
+                Storage::disk('public')->delete($gallery->image);
+            }
+            $data['image'] = $request->file('image')->store('galleries', 'public');
+        }
+
+        $gallery->update($data);
 
         return redirect()->route('admin.galleries.index')
             ->with('status', 'Gallery image updated successfully.');
