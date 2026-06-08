@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CustomPage;
 use App\Support\FocusKeyphraseNormalizer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class CustomPageController extends Controller
@@ -46,6 +47,8 @@ class CustomPageController extends Controller
 
         CustomPage::create($data);
 
+        Cache::forget('active_custom_pages');
+
         return redirect()->route('admin.custom-pages.index')->with('success', 'Page created successfully.');
     }
 
@@ -78,12 +81,17 @@ class CustomPageController extends Controller
 
         $customPage->update($data);
 
+        Cache::forget('active_custom_pages');
+
         return redirect()->route('admin.custom-pages.index')->with('success', 'Page updated successfully.');
     }
 
     public function destroy(CustomPage $customPage)
     {
         $customPage->delete();
+
+        Cache::forget('active_custom_pages');
+
         return redirect()->back()->with('success', 'Page deleted successfully.');
     }
 }
