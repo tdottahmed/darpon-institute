@@ -162,7 +162,7 @@ class FrontendController extends Controller
             $query->whereJsonContains('tags', $request->tag);
         }
 
-        $books = $query->latest()->paginate(6)->withQueryString();
+        $books = $query->latest()->paginate(20)->withQueryString();
 
         return Inertia::render('Books/Index', [
             'books' => $books,
@@ -352,8 +352,8 @@ class FrontendController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('designation', 'like', "%{$search}%")
-                  ->orWhere('department', 'like', "%{$search}%");
+                    ->orWhere('designation', 'like', "%{$search}%")
+                    ->orWhere('department', 'like', "%{$search}%");
             });
         }
 
@@ -389,7 +389,7 @@ class FrontendController extends Controller
     {
         $contents = \App\Models\FrontendContent::where('section', 'about_page')->get();
         $locale = app()->getLocale();
-        
+
         $content = [
             'page_title' => $contents->where('key', 'page_title')->first()->value[$locale] ?? $contents->where('key', 'page_title')->first()->value['en'] ?? 'About Us',
             'page_subtitle' => $contents->where('key', 'page_subtitle')->first()->value[$locale] ?? $contents->where('key', 'page_subtitle')->first()->value['en'] ?? 'Learn more about our mission, vision, and commitment to English education',
