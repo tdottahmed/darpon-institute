@@ -9,11 +9,9 @@
     --section-bg: #e3f2fd;
   }
 
-  /* Unified font stack for Bengali + English */
-  html,
-  body {
-    font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Inter', 'Segoe UI', Arial, sans-serif;
-  }
+  /* html, body {
+    font-family: 'SutonnyMJ'
+  } */
 
   body {
     color: var(--dark-text);
@@ -21,16 +19,28 @@
     padding: 0;
   }
 
+  /* h1, h2, h3, h4, h5, h6, p, span, a, li, td, th, label, button, input, textarea {
+    font-family: 'SutonnyMJ'
+  }
+
   .bengali-text {
-    font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'SutonnyMJ'
     letter-spacing: 0;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+  } */
+
+  h1 {
+    font-size: 2.5rem;
   }
 
-  h1 { font-size: 2.5rem; }
-  h2 { font-size: 2rem; }
-  h3 { font-size: 1.5rem; }
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
 
   /* Consistent Container System */
   .container {
@@ -68,16 +78,24 @@
   }
 
   @media (max-width: 768px) {
-    h1 { font-size: 1.8rem; }
-    h2 { font-size: 1.5rem; }
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
     .container,
     .container-narrow,
     .container-wide {
       padding: 0 15px;
     }
+
     .section {
       padding: 40px 15px;
     }
+
     .section-lg {
       padding: 50px 15px;
     }
