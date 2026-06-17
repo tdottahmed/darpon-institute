@@ -30,13 +30,13 @@ export default function Welcome({
                 <main>
                     <HeroSection translations={translations} />
                     <InstructorSection />
-                    <WhyChooseUsSection />
-                    <TeamSection teachers={teachers || []} />
-                    <CoursesSection courses={courses || []} />
                     <BookSection books={books || []} />
-                    <GallerySection galleries={galleries || []} />
-                    <TestimonialsSection testimonials={testimonials || []} />
+                    <CoursesSection courses={courses || []} />
+                    <TeamSection teachers={teachers || []} />
                     <BlogSection videoBlogs={videoBlogs || []} />
+                    <GallerySection galleries={galleries || []} />
+                    <WhyChooseUsSection />
+                    <TestimonialsSection testimonials={testimonials || []} />
                     <CTASection translations={translations} />
                 </main>
                 <Footer />
