@@ -109,12 +109,12 @@ class CourseRegistrationController extends Controller
                         ]);
                         $isNewUser = true;
 
-                        // Send email (mandatory, failure rolls back transaction)
+                        // Send email (optional, failure does not roll back transaction)
                         try {
                             Mail::to($user->email)->send(new NewUserPasswordMail($user, $password));
                         } catch (\Exception $mailException) {
-                            logger()->error($mailException->getMessage());
-                            throw new \Exception('Failed to send email. Please check your email address and try again.');
+                            logger()->error('Failed to send email during course enrollment: ' . $mailException->getMessage());
+                            // We do not throw an exception here to allow the enrollment to complete even if SMTP fails
                         }
 
                         Auth::login($user);
@@ -228,12 +228,12 @@ class CourseRegistrationController extends Controller
                         ]);
                         $isNewUser = true;
 
-                        // Send email
+                        // Send email (optional, failure does not roll back transaction)
                         try {
                             Mail::to($user->email)->send(new NewUserPasswordMail($user, $password));
                         } catch (\Exception $mailException) {
-                            logger()->error($mailException->getMessage());
-                            // Continue without failing transaction for email
+                            logger()->error('Failed to send email during landing page course enrollment: ' . $mailException->getMessage());
+                            // We do not throw an exception here to allow the enrollment to complete even if SMTP fails
                         }
 
                         Auth::login($user);
