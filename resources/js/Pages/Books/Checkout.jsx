@@ -561,7 +561,7 @@ export default function Checkout({ book, order = null, isNewUser = false }) {
                                         <div>
                                             <InputLabel
                                                 htmlFor="email"
-                                                value="Email Address"
+                                                value="Email Address (Optional)"
                                             />
                                             <TextInput
                                                 id="email"
@@ -576,12 +576,15 @@ export default function Checkout({ book, order = null, isNewUser = false }) {
                                                     )
                                                 }
                                                 readOnly={!!user}
-                                                required
                                                 placeholder="you@email.com"
                                             />
-                                            {user && (
+                                            {user ? (
                                                 <p className="mt-1.5 text-xs text-gray-400 dark:text-gray-500">
                                                     Linked to your account
+                                                </p>
+                                            ) : (
+                                                <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                                                    Provide this for future communication regarding books or updates.
                                                 </p>
                                             )}
                                             <InputError

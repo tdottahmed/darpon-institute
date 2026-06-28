@@ -34,7 +34,7 @@ class BookOrderController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email:rfc,dns|max:255',
+            'email' => 'nullable|email:rfc,dns|max:255',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:500',
             'quantity' => 'required|integer|min:1',
@@ -54,7 +54,7 @@ class BookOrderController extends Controller
                 $isNewUser = false;
                 $password = null;
 
-                if (!$user) {
+                if (!$user && $request->filled('email')) {
                     $user = User::where('email', $request->email)->first();
 
                     if (!$user) {
@@ -68,12 +68,12 @@ class BookOrderController extends Controller
                         ]);
                         $isNewUser = true;
 
-                        // Send email (mandatory, failure rolls back transaction)
+                        // Send email (optional, failure does not roll back transaction)
                         try {
                             Mail::to($user->email)->send(new NewUserPasswordMail($user, $password));
                         } catch (\Exception $mailException) {
-                            logger()->error($mailException->getMessage());
-                            throw new \Exception('Failed to send email. Please check your email address and try again.');
+                            logger()->error('Failed to send email during checkout: ' . $mailException->getMessage());
+                            // We do not throw an exception here to allow the order to complete even if SMTP fails
                         }
 
                         Auth::login($user);
@@ -132,7 +132,7 @@ class BookOrderController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email:rfc,dns|max:255',
+            'email' => 'nullable|email:rfc,dns|max:255',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:500',
             'quantity' => 'required|integer|min:1',
@@ -151,7 +151,7 @@ class BookOrderController extends Controller
                 $isNewUser = false;
                 $password = null;
 
-                if (!$user) {
+                if (!$user && $request->filled('email')) {
                     $user = User::where('email', $request->email)->first();
 
                     if (!$user) {
@@ -165,12 +165,12 @@ class BookOrderController extends Controller
                         ]);
                         $isNewUser = true;
 
-                        // Send email (mandatory, failure rolls back transaction)
+                        // Send email (optional, failure does not roll back transaction)
                         try {
                             Mail::to($user->email)->send(new NewUserPasswordMail($user, $password));
                         } catch (\Exception $mailException) {
-                            logger()->error($mailException->getMessage());
-                            throw new \Exception('Failed to send email. Please check your email address and try again.');
+                            logger()->error('Failed to send email during landing page checkout: ' . $mailException->getMessage());
+                            // We do not throw an exception here to allow the order to complete even if SMTP fails
                         }
 
                         Auth::login($user);
