@@ -1,4 +1,4 @@
-import { useForm, usePage } from "@inertiajs/react";
+import { Link, useForm, usePage } from "@inertiajs/react";
 import Header from "@/Components/layout/Header";
 import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
@@ -47,7 +47,7 @@ export default function CourseShow({
             <div className="min-h-screen bg-white dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 transition-colors duration-300">
                 <Header />
 
-                <main className="pt-20 pb-16">
+                <main className="pt-6 pb-16">
                     {/* Success/Error Banner */}
                     {(flash?.success || flash?.error) && (
                         <div
@@ -88,11 +88,53 @@ export default function CourseShow({
                         </div>
                     )}
                     {/* Hero / Main Layout */}
-                    <Container className="mt-8 lg:mt-12">
+                    <Container>
+                        {/* Breadcrumbs */}
+                        <nav className="mb-6 sm:mb-10" aria-label="Breadcrumb">
+                            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+                                <li>
+                                    <Link
+                                        href={route("home")}
+                                        className="text-gray-500 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400 transition-colors"
+                                    >
+                                        Home
+                                    </Link>
+                                </li>
+                                <li
+                                    className="text-gray-400 dark:text-gray-500"
+                                    aria-hidden="true"
+                                >
+                                    /
+                                </li>
+                                <li>
+                                    <Link
+                                        href={route("courses.index")}
+                                        className="text-gray-500 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400 transition-colors"
+                                    >
+                                        Courses
+                                    </Link>
+                                </li>
+                                <li
+                                    className="text-gray-400 dark:text-gray-500"
+                                    aria-hidden="true"
+                                >
+                                    /
+                                </li>
+                                <li className="text-gray-900 dark:text-white font-medium truncate max-w-[12rem] sm:max-w-xs">
+                                    {course.title}
+                                </li>
+                            </ol>
+                        </nav>
+
                         <div className="grid lg:grid-cols-3 gap-12">
                             {/* Left Column: Content */}
                             <div className="lg:col-span-2">
-                                <CourseHero course={course} tags={tags} />
+                                <CourseHero
+                                    course={course}
+                                    tags={tags}
+                                    thumbnailUrl={thumbnailUrl}
+                                    showThumbnail={Boolean(videoUrl)}
+                                />
                                 <CourseMainContent course={course} />
                                 <div className="flex my-8 lg:my-10">
                                     <PrimaryButton href={route("contact")}>

@@ -1,9 +1,19 @@
 import Badge from "@/Components/ui/Badge";
 import parse from "html-react-parser";
 
-export default function CourseHero({ course, tags }) {
+export default function CourseHero({ course, tags, thumbnailUrl, showThumbnail }) {
     return (
         <div className="mb-8">
+            {showThumbnail && thumbnailUrl && (
+                <div className="relative mb-6 overflow-hidden rounded-2xl aspect-video bg-gray-100 dark:bg-gray-800 shadow-lg">
+                    <img
+                        src={thumbnailUrl}
+                        alt={course.title}
+                        className="h-full w-full object-cover"
+                    />
+                </div>
+            )}
+
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6 leading-tight">
                 {course.title}
             </h1>
