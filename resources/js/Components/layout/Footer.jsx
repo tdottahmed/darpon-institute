@@ -144,7 +144,7 @@ export default function Footer() {
                                         aria-label={item.name}
                                     >
                                         <item.icon
-                                            className="h-4 w-4"
+                                            className="h-5 w-5"
                                             aria-hidden="true"
                                         />
                                     </a>
