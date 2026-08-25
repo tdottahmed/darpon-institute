@@ -12,27 +12,29 @@ function getWordLimitForWidth(width) {
 }
 
 function stripHtmlToText(html) {
-    return html
-        // Keep visual structure from rich text (paragraphs/headings/lists).
-        .replace(/<\/?(p|div|h1|h2|h3|h4|h5|h6)[^>]*>/gi, "\n\n")
-        .replace(/<\/?(ul|ol)[^>]*>/gi, "\n")
-        .replace(/<li[^>]*>/gi, "\n")
-        .replace(/<\/li>/gi, "")
-        .replace(/<br\s*\/?>/gi, "\n")
-        // Preserve word boundaries when removing rich-text tags.
-        .replace(/<[^>]*>/gm, " ")
-        .replace(/&nbsp;/g, " ")
-        .replace(/&amp;/g, "&")
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">")
-        // Add missing spacing after punctuation and merged sentence boundaries.
-        .replace(/([.,!?;:])([A-Za-z\u00C0-\u024F])/g, "$1 $2")
-        .replace(/([a-z\u00DF-\u024F])([A-Z])/g, "$1 $2")
-        .replace(/\s+([.,!?;:])/g, "$1")
-        .replace(/[ \t]*\n[ \t]*/g, "\n")
-        .replace(/\n{3,}/g, "\n\n")
-        .replace(/ {2,}/g, " ")
-        .trim();
+    return (
+        html
+            // Keep visual structure from rich text (paragraphs/headings/lists).
+            .replace(/<\/?(p|div|h1|h2|h3|h4|h5|h6)[^>]*>/gi, "\n\n")
+            .replace(/<\/?(ul|ol)[^>]*>/gi, "\n")
+            .replace(/<li[^>]*>/gi, "\n")
+            .replace(/<\/li>/gi, "")
+            .replace(/<br\s*\/?>/gi, "\n")
+            // Preserve word boundaries when removing rich-text tags.
+            .replace(/<[^>]*>/gm, " ")
+            .replace(/&nbsp;/g, " ")
+            .replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
+            // Add missing spacing after punctuation and merged sentence boundaries.
+            .replace(/([.,!?;:])([A-Za-z\u00C0-\u024F])/g, "$1 $2")
+            .replace(/([a-z\u00DF-\u024F])([A-Z])/g, "$1 $2")
+            .replace(/\s+([.,!?;:])/g, "$1")
+            .replace(/[ \t]*\n[ \t]*/g, "\n")
+            .replace(/\n{3,}/g, "\n\n")
+            .replace(/ {2,}/g, " ")
+            .trim()
+    );
 }
 
 function isHtml(str) {
@@ -184,7 +186,6 @@ export default function InstructorSection() {
                                         {instructorName}
                                     </h3>
                                     <div className="mt-2 flex items-center gap-2">
-                                        <span className="inline-block h-1 w-8 rounded-full bg-primary-500" />
                                         <p className="text-base font-semibold text-primary-600 dark:text-primary-400">
                                             {instructorTitle}
                                         </p>
@@ -284,7 +285,8 @@ export default function InstructorSection() {
 
                                 {/* CTA Button */}
                                 <div className="section-animate section-animate-delay-3 text-center mt-4">
-                                    <PrimaryButton className="pl-[40px] pr-[40px]"
+                                    <PrimaryButton
+                                        className="pl-[40px] pr-[40px]"
                                         href={route("contact")}
                                         showIcon={true}
                                     >

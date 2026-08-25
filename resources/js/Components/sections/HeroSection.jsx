@@ -220,12 +220,12 @@ export default function HeroSection() {
                         </div>
                     )}
 
-                    <h1 className="hero-item hero-item-2 text-[1.7rem] sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] 2xl:text-[4.5rem] font-bold text-white leading-[1.15] tracking-normal drop-shadow-md">
+                    <h1 className="hero-item hero-item-2 text-[1.7rem] sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] 2xl:text-[4.5rem] font-bold text-white leading-[1.15] tracking-wider drop-shadow-md">
                         <span className="whitespace-pre-line block">
                             {content.title_line_1 || ""}
                         </span>
                         {content.title_line_2 && (
-                            <span className="inline-block mt-3 sm:mt-4 xl:mt-5 2xl:mt-6 text-white/90 font-semibold text-base sm:text-xl md:text-2xl xl:text-3xl 2xl:text-4xl leading-relaxed xl:leading-relaxed tracking-normal whitespace-pre-line">
+                            <span className="inline-block mt-3 sm:mt-4 xl:mt-5 2xl:mt-6 text-white/90 font-semibold text-base sm:text-xl md:text-2xl xl:text-3xl 2xl:text-4xl leading-relaxed xl:leading-relaxed tracking-wider whitespace-pre-line">
                                 {content.title_line_2}
                             </span>
                         )}

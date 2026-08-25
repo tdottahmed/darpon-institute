@@ -2,6 +2,8 @@ import Container from "../ui/Container";
 import { Link, usePage } from "@inertiajs/react";
 import FloatingWidgets from "../ui/FloatingWidgets";
 
+const BG_PATTERN = `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`;
+
 export default function Footer() {
     const { frontend_content, settings, custom_pages } = usePage().props;
     const content = frontend_content?.footer || {};
@@ -68,7 +70,7 @@ export default function Footer() {
         },
         {
             name: "X",
-            color: "currentColor",
+            color: "#0f172a",
             icon: (props) => (
                 <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -93,23 +95,23 @@ export default function Footer() {
     ].filter((link) => link.href !== "#");
 
     return (
-        <footer className="relative overflow-hidden bg-[var(--header-footer-bg-light)] dark:bg-[var(--header-footer-bg-dark)] text-[var(--header-footer-text-light)] dark:text-[var(--header-footer-text-dark)] border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
+        <footer className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 text-white dark:from-primary-800 dark:via-primary-900 dark:to-secondary-800 transition-colors duration-300">
+            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: BG_PATTERN }} />
+            <div className="absolute -left-24 top-0 h-64 w-64 rounded-full bg-white/5 blur-3xl" />
+            <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-white/5 blur-3xl" />
+
             <Container className="relative z-10">
                 {/* 4 columns */}
                 <div className="pt-12 pb-10 grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
                     {/* Column 1: Brand */}
                     <div className="col-span-2 md:col-span-1 space-y-4 flex flex-col items-start">
                         <Link href="/" className="inline-block">
-                            <img
-                                src={settings?.logo_light || "/darponbdv.png"}
-                                alt="Darpon Logo"
-                                className="h-12 w-auto dark:hidden max-w-[160px]"
-                            />
+                            {/* Footer sits on a dark gradient in both themes -> always use the dark-surface logo */}
                             {settings?.logo_dark ? (
                                 <img
                                     src={settings.logo_dark}
                                     alt="Darpon Logo"
-                                    className="h-12 w-auto hidden dark:block max-w-[160px]"
+                                    className="h-12 w-auto max-w-[160px]"
                                 />
                             ) : (
                                 <img
@@ -117,7 +119,7 @@ export default function Footer() {
                                         settings?.logo_light || "/darponbdv.png"
                                     }
                                     alt="Darpon Logo"
-                                    className="h-12 w-auto hidden dark:block max-w-[160px] invert opacity-90"
+                                    className="h-12 w-auto max-w-[160px] invert opacity-90"
                                 />
                             )}
                         </Link>
@@ -137,7 +139,7 @@ export default function Footer() {
                                         href={item.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center justify-center w-9 h-9 rounded-xl bg-gray-200/80 dark:bg-white/5 transition-all duration-300 hover:scale-110"
+                                        className="flex items-center justify-center w-9 h-9 rounded-xl bg-white/90 transition-all duration-300 hover:scale-110 hover:bg-white"
                                         style={{ color: item.color }}
                                         aria-label={item.name}
                                     >
@@ -283,7 +285,7 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom bar */}
-                <div className="border-t border-gray-200 dark:border-gray-800 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="border-t border-white/15 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <p className="opacity-70 text-sm text-center sm:text-left">
                         &copy; {currentYear}{" "}
                         {import.meta.env.VITE_APP_NAME || "Darpon"}.{" "}
@@ -295,7 +297,7 @@ export default function Footer() {
                             href="https://nixsoftware.net/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white font-medium transition-colors"
+                            className="text-white/90 hover:text-white font-medium underline-offset-2 hover:underline transition-colors"
                         >
                             nix software
                         </a>
