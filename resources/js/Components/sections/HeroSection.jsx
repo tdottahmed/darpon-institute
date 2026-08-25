@@ -38,10 +38,10 @@ function StatItem({ value, label, fallbackLabel, isVisible }) {
     if (!value && !label) return null;
     return (
         <div className="text-center">
-            <div className="text-xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white tabular-nums">
+            <div className="text-xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-black text-gray-900 dark:text-white tabular-nums">
                 {displayValue}
             </div>
-            <div className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-1">
+            <div className="text-sm 2xl:text-base font-medium text-gray-500 dark:text-gray-400 mt-1">
                 {label || fallbackLabel}
             </div>
         </div>
@@ -157,7 +157,7 @@ export default function HeroSection() {
     return (
         <section
             ref={sectionRef}
-            className={`relative z-10 min-h-[62vh] md:min-h-[82vh] lg:min-h-[90vh] flex flex-col overflow-visible ${isVisible ? "hero-visible" : ""}`}
+            className={`relative z-10 min-h-[62vh] md:min-h-[82vh] lg:min-h-[90vh] xl:min-h-[92vh] 2xl:min-h-[94vh] flex flex-col overflow-visible ${isVisible ? "hero-visible" : ""}`}
         >
             {/* ── Background images (crossfade + Ken Burns) ── */}
             <div className="absolute inset-0 overflow-hidden">
@@ -181,7 +181,7 @@ export default function HeroSection() {
             </div>
 
             {/* ── Main content ── */}
-            <div className="relative z-10 flex-1 flex items-center py-10 md:py-20 lg:py-28">
+            <div className="relative z-10 flex-1 flex items-center py-10 md:py-20 lg:py-28 xl:py-32 2xl:py-40">
 
                 {/* Slider prev/next arrows */}
                 {isSlider && bgImages.length > 1 && (
@@ -208,35 +208,35 @@ export default function HeroSection() {
                 )}
 
                 {/* Text content — animated on slide change */}
-                <div className={`container mx-auto max-w-5xl text-center px-4 sm:px-6 ${textAnimClass}`}>
+                <div className={`container mx-auto max-w-5xl xl:max-w-6xl 2xl:max-w-7xl text-center px-4 sm:px-6 lg:px-8 ${textAnimClass}`}>
                     {content.badge && (
-                        <div className="hero-item hero-item-1 mb-3 sm:mb-5">
+                        <div className="hero-item hero-item-1 mb-3 sm:mb-5 2xl:mb-6">
                             <Badge
                                 variant="secondary"
-                                className="text-[11px] sm:text-xs font-semibold uppercase tracking-widest px-3 py-1 sm:px-4 sm:py-1.5"
+                                className="text-[11px] sm:text-xs 2xl:text-sm font-semibold uppercase tracking-widest px-3 py-1 sm:px-4 sm:py-1.5 2xl:px-5 2xl:py-2"
                             >
                                 {content.badge}
                             </Badge>
                         </div>
                     )}
 
-                    <h1 className="hero-item hero-item-2 text-[1.7rem] sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] font-bold text-white leading-[1.15] tracking-tight drop-shadow-md">
+                    <h1 className="hero-item hero-item-2 text-[1.7rem] sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] 2xl:text-[4.5rem] font-bold text-white leading-[1.15] tracking-tight drop-shadow-md">
                         <span className="whitespace-pre-line block">
                             {content.title_line_1 || ""}
                         </span>
                         {content.title_line_2 && (
-                            <span className="inline-block mt-2 sm:mt-3 text-white/90 font-semibold text-base sm:text-xl md:text-2xl xl:text-3xl">
+                            <span className="inline-block mt-3 sm:mt-4 xl:mt-5 2xl:mt-6 text-white/90 font-semibold text-base sm:text-xl md:text-2xl xl:text-3xl 2xl:text-4xl leading-relaxed xl:leading-relaxed tracking-normal [word-spacing:0.08em] whitespace-pre-line">
                                 {content.title_line_2}
                             </span>
                         )}
                     </h1>
 
                     <div
-                        className="hero-item hero-item-3 mt-3 sm:mt-5 text-sm sm:text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed drop-shadow-sm line-clamp-3 sm:line-clamp-none"
+                        className="hero-item hero-item-3 mt-3 sm:mt-5 xl:mt-6 2xl:mt-7 text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-2xl text-white/80 max-w-2xl xl:max-w-3xl 2xl:max-w-4xl mx-auto leading-relaxed 2xl:leading-loose drop-shadow-sm line-clamp-3 sm:line-clamp-none"
                         dangerouslySetInnerHTML={{ __html: content.description || "" }}
                     />
 
-                    <div className="hero-item hero-item-4 flex flex-row flex-wrap gap-2.5 sm:gap-4 justify-center mt-5 sm:mt-8 md:mt-10">
+                    <div className="hero-item hero-item-4 flex flex-row flex-wrap gap-2.5 sm:gap-4 2xl:gap-5 justify-center mt-5 sm:mt-8 md:mt-10 xl:mt-12 2xl:mt-14">
                         <PrimaryButton href={content.button_1_link || "/courses"}>
                             {content.button_1_text || "Find Courses"}
                         </PrimaryButton>
@@ -269,8 +269,8 @@ export default function HeroSection() {
             {/* ── Stats bar ── */}
             {hasStats && (
                 <div className="relative z-20 hero-stats-bar bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-[0_-8px_40px_rgba(0,0,0,0.12)] dark:shadow-none">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-10 py-4 sm:py-6 lg:py-8">
+                    <div className="max-w-7xl 2xl:max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-10 py-4 sm:py-6 lg:py-8 2xl:py-10">
                             {(content.stat_1_value || content.stat_1_label) && (
                                 <StatItem value={content.stat_1_value} label={content.stat_1_label} isVisible={isVisible} />
                             )}
