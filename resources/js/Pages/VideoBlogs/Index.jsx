@@ -33,7 +33,7 @@ export default function Index({ videoBlogs, filters }) {
                         {/* Header & Filter */}
                         <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
                             <div>
-                                <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+                                <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
                                     Video Blogs
                                 </h1>
                                 <p className="mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-400">

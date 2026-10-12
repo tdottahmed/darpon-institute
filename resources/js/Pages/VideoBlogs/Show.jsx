@@ -149,7 +149,7 @@ export default function Show({ videoBlog, relatedVideoBlogs }) {
                                         )}
                                 </div>
 
-                                <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl md:text-4xl leading-tight">
+                                <h1 className="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl md:text-4xl leading-tight">
                                     {stripHtml(videoBlog.title)}
                                 </h1>
 

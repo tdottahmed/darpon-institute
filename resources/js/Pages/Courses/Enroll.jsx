@@ -202,7 +202,7 @@ export default function Enroll({
                                                         <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-1">
                                                             Course Enrollment
                                                         </p>
-                                                        <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                                                        <h1 className="text-3xl sm:text-4xl font-black text-white">
                                                             INVOICE
                                                         </h1>
                                                     </div>

@@ -14,7 +14,7 @@ export default function CourseHero({ course, tags, thumbnailUrl, showThumbnail }
                 </div>
             )}
 
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6 leading-tight">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
                 {course.title}
             </h1>
 

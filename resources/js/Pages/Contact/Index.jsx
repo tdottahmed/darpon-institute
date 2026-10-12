@@ -81,7 +81,7 @@ export default function ContactIndex() {
                         </div>
 
                         <Container className="relative z-10 text-center text-white">
-                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
                                 {content.page_title || "Contact Us"}
                             </h1>
                             <p className="text-base sm:text-lg text-white/80 max-w-xl mx-auto leading-relaxed">

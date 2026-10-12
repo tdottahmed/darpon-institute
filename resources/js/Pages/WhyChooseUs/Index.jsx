@@ -292,7 +292,7 @@ export default function WhyChooseUsIndex() {
                                     </span>
                                 </div>
 
-                                <h1 className="section-animate section-animate-delay-2 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+                                <h1 className="section-animate section-animate-delay-2 text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
                                     {c.page_hero_title || "Why Thousands Choose Darpon"}
                                 </h1>
 

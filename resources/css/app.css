@@ -26,6 +26,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    h1 {
+        letter-spacing: 1px;
+    }
+}
+
 @layer utilities {
     /* Reusable motion keyframes */
     @keyframes float {

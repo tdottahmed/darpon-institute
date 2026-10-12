@@ -12,7 +12,7 @@ export default function ServerError() {
                         <p className="text-sm font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">
                             500
                         </p>
-                        <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl md:text-5xl">
+                        <h1 className="mt-4 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl md:text-5xl">
                             Something went wrong
                         </h1>
                         <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">

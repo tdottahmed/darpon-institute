@@ -166,7 +166,7 @@ export default function Checkout({ book, order = null, isNewUser = false }) {
                                                         <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-1">
                                                             Book Order
                                                         </p>
-                                                        <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                                                        <h1 className="text-3xl sm:text-4xl font-black text-white">
                                                             INVOICE
                                                         </h1>
                                                     </div>

@@ -76,7 +76,7 @@ export default function GalleryIndex({ galleries }) {
 
                         <Container className="relative z-10">
                             <div className="mx-auto max-w-2xl text-center text-white">
-                                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+                                <h1 className="text-4xl font-bold text-white sm:text-6xl">
                                     {content.page_title || "Gallery"}
                                 </h1>
                                 <p className="mt-6 text-lg leading-8 text-white/90">

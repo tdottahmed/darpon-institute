@@ -80,7 +80,7 @@ export default function Show({ book, relatedBooks }) {
 
                             {/* Product Info */}
                             <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-                                <h1 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-2xl lg:text-3xl xl:text-4xl">
+                                <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-2xl lg:text-3xl xl:text-4xl">
                                     {book.title}
                                 </h1>
                                 <span className="inline-flex items-center  px-1 py-1 text-sm font-medium text-primary-600 dark:bg-primary-900/30 dark:text-primary-400 mb-4">

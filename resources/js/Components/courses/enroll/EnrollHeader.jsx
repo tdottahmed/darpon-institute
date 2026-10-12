@@ -9,7 +9,7 @@ export default function EnrollHeader({ course, auth }) {
                     Course Enrollment
                 </span>
             </div>
-            <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight">
+            <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4">
                 Complete Your Registration
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-300">
