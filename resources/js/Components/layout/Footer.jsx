@@ -96,7 +96,10 @@ export default function Footer() {
 
     return (
         <footer className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 text-white dark:from-primary-800 dark:via-primary-900 dark:to-secondary-800 transition-colors duration-300">
-            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: BG_PATTERN }} />
+            <div
+                className="absolute inset-0 opacity-10"
+                style={{ backgroundImage: BG_PATTERN }}
+            />
             <div className="absolute -left-24 top-0 h-64 w-64 rounded-full bg-white/5 blur-3xl" />
             <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-white/5 blur-3xl" />
 
@@ -285,22 +288,11 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom bar */}
-                <div className="border-t border-white/15 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="border-t border-white/15 py-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <p className="opacity-70 text-sm text-center sm:text-left">
                         &copy; {currentYear}{" "}
                         {import.meta.env.VITE_APP_NAME || "Darpon"}.{" "}
                         {content.copyright || "All rights reserved."}
-                    </p>
-                    <p className="opacity-70 text-xs">
-                        Developed by{" "}
-                        <a
-                            href="https://nixsoftware.net/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-white/90 hover:text-white font-medium underline-offset-2 hover:underline transition-colors"
-                        >
-                            nix software
-                        </a>
                     </p>
                 </div>
             </Container>
