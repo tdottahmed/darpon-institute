@@ -34,6 +34,8 @@ class SettingController extends Controller
             // Meta Pixel
             'meta_pixel_id' => Setting::get('meta_pixel_id'),
             'meta_pixel_enabled' => Setting::get('meta_pixel_enabled', false),
+            'meta_capi_access_token' => Setting::get('meta_capi_access_token'),
+            'meta_capi_test_event_code' => Setting::get('meta_capi_test_event_code'),
 
             // Social Media Links
             'social_facebook' => Setting::get('social_facebook'),
@@ -107,6 +109,8 @@ class SettingController extends Controller
             // Meta Pixel
             'meta_pixel_id' => 'nullable|string|max:255',
             'meta_pixel_enabled' => 'nullable|boolean',
+            'meta_capi_access_token' => 'nullable|string|max:1000',
+            'meta_capi_test_event_code' => 'nullable|string|max:50',
 
             // Social Media Links
             'social_facebook' => 'nullable|url',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\FreeClassLead;
+use App\Services\MetaConversionsApi;
 use Illuminate\Http\Request;
 
 class FreeClassLeadController extends Controller
@@ -16,11 +17,14 @@ class FreeClassLeadController extends Controller
             'email' => 'nullable|email|max:255',
         ]);
 
-        FreeClassLead::create([
+        $lead = FreeClassLead::create([
             ...$validated,
             'ip_address' => $request->ip(),
         ]);
 
-        return response()->json(['message' => 'Registration successful.'], 201);
+        // The browser pixel uses the same "lead-{id}" event ID for deduplication
+        MetaConversionsApi::track('Lead', 'lead-' . $lead->id, $validated, ['content_name' => 'Free Class'], $request);
+
+        return response()->json(['message' => 'Registration successful.', 'lead_id' => $lead->id], 201);
     }
 }

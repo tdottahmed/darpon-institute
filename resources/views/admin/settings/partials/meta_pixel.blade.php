@@ -60,6 +60,33 @@
       </p>
     </div>
 
+    {{-- Conversions API --}}
+    <div class="space-y-4 rounded-lg border border-gray-200 p-4">
+      <div>
+        <p class="text-sm font-semibold text-gray-700">Conversions API (server-side)</p>
+        <p class="mt-1 text-xs text-gray-500">
+          Sends Purchase, CompleteRegistration, Lead and Contact events from the server too, so conversions blocked by ad blockers or iOS are still counted.
+          Meta deduplicates them with the browser pixel events. Generate a token in Events Manager → your pixel → <strong>Settings</strong> → <strong>Conversions API</strong> → <strong>Generate access token</strong>.
+        </p>
+      </div>
+      <div>
+        <x-forms.input name="meta_capi_access_token" label="Access Token" type="password"
+                       :value="old('meta_capi_access_token', $settings['meta_capi_access_token'])"
+                       :error="$errors->first('meta_capi_access_token')"
+                       placeholder="EAAB..." />
+        <p class="mt-1 text-xs text-gray-500">Leave empty to use the browser pixel only.</p>
+      </div>
+      <div>
+        <x-forms.input name="meta_capi_test_event_code" label="Test Event Code" type="text"
+                       :value="old('meta_capi_test_event_code', $settings['meta_capi_test_event_code'])"
+                       :error="$errors->first('meta_capi_test_event_code')"
+                       placeholder="e.g. TEST12345" />
+        <p class="mt-1 text-xs text-gray-500">
+          Only for testing: copy it from Events Manager → <strong>Test Events</strong>. <strong>Clear it when done</strong>, otherwise server events won't count as real conversions.
+        </p>
+      </div>
+    </div>
+
     {{-- Live status badge --}}
     @if ($settings['meta_pixel_id'])
       <div class="rounded-lg border p-4

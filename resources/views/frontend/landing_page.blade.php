@@ -68,7 +68,7 @@
         setTimeout(close, 20000);
       })();
     </script>
-    {{-- Meta Pixel conversion events; eventID allows dedup with a future Conversions API --}}
+    {{-- Meta Pixel conversion events; eventID matches the server-side Conversions API event for dedup --}}
     @php
       $pixelValue   = (float) (session('order_value') ?? session('registration_value') ?? 0);
       $pixelContent = $isEnrollment ? $landingPage->course : $landingPage->book;

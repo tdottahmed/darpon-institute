@@ -69,7 +69,7 @@ export default function FreeClassModal({ open, onClose, content = {} }) {
                 name: name.trim(), phone, email: email.trim() || null,
             }, { headers: { "X-CSRF-TOKEN": csrf } });
             if (res.status === 201) {
-                trackPixel("Lead", { content_name: "Free Class" });
+                trackPixel("Lead", { content_name: "Free Class" }, res.data?.lead_id ? `lead-${res.data.lead_id}` : null);
                 setStep(STEP.SUCCESS);
             }
         } catch {

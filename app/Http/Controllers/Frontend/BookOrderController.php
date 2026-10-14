@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\BookOrder;
 use App\Models\LandingPage;
 use App\Models\User;
+use App\Services\MetaConversionsApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -98,6 +99,8 @@ class BookOrderController extends Controller
 
                 // Load relationships for the invoice
                 $bookOrder->load('book', 'user');
+
+                $this->trackPurchase($bookOrder, $book, $request);
 
                 // Return the order data to show invoice inline
                 return Inertia::render('Books/Checkout', [
@@ -196,6 +199,8 @@ class BookOrderController extends Controller
                 // Load relationships
                 $bookOrder->load('book', 'user');
 
+                $this->trackPurchase($bookOrder, $book, $request);
+
                 // Redirect back to landing page with success message
                 return redirect()->route('landing-page.show', $landingPage->slug)
                     ->with('order_success', true)
@@ -208,5 +213,25 @@ class BookOrderController extends Controller
                 ->withInput()
                 ->with('error', 'Failed to place order. Please try again. ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Server-side Purchase event; the event ID matches the browser pixel's for deduplication.
+     */
+    private function trackPurchase(BookOrder $bookOrder, Book $book, Request $request): void
+    {
+        MetaConversionsApi::track('Purchase', 'order-' . $bookOrder->id, [
+            'email' => $bookOrder->email,
+            'phone' => $bookOrder->phone,
+            'name' => $bookOrder->name,
+            'external_id' => $bookOrder->user_id,
+        ], [
+            'value' => (float) $bookOrder->total_amount,
+            'currency' => 'BDT',
+            'content_name' => $book->title,
+            'content_ids' => [(string) $book->id],
+            'content_type' => 'product',
+            'num_items' => (int) $bookOrder->quantity,
+        ], $request);
     }
 }

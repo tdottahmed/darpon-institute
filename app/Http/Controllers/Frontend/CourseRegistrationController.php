@@ -13,6 +13,7 @@ use App\Models\LandingPage;
 use App\Models\CourseVariation;
 use App\Models\PaymentGateway;
 use App\Models\User;
+use App\Services\MetaConversionsApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -148,6 +149,8 @@ class CourseRegistrationController extends Controller
                 // Load relationships for the invoice dialog
                 $courseRegistration->load('course', 'courseVariation', 'paymentGateway');
 
+                $this->trackRegistration($courseRegistration, $course, $totalPrice, $request);
+
                 // Chain jobs: Generate PDF first, then send email
                 GenerateCourseEnrollmentInvoicePdfJob::withChain([
                     new SendCourseEnrollmentInvoiceJob($courseRegistration, $totalPrice)
@@ -267,6 +270,8 @@ class CourseRegistrationController extends Controller
                 // Load relationships
                 $courseRegistration->load('course', 'paymentGateway');
 
+                $this->trackRegistration($courseRegistration, $course, $totalPrice, $request);
+
                 // Chain jobs: Generate PDF first, then send email
                 GenerateCourseEnrollmentInvoicePdfJob::withChain([
                     new SendCourseEnrollmentInvoiceJob($courseRegistration, $totalPrice)
@@ -283,6 +288,32 @@ class CourseRegistrationController extends Controller
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Failed to submit registration. Please try again. ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Server-side CompleteRegistration (+ Purchase for paid courses); event IDs match the browser pixel's.
+     */
+    private function trackRegistration(CourseRegistration $registration, Course $course, $totalPrice, Request $request): void
+    {
+        $customer = [
+            'email' => $registration->email,
+            'phone' => $registration->phone,
+            'name' => $registration->name,
+            'external_id' => $registration->user_id,
+        ];
+        $params = [
+            'value' => (float) $totalPrice,
+            'currency' => 'BDT',
+            'content_name' => $course->title,
+            'content_ids' => [(string) $course->id],
+            'content_type' => 'product',
+        ];
+        $eventId = 'registration-' . $registration->id;
+
+        MetaConversionsApi::track('CompleteRegistration', $eventId, $customer, $params, $request);
+        if ($totalPrice > 0) {
+            MetaConversionsApi::track('Purchase', $eventId . '-purchase', $customer, $params, $request);
         }
     }
 }

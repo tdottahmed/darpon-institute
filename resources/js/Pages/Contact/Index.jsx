@@ -53,13 +53,16 @@ function InfoCard({ icon, label, value, href, preWrap }) {
 export default function ContactIndex() {
     const { frontend_content, settings } = usePage().props;
     const content = frontend_content?.contact || {};
-    const { data, setData, post, processing, errors, recentlySuccessful } =
+    const { data, setData, post, transform, processing, errors, recentlySuccessful } =
         useForm({ name: "", email: "", phone: "", subject: "", message: "" });
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // Shared with the server-side Conversions API event so Meta counts it once
+        const eventId = `contact-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+        transform((formData) => ({ ...formData, pixel_event_id: eventId }));
         post(route("contact.submit"), {
-            onSuccess: () => trackPixel("Contact"),
+            onSuccess: () => trackPixel("Contact", {}, eventId),
         });
     };
 
