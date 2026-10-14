@@ -68,6 +68,32 @@
         setTimeout(close, 20000);
       })();
     </script>
+    {{-- Meta Pixel conversion events; eventID allows dedup with a future Conversions API --}}
+    @php
+      $pixelValue   = (float) (session('order_value') ?? session('registration_value') ?? 0);
+      $pixelContent = $isEnrollment ? $landingPage->course : $landingPage->book;
+      $pixelParams  = [
+          'value'        => $pixelValue,
+          'currency'     => 'BDT',
+          'content_name' => $pixelContent->title ?? $landingPage->title ?? null,
+          'content_ids'  => $pixelContent ? [(string) $pixelContent->id] : [],
+          'content_type' => 'product',
+      ];
+      $pixelEventId = ($isEnrollment ? 'registration-' : 'order-') . $successId;
+    @endphp
+    <script>
+      (function () {
+        if (typeof window.fbq !== 'function') return;
+        var params = @json($pixelParams);
+        var eventId = @json($pixelEventId);
+        @if ($isEnrollment)
+          fbq('track', 'CompleteRegistration', params, { eventID: eventId });
+          if (params.value > 0) fbq('track', 'Purchase', params, { eventID: eventId + '-purchase' });
+        @else
+          fbq('track', 'Purchase', params, { eventID: eventId });
+        @endif
+      })();
+    </script>
   @endif
 
   {{-- Error modal --}}

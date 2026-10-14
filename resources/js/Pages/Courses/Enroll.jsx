@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { formatPrice } from "@/Utils/currency";
 import { generatePDF } from "@/Utils/pdfGenerator";
+import { trackPixel } from "@/Utils/metaPixel";
 import Logo from "@/Components/layout/Header/Logo";
 
 export default function Enroll({
@@ -87,6 +88,38 @@ export default function Enroll({
 
     const priceSource = selectedVariation || course;
     const { totalPrice } = calculatePrice(priceSource);
+
+    // Meta Pixel: InitiateCheckout on the form, CompleteRegistration (+ Purchase if paid) once enrolled
+    const trackedPixelEvent = useRef(null);
+    useEffect(() => {
+        const eventKey = registration
+            ? `registration-${registration.id}`
+            : `enroll-${course.id}`;
+        if (trackedPixelEvent.current === eventKey) return;
+        trackedPixelEvent.current = eventKey;
+
+        const params = {
+            content_name: course.title,
+            content_ids: [String(course.id)],
+            content_type: "product",
+            currency: "BDT",
+        };
+
+        if (registration) {
+            const value = Number(registrationTotalPrice) || 0;
+            trackPixel("CompleteRegistration", { ...params, value }, eventKey);
+            if (value > 0) {
+                trackPixel("Purchase", { ...params, value }, `${eventKey}-purchase`);
+            }
+        } else {
+            trackPixel("InitiateCheckout", {
+                ...params,
+                value: Number(totalPrice) || 0,
+            });
+        }
+        // Only re-run when the page switches between form and confirmation
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [registration, course.id]);
 
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

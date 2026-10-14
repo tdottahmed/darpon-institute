@@ -4,6 +4,7 @@ import Footer from "@/Components/layout/Footer";
 import Container from "@/Components/ui/Container";
 import PrimaryButton from "@/Components/ui/PrimaryButton";
 import CTASection from "@/Components/sections/CTASection";
+import { trackPixel } from "@/Utils/metaPixel";
 
 const INPUT_CLASS =
     "w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700/60 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow text-sm";
@@ -57,7 +58,9 @@ export default function ContactIndex() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("contact.submit"));
+        post(route("contact.submit"), {
+            onSuccess: () => trackPixel("Contact"),
+        });
     };
 
     const hasWhatsapp = !!settings?.whatsapp_number;

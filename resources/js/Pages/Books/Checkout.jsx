@@ -23,6 +23,7 @@ import {
     Loader2,
 } from "lucide-react";
 import { generatePDF } from "@/Utils/pdfGenerator";
+import { trackPixel } from "@/Utils/metaPixel";
 
 // ── BD phone helpers ──────────────────────────────────────────────────────────
 function formatBDPhone(digits) {
@@ -76,6 +77,35 @@ export default function Checkout({ book, order = null, isNewUser = false }) {
     useEffect(() => {
         if (order) window.scrollTo({ top: 0, behavior: "smooth" });
     }, [order]);
+
+    // Meta Pixel: InitiateCheckout on the form, Purchase once the order is placed
+    const trackedPixelEvent = useRef(null);
+    useEffect(() => {
+        const eventKey = order ? `order-${order.id}` : `checkout-${book.id}`;
+        if (trackedPixelEvent.current === eventKey) return;
+        trackedPixelEvent.current = eventKey;
+
+        const params = {
+            content_name: book.title,
+            content_ids: [String(book.id)],
+            content_type: "product",
+            currency: "BDT",
+        };
+
+        if (order) {
+            trackPixel(
+                "Purchase",
+                {
+                    ...params,
+                    value: Number(order.total_amount) || 0,
+                    num_items: Number(order.quantity) || 1,
+                },
+                eventKey,
+            );
+        } else {
+            trackPixel("InitiateCheckout", { ...params, value: Number(price) || 0 });
+        }
+    }, [order, book.id, book.title, price]);
 
     // Phone handlers
     const handlePhoneChange = (e) => {

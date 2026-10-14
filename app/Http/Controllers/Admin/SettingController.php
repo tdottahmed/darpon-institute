@@ -249,7 +249,7 @@ class SettingController extends Controller
         foreach ($validated as $key => $value) {
             // Handle boolean values
             if ($key === 'meta_pixel_enabled') {
-                Setting::set($key, $request->has('meta_pixel_enabled') ? 1 : 0);
+                Setting::set($key, $request->boolean('meta_pixel_enabled') ? 1 : 0);
             } elseif ($request->has($key)) {
                 // Only update settings that are explicitly present in the request
                 // This prevents clearing values when they're not in the form

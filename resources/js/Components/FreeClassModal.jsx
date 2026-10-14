@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Dialog, DialogPanel, Transition, TransitionChild } from "@headlessui/react";
+import { trackPixel } from "@/Utils/metaPixel";
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
@@ -67,7 +68,10 @@ export default function FreeClassModal({ open, onClose, content = {} }) {
             const res  = await window.axios.post("/free-class-leads", {
                 name: name.trim(), phone, email: email.trim() || null,
             }, { headers: { "X-CSRF-TOKEN": csrf } });
-            if (res.status === 201) setStep(STEP.SUCCESS);
+            if (res.status === 201) {
+                trackPixel("Lead", { content_name: "Free Class" });
+                setStep(STEP.SUCCESS);
+            }
         } catch {
             setStep(STEP.FORM);
             setErrors({ general: "Something went wrong. Please try again." });

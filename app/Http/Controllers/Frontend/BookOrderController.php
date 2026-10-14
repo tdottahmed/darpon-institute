@@ -200,6 +200,7 @@ class BookOrderController extends Controller
                 return redirect()->route('landing-page.show', $landingPage->slug)
                     ->with('order_success', true)
                     ->with('order_id', $bookOrder->id)
+                    ->with('order_value', $totalAmount)
                     ->with('is_new_user', $isNewUser);
             });
         } catch (\Exception $e) {

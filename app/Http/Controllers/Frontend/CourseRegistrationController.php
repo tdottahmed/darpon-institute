@@ -276,6 +276,7 @@ class CourseRegistrationController extends Controller
                 return redirect()->route('landing-page.show', $landingPage->slug)
                     ->with('registration_success', true)
                     ->with('registration_id', $courseRegistration->id)
+                    ->with('registration_value', $totalPrice)
                     ->with('is_new_user', $isNewUser);
             });
         } catch (\Exception $e) {
